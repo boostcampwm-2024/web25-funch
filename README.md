@@ -1,10 +1,4 @@
-#  Funch
-
-한 줄 소개 후보들
-1. 웃음 한 방 funch!
-2. 웃음 한 방 맞고 싶다면 funch!
-3. fun에 취해보자. funch!
-4. 뻔하지 않은 일상. funch
+# 뻔한 일상에 웃음 한 방 funch! 👊🏻
 
 <br><br>
 
