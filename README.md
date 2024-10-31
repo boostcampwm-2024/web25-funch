@@ -11,7 +11,7 @@
     <a href="https://www.notion.so/zzawang/Funch-127f2d1fd66d801dbf95ebb851c5763f" target="_blank">🧀 Funch 노션</a> &nbsp 
     <a href="https://github.com/boostcampwm-2024/web25-funch/wiki" target="_blank">🫕 Funch Wiki</a><br> 
     <a href="https://www.notion.so/zzawang/127f2d1fd66d8042924cdb577dddee89" target="_blank">📝 기획서</a> &nbsp 
-    <a href="https://github.com/orgs/boostcampwm2023/projects/39" target="_blank">🗓 프로젝트 일정 관리</a> 
+    <a href="https://github.com/orgs/boostcampwm-2024/projects/106" target="_blank">🗓 프로젝트 일정 관리</a> 
 </div>
 
 
