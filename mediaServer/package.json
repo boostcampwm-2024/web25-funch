@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "dev": "nodemon npm run dev"
+    },
+    "dependencies": {
+        "net": "^1.0.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.7",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
+    }
+}
