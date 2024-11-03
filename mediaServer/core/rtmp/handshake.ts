@@ -27,7 +27,8 @@ function handshake(socket: net.Socket, data: Buffer, state: HandshakeData) {
   }
 
   // C1 Packet 분리 할당
-  if (isBufferSize1536(state.C1) || isC0C1(data)) {
+  const IS_C1_ALREADY_ARRIVED = isC2(state.C1, state.C2);
+  if ((isBufferSize1536(state.C1) || isC0C1(data)) && IS_C1_ALREADY_ARRIVED) {
     state.C1_TIMESTAMP = state.C1.subarray(0, 4);
     state.C1_RANDOM_BYTES = state.C1.subarray(8);
   }
@@ -43,11 +44,14 @@ function handshake(socket: net.Socket, data: Buffer, state: HandshakeData) {
     socket.write(S1);
   } else if (isBufferSize1536(state.C2)) {
     const C2_RANDOM_ECHO = state.C2.subarray(8);
-    if (!isValidC2RandomEcho(state.S1_RANDOM_BYTES, C2_RANDOM_ECHO)) return;
+    if (!isValidC2RandomEcho(state.S1_RANDOM_BYTES, C2_RANDOM_ECHO)) return false;
 
     const S2 = Buffer.concat([state.C1_TIMESTAMP, state.S1_TIMESTAMP, state.C1_RANDOM_BYTES]);
     socket.write(S2);
+    return true;
   }
+
+  return false;
 }
 
 export { HandshakeData, handshake };
