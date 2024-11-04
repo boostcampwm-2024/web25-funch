@@ -4,7 +4,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "net": "^1.0.2"
+    "net": "^1.0.2",
+    "node-amfutils": "^0.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
