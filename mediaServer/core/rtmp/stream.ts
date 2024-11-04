@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { separateRtmpChunk, RtmpChunck } from '@core/rtmp/packet';
 import { handshake, HandshakeData } from '@core/rtmp/handshake';
 import { connect } from '@core/rtmp/connect';
+import { createStream } from '@core/rtmp/createStream';
 import { decodeAMF } from '@core/rtmp/utils';
 
 class RTMPStream {
@@ -100,10 +101,13 @@ class RTMPStream {
       case 'connect':
         this.isConnectDone = connect(this.socket);
         break;
+      case 'releaseStream':
       case 'FCPublish':
         this.streamKey = encodedPayload.streamId;
         break;
       case 'createStream':
+        // TODO: DB 저장된 streamKey와 비교하여 등록된 스트림 key가 아니라면 error 이벤트 발생 함수
+        this.isCreateStreamDone = createStream(this.socket);
         break;
       case 'publish':
         break;
