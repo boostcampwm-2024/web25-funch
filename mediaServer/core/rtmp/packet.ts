@@ -109,7 +109,6 @@ function separateRtmpChunk(data: Buffer): RtmpChunck[] {
         } else if (chunk.basicHeader.chunkType === 3) {
           continue;
         }
-        console.log(offset, messageHeaderBytes);
         chunk.messageHeader = parseMessageHeader(
           chunk.basicHeader.chunkType,
           data.subarray(offset, offset + messageHeaderBytes),
@@ -137,4 +136,4 @@ function separateRtmpChunk(data: Buffer): RtmpChunck[] {
   return rtmpChunks;
 }
 
-export { separateRtmpChunk };
+export { separateRtmpChunk, RtmpChunck };
