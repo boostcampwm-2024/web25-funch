@@ -4,6 +4,7 @@ import { separateRtmpChunk, RtmpChunck } from '@core/rtmp/packet';
 import { handshake, HandshakeData } from '@core/rtmp/handshake';
 import { connect } from '@core/rtmp/connect';
 import { createStream } from '@core/rtmp/createStream';
+import { publish } from '@core/rtmp/publish';
 import { decodeAMF } from '@core/rtmp/utils';
 
 class RTMPStream {
@@ -41,7 +42,6 @@ class RTMPStream {
   }
 
   dataEvent(data) {
-    console.log(data.length);
     if (!this.isHandshakeDone) {
       this.isHandshakeDone = handshake(this.socket, data, this.handshakeData);
     } else if (!this.isConnectDone) {
@@ -64,7 +64,7 @@ class RTMPStream {
         this.handleMessage(typeId, chunk);
       });
     } else {
-      //
+      // TODO: Data Message (Metadata) 처리
     }
   }
 
@@ -122,6 +122,7 @@ class RTMPStream {
         this.isCreateStreamDone = createStream(this.socket, this.streamCount);
         break;
       case 'publish':
+        this.isPublishDone = publish(this.socket);
         break;
       default:
         break;
