@@ -13,6 +13,7 @@ class RTMPStream {
   isCreateStreamDone: boolean;
   isPublishDone: boolean;
   streamKey?: string;
+  streamCount: number;
 
   constructor(private socket: net.Socket) {
     this.handshakeData = {
@@ -29,6 +30,7 @@ class RTMPStream {
     this.isConnectDone = false;
     this.isCreateStreamDone = false;
     this.isPublishDone = false;
+    this.streamCount = 0;
   }
 
   run() {
@@ -43,15 +45,24 @@ class RTMPStream {
     if (!this.isHandshakeDone) {
       this.isHandshakeDone = handshake(this.socket, data, this.handshakeData);
     } else if (!this.isConnectDone) {
+      // TODO: 중복 개선
       const chunks = separateRtmpChunk(data);
       chunks.forEach((chunk) => {
         const typeId = chunk.messageHeader.typeId;
         this.handleMessage(typeId, chunk);
       });
     } else if (!this.isCreateStreamDone) {
-      //
+      const chunks = separateRtmpChunk(data);
+      chunks.forEach((chunk) => {
+        const typeId = chunk.messageHeader.typeId;
+        this.handleMessage(typeId, chunk);
+      });
     } else if (!this.isPublishDone) {
-      //
+      const chunks = separateRtmpChunk(data);
+      chunks.forEach((chunk) => {
+        const typeId = chunk.messageHeader.typeId;
+        this.handleMessage(typeId, chunk);
+      });
     } else {
       //
     }
@@ -95,19 +106,20 @@ class RTMPStream {
   handleCommandMessage(typeId: number, chunk: RtmpChunck) {
     const AMF0 = 20;
     const AMF3 = 17;
-    const encodedPayload = decodeAMF(typeId, chunk.payload, AMF0, AMF3);
+    const decodedPayload = decodeAMF(typeId, chunk.payload, AMF0, AMF3);
 
-    switch (encodedPayload.cmd) {
+    switch (decodedPayload.cmd) {
       case 'connect':
         this.isConnectDone = connect(this.socket);
         break;
       case 'releaseStream':
       case 'FCPublish':
-        this.streamKey = encodedPayload.streamId;
+        this.streamKey = decodedPayload.streamId;
         break;
       case 'createStream':
         // TODO: DB 저장된 streamKey와 비교하여 등록된 스트림 key가 아니라면 error 이벤트 발생 함수
-        this.isCreateStreamDone = createStream(this.socket);
+        this.streamCount++;
+        this.isCreateStreamDone = createStream(this.socket, this.streamCount);
         break;
       case 'publish':
         break;
