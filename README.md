@@ -2,7 +2,6 @@
 
 <br><br>
 
-
 <div align="center">
   <img src="https://github.com/user-attachments/assets/79a0a157-077f-4646-9a7d-9f7dfb23f601" width=200>
 </div>
@@ -14,9 +13,7 @@
     <a href="https://github.com/orgs/boostcampwm-2024/projects/106" target="_blank">🗓 프로젝트 일정 관리</a> 
 </div>
 
-
 <br><br><br><br>
-
 
 ## 👩🏻‍💻🧑🏻‍💻 팀원 소개
 
@@ -31,6 +28,5 @@
 |                   [@JYKIM317](https://github.com/JYKIM317)                   |                      [@WilleLee](https://github.com/WilleLee)                      |               [@zzawang](https://github.com/zzawang)               |                   [@HongBoogie](https://github.com/HongBoogie)                    |
 
 </div>
-
 
 <br><br>

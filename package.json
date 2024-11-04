@@ -1,0 +1,24 @@
+{
+  "name": "funch",
+  "version": "1.0.0",
+  "description": "뻔한 일상에 웃음 한 방 Funch",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "eslint . --ext .ts",
+    "lint:client": "cd client && npm run lint && cd ..",
+    "format": "prettier --write ."
+  },
+  "author": "무지개 치즈",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "typescript-eslint": "^8.12.2"
+  }
+}
