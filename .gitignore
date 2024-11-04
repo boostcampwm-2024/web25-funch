@@ -2,3 +2,18 @@ node_modules/
 .github
 .env
 .gitmessage.txt
+
+# client
+.env*
+npm-debug.log*
+
+*.tsbuildinfo
+next-env.d.ts
+
+.DS_Store
+*.pem
+.idea
+
+**/.next/
+**/out/
+**/coverage

@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-5: #fff8f0;
+  --brand-7: #ffe6d2;
+  --brand-10: #ffd8b4;
+  --brand-20: #ffc28a;
+  --brand-30: #ffac5f;
+  --brand-40: #ff9635;
+  --brand-45: #ff8b28;
+  --brand-50: #ff9f1b;
+  --brand-55: #ff9b1a;
+  --brand-60: #ff7d1a;
+  --brand-70: #e66b1a;
+  --brand-80: #cc5a1a;
+  --brand-85: #b34a19;
+  --brand-90: #993a19;
+
+  --neutral-0: #ffffff;
+  --neutral-1: #f9f9f9;
+  --neutral-2: #f0f1f2;
+  --neutral-5: #ebebeb;
+  --neutral-7: #dcdcdc;
+  --neutral-10: #c0c1c2;
+  --neutral-20: #979899;
+  --neutral-30: #6d6e70;
+  --neutral-40: #4d4d4d;
+  --neutral-50: #2e3033;
+  --neutral-55: #252629;
+  --neutral-60: #202224;
+  --neutral-70: #1c1d1f;
+  --neutral-80: #21242a;
+  --neutral-90: #141517;
+  --neutral-95: #0e0f10;
+  --neutral-99: #050505;
+  --neutral-100: #000000;
+
+  --coolgray-5: #f0f1f3;
+  --coolgray-10: #dfe2ea;
+  --coolgray-20: #c9cedc;
+  --coolgray-30: #9da5b6;
+  --coolgray-40: #878d9c;
+  --coolgray-50: #697183;
+  --coolgray-60: #545a69;
+  --coolgray-70: #3f444f;
+  --coolgray-80: #21242a;
+  --coolgray-90: #15171a;
+
+  --red-5: #ffe6e6;
+  --red-10: #ffcccc;
+  --red-20: #ff9999;
+  --red-30: #ff5454;
+  --red-40: #ff3333;
+  --red-50: #ff0000;
+  --red-55: #e02020;
+  --red-60: #cc0000;
+  --red-70: #990000;
+  --red-80: #660000;
+  --red-90: #330000;
+
+  --violet-5: #edecfb;
+  --violet-10: #dcd9f8;
+  --violet-20: #b9b3f1;
+  --violet-30: #958de9;
+  --violet-40: #7167e2;
+  --violet-50: #4e41db;
+  --violet-60: #3e34af;
+  --violet-70: #2f2783;
+  --violet-80: #1f1a58;
+  --violet-90: #100d2c;
+
+  --bg-weak: var(--neutral-1);
+  --bg-base: var(--neutral-0);
+  --bg-strong: var(--neutral-0);
+
+  --surface-neutral-primary: var(--neutral-0);
+  --surface-neutral-weak: var(--neutral-1);
+  --surface-neutral-base: var(--neutral-2);
+  --surface-neutral-strong: var(--neutral-5);
+  --surface-neutral-inverse: var(--neutral-95);
+  --surface-brand-weak: var(--brand-10);
+  --surface-brand-base: var(--brand-40);
+  --surface-brand-strong: var(--brand-45);
+  --surface-red-base: var(--red-30);
+  --surface-red-strong: var(--red-50);
+  --surface-violet-base: var(--violet-50);
+  --surface-static-white: var(--neutral-0);
+  --surface-static-coolgray: var(--coolgray-50);
+  --surface-static-warmgray: var(--neutral-40);
+  --surface-static-black: var(--neutral-100);
+  --surface-static-blackalpha-weak: #rgba(0, 0, 0, 0.3);
+  --surface-static-blackalpha-base: #rgba(0, 0, 0, 0.5);
+  --surface-static-blackalpha-strong: #rgba(0, 0, 0, 0.8);
+
+  --content-neutral-primary: var(--neutral-95);
+  --content-neutral-inverse: var(--neutral-0);
+  --content-neutral-weak: var(--neutral-30);
+  --content-neutral-base: var(--neutral-40);
+  --content-neutral-strong: var(--neutral-50);
+  --content-brand-weak: var(--brand-40);
+  --content-brand-base: var(--brand-45);
+  --content-brand-strong: var(--brand-50);
+  --content-red-base: var(--red-30);
+  --content-red-strong: var(--red-50);
+  --content-static-white: var(--neutral-0);
+  --content-static-coolgray: var(--coolgray-10);
+  --content-static-warmgray: var(--neutral-30);
+  --content-static-black: var(--neutral-100);
+
+  --border-neutral-weak: var(--neutral-7);
+  --border-neutral-base: var(--neutral-10);
+  --border-neutral-strong: var(--coolgray-30);
+  --border-brand-weak: var(--brand-30);
+  --border-brand-base: var(--brand-45);
+  --border-brand-strong: var(--brand-50);
+  --border-red-base: var(--red-30);
+  --border-red-strong: var(--red-50);
+  --border-static-white: var(--neutral-0);
+  --border-static-whitealpha-base: #rgba(255, 255, 255, 0.15);
+  --border-static-whitealpha-strong: #rgba(255, 255, 255, 0.3);
+  --border-static-black: var(--neutral-100);
+  --border-static-blackalpha-base: #rgba(0, 0, 0, 0.15);
+  --border-static-blackalpha-strong: #rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-weak: var(--neutral-95);
+    --bg-base: var(--neutral-90);
+    --bg-strong: var(--neutral-70);
+
+    --surface-neutral-primary: var(--neutral-95);
+    --surface-neutral-weak: var(--neutral-55);
+    --surface-neutral-base: var(--neutral-50);
+    --surface-neutral-strong: var(--neutral-40);
+    --surface-neutral-inverse: var(--neutral-0);
+    --surface-brand-weak: var(--brand-80);
+    --surface-brand-base: var(--brand-60);
+    --surface-brand-strong: var(--brand-55);
+    --surface-red-base: var(--red-30);
+    --surface-red-strong: var(--red-50);
+    --surface-violet-base: var(--violet-50);
+    --surface-static-white: var(--neutral-0);
+    --surface-static-coolgray: var(--coolgray-50);
+    --surface-static-warmgray: var(--neutral-40);
+    --surface-static-black: var(--neutral-100) --surface-static-blackalpha-weak: #rgba(0, 0, 0, 0.3);
+    --surface-static-blackalpha-base: #rgba(0, 0, 0, 0.5);
+    --surface-static-blackalpha-strong: #rgba(0, 0, 0, 0.8);
+
+    --content-neutral-primary: var(--neutral-0);
+    --content-neutral-inverse: var(--neutral-100);
+    --content-neutral-weak: var(--neutral-50);
+    --content-neutral-base: var(--neutral-30);
+    --content-neutral-strong: var(--neutral-20);
+    --content-brand-weak: var(--brand-70);
+    --content-brand-base: var(--brand-55);
+    --content-brand-strong: var(--brand-50);
+    --content-red-base: var(--red-30);
+    --content-red-strong: var(--red-50);
+    --content-static-white: var(--neutral-0);
+    --content-static-coolgray: var(--coolgray-10);
+    --content-static-warmgray: var(--neutral-30);
+    --content-static-black: var(--neutral-100);
+
+    --border-neutral-weak: var(--neutral-50);
+    --border-neutral-base: var(--neutral-40);
+    --border-neutral-strong: var(--coolgray-50);
+    --border-brand-weak: var(--brand-70);
+    --border-brand-base: var(--brand-55);
+    --border-brand-strong: var(--brand-50);
+    --border-red-base: var(--red-30);
+    --border-red-strong: var(--red-50);
+    --border-static-white: var(--neutral-0);
+    --border-static-whitealpha-base: #rgba(255, 255, 255, 0.15);
+    --border-static-whitealpha-strong: #rgba(255, 255, 255, 0.3);
+    --border-static-black: var(--neutral-100);
+    --border-static-blackalpha-base: #rgba(0, 0, 0, 0.15);
+    --border-static-blackalpha-strong: #rgba(0, 0, 0, 0.3);
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
