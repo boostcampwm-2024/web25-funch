@@ -1,8 +1,9 @@
 import net from 'net';
 import crypto from 'crypto';
-import { encodeAmf0Cmd, decodeAmf0Cmd } from 'node-amfutils';
+import { separateRtmpChunk, RtmpChunck } from '@core/rtmp/packet';
 import { handshake, HandshakeData } from '@core/rtmp/handshake';
-import { separateRtmpChunk } from '@core/rtmp/packet';
+import { connect } from '@core/rtmp/connect';
+import { decodeAMF } from '@core/rtmp/utils';
 
 class RTMPStream {
   handshakeData: HandshakeData;
@@ -10,6 +11,7 @@ class RTMPStream {
   isConnectDone: boolean;
   isCreateStreamDone: boolean;
   isPublishDone: boolean;
+  streamKey?: string;
 
   constructor(private socket: net.Socket) {
     this.handshakeData = {
@@ -40,7 +42,11 @@ class RTMPStream {
     if (!this.isHandshakeDone) {
       this.isHandshakeDone = handshake(this.socket, data, this.handshakeData);
     } else if (!this.isConnectDone) {
-      //
+      const chunks = separateRtmpChunk(data);
+      chunks.forEach((chunk) => {
+        const typeId = chunk.messageHeader.typeId;
+        this.handleMessage(typeId, chunk);
+      });
     } else if (!this.isCreateStreamDone) {
       //
     } else if (!this.isPublishDone) {
@@ -61,6 +67,52 @@ class RTMPStream {
   timeoutEvent() {
     this.socket.destroy();
   }
+
+  handleMessage(typeId: number, chunk: RtmpChunck) {
+    switch (typeId) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+        // TODO: 제어 메시지 처리
+        this.handleControlMessage(typeId, chunk);
+        break;
+      case 17:
+      case 20:
+        this.handleCommandMessage(typeId, chunk);
+        break;
+      default:
+        // TODO: 데이터 메시지 처리
+        break;
+    }
+  }
+
+  handleControlMessage(typeId: number, chunk: RtmpChunck) {}
+
+  handleCommandMessage(typeId: number, chunk: RtmpChunck) {
+    const AMF0 = 20;
+    const AMF3 = 17;
+    const encodedPayload = decodeAMF(typeId, chunk.payload, AMF0, AMF3);
+
+    switch (encodedPayload.cmd) {
+      case 'connect':
+        this.isConnectDone = connect(this.socket);
+        break;
+      case 'FCPublish':
+        this.streamKey = encodedPayload.streamId;
+        break;
+      case 'createStream':
+        break;
+      case 'publish':
+        break;
+      default:
+        break;
+    }
+  }
+
+  handleDataMessage(typeId: number, chunk: RtmpChunck) {}
 }
 
 export default RTMPStream;
