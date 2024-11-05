@@ -1,5 +1,6 @@
 import Ping from './components/Ping';
 import SunSvg from '@components/svgs/SunSvg';
+import FunchSvg from '@components/svgs/FunchSvg';
 
 const HomePage = () => {
   return (
@@ -18,6 +19,7 @@ const HomePage = () => {
         <p className="funch-medium12">helloworld</p>
         <button className="bg-red">
           <SunSvg />
+          <FunchSvg />
         </button>
       </div>
     </>

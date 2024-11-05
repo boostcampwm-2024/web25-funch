@@ -3,6 +3,7 @@ import { type PropsWithChildren } from 'react';
 import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import MswInitializer from './MswInitializer';
+import Header from './components/layout/Header';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -27,8 +28,8 @@ const RootLayout = ({
       <body className={`${notoSansKR.className} antialiased`}>
         <MswInitializer>
           <Layout>
-            {/* {!wideView && <Header />}
-            {!wideView && <Cabinet />} */}
+            <Header />
+            {/* {!wideView && <Cabinet />} */}
             <div>{children}</div>
           </Layout>
         </MswInitializer>
