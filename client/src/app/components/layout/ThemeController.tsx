@@ -2,6 +2,7 @@ import MoonSvg from '@components/svgs/MoonSvg';
 
 const ThemeController = () => {
   return (
+    // button으로 바꾸기!
     <div
       className="hover:bg-surface-neutral-weak text-content-static-white group relative flex rounded-md bg-inherit"
       aria-label="밝은 테마로 변경"
