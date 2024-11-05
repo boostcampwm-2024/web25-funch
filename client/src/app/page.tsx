@@ -1,10 +1,12 @@
 import Ping from './components/Ping';
 
-export default function Home() {
+const HomePage = () => {
   return (
     <h1 className="bg-surface-brand-base font-light">
-      FUNCH
+      <span>FUNCH</span>
       <Ping />
     </h1>
   );
-}
+};
+
+export default HomePage;
