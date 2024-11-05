@@ -15,8 +15,8 @@ const ToolBar = (props: Props) => {
           <span className="absolute left-[-9999px] top-[-9999px] h-0 w-0">펀치</span>
         </a>
       </h1>
-      <div className="flex items-center gap-10">
-        <section className="flex h-full items-center gap-8">
+      <div className="flex items-center gap-4">
+        <section className="flex h-full items-center gap-1">
           <ThemeController />
           <StudioBtn />
         </section>
