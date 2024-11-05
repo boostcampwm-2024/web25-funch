@@ -16,7 +16,7 @@ const resultCommandMessage = {
 
 function publish(socket: net.Socket) {
   const streamBeginPayload = Buffer.alloc(2);
-  streamBeginPayload.writeIntBE(0, 0, 2);
+  streamBeginPayload.writeUIntBE(0, 0, 2);
   writeType0Packet(socket, 2, 4, streamBeginPayload);
 
   const responsePayload = encodeAmf0Cmd(resultCommandMessage);
