@@ -19,16 +19,16 @@ const resultCommandMessage = {
 
 function connect(socket: net.Socket) {
   const windowAckSizePayload = Buffer.alloc(4);
-  windowAckSizePayload.writeIntBE(5000000, 0, 4);
+  windowAckSizePayload.writeUIntBE(5000000, 0, 4);
   writeType0Packet(socket, 2, 5, windowAckSizePayload);
 
   const setPeerBandwidthPayload = Buffer.alloc(5);
-  setPeerBandwidthPayload.writeIntBE(5000000, 0, 4);
-  setPeerBandwidthPayload.writeIntBE(2, 4, 1);
+  setPeerBandwidthPayload.writeUIntBE(5000000, 0, 4);
+  setPeerBandwidthPayload.writeUIntBE(2, 4, 1);
   writeType0Packet(socket, 2, 6, setPeerBandwidthPayload);
 
   const setChunkSizePayload = Buffer.alloc(4);
-  setChunkSizePayload.writeIntBE(4096, 0, 4);
+  setChunkSizePayload.writeUIntBE(4096, 0, 4);
   writeType0Packet(socket, 2, 1, setChunkSizePayload);
 
   const responsePayload = encodeAmf0Cmd(resultCommandMessage);
