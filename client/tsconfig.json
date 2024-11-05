@@ -18,6 +18,8 @@
       }
     ],
     "paths": {
+      "@libs/*": ["./src/app/libs/*"],
+      "@components/*": ["./src/app/components/*"],
       "@server/*": ["./src/app/server/*"],
       "@/*": ["./src/*"]
     }
