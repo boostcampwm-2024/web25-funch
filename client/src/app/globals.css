@@ -180,6 +180,11 @@
     --border-static-blackalpha-strong: #rgba(0, 0, 0, 0.3);
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: var(--font-noto-sans-kr), Arial, Helvetica, sans-serif;

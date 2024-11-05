@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18"
