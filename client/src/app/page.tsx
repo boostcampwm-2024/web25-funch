@@ -4,7 +4,7 @@ import SunSvg from '@components/svgs/SunSvg';
 const HomePage = () => {
   return (
     <>
-      <h1 className="bg-surface-brand-base font-light">
+      <h1 className="bg-surface-brand-base">
         <span>FUNCH</span>
         <Ping />
       </h1>

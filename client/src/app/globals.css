@@ -182,9 +182,9 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: var(--font-noto-sans-kr), Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--content-neutral-base);
 }
 
 @layer utilities {
