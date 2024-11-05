@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@server/*": ["./src/app/server/*"],
       "@/*": ["./src/*"]
     }
   },
