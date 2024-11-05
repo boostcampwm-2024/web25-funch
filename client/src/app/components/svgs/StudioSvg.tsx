@@ -4,8 +4,8 @@ const StudioSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="15"
-      height="16"
+      width="35"
+      height="35"
       viewBox="0 0 15 16"
       fill="none"
       className="toolbar_icon__Nh7GG"
