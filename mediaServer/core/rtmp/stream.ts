@@ -65,6 +65,8 @@ class RTMPStream {
       });
     } else {
       // TODO: Data Message (Metadata) 처리
+      const chunks = separateRtmpChunk(data);
+      console.log(chunks);
     }
   }
 
