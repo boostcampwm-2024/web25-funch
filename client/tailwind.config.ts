@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 import tailwindPlugins from './plugins/tailwind.plugin';
 
+const HEADER_HEIGHT = '3.75rem';
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,6 +11,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      height: {
+        header: HEADER_HEIGHT,
+      },
+      padding: {
+        header: HEADER_HEIGHT,
+      },
       colors: {
         // Neutral 색상
         neutral: {
