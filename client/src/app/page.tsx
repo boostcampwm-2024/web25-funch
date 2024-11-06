@@ -3,6 +3,7 @@ import SunSvg from '@components/svgs/SunSvg';
 import FunchSvg from '@components/svgs/FunchSvg';
 import DeemedLink from '@components/layout/DeemedLink';
 import Button from '@components/Button';
+import ClientComponentForTest from '@components/ClientComponentForTest';
 
 const HomePage = () => {
   return (
@@ -25,6 +26,7 @@ const HomePage = () => {
           <FunchSvg />
         </button>
         <Button>버튼</Button>
+        <ClientComponentForTest />
       </div>
     </>
   );
