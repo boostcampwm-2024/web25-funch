@@ -2,24 +2,13 @@
 
 import DownArrowSvg from '@components/svgs/DownArrowSvg';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 
 type Props = {
-  onExpand: () => void;
-  onCollapse: () => void;
+  isExpanded: boolean;
+  toggle: () => void;
 };
 
-const AccordionButton = ({ onExpand, onCollapse }: Props) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    if (isExpanded) {
-      onExpand();
-    } else {
-      onCollapse();
-    }
-  }, [isExpanded]);
-
+const AccordionButton = ({ isExpanded, toggle }: Props) => {
   return (
     <button
       className={clsx(
@@ -28,16 +17,7 @@ const AccordionButton = ({ onExpand, onCollapse }: Props) => {
         'hover:bg-surface-neutral-base bg-transparent',
         'border-border-neutral-base hover:border-border-neutral-strong rounded-full border border-solid',
       )}
-      onClick={() => {
-        setIsExpanded((prev) => {
-          if (prev) {
-            onCollapse();
-          } else {
-            onExpand();
-          }
-          return !prev;
-        });
-      }}
+      onClick={toggle}
     >
       {isExpanded ? '접기' : '펼치기'}
       <span

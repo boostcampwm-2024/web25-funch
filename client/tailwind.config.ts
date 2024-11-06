@@ -3,6 +3,7 @@ import tailwindPlugins from './plugins/tailwind.plugin';
 
 const HEADER_HEIGHT = '3.75rem';
 const HOME_MIN_HEIGHT = `calc(100vh - ${HEADER_HEIGHT})`;
+const LAYOUT_MIN_WIDTH = '58.125rem';
 
 const config: Config = {
   content: [
@@ -20,6 +21,9 @@ const config: Config = {
       },
       minHeight: {
         home: HOME_MIN_HEIGHT,
+      },
+      minWidth: {
+        layout: LAYOUT_MIN_WIDTH,
       },
       padding: {
         header: HEADER_HEIGHT,

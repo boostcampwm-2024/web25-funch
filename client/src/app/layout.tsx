@@ -47,7 +47,7 @@ const RootLayout = ({
 };
 
 const Layout = ({ children }: PropsWithChildren) => {
-  return <div className="pt-header relative min-h-screen overflow-clip">{children}</div>;
+  return <div className="pt-header min-w-layout relative min-h-screen overflow-clip">{children}</div>;
 };
 
 const Main = ({ children }: PropsWithChildren) => {
