@@ -15,7 +15,10 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: 'FUNCH',
+  title: {
+    template: '%s | FUNCH',
+    default: 'FUNCH',
+  },
   description: '뻔한 일상에 웃음 한 방 FUNCH!',
 };
 
