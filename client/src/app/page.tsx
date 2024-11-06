@@ -1,6 +1,7 @@
 import Ping from './components/Ping';
 import SunSvg from '@components/svgs/SunSvg';
 import FunchSvg from '@components/svgs/FunchSvg';
+import DeemedLink from '@components/layout/DeemedLink';
 
 const HomePage = () => {
   return (
@@ -17,6 +18,7 @@ const HomePage = () => {
         <p className="funch-medium16">helloworld</p>
         <p className="funch-medium14">helloworld</p>
         <p className="funch-medium12">helloworld</p>
+        <DeemedLink name="전체보기" url="/categories" />
         <button className="bg-red">
           <SunSvg />
           <FunchSvg />

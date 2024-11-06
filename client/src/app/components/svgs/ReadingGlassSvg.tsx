@@ -13,7 +13,7 @@ const ReadingGlassSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
-        <circle cx="11.4302" cy="10.4819" r="5.35" stroke="currentColor" stroke-width="1.8"></circle>
+        <circle cx="11.4302" cy="10.4819" r="5.35" stroke="currentColor" strokeWidth="1.8"></circle>
       </g>
     </svg>
   );
