@@ -37,7 +37,7 @@ const RootLayout = ({
               <Header />
               <Cabinet />
               {/* {!wideView && <Cabinet />} */}
-              <div>{children}</div>
+              <Main>{children}</Main>
             </GlobalProvider>
           </MswInitializer>
         </Layout>
@@ -48,6 +48,10 @@ const RootLayout = ({
 
 const Layout = ({ children }: PropsWithChildren) => {
   return <div className="pt-header relative min-h-screen overflow-clip">{children}</div>;
+};
+
+const Main = ({ children }: PropsWithChildren) => {
+  return <main className="funch-desktop:pl-60 w-full pl-20">{children}</main>;
 };
 
 export default RootLayout;

@@ -1,9 +1,11 @@
-const Badge = ({ category }: BadgeProps) => {
-  return <span className="bg-surface-neutral-weak funch-bold12 h-3 w-20 rounded-md px-[6px] py-1">{category}</span>;
+import { type PropsWithChildren } from 'react';
+
+const Badge = ({ children }: PropsWithChildren) => {
+  return (
+    <span className="bg-surface-neutral-weak text-content-neutral-strong funch-bold12 cursor-default rounded-md px-1.5 py-1">
+      {children}
+    </span>
+  );
 };
 
 export default Badge;
-
-type BadgeProps = {
-  category: string;
-};

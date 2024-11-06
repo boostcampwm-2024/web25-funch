@@ -4,3 +4,16 @@ export type SvgComponentProps = {
 };
 
 export type InternalPath = `/${string}`;
+
+export type Live = {
+  id: string;
+  thumbnail: string;
+  viewers: number;
+  title: string;
+  category: string;
+  tags: string[];
+  streamer: {
+    name: string;
+    profileImage: string;
+  };
+};
