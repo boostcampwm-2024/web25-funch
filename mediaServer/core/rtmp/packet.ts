@@ -1,42 +1,46 @@
 import net from 'net';
 
-type RtmpChunckBasicHeader = {
+type RtmpChunkBasicHeader = {
   chunkType: number;
   chunkStreamId: number;
 };
 
-type RtmpChunckMessageHeader = {
+type RtmpChunkMessageHeader = {
   timestamp: number;
+  timestampDelta: number;
   messageLength: number;
   typeId: number;
   messageStreamId: number;
 };
 
-interface RtmpChunck {
-  basicHeader: RtmpChunckBasicHeader;
-  messageHeader: RtmpChunckMessageHeader;
+interface RtmpChunk {
+  basicHeader: RtmpChunkBasicHeader;
+  messageHeader: RtmpChunkMessageHeader;
   extendedTimestamp: number;
   payload: Buffer;
+  extraBytes: number;
 }
 
-function createRtmpChunk(): RtmpChunck {
+function createRtmpChunk(chunkType = 0, chunkStreamId = 0): RtmpChunk {
   return {
     basicHeader: {
-      chunkType: 0,
-      chunkStreamId: 0,
+      chunkType,
+      chunkStreamId,
     },
     messageHeader: {
       timestamp: 0,
+      timestampDelta: 0,
       messageLength: 0,
       typeId: 0,
       messageStreamId: 0,
     },
     extendedTimestamp: 0,
     payload: Buffer.alloc(0),
+    extraBytes: 0
   };
 }
 
-function parseBasicHeader(data: Buffer): RtmpChunckBasicHeader {
+function parseBasicHeader(data: Buffer): RtmpChunkBasicHeader {
   let defaultBasicHeader = data.subarray(0, 1);
   let chunkType = defaultBasicHeader[0] >> 6;
   let chunkStreamId = defaultBasicHeader[0] & 0b00111111;
@@ -56,11 +60,13 @@ function parseBasicHeader(data: Buffer): RtmpChunckBasicHeader {
   return { chunkType, chunkStreamId };
 }
 
-function parseMessageHeader(chunkType: number, data: Buffer): RtmpChunckMessageHeader {
-  let timestamp, messageLength, typeId, messageStreamId;
+function parseMessageHeader(workingChunkMessageHeader: RtmpChunkMessageHeader, chunkType: number, data: Buffer): RtmpChunkMessageHeader {
+  let { timestamp, timestampDelta, messageLength, typeId, messageStreamId } = workingChunkMessageHeader;
 
   if (chunkType <= 2) {
-    timestamp = data.readUIntBE(0, 3);
+    timestampDelta = data.readUIntBE(0, 3);
+    timestamp += timestampDelta
+    if(timestamp >= 0xffffff) timestamp = 0xffffff
   }
   if (chunkType <= 1) {
     messageLength = data.readUIntBE(3, 3);
@@ -68,75 +74,11 @@ function parseMessageHeader(chunkType: number, data: Buffer): RtmpChunckMessageH
   }
   if (chunkType <= 0) {
     messageStreamId = data.subarray(7).readUInt32LE();
+    timestamp = data.readUIntBE(0, 3);
+    timestampDelta = 0;
   }
 
-  return { timestamp, messageLength, typeId, messageStreamId };
-}
-
-function separateRtmpChunk(data: Buffer): RtmpChunck[] {
-  const rtmpChunks: RtmpChunck[] = [];
-  const BASIC_HEADER_STATE = 0;
-  const MESSAGE_HEADER_STATE = 1;
-  const EXTENDED_TIMESTAMP_STATE = 2;
-  const PAYLOAD_STATE = 3;
-
-  let offset = 0;
-  let currentChunkState = 0;
-  let chunk: RtmpChunck = createRtmpChunk();
-
-  while (offset < data.length) {
-    switch (currentChunkState % 4) {
-      case BASIC_HEADER_STATE:
-        let basicHeaderBytes = 1;
-        chunk = createRtmpChunk();
-        const basicHeaderBuf = data.subarray(offset, offset + 1)[0];
-        const chunkStreamId = basicHeaderBuf & 0x3f;
-        if (chunkStreamId === 0) {
-          basicHeaderBytes = 2;
-        } else if (chunkStreamId === 1) {
-          basicHeaderBytes = 3;
-        }
-        chunk.basicHeader = parseBasicHeader(data.subarray(offset, offset + basicHeaderBytes));
-        offset += basicHeaderBytes;
-        currentChunkState += 1;
-        break;
-      case MESSAGE_HEADER_STATE:
-        let messageHeaderBytes = 0;
-        if (chunk.basicHeader.chunkType === 0) {
-          messageHeaderBytes = 11;
-        } else if (chunk.basicHeader.chunkType === 1) {
-          messageHeaderBytes = 7;
-        } else if (chunk.basicHeader.chunkType === 2) {
-          messageHeaderBytes = 3;
-        } else if (chunk.basicHeader.chunkType === 3) {
-          currentChunkState += 1;
-          continue;
-        }
-        chunk.messageHeader = parseMessageHeader(
-          chunk.basicHeader.chunkType,
-          data.subarray(offset, offset + messageHeaderBytes),
-        );
-        offset += messageHeaderBytes;
-        currentChunkState += 1;
-        break;
-      case EXTENDED_TIMESTAMP_STATE:
-        const EXTENDED_TIMESTAMP_FLAG = chunk.messageHeader.timestamp === 16777215;
-        if (EXTENDED_TIMESTAMP_FLAG) {
-          chunk.messageHeader.timestamp = data.subarray(offset, offset + 4)[0];
-          offset += 4;
-        }
-        currentChunkState += 1;
-        break;
-      case PAYLOAD_STATE:
-        const messageLength = chunk.messageHeader.messageLength;
-        chunk.payload = data.subarray(offset, offset + messageLength);
-        offset += messageLength;
-        currentChunkState += 1;
-        rtmpChunks.push(chunk);
-        break;
-    }
-  }
-  return rtmpChunks;
+  return { timestamp, timestampDelta, messageLength, typeId, messageStreamId };
 }
 
 function writeType0Packet(socket: net.Socket, streamId: number, messageTypeId: number, payload: Buffer) {
@@ -149,4 +91,4 @@ function writeType0Packet(socket: net.Socket, streamId: number, messageTypeId: n
   socket.write(Buffer.concat([basicHeader, messageHeader, payload]));
 }
 
-export { separateRtmpChunk, writeType0Packet, RtmpChunck };
+export {createRtmpChunk, parseBasicHeader, parseMessageHeader, writeType0Packet, RtmpChunk };
