@@ -13,7 +13,7 @@ const ToolBar = () => {
   return (
     <div className="flex w-full items-center justify-between px-4">
       <h1 className="w-16">
-        <a href="/">
+        <a href="/" title="펀치 홈으로">
           <FunchSvg />
           <span className="absolute left-[-9999px] top-[-9999px] h-0 w-0">펀치</span>
         </a>
