@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'funch-desktop': '1200px',
+      },
       height: {
         header: HEADER_HEIGHT,
       },
