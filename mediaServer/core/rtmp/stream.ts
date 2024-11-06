@@ -7,6 +7,28 @@ import { createStream } from '@core/rtmp/createStream';
 import { publish } from '@core/rtmp/publish';
 import { decodeAMF } from '@core/rtmp/utils';
 
+import ffmpeg from 'fluent-ffmpeg';
+ffmpeg.setFfmpegPath('C:/ffmpeg/bin/ffmpeg.exe');
+ffmpeg.setFfprobePath('C:/ffmpeg/bin/ffmpeg.exe');
+
+const BASIC_HEADER_STATE = 0;
+const MESSAGE_HEADER_STATE = 1;
+const EXTENDED_TIMESTAMP_STATE = 2;
+const PAYLOAD_STATE = 3;
+
+const SET_CHUNK_SIZE = 1;
+const ABORT_MESSAGE = 2;
+const ACK = 3;
+const USER_CONTROL_MESSAGE = 4;
+const WINDOW_ACK_SIZE = 5;
+const SET_PEER_BANDWIDTH = 6;
+
+const AUDIO_MESSAGE = 8;
+const VIDEO_MESSAGE = 9; 
+
+const COMMAND_AMF0 = 20;
+const COMMAND_AMF3 = 17;
+
 class RTMPStream {
   handshakeData: HandshakeData;
   isHandshakeDone: boolean;
