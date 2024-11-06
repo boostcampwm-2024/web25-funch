@@ -5,6 +5,7 @@ import './globals.css';
 import MswInitializer from './MswInitializer';
 import Header from './components/layout/Header';
 import GlobalProvider from './GlobalProvider';
+import Cabinet from '@components/cabinet/Cabinet';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -34,6 +35,7 @@ const RootLayout = ({
           <MswInitializer>
             <GlobalProvider>
               <Header />
+              <Cabinet />
               {/* {!wideView && <Cabinet />} */}
               <div>{children}</div>
             </GlobalProvider>
