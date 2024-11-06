@@ -4,6 +4,7 @@ import FunchSvg from '@components/svgs/FunchSvg';
 import DeemedLink from '@components/layout/DeemedLink';
 import Button from '@components/Button';
 import ClientComponentForTest from '@components/ClientComponentForTest';
+import Badge from './features/Badge';
 
 const HomePage = () => {
   return (
@@ -24,9 +25,12 @@ const HomePage = () => {
         <button className="bg-red">
           <SunSvg />
           <FunchSvg />
+          <Badge category="포켓몬스터 블랙" />
         </button>
+
         <Button>버튼</Button>
         <ClientComponentForTest />
+        <Badge category="발로란트" />
       </div>
     </>
   );
