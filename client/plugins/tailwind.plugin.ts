@@ -10,11 +10,19 @@ const appFonts = plugin(function ({ addUtilities }) {
       fontFamily: FONT_FAMILY,
       fontSize: '1.5rem', // 24px
       fontWeight: '700',
+      lineHeight: '1.75rem', // 28px
+    },
+    '.funch-bold20': {
+      fontFamily: FONT_FAMILY,
+      fontSize: '1.25rem', // 20px
+      fontWeight: '700',
+      lineHeight: '1.5rem', // 24px
     },
     '.funch-bold16': {
       fontFamily: FONT_FAMILY,
       fontSize: '1rem', // 16px
       fontWeight: '700',
+      lineHeight: '1.25rem', // 20px
     },
     '.funch-bold14': {
       fontFamily: FONT_FAMILY,

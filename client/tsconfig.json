@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@mocks/*": ["./src/app/__mocks__/*"],
       "@hooks/*": ["./src/app/hooks/*"],
       "@providers/*": ["./src/app/providers/*"],
       "@libs/*": ["./src/app/libs/*"],
