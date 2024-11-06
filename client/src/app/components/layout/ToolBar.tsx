@@ -11,7 +11,7 @@ import LogoutBtn from './LogoutBtn';
 const ToolBar = () => {
   const { isLoggedin } = useUser();
   return (
-    <div className="flex w-full items-center justify-between px-4">
+    <div className="bg-bg-base flex w-full items-center justify-between px-4">
       <h1 className="w-16">
         <a href="/" title="펀치 홈으로">
           <FunchSvg />
