@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const CategoriesPage = () => {
   return (
     <div>
-      <CategoryCard>hello world</CategoryCard>
+      <CategoryCard></CategoryCard>
     </div>
   );
 };
