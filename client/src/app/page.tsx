@@ -1,6 +1,7 @@
 import Ping from './components/Ping';
 import SunSvg from '@components/svgs/SunSvg';
 import FunchSvg from '@components/svgs/FunchSvg';
+import Button from '@components/Button';
 
 const HomePage = () => {
   return (
@@ -21,6 +22,7 @@ const HomePage = () => {
           <SunSvg />
           <FunchSvg />
         </button>
+        <Button>버튼</Button>
       </div>
     </>
   );
