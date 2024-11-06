@@ -8,11 +8,7 @@ import ClientComponentForTest from '@components/ClientComponentForTest';
 
 const HomePage = () => {
   return (
-    <>
-      <h1>
-        <span>FUNCH</span>
-        <Ping />
-      </h1>
+    <div className="funch-desktop:pl-60 pl-28">
       <div>
         <p className="funch-bold24">helloworld</p>
         <p className="funch-bold16 text-content-brand-base">helloworld</p>
@@ -32,7 +28,7 @@ const HomePage = () => {
         <Badge category="발로란트" />
         <ClientComponentForTest />
       </div>
-    </>
+    </div>
   );
 };
 
