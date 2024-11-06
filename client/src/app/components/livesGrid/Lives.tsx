@@ -1,7 +1,7 @@
 'use client';
 
 import Badge from '@/app/features/Badge';
-import AccordionButtonDemo from '@components/AccordionButtonDemo';
+import AccordionButton from '@components/AccordionButton';
 import LiveSvg from '@components/svgs/LiveSvg';
 import type { Live } from '@libs/internalTypes';
 import clsx from 'clsx';
@@ -34,7 +34,7 @@ const LivesWrapper = ({ lives, children }: Props) => {
 const ExpandButton = ({ isExpanded, toggle }: { isExpanded: boolean; toggle: () => void }) => {
   return (
     <div className="my-6 flex justify-center">
-      <AccordionButtonDemo isExpanded={isExpanded} toggle={toggle} />
+      <AccordionButton isExpanded={isExpanded} toggle={toggle} />
     </div>
   );
 };
