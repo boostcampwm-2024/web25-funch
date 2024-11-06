@@ -9,7 +9,13 @@ type DeemedProps = {
 
 const DeemedLink = ({ name, url }: DeemedProps) => {
   return (
-    <Link href={url} className={clsx('funch-bold24 hover:bg-surface-neutral-weak', 'h-4 w-14 rounded-md px-1')}>
+    <Link
+      href={url}
+      className={clsx(
+        'funch-bold16 text-content-neutral-strong hover:bg-surface-neutral-base',
+        'inline-flex items-center rounded-md p-1',
+      )}
+    >
       {name}
     </Link>
   );
