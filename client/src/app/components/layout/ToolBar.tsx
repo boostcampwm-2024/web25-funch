@@ -1,12 +1,15 @@
+'use client';
+
 import FunchSvg from '@components/svgs/FunchSvg';
 import React from 'react';
 import StudioBtn from './StudioBtn';
 import LoginBtn from './LoginBtn';
 import ThemeController from './ThemeController';
+import useUser from '@hooks/useUser';
+import LogoutBtn from './LogoutBtn';
 
-type Props = {};
-
-const ToolBar = (props: Props) => {
+const ToolBar = () => {
+  const { isLoggedin } = useUser();
   return (
     <div className="flex w-full items-center justify-between px-4">
       <h1 className="w-16">
@@ -20,7 +23,7 @@ const ToolBar = (props: Props) => {
           <ThemeController />
           <StudioBtn />
         </section>
-        <LoginBtn />
+        {isLoggedin ? <LogoutBtn /> : <LoginBtn />}
       </div>
     </div>
   );

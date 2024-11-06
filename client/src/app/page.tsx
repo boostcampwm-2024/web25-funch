@@ -5,12 +5,12 @@ import FunchSvg from '@components/svgs/FunchSvg';
 const HomePage = () => {
   return (
     <>
-      <h1 className="bg-surface-brand-base">
+      <h1>
         <span>FUNCH</span>
         <Ping />
       </h1>
       <div>
-        <p className="funch-bold24 bg-surface-neutral-primary">helloworld</p>
+        <p className="funch-bold24">helloworld</p>
         <p className="funch-bold16 text-content-brand-base">helloworld</p>
         <p className="funch-bold14 text-content-brand-weak">helloworld</p>
         <p className="funch-bold12">helloworld</p>
