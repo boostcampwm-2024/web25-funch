@@ -33,8 +33,6 @@ function connect(socket: net.Socket) {
 
   const responsePayload = encodeAmf0Cmd(resultCommandMessage);
   writeType0Packet(socket, 3, 20, responsePayload);
-
-  return true;
 }
 
 export { connect };

@@ -21,7 +21,6 @@ function publish(socket: net.Socket) {
 
   const responsePayload = encodeAmf0Cmd(resultCommandMessage);
   writeType0Packet(socket, 4, 20, responsePayload);
-  return true;
 }
 
 export { publish };
