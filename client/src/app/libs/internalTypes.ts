@@ -17,3 +17,7 @@ export type Live = {
     profileImage: string;
   };
 };
+
+export type Follow = {
+  id: string;
+};

@@ -38,9 +38,9 @@ const StreamerNavigator = () => {
   }, []);
 
   return (
-    <div className="funch-desktop:w-5/6 border-y-surface-neutral-base mx-auto w-1/2 overflow-hidden border-y-2 py-4">
+    <div className="funch-desktop:w-5/6 border-y-surface-neutral-base mx-auto w-1/2 border-y-2 py-4">
       {isDesktop ? <FollowDesktopHeader /> : <FollowNavHeader />}
-      <FollowList />
+      <FollowList isDesktop={isDesktop} />
     </div>
   );
 };

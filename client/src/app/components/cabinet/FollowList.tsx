@@ -1,49 +1,43 @@
-const mockFollowList = [
-  {
-    id: 1,
-    name: 'John Doe',
-    avatar: 'https://randomuser.me/api/portraits',
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    avatar: 'https://randomuser.me/api/portraits',
-  },
-  {
-    id: 3,
-    name: 'John Smith',
-    avatar: 'https://randomuser.me/api/portraits',
-  },
-  {
-    id: 4,
-    name: 'Jane Smith',
-    avatar: 'https://randomuser.me/api/portraits',
-  },
-  {
-    id: 5,
-    name: 'John Johnson',
-    avatar: 'https://randomuser.me/api/portraits',
-  },
-];
+import { mockedFollows } from '@mocks/follow';
+import { Live } from '@libs/internalTypes';
 
-const FollowList = () => {
+const FollowList = ({ isDesktop }: { isDesktop: boolean }) => {
   return (
-    <>
-      {mockFollowList.map((follow) => (
-        <Follow key={follow.id} follow={follow} />
+    <div className="pt-2">
+      {mockedFollows.map((follow: Live) => (
+        <Follow isDesktop={isDesktop} follow={follow} />
       ))}
-    </>
+    </div>
   );
 };
 
-const Follow = ({ follow }: { follow: { id: number; name: string; avatar: string } }) => {
+const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => {
   return (
-    <div className="border-neutral-weak funch-desktop:justify-start flex items-center justify-center py-3">
-      <img
-        src="https://nng-phinf.pstatic.net/MjAyMzEyMjBfNDkg/MDAxNzAzMDU1NjA1MTY2.bCUbi8bRvnKsF6Gmw_EIPrll1fPYTkJzTDo243vchEEg.JIYN6Ve8RVWFNqjdiwrEImVAAK4s-bNrJRRGA0ikM8sg.JPEG/%EA%B7%B8%EC%9C%BD.jpg?type=f120_120_na"
-        alt={follow.name}
-        className="border-border-brand-strong box-content h-8 w-8 rounded-full border-2 hover:m-[-2px] hover:border-4"
-      />
+    <div className="border-neutral-weak funch-desktop:justify-start hover:bg-border-neutral-base group flex w-full items-center rounded-md py-2 pl-2">
+      {isDesktop ? (
+        <>
+          <div className="relative flex flex-1">
+            <img
+              src={follow.streamer?.profileImage}
+              alt={follow.title}
+              className="border-border-brand-strong box-content h-8 w-8 rounded-full"
+            />
+            <section className="flex w-full pl-3">
+              <section className="flex w-2/3 flex-1 flex-col">
+                <div className="text-surface-neutral-inverse funch-bold14">{follow.streamer.name}</div>
+                <div className="funch-bold14">{follow.category}</div>
+              </section>
+              <em className="text-content-red-base funch-bold14 flex items-center pr-2">{follow.viewers}</em>
+            </section>
+          </div>
+        </>
+      ) : (
+        <img
+          src={follow.streamer?.profileImage}
+          alt={follow.title}
+          className="border-border-brand-strong box-content h-8 w-8 rounded-full border-2 hover:m-[-2px] hover:border-4"
+        />
+      )}
     </div>
   );
 };
