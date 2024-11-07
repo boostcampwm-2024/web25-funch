@@ -11,18 +11,23 @@ import LogoutBtn from './LogoutBtn';
 const ToolBar = () => {
   const { isLoggedin } = useUser();
   return (
-    <div className="bg-bg-base flex w-full items-center justify-between px-4">
-      <h1 className="w-16">
-        <a href="/" title="펀치 홈으로">
-          <FunchSvg />
-          <span className="absolute left-[-9999px] top-[-9999px] h-0 w-0">펀치</span>
+    <div className="bg-bg-base flex h-full w-full items-center justify-between px-4">
+      <h1>
+        <a href="/" title="펀치 홈으로" className="relative grid h-12 grid-cols-[2.5rem,1fr] items-center gap-1">
+          <span className="inline-flex h-full w-12 items-center justify-center">
+            <FunchSvg />
+          </span>
+          <span aria-hidden className="funch-bold20 text-content-brand-base dark:text-content-static-white">
+            FUNCH
+          </span>
+          <span className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">펀치</span>
         </a>
       </h1>
       <div className="flex items-center gap-4">
-        <section className="flex h-full items-center gap-1">
+        <div className="flex h-full items-center gap-1">
           <ThemeController />
-          <StudioBtn />
-        </section>
+          {isLoggedin && <StudioBtn />}
+        </div>
         {isLoggedin ? <LogoutBtn /> : <LoginBtn />}
       </div>
     </div>
