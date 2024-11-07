@@ -79,10 +79,10 @@ const HeaderControlIcon = ({ componentType }: { componentType: HeaderControlButt
     return <StudioSvg />;
   }
   if (componentType === headerControlButtonType.DARK) {
-    return <MoonSvg />;
+    return <SunSvg />;
   }
   if (componentType === headerControlButtonType.LIGHT) {
-    return <SunSvg />;
+    return <MoonSvg />;
   }
   return null;
 };

@@ -1,19 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import HeaderControlButton from './HeaderControlButton';
+import useTheme from '@hooks/useThemeContext';
 
 const ThemeController = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  return (
-    <>
-      {theme === 'light' ? (
-        <HeaderControlButton componentType="DARK" onClick={() => setTheme('dark')} />
-      ) : (
-        <HeaderControlButton componentType="LIGHT" onClick={() => setTheme('light')} />
-      )}
-    </>
-  );
+  const { theme, toggleTheme } = useTheme();
+  return <HeaderControlButton componentType={theme} onClick={toggleTheme} />;
 };
 
 export default ThemeController;
