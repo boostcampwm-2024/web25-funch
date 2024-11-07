@@ -2,7 +2,15 @@ import type { SvgComponentProps } from '@libs/internalTypes';
 
 const FunchSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
   return (
-    <svg role="img" aria-hidden={true} focusable={false} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <svg
+      role="img"
+      aria-hidden={true}
+      focusable={false}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 200 200"
+      width={40}
+      height={40}
+    >
       {svgTitle && <title>{svgTitle}</title>}
       {svgDescription && <desc>{svgDescription}</desc>}
       <rect x="40" y="50" width="120" height="100" rx="15" fill="var(--content-brand-base)" />

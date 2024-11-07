@@ -5,6 +5,7 @@ import AccordionButton from '@components/AccordionButton';
 import LiveSvg from '@components/svgs/LiveSvg';
 import type { Live } from '@libs/internalTypes';
 import clsx from 'clsx';
+import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactNode, type PropsWithChildren, useState } from 'react';
 
@@ -55,15 +56,22 @@ const Live = ({ live }: LiveProps) => {
         href={`/lives/${live.id}`}
         className={clsx('relative block h-44 overflow-hidden', 'rounded-xl border-0 border-solid border-transparent')}
       >
-        <div className="h-full w-full bg-orange-100" />
+        <div className="relative h-full w-full">
+          <Image
+            src={live.thumbnail}
+            fill={true}
+            sizes="100%"
+            alt={`스트리머 ${live.streamer.name}가 스트리밍 중인 영상의 섬네일`}
+          />
+        </div>
         <LiveBadge viewers={live.viewers} />
       </Link>
       <div className={clsx('mt-3 grid grid-cols-[2.5rem,1fr] gap-2.5')}>
-        <div className="h-10 w-full overflow-hidden rounded-full">
-          <img
-            width="100%"
-            height="100%"
+        <div className="relative h-10 w-full overflow-hidden rounded-full">
+          <Image
             src={live.streamer.profileImage}
+            fill={true}
+            sizes="100%"
             alt={`스트리머 ${live.streamer.name}의 프로필 이미지`}
           />
         </div>

@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss';
 import tailwindPlugins from './plugins/tailwind.plugin';
 
-const HEADER_HEIGHT = '3.75rem';
+// const HEADER_HEIGHT = '3.75rem'; // 60px
+const HEADER_HEIGHT = '5rem'; // 80px
 const HOME_MIN_HEIGHT = `calc(100vh - ${HEADER_HEIGHT})`;
 const LAYOUT_MIN_WIDTH = '58.125rem';
 
