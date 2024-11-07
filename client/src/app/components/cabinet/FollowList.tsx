@@ -13,7 +13,7 @@ const FollowList = ({ isDesktop }: { isDesktop: boolean }) => {
 
 const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => {
   return (
-    <div className="border-neutral-weak funch-desktop:justify-start hover:bg-border-neutral-base group flex w-full items-center rounded-md py-2 pl-2">
+    <div className="border-neutral-weak funch-desktop:justify-start hover:bg-border-neutral-base group flex w-full items-center rounded-md py-3 pl-2">
       {isDesktop ? (
         <>
           <div className="relative flex flex-1">

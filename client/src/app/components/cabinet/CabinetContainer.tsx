@@ -8,7 +8,7 @@ import FollowList from './FollowList';
 
 const CabinetContainer = () => {
   return (
-    <div className="flex h-full flex-col pt-16">
+    <div className="funch-desktop:pt-16 flex h-full flex-col pt-20">
       <CategoryNavigator />
       <StreamerNavigator />
     </div>
@@ -17,7 +17,7 @@ const CabinetContainer = () => {
 
 const CategoryNavigator = () => {
   return (
-    <div className="funch-desktop:h-40 h-40 overflow-hidden">
+    <div className="funch-desktop:h-28 h-40 min-h-28">
       <CabinetLink link="category" />
       <CabinetLink link="follow" />
     </div>
