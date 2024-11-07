@@ -42,7 +42,7 @@ const CabinetLink = ({ link }: LinkProps) => {
       }`}
     >
       <div
-        className={`funch-desktop:mx-0 mx-auto inline-flex w-12 items-center justify-center pt-[2px] ${
+        className={`funch-desktop:mx-0 mx-auto flex w-12 items-center justify-center pt-[2px] ${
           pathname === '/following' ? 'text-content-brand-base' : 'text-neutral-strong'
         }`}
       >
