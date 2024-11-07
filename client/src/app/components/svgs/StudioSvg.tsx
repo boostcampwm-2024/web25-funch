@@ -2,14 +2,7 @@ import type { SvgComponentProps } from '@libs/internalTypes';
 
 const StudioSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="35"
-      height="35"
-      viewBox="0 0 15 16"
-      fill="none"
-      className="toolbar_icon__Nh7GG"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 15 16" fill="none">
       {svgTitle && <title>{svgTitle}</title>}
       {svgDescription && <desc>{svgDescription}</desc>}
       <path
