@@ -1,3 +1,5 @@
+import { appTheme } from '@libs/constants';
+
 export type SvgComponentProps = {
   svgTitle?: string;
   svgDescription?: string;
@@ -21,3 +23,5 @@ export type Live = {
 export type Follow = {
   id: string;
 };
+
+export type AppTheme = keyof typeof appTheme;

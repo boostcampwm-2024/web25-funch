@@ -96,7 +96,7 @@ const LiveBadge = ({ viewers }: { viewers: number }) => {
       <span className="bg-surface-red-strong inline-flex h-full items-center rounded-md px-1">
         <LiveSvg />
       </span>
-      <span className="funch-bold12 text-content-neutral-primary inline-flex h-full items-center rounded-md bg-[rgba(20,21,23,.9)] px-1">
+      <span className="funch-bold12 text-content-static-white inline-flex h-full items-center rounded-md bg-[rgba(20,21,23,.9)] px-1">
         {viewers}명
       </span>
     </div>
