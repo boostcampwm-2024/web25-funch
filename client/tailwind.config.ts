@@ -35,10 +35,10 @@ const config: Config = {
       },
       padding: {
         header: HEADER_HEIGHT,
-        liveAspectRatio: LIVE_ASPECT_RATIO,
+        'live-aspect-ratio': LIVE_ASPECT_RATIO,
       },
       gap: {
-        liveX: LIVE_X_GAP,
+        'live-x': LIVE_X_GAP,
       },
       colors: {
         // Neutral 색상
