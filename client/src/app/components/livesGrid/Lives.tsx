@@ -41,7 +41,7 @@ const ExpandButton = ({ isExpanded, toggle }: { isExpanded: boolean; toggle: () 
 };
 
 const LivesList = ({ children }: PropsWithChildren) => {
-  return <div className={clsx('gap-x-liveX flex flex-wrap gap-y-7')}>{children}</div>;
+  return <div className={clsx('gap-x-live-x flex flex-wrap gap-y-7')}>{children}</div>;
 };
 
 type LiveProps = {
@@ -55,7 +55,7 @@ const Live = ({ live }: LiveProps) => {
         aria-label={`${live.viewers}명이 보고 있는 방송 보러가기, 제목 '${live.title}'`}
         href={`/lives/${live.id}`}
         className={clsx(
-          'pb-liveAspectRatio relative block overflow-hidden',
+          'pb-live-aspect-ratio relative block overflow-hidden',
           'rounded-xl border-0 border-solid border-transparent',
         )}
       >
