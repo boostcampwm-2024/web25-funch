@@ -1,13 +1,13 @@
 'use client';
 
-import Badge from '@/app/features/Badge';
+import Badge from '@app/features/Badge';
 import AccordionButton from '@components/AccordionButton';
-import LiveSvg from '@components/svgs/LiveSvg';
 import type { Live } from '@libs/internalTypes';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactNode, type PropsWithChildren, useState } from 'react';
+import LiveBadge from './LiveBadge';
 
 type ChildrenArgs = {
   visibleLives: Live[];
@@ -41,7 +41,7 @@ const ExpandButton = ({ isExpanded, toggle }: { isExpanded: boolean; toggle: () 
 };
 
 const LivesList = ({ children }: PropsWithChildren) => {
-  return <div className={clsx('flex flex-wrap gap-x-3.5 gap-y-7')}>{children}</div>;
+  return <div className={clsx('gap-x-liveX flex flex-wrap gap-y-7')}>{children}</div>;
 };
 
 type LiveProps = {
@@ -50,13 +50,16 @@ type LiveProps = {
 
 const Live = ({ live }: LiveProps) => {
   return (
-    <div className={clsx('w-[calc(33.3334%-9.3334px)]')}>
+    <div className={clsx('w-live')}>
       <Link
         aria-label={`${live.viewers}명이 보고 있는 방송 보러가기, 제목 '${live.title}'`}
         href={`/lives/${live.id}`}
-        className={clsx('relative block h-44 overflow-hidden', 'rounded-xl border-0 border-solid border-transparent')}
+        className={clsx(
+          'pb-liveAspectRatio relative block overflow-hidden',
+          'rounded-xl border-0 border-solid border-transparent',
+        )}
       >
-        <div className="relative h-full w-full">
+        <div className="absolute left-0 top-0 h-full w-full">
           <Image
             src={live.thumbnail}
             fill={true}
@@ -86,19 +89,6 @@ const Live = ({ live }: LiveProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const LiveBadge = ({ viewers }: { viewers: number }) => {
-  return (
-    <div aria-hidden className="absolute left-1.5 top-1 flex h-5 gap-1">
-      <span className="bg-surface-red-strong inline-flex h-full items-center rounded-md px-1">
-        <LiveSvg />
-      </span>
-      <span className="funch-bold12 text-content-static-white inline-flex h-full items-center rounded-md bg-[rgba(20,21,23,.9)] px-1">
-        {viewers}명
-      </span>
     </div>
   );
 };
