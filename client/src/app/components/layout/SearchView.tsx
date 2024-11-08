@@ -13,7 +13,7 @@ const SearchWrapper = ({ children, onSubmit }: SearchWrapperProps) => {
   return (
     <div
       className={clsx(
-        'absolute left-1/2 top-1/2 w-96 -translate-x-1/2 -translate-y-1/2',
+        'w-search funch-desktop:w-search-wide absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
         'border-border-neutral-base focus-within:border-border-brand-weak rounded-full border border-solid',
       )}
     >

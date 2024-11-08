@@ -1,13 +1,19 @@
 import type { Config } from 'tailwindcss';
 import tailwindPlugins from './plugins/tailwind.plugin';
-
-const HEADER_HEIGHT = '5rem'; // 80px
-const HOME_MIN_HEIGHT = `calc(100vh - ${HEADER_HEIGHT})`;
-const LAYOUT_MIN_WIDTH = '58.125rem';
-
-const LIVE_X_GAP = '0.875rem'; // 14px
-const LIVE_WIDTH = `calc(33.332% - (${LIVE_X_GAP} * 2 / 3))`;
-const LIVE_ASPECT_RATIO = '56.25%'; // 16:9
+import {
+  // layout
+  LAYOUT_MIN_WIDTH,
+  HEADER_HEIGHT,
+  // home
+  HOME_MIN_HEIGHT,
+  // live
+  LIVE_X_GAP,
+  LIVE_WIDTH,
+  LIVE_ASPECT_RATIO,
+  // search
+  SEARCH_WIDTH,
+  SEARCH_WIDTH_WIDE,
+} from './configs/tailwind.constant';
 
 const config: Config = {
   content: [
@@ -23,6 +29,8 @@ const config: Config = {
       },
       width: {
         live: LIVE_WIDTH,
+        search: SEARCH_WIDTH,
+        'search-wide': SEARCH_WIDTH_WIDE,
       },
       height: {
         header: HEADER_HEIGHT,
