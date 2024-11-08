@@ -18,12 +18,14 @@
       }
     ],
     "paths": {
+      "@test/*": ["./src/app/__test__/*"],
       "@mocks/*": ["./src/app/__mocks__/*"],
       "@hooks/*": ["./src/app/hooks/*"],
       "@providers/*": ["./src/app/providers/*"],
       "@libs/*": ["./src/app/libs/*"],
       "@components/*": ["./src/app/components/*"],
       "@server/*": ["./src/app/server/*"],
+      "@app/*": ["./src/app/*"],
       "@/*": ["./src/*"]
     }
   },

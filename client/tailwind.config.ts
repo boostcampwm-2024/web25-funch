@@ -1,10 +1,13 @@
 import type { Config } from 'tailwindcss';
 import tailwindPlugins from './plugins/tailwind.plugin';
 
-// const HEADER_HEIGHT = '3.75rem'; // 60px
 const HEADER_HEIGHT = '5rem'; // 80px
 const HOME_MIN_HEIGHT = `calc(100vh - ${HEADER_HEIGHT})`;
 const LAYOUT_MIN_WIDTH = '58.125rem';
+
+const LIVE_X_GAP = '0.875rem'; // 14px
+const LIVE_WIDTH = `calc(33.332% - (${LIVE_X_GAP} * 2 / 3))`;
+const LIVE_ASPECT_RATIO = '56.25%'; // 16:9
 
 const config: Config = {
   content: [
@@ -18,6 +21,9 @@ const config: Config = {
       screens: {
         'funch-desktop': '1200px',
       },
+      width: {
+        live: LIVE_WIDTH,
+      },
       height: {
         header: HEADER_HEIGHT,
       },
@@ -29,6 +35,10 @@ const config: Config = {
       },
       padding: {
         header: HEADER_HEIGHT,
+        liveAspectRatio: LIVE_ASPECT_RATIO,
+      },
+      gap: {
+        liveX: LIVE_X_GAP,
       },
       colors: {
         // Neutral 색상
