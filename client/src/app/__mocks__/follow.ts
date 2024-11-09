@@ -3,6 +3,7 @@ import type { Live } from '@libs/internalTypes';
 export const mockedFollows: Live[] = [
   {
     id: '1',
+    isStreaming: false,
     thumbnail: 'https://via.placeholder.com/150',
     viewers: 100,
     title: '[V리그] 생중계 GS칼텍스 vs IBK기업은행 #watchparty (IBK 응원)',
@@ -15,6 +16,7 @@ export const mockedFollows: Live[] = [
   },
   {
     id: '2',
+    isStreaming: true,
     thumbnail: 'https://via.placeholder.com/150',
     viewers: 103,
     title: '방송 제목',

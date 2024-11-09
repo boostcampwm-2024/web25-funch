@@ -16,7 +16,7 @@ const UpArrowSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
       {svgTitle && <title>{svgTitle}</title>}
       {svgDescription && <desc>{svgDescription}</desc>}
       <path
-        d="M7 9L11 13L15 9"
+        d="M7 13L11 9L15 13" // 9와 13의 위치만 바꿨습니다
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"

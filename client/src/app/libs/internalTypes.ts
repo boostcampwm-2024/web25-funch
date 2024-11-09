@@ -8,6 +8,7 @@ export type SvgComponentProps = {
 export type InternalPath = `/${string}`;
 
 export type Live = {
+  isStreaming?: boolean;
   id: string;
   thumbnail: string;
   viewers: number;
