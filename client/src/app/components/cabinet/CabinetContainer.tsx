@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react';
 import CabinetLink from './CabinetLink';
 import RefreshSvg from '@components/svgs/RefreshSvg';
 import DownArrowSvg from '@components/svgs/DownArrowSvg';
+import UpArrowSvg from '@components/svgs/UpArrowSvg';
 import FollowList from './FollowList';
+import useDesktop from '@hooks/useDesktop';
+import AccordionButton from '@components/AccordionButton';
 
 const CabinetContainer = () => {
   return (
@@ -25,24 +28,38 @@ const CategoryNavigator = () => {
 };
 
 const StreamerNavigator = () => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1200);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [isFolded, setIsFolded] = useState(false);
+  const { isDesktop } = useDesktop();
 
   useEffect(() => {
-    console.log(isDesktop);
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1200);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    if (!isDesktop) {
+      setIsExpanded(true);
+    }
+  }, [isDesktop]);
 
   return (
-    <div className="funch-desktop:w-5/6 border-y-surface-neutral-base mx-auto w-1/2 border-y-2 py-4">
-      {isDesktop ? <FollowDesktopHeader /> : <FollowNavHeader />}
-      <FollowList isDesktop={isDesktop} />
-    </div>
+    <>
+      <div className="funch-desktop:w-5/6 border-y-surface-neutral-base mx-auto w-1/2 border-y-2 py-4 pb-2">
+        {isDesktop ? (
+          <FollowDesktopHeader isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        ) : (
+          <FollowNavHeader />
+        )}
+        <FollowList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} />
+        {isExpanded && isDesktop && (
+          <div className="flex justify-center">
+            <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
+          </div>
+        )}
+      </div>
+    </>
   );
+};
+
+type ExpandedProps = {
+  isExpanded: boolean;
+  setIsExpanded: (value: React.SetStateAction<boolean>) => void; // 타입도 더 정확하게 수정
 };
 
 const FollowNavHeader = () => {
@@ -53,14 +70,14 @@ const FollowNavHeader = () => {
   );
 };
 
-const FollowDesktopHeader = () => {
+const FollowDesktopHeader = ({ isExpanded, setIsExpanded }: ExpandedProps) => {
   return (
     <div className="text-content-neutral-strong flex justify-between">
       <h2 className="funch-bold14 funch-desktop:funch-bold16">팔로잉 채널</h2>
-      <section className="flex">
+      <div className="flex">
         <RefreshSvg />
-        <DownArrowSvg />
-      </section>
+        <button onClick={() => setIsExpanded((prev) => !prev)}>{isExpanded ? <UpArrowSvg /> : <DownArrowSvg />}</button>
+      </div>
     </div>
   );
 };
