@@ -9,7 +9,7 @@ type Props = PropsWithChildren;
 const GlobalProvider = ({ children }: Props) => {
   return (
     <ThemeProvider>
-      <UserProvider>{children}</UserProvider>;
+      <UserProvider>{children}</UserProvider>
     </ThemeProvider>
   );
 };
