@@ -56,7 +56,7 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
               </section>
             </div>
           </div>
-          <div className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong absolute left-52 top-0 z-50 flex h-20 w-60 items-center rounded-md p-4 opacity-0 peer-hover:opacity-100">
+          <div className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong absolute left-52 top-0 z-50 hidden h-20 w-60 items-center rounded-md p-4 peer-hover:flex">
             {follow.title}
           </div>
         </div>
@@ -72,7 +72,7 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
             />
           </div>
           {follow.isStreaming && (
-            <div className="bg-surface-neutral-base z-100 absolute left-14 top-3 flex h-32 w-52 flex-col rounded-md p-3 opacity-0 peer-hover:opacity-100">
+            <div className="bg-surface-neutral-base z-100 absolute left-14 top-3 hidden h-32 w-52 flex-col rounded-md p-3 peer-hover:flex">
               <div className="flex h-1/4 w-full items-center gap-2 truncate">
                 <div className="text-content-brand-strong funch-bold16">{follow.streamer.name}</div>
                 <div className="funch-bold14 border-border-neutral-base rounded-md border-2 p-[3px]">
