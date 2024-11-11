@@ -2,15 +2,16 @@
 
 import { usePathname } from 'next/navigation';
 import LiveProvider from '@providers/LiveProvider';
-import { type ReactNode, useRef, useState } from 'react';
+import { type ChangeEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import NoLiveContent from './NoLiveContent';
 
 const LiveSection = () => {
   const ref = useRef<HTMLVideoElement>(null);
   const pathname = usePathname();
+  const [volume, setVolume] = useState(50);
 
   const play = () => {
-    if (ref.current) {
+    if (ref.current && ref.current.paused) {
       ref.current.play();
     }
   };
@@ -26,6 +27,23 @@ const LiveSection = () => {
       ref.current.requestPictureInPicture();
     }
   };
+
+  const pause = () => {
+    if (ref.current && !ref.current.paused) {
+      ref.current.pause();
+    }
+  };
+
+  const handleChangeVolue = (e: ChangeEvent<HTMLInputElement>) => {
+    const nextVolume = Number(e.target.value);
+    setVolume(nextVolume);
+  };
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.volume = volume / 100;
+    }
+  }, [volume]);
 
   if (pathname.split('/')[1] !== 'lives') return null;
 
@@ -50,6 +68,8 @@ const LiveSection = () => {
                 <PlayButton play={play} />
                 <FullscreenButton fullscreen={fullscreen} />
                 <PipButton pip={pip} />
+                <PauseButton pause={pause} />
+                <VolumeController volume={volume} handleChangeVolue={handleChangeVolue} />
               </div>
             ) : (
               <NoLiveContent />
@@ -71,6 +91,20 @@ const FullscreenButton = ({ fullscreen }: { fullscreen: () => void }) => {
 
 const PipButton = ({ pip }: { pip: () => void }) => {
   return <button onClick={pip}>PIP</button>;
+};
+
+const PauseButton = ({ pause }: { pause: () => void }) => {
+  return <button onClick={pause}>일시정지</button>;
+};
+
+const VolumeController = ({
+  volume,
+  handleChangeVolue,
+}: {
+  volume: number;
+  handleChangeVolue: (e: ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolue} />;
 };
 
 const LiveController = ({ children }: { children: (args: { isStreaming: boolean }) => ReactNode }) => {
