@@ -2,6 +2,10 @@
 
 import { createContext, useState, type PropsWithChildren } from 'react';
 
+type User = {
+  name: string;
+};
+
 type UserContextType = {
   user: User | null;
   login: () => void;
@@ -37,7 +41,3 @@ const UserProvider = ({ children }: Props) => {
 };
 
 export default UserProvider;
-
-type User = {
-  name: string;
-};
