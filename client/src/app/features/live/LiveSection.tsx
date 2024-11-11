@@ -17,8 +17,12 @@ const LiveSection = () => {
   };
 
   const fullscreen = () => {
-    if (ref.current) {
-      ref.current.requestFullscreen();
+    // if (ref.current) {
+    //   ref.current.requestFullscreen();
+    // }
+    const div = document.getElementById('test-div');
+    if (div) {
+      div.requestFullscreen();
     }
   };
 
@@ -53,24 +57,32 @@ const LiveSection = () => {
         <LiveController>
           {({ isStreaming }) =>
             isStreaming ? (
-              <div className="pl-60" id="test-div">
-                <video
-                  ref={ref}
-                  controls
-                  controlsList="nodownload"
-                  className="relative"
-                  id="test-video"
-                  src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-                  width={600}
-                >
-                  <p className="text-red-5 absolute left-0 top-0">hihih</p>
-                </video>
-                <PlayButton play={play} />
-                <FullscreenButton fullscreen={fullscreen} />
-                <PipButton pip={pip} />
-                <PauseButton pause={pause} />
-                <VolumeController volume={volume} handleChangeVolue={handleChangeVolue} />
-              </div>
+              <>
+                <div className="w-full" id="test-div">
+                  <div className="pb-live-aspect-ratio relative w-full">
+                    <div className="absolute left-0 top-0 h-full w-full">
+                      <video
+                        ref={ref}
+                        controlsList="nodownload"
+                        id="test-video"
+                        src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+                        width="100%"
+                        height="100%"
+                        playsInline
+                        webkit-playsinline
+                        x-webkit-airplay
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <PlayButton play={play} />
+                  <FullscreenButton fullscreen={fullscreen} />
+                  <PipButton pip={pip} />
+                  <PauseButton pause={pause} />
+                  <VolumeController volume={volume} handleChangeVolue={handleChangeVolue} />
+                </div>
+              </>
             ) : (
               <NoLiveContent />
             )
