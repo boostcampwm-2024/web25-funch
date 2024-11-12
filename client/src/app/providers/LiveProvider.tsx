@@ -8,7 +8,21 @@ import { createContext, useEffect, useState, type PropsWithChildren } from 'reac
 type LiveContextType = {
   isLivePage: boolean;
   liveId: string | null;
-  liveInfo: Live | null;
+  liveInfo: Live;
+};
+
+const defaultLiveInfo: Live = {
+  id: '',
+  title: '',
+  thumbnail: '',
+  viewers: 0,
+  isStreaming: true,
+  category: '',
+  tags: [],
+  streamer: {
+    name: '',
+    profileImage: '',
+  },
 };
 
 export const LiveContext = createContext<LiveContextType | null>(null);
@@ -17,7 +31,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isLivePage = pathname.split('/')[1] === 'lives';
 
-  const [liveInfo, setLiveInfo] = useState<Live | null>(null);
+  const [liveInfo, setLiveInfo] = useState<Live>(defaultLiveInfo);
 
   const { id } = useParams() as { id: string };
 
