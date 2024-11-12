@@ -13,6 +13,10 @@ import {
 } from 'react';
 import Hls from 'hls.js';
 import useLiveContext from '@hooks/useLiveContext';
+import Image from 'next/image';
+import { comma } from '@libs/formats';
+import clsx from 'clsx';
+import Badge from '@app/features/Badge';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -165,15 +169,52 @@ const VolumeController = ({
 };
 
 const LiveInfo = () => {
+  const [isHovered, setIsHovered] = useState(false);
   const { liveInfo } = useLiveContext();
 
   return (
-    <div>
-      {JSON.stringify(liveInfo)}
-      {JSON.stringify(liveInfo)}
-      {JSON.stringify(liveInfo)}
-      {JSON.stringify(liveInfo)}
-      {JSON.stringify(liveInfo)}
+    <div className="px-7 pb-6 pt-4">
+      <h3 className="funch-bold20 text-content-neutral-strong">{liveInfo.title}</h3>
+      <div className="mt-4 flex">
+        <div
+          // image wrapper
+          className="relative h-16 w-16"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="relative h-full w-full p-1.5">
+            <div className="relative h-full w-full overflow-hidden rounded-full">
+              <Image
+                fill={true}
+                sizes="100%"
+                src={liveInfo.streamer.profileImage}
+                alt={`스트리머 ${liveInfo.streamer.name}의 프로필 이미지`}
+              />
+            </div>
+          </div>
+          <div
+            className={clsx(
+              'border-border-brand-base absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-solid',
+              isHovered ? 'border-4' : 'border-2',
+            )}
+          />
+        </div>
+        <div className="ml-2.5">
+          <h4 className="text-content-neutral-strong funch-bold16">{liveInfo.streamer.name}</h4>
+          {liveInfo.tags.length > 0 && (
+            <ul className="mt-1.5 flex gap-1">
+              {liveInfo.tags.map((tag, idx) => (
+                <li key={idx}>
+                  <Badge componentType="OUTLINE">{tag}</Badge>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="mt-1">
+            <span className="funch-medium12 text-content-neutral-base">{comma(liveInfo.viewers)}명 시청 중</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

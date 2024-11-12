@@ -1,4 +1,5 @@
 import LiveSvg from '@components/svgs/LiveSvg';
+import { comma } from '@libs/formats';
 
 const LiveBadge = ({ viewers }: { viewers: number }) => {
   return (
@@ -7,7 +8,7 @@ const LiveBadge = ({ viewers }: { viewers: number }) => {
         <LiveSvg />
       </span>
       <span className="funch-bold12 text-content-static-white inline-flex h-full items-center rounded-md bg-[rgba(20,21,23,.9)] px-1">
-        {viewers}명
+        {comma(viewers)}명
       </span>
     </div>
   );

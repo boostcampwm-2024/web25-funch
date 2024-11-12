@@ -57,7 +57,7 @@ const LiveSection = () => {
       <Live>
         {({ videoRef, videoWrapperRef, toggleMute, play, pause, fullscreen, pip, volume, handleChangeVolume }) => (
           <div className={clsx('h-full w-full', isLivePage ? 'grid grid-cols-[1fr,22rem]' : 'block')}>
-            <div className="funch-scrollable w-full">
+            <div className="funch-scrollable bg-bg-weak w-full">
               <Live.VideoWrapper ref={videoWrapperRef}>
                 <Live.Video ref={videoRef} />
                 <Live.VideoControllersWrapper>
