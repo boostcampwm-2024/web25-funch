@@ -60,4 +60,20 @@ const appFonts = plugin(function ({ addUtilities }) {
   addUtilities(newUtilities);
 });
 
-export default [appFonts];
+const appBoxes = plugin(function ({ addUtilities }) {
+  const newUtilities: CSSRuleObject = {
+    '.funch-scrollable': {
+      overflowY: 'auto',
+      overscrollBehavior: 'contain',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
+  addUtilities(newUtilities);
+});
+
+export default [appFonts, appBoxes];

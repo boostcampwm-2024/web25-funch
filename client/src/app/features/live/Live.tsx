@@ -14,12 +14,13 @@ import {
 import Hls from 'hls.js';
 import useLiveContext from '@hooks/useLiveContext';
 
+const demoHlsUrl =
+  'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
+
 const LiveController = ({
   children,
 }: {
   children: (args: {
-    isLivePage: boolean;
-    liveId: string | null;
     volume: number;
     videoRef: RefObject<HTMLVideoElement>;
     videoWrapperRef: RefObject<HTMLDivElement>;
@@ -31,7 +32,6 @@ const LiveController = ({
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   }) => ReactNode;
 }) => {
-  const { isLivePage, liveId } = useLiveContext();
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
@@ -81,9 +81,7 @@ const LiveController = ({
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(
-        'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
-      );
+      hls.loadSource(demoHlsUrl);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -91,8 +89,7 @@ const LiveController = ({
       });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src =
-        'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
+      videoRef.current.src = demoHlsUrl;
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play();
       });
@@ -100,8 +97,6 @@ const LiveController = ({
   }, []);
 
   return children({
-    isLivePage,
-    liveId,
     volume,
     videoRef,
     videoWrapperRef,
@@ -135,6 +130,10 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   );
 });
 
+const VideoControllersWrapper = ({ children }: PropsWithChildren) => {
+  return <div className="absolute left-0 top-0">{children}</div>;
+};
+
 const PlayButton = ({ play }: { play: () => void }) => {
   return <button onClick={play}>재생</button>;
 };
@@ -165,15 +164,31 @@ const VolumeController = ({
   return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
 };
 
+const LiveInfo = () => {
+  const { liveInfo } = useLiveContext();
+
+  return (
+    <div>
+      {JSON.stringify(liveInfo)}
+      {JSON.stringify(liveInfo)}
+      {JSON.stringify(liveInfo)}
+      {JSON.stringify(liveInfo)}
+      {JSON.stringify(liveInfo)}
+    </div>
+  );
+};
+
 const Live = Object.assign(LiveController, {
   VideoWrapper,
   Video,
+  VideoControllersWrapper,
   Play: PlayButton,
   Fullscreen: FullscreenButton,
   Pip: PipButton,
   Pause: PauseButton,
   Mute: MuteButton,
   Volume: VolumeController,
+  Info: LiveInfo,
 });
 
 export default Live;
