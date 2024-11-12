@@ -55,19 +55,39 @@ const LiveSection = () => {
         나머지 = children?
       */}
       <Live>
-        {({ videoRef, videoWrapperRef, toggleMute, play, pause, fullscreen, pip, volume, handleChangeVolume }) => (
+        {({
+          videoRef,
+          videoWrapperRef,
+          isShowControls,
+          toggleMute,
+          play,
+          pause,
+          fullscreen,
+          pip,
+          volume,
+          handleChangeVolume,
+          handleMouseLeaveFromVideoWrapper,
+          handleMouseMoveOnVideoWrapper,
+        }) => (
           <div className={clsx('h-full w-full', isLivePage ? 'grid grid-cols-[1fr,22rem]' : 'block')}>
             <div className="funch-scrollable bg-bg-weak w-full">
-              <Live.VideoWrapper ref={videoWrapperRef}>
+              <Live.VideoWrapper
+                ref={videoWrapperRef}
+                isShowControls={isShowControls}
+                handleMouseMove={handleMouseMoveOnVideoWrapper}
+                handleMouseLeave={handleMouseLeaveFromVideoWrapper}
+              >
                 <Live.Video ref={videoRef} />
-                <Live.VideoControllersWrapper>
-                  <Live.Play play={play} />
-                  <Live.Pause pause={pause} />
-                  <Live.Mute toggleMute={toggleMute} />
-                  <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
-                  <Live.Pip pip={pip} />
-                  <Live.Fullscreen fullscreen={fullscreen} />
-                </Live.VideoControllersWrapper>
+                {isShowControls && (
+                  <Live.VideoControllersWrapper>
+                    <Live.Play play={play} />
+                    <Live.Pause pause={pause} />
+                    <Live.Mute toggleMute={toggleMute} />
+                    <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
+                    <Live.Pip pip={pip} />
+                    <Live.Fullscreen fullscreen={fullscreen} />
+                  </Live.VideoControllersWrapper>
+                )}
               </Live.VideoWrapper>
               {isLivePage && <Live.Info />}
             </div>

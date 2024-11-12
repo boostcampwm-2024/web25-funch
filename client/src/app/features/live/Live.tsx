@@ -28,17 +28,22 @@ const LiveController = ({
     volume: number;
     videoRef: RefObject<HTMLVideoElement>;
     videoWrapperRef: RefObject<HTMLDivElement>;
+    isShowControls: boolean;
     play: () => void;
     pause: () => void;
     fullscreen: () => void;
     pip: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleMouseMoveOnVideoWrapper: () => void;
+    handleMouseLeaveFromVideoWrapper: () => void;
   }) => ReactNode;
 }) => {
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
+  const [isShowControls, setIsShowControls] = useState(false);
 
   const play = () => {
     if (videoRef.current && videoRef.current.paused) {
@@ -75,6 +80,23 @@ const LiveController = ({
     setVolume(nextVolume);
   };
 
+  const handleMouseMoveOnVideoWrapper = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setIsShowControls(true);
+    timerRef.current = setTimeout(() => {
+      setIsShowControls(false);
+    }, 3000);
+  };
+
+  const handleMouseLeaveFromVideoWrapper = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setIsShowControls(false);
+  };
+
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = volume / 100;
@@ -104,26 +126,45 @@ const LiveController = ({
     volume,
     videoRef,
     videoWrapperRef,
+    isShowControls,
     play,
     pause,
     fullscreen,
     toggleMute,
     pip,
     handleChangeVolume,
+    handleMouseMoveOnVideoWrapper,
+    handleMouseLeaveFromVideoWrapper,
   });
 };
 
-const VideoWrapper = forwardRef(({ children }: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
-  return (
-    <div className="w-full" ref={ref}>
-      <div className="pb-live-aspect-ratio relative block w-full">{children}</div>
-    </div>
-  );
-});
+type VideoWrapperProps = PropsWithChildren<{
+  isShowControls: boolean;
+  handleMouseMove: () => void;
+  handleMouseLeave: () => void;
+}>;
+
+const VideoWrapper = forwardRef(
+  (
+    { children, isShowControls, handleMouseLeave, handleMouseMove }: VideoWrapperProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    return (
+      <div
+        className={clsx('w-full', isShowControls ? 'cursor-auto' : 'cursor-none')}
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="pb-live-aspect-ratio relative block w-full">{children}</div>
+      </div>
+    );
+  },
+);
 
 const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   return (
-    <div className="peer absolute left-0 top-0 h-full w-full">
+    <div className="absolute left-0 top-0 h-full w-full">
       <video
         ref={ref}
         className="bg-surface-static-black absolute left-0 top-0 h-full w-full"
@@ -134,8 +175,8 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   );
 });
 
-const VideoControllersWrapper = ({ children }: PropsWithChildren) => {
-  return <div className="absolute left-0 top-0 hidden peer-hover:block">{children}</div>;
+const VideoControllersWrapper = ({ children }: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
+  return <div className="funch-overlay absolute bottom-0 left-0 right-0 top-0">{children}</div>;
 };
 
 const PlayButton = ({ play }: { play: () => void }) => {
