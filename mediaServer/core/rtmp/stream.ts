@@ -6,10 +6,9 @@ import { connect } from '@core/rtmp/connect';
 import { createStream } from '@core/rtmp/createStream';
 import { publish } from '@core/rtmp/publish';
 import { decodeAMF } from '@core/rtmp/utils';
-
-import ffmpeg from 'fluent-ffmpeg';
-ffmpeg.setFfmpegPath('C:/ffmpeg/bin/ffmpeg.exe');
-ffmpeg.setFfprobePath('C:/ffmpeg/bin/ffmpeg.exe');
+import { createFlvHeader, previousTagSize0, createFlvTag } from './flv';
+import fs from 'fs';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
 const BASIC_HEADER_STATE = 0;
 const MESSAGE_HEADER_STATE = 1;
@@ -24,7 +23,7 @@ const WINDOW_ACK_SIZE = 5;
 const SET_PEER_BANDWIDTH = 6;
 
 const AUDIO_MESSAGE = 8;
-const VIDEO_MESSAGE = 9; 
+const VIDEO_MESSAGE = 9;
 
 const COMMAND_AMF0 = 20;
 const COMMAND_AMF3 = 17;
@@ -37,6 +36,9 @@ class RTMPStream {
   chunkSize: number;
   chunkMap: Map<number, RtmpChunk>;
   workingChunk: RtmpChunk;
+
+  ffmpeg: ChildProcessWithoutNullStreams;
+  storagePath = '../mediaStorage/zzawang'; // TODO: 스트림 키 검증 후 브로드캐스트 아이디 가져와서 Path에 등록
 
   constructor(private socket: net.Socket) {
     this.handshakeData = {
@@ -54,6 +56,129 @@ class RTMPStream {
     this.chunkSize = 128;
     this.chunkMap = new Map();
     this.workingChunk = createRtmpChunk();
+
+    this.ffmpeg = spawn('ffmpeg', [
+      '-loglevel',
+      'info',
+      '-re',
+      '-f',
+      'flv',
+      '-i',
+      '-',
+
+      // 1080p 출력 설정
+      '-map',
+      '0:v',
+      '-map',
+      '0:a',
+      '-s:v:0',
+      '1920x1080',
+      '-c:v:0',
+      'libx264',
+      '-b:v:0',
+      '5000k', // 비트레이트 설정
+      '-c:a:0',
+      'aac',
+      '-b:a:0',
+      '192k',
+      '-hls_fmp4_init_filename',
+      'chunkList_1080p_0_0.mp4',
+      '-hls_time',
+      '2',
+      '-hls_list_size',
+      '3',
+      '-hls_segment_type',
+      'fmp4',
+      '-hls_flags',
+      'delete_segments+split_by_time+independent_segments+omit_endlist',
+      '-f',
+      'hls',
+      `${this.storagePath}/chunklist_1080p_.m3u8`,
+
+      // 720p 출력 설정
+      '-map',
+      '0:v',
+      '-map',
+      '0:a',
+      '-s:v:1',
+      '1280x720',
+      '-c:v:1',
+      'libx264',
+      '-b:v:1',
+      '3000k',
+      '-c:a:1',
+      'aac',
+      '-b:a:1',
+      '128k',
+      '-hls_fmp4_init_filename',
+      'chunkList_720p_0_0.mp4',
+      '-hls_time',
+      '2',
+      '-hls_list_size',
+      '3',
+      '-hls_segment_type',
+      'fmp4',
+      '-hls_flags',
+      'delete_segments+split_by_time+independent_segments+omit_endlist',
+      '-f',
+      'hls',
+      `${this.storagePath}/chunklist_720p_.m3u8`,
+
+      // 480p 출력 설정
+      '-map',
+      '0:v',
+      '-map',
+      '0:a',
+      '-s:v:2',
+      '854x480',
+      '-c:v:2',
+      'libx264',
+      '-b:v:2',
+      '1500k',
+      '-c:a:2',
+      'aac',
+      '-b:a:2',
+      '96k',
+      '-hls_fmp4_init_filename',
+      'chunkList_480p_0_0.mp4',
+      '-hls_time',
+      '2',
+      '-hls_list_size',
+      '3',
+      '-hls_segment_type',
+      'fmp4',
+      '-hls_flags',
+      'delete_segments+split_by_time+independent_segments+omit_endlist',
+      '-f',
+      'hls',
+      `${this.storagePath}/chunklist_480p_.m3u8`,
+    ]);
+
+    if (!fs.existsSync(this.storagePath)) {
+      fs.mkdirSync(this.storagePath, { recursive: true });
+    }
+
+    fs.watch(this.storagePath, () => {
+      // if (filename === 'chunklist_1080p_50.ts' && this.maxCount === 1) {
+      //   this.maxCount++;
+      //   console.timeEnd('ts time check: ');
+      // }
+    });
+
+    this.ffmpeg.stderr.on('data', (data) => {
+      console.error(`FFmpeg stderr: ${data}`);
+    });
+
+    this.ffmpeg.on('close', (code) => {
+      console.log(`FFmpeg process exited with code ${code}`);
+    });
+
+    this.ffmpeg.on('error', (code) => {
+      console.log(`FFmpeg process error with code ${code}`);
+    });
+
+    this.ffmpeg.stdin.write(createFlvHeader());
+    this.ffmpeg.stdin.write(previousTagSize0);
   }
 
   run() {
@@ -67,20 +192,27 @@ class RTMPStream {
     if (!this.isHandshakeDone) {
       this.isHandshakeDone = handshake(this.socket, data, this.handshakeData);
     } else {
-      this.separateRtmpChunk(data);
+      try {
+        this.parseRtmpChunk(data);
+      } catch (e) {
+        console.log('parse error: ', e);
+      }
     }
   }
 
   closeEvent() {
+    console.log('Close Socket Event!');
     this.socket.end();
   }
 
   errorEvent(error) {
+    console.log('Error Socket Event!');
     console.error(error);
     this.socket.destroy();
   }
 
   timeoutEvent() {
+    console.log('Timeout Socket Event!');
     this.socket.destroy();
   }
 
@@ -102,8 +234,7 @@ class RTMPStream {
         break;
       case 19:
       case 16:
-        const sharedObjMessage = decodeAMF(typeId, this.workingChunk.payload, 19, 16);
-        console.log("shared Object Message ", sharedObjMessage);
+        console.log('shared Object Message ', decodeAMF(typeId, this.workingChunk.payload, 19, 16));
         break;
       default:
         // TODO: 데이터 메시지 처리
@@ -113,19 +244,24 @@ class RTMPStream {
   }
 
   handleControlMessage(typeId: number) {
-    switch(typeId) {
+    switch (typeId) {
       case SET_CHUNK_SIZE:
         this.chunkSize = this.workingChunk.payload.readUInt32BE();
         break;
       case ABORT_MESSAGE:
+        console.log('ABORT_MESSAGE');
         break;
       case ACK:
+        console.log('ACK');
         break;
       case USER_CONTROL_MESSAGE:
+        console.log('USER_CONTROL_MESSAGE');
         break;
       case WINDOW_ACK_SIZE:
+        console.log('WINDOW_ACK_SIZE');
         break;
       case SET_PEER_BANDWIDTH:
+        console.log('SET_PEER_BANDWIDTH');
         break;
     }
   }
@@ -153,11 +289,11 @@ class RTMPStream {
     }
   }
 
-  async handleDataMessage(typeId: number) {  
+  handleDataMessage(typeId: number) {
     switch (typeId) {
-      case VIDEO_MESSAGE:
-        break;
       case AUDIO_MESSAGE:
+      case VIDEO_MESSAGE:
+        this.ffmpeg.stdin.write(createFlvTag(this.workingChunk));
         break;
     }
   }
@@ -187,7 +323,7 @@ class RTMPStream {
 
     while (offset < data.length) {
       switch (currentChunkState % 4) {
-        case BASIC_HEADER_STATE:
+        case BASIC_HEADER_STATE: {
           const basicHeaderBuf = data.subarray(offset, offset + 1)[0];
           const basicHeaderType = basicHeaderBuf & 0x3f;
           let basicHeaderBytes = 1;
@@ -196,7 +332,6 @@ class RTMPStream {
           } else if (basicHeaderType === 1) {
             basicHeaderBytes = 3;
           }
-          
           const { chunkType, chunkStreamId } = parseBasicHeader(data.subarray(offset, offset + basicHeaderBytes));
           if (!this.chunkMap.has(chunkStreamId)) {
             this.workingChunk = createRtmpChunk(chunkType, chunkStreamId);
@@ -215,7 +350,7 @@ class RTMPStream {
           currentChunkState += 1;
           break;
         }
-          
+
         case MESSAGE_HEADER_STATE: {
           let messageHeaderBytes = 0;
           if (this.workingChunk.basicHeader.chunkType === 0) {
@@ -286,7 +421,7 @@ class RTMPStream {
             data.subarray(offset, offset + minimumValid),
           ]);
           offset += minimumValid;
-        
+
           currentChunkState += 1;
           if (this.workingChunk.payload.length === this.workingChunk.messageHeader.messageLength) {
             this.handleMessage();
