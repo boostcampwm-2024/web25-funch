@@ -162,14 +162,27 @@ class RTMPStream {
     }
   }
 
-  separateRtmpChunk(data: Buffer) {
+  parseRtmpChunk(data: Buffer) {
     let offset = 0;
     let currentChunkState = 0;
 
-    if(this.workingChunk.extraBytes > 0) {
-      this.workingChunk.payload = Buffer.concat([this.workingChunk.payload, data.subarray(offset, this.workingChunk.extraBytes)]);
+    if (this.workingChunk.extraBytes > 0) {
+      this.workingChunk.payload = Buffer.concat([
+        this.workingChunk.payload,
+        data.subarray(offset, this.workingChunk.extraBytes),
+      ]);
       offset += this.workingChunk.extraBytes;
       this.workingChunk.extraBytes = 0;
+
+      if (this.workingChunk.payload.length === this.workingChunk.messageHeader.messageLength) {
+        this.handleMessage();
+        this.workingChunk.payload = Buffer.alloc(0);
+      }
+    }
+
+    if (this.workingChunk.headerBytes.length > 0) {
+      data = Buffer.concat([this.workingChunk.headerBytes, data]);
+      this.workingChunk.headerBytes = Buffer.alloc(0);
     }
 
     while (offset < data.length) {
@@ -193,11 +206,17 @@ class RTMPStream {
             this.workingChunk.basicHeader.chunkType = chunkType;
           }
 
+          this.workingChunk.headerBytes = Buffer.concat([
+            this.workingChunk.headerBytes,
+            data.subarray(offset, offset + basicHeaderBytes),
+          ]);
+
           offset += basicHeaderBytes;
           currentChunkState += 1;
           break;
+        }
           
-        case MESSAGE_HEADER_STATE:
+        case MESSAGE_HEADER_STATE: {
           let messageHeaderBytes = 0;
           if (this.workingChunk.basicHeader.chunkType === 0) {
             messageHeaderBytes = 11;
@@ -210,45 +229,71 @@ class RTMPStream {
             break;
           }
 
+          // 남은 data가 메시지 헤더 길이보다 부족하면
+          if (messageHeaderBytes > data.subarray(offset, offset + messageHeaderBytes).length) {
+            this.workingChunk.headerBytes = Buffer.concat([this.workingChunk.headerBytes, data.subarray(offset)]);
+            return;
+          }
+
           this.workingChunk.messageHeader = parseMessageHeader(
             this.workingChunk.messageHeader,
             this.workingChunk.basicHeader.chunkType,
             data.subarray(offset, offset + messageHeaderBytes),
           );
 
+          this.workingChunk.headerBytes = Buffer.concat([
+            this.workingChunk.headerBytes,
+            data.subarray(offset, offset + messageHeaderBytes),
+          ]);
+
           offset += messageHeaderBytes;
           currentChunkState += 1;
           break;
+        }
 
-        case EXTENDED_TIMESTAMP_STATE:
+        case EXTENDED_TIMESTAMP_STATE: {
           const EXTENDED_TIMESTAMP_FLAG = this.workingChunk.messageHeader.timestamp === 0xffffff;
           if (EXTENDED_TIMESTAMP_FLAG) {
+            if (data.length < offset + 4) {
+              this.workingChunk.headerBytes = Buffer.concat([this.workingChunk.headerBytes, data.subarray(offset)]);
+              return;
+            }
+
             this.workingChunk.extendedTimestamp = data.subarray(offset, offset + 4).readUInt32BE();
             offset += 4;
           }
 
           currentChunkState += 1;
-          break;
 
-        case PAYLOAD_STATE:
+          this.workingChunk.headerBytes = Buffer.alloc(0);
+          break;
+        }
+
+        case PAYLOAD_STATE: {
           const messageLength = this.workingChunk.messageHeader.messageLength;
           const availablePayloadLength = Math.min(messageLength - this.workingChunk.payload.length, this.chunkSize);
           const minimumValid = Math.min(availablePayloadLength, data.subarray(offset).length);
 
-          if(((this.workingChunk.messageHeader.messageLength - this.workingChunk.payload.length) > this.chunkSize) && (data.subarray(offset).length < this.chunkSize)) {
-            this.workingChunk.extraBytes = this.chunkSize  - minimumValid;
+          if (
+            this.workingChunk.messageHeader.messageLength - this.workingChunk.payload.length > this.chunkSize &&
+            data.subarray(offset).length < this.chunkSize
+          ) {
+            this.workingChunk.extraBytes = this.chunkSize - minimumValid;
           }
 
-          this.workingChunk.payload = Buffer.concat([this.workingChunk.payload, data.subarray(offset, offset + minimumValid)]);
+          this.workingChunk.payload = Buffer.concat([
+            this.workingChunk.payload,
+            data.subarray(offset, offset + minimumValid),
+          ]);
           offset += minimumValid;
         
           currentChunkState += 1;
-          if(this.workingChunk.payload.length === this.workingChunk.messageHeader.messageLength) {
+          if (this.workingChunk.payload.length === this.workingChunk.messageHeader.messageLength) {
             this.handleMessage();
             this.workingChunk.payload = Buffer.alloc(0);
           }
-
           break;
+        }
       }
     }
   }
