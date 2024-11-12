@@ -123,7 +123,7 @@ const VideoWrapper = forwardRef(({ children }: PropsWithChildren, ref: Forwarded
 
 const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   return (
-    <div className="absolute left-0 top-0 h-full w-full">
+    <div className="peer absolute left-0 top-0 h-full w-full">
       <video
         ref={ref}
         className="bg-surface-static-black absolute left-0 top-0 h-full w-full"
@@ -135,7 +135,7 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
 });
 
 const VideoControllersWrapper = ({ children }: PropsWithChildren) => {
-  return <div className="absolute left-0 top-0">{children}</div>;
+  return <div className="absolute left-0 top-0 hidden peer-hover:block">{children}</div>;
 };
 
 const PlayButton = ({ play }: { play: () => void }) => {
