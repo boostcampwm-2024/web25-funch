@@ -7,6 +7,7 @@ import Header from './components/layout/Header';
 import GlobalProvider from './GlobalProvider';
 import Cabinet from '@components/cabinet/Cabinet';
 import LiveSection from './features/live/LiveSection';
+import LiveProvider from '@providers/LiveProvider';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -40,7 +41,9 @@ const RootLayout = ({
               {/* {!wideView && <Cabinet />} */}
               <Main>
                 {children}
-                <LiveSection />
+                <LiveProvider>
+                  <LiveSection />
+                </LiveProvider>
               </Main>
             </GlobalProvider>
           </MswInitializer>

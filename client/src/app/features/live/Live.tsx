@@ -12,12 +12,14 @@ import {
   useState,
 } from 'react';
 import Hls from 'hls.js';
+import useLiveContext from '@hooks/useLiveContext';
 
 const LiveController = ({
   children,
 }: {
   children: (args: {
-    isStreaming: boolean;
+    isLivePage: boolean;
+    liveId: string | null;
     volume: number;
     videoRef: RefObject<HTMLVideoElement>;
     videoWrapperRef: RefObject<HTMLDivElement>;
@@ -29,8 +31,7 @@ const LiveController = ({
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   }) => ReactNode;
 }) => {
-  // 유효한 스트리밍인지 어떻게 알 수 있을까?
-  const [isStreaming, setIsStreaming] = useState(true);
+  const { isLivePage, liveId } = useLiveContext();
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
@@ -99,7 +100,8 @@ const LiveController = ({
   }, []);
 
   return children({
-    isStreaming,
+    isLivePage,
+    liveId,
     volume,
     videoRef,
     videoWrapperRef,
