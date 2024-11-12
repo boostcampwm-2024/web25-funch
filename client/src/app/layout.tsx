@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { type PropsWithChildren } from 'react';
+import { Suspense, type PropsWithChildren } from 'react';
 import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import MswInitializer from './MswInitializer';
@@ -31,7 +31,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="ko">
-      <body className={`${notoSansKR.className} antialiased`}>
+      <body suppressHydrationWarning={true} className={`${notoSansKR.className} antialiased`}>
         <Layout>
           <MswInitializer>
             <GlobalProvider>
