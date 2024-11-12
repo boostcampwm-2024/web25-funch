@@ -33,6 +33,8 @@ const LiveController = ({
     pause: () => void;
     fullscreen: () => void;
     pip: () => void;
+    quitPip: () => void;
+    quitFullscreen: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
     handleMouseMoveOnVideoWrapper: () => void;
@@ -57,9 +59,21 @@ const LiveController = ({
     }
   };
 
+  const quitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  };
+
   const pip = () => {
     if (videoRef.current && videoRef.current.requestPictureInPicture) {
       videoRef.current.requestPictureInPicture();
+    }
+  };
+
+  const quitPip = () => {
+    if (document.exitPictureInPicture) {
+      document.exitPictureInPicture();
     }
   };
 
@@ -130,8 +144,10 @@ const LiveController = ({
     play,
     pause,
     fullscreen,
+    quitFullscreen,
     toggleMute,
     pip,
+    quitPip,
     handleChangeVolume,
     handleMouseMoveOnVideoWrapper,
     handleMouseLeaveFromVideoWrapper,
@@ -184,11 +200,138 @@ const PlayButton = ({ play }: { play: () => void }) => {
 };
 
 const FullscreenButton = ({ fullscreen }: { fullscreen: () => void }) => {
-  return <button onClick={fullscreen}>풀스크린</button>;
+  return (
+    <button onClick={fullscreen}>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 30 30"
+        className="pzp-ui-icon__svg"
+      >
+        <g fill="#FFF" fill-rule="nonzero">
+          <path d="M19.564 19.964H16.6a.2.2 0 0 0-.2.2V22.4c0 .11.09.2.2.2h5a1 1 0 0 0 1-1v-5a.2.2 0 0 0-.2-.2h-2.236a.2.2 0 0 0-.2.2v2.964a.4.4 0 0 1-.4.4zM19.992 10.436V13.4c0 .11.09.2.2.2h2.237a.2.2 0 0 0 .2-.2v-5a1 1 0 0 0-1-1h-5a.2.2 0 0 0-.2.2v2.236c0 .11.09.2.2.2h2.963c.221 0 .4.18.4.4zM10.065 19.564V16.6a.2.2 0 0 0-.2-.2H7.629a.2.2 0 0 0-.2.2v5a1 1 0 0 0 1 1h5a.2.2 0 0 0 .2-.2v-2.236a.2.2 0 0 0-.2-.2h-2.964a.4.4 0 0 1-.4-.4zM10.465 10.036h2.964a.2.2 0 0 0 .2-.2V7.6a.2.2 0 0 0-.2-.2h-5a1 1 0 0 0-1 1v5c0 .11.09.2.2.2h2.236a.2.2 0 0 0 .2-.2v-2.964c0-.22.179-.4.4-.4z"></path>
+        </g>
+      </svg>
+    </button>
+  );
+};
+
+const FullscreenQuitButton = ({ quitFullscreen }: { quitFullscreen: () => void }) => {
+  return (
+    <button onClick={quitFullscreen}>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 30 30"
+        className="pzp-ui-icon__svg"
+      >
+        <g fill="#FFF" fill-rule="evenodd" stroke="#FFF" stroke-width=".5">
+          <path
+            d="M.2 5.357c-.11 0-.2-.09-.2-.2V3.63c0-.11.09-.2.2-.2l3.015.001V3.43h.014c.092 0 .17-.063.192-.147l.008-.053v-.014h.001L3.43.2c0-.11.09-.2.2-.2h1.528c.11 0 .2.09.2.2v4.257c0 .497-.403.9-.9.9H.2zM14.8 5.357c.11 0 .2-.09.2-.2V3.63c0-.11-.09-.2-.2-.2l-3.015.001V3.43h-.014c-.092 0-.17-.063-.192-.147l-.008-.053v-.014h-.001L11.57.2c0-.11-.09-.2-.2-.2H9.843c-.11 0-.2.09-.2.2v4.257c0 .497.403.9.9.9H14.8zM3.429 14.786c0 .118.096.214.214.214h1.5c.118 0 .214-.096.214-.214v-4.179c0-.266-.108-.507-.282-.682-.175-.174-.416-.282-.682-.282H.214c-.118 0-.214.096-.214.214v1.5c0 .118.096.214.214.214h3c.119 0 .215.096.215.215v3zM14.786 11.571c.118 0 .214-.096.214-.214v-1.5c0-.118-.096-.214-.214-.214h-4.179c-.266 0-.507.108-.682.282-.174.175-.282.416-.282.682v4.179c0 .118.096.214.214.214h1.5c.118 0 .214-.096.214-.214v-3c0-.119.096-.215.215-.215h3z"
+            transform="translate(7.5 7.5)"
+          ></path>
+        </g>
+      </svg>
+    </button>
+  );
+};
+
+const PipQuitButton = ({ quitPip }: { quitPip: () => void }) => {
+  return (
+    <button onClick={quitPip}>
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="17.75" y="18.5" width="9" height="6" rx="1" fill="white"></rect>{' '}
+        <rect
+          x="17.25"
+          y="18"
+          width="10"
+          height="7"
+          rx="1.5"
+          stroke="black"
+          stroke-opacity="0.1"
+          stroke-linejoin="round"
+        ></rect>{' '}
+        <path
+          d="M16.25 18L12.75 14.5"
+          stroke="white"
+          strokeWidth="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>{' '}
+        <path
+          d="M16.25 15L16.25 18L13.25 18"
+          stroke="white"
+          strokeWidth="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9.25 12.75C9.25 11.7835 10.0335 11 11 11H25C25.9665 11 26.75 11.7835 26.75 12.75V16H25.25V12.75C25.25 12.6119 25.1381 12.5 25 12.5H11C10.8619 12.5 10.75 12.6119 10.75 12.75V22.75C10.75 22.8881 10.8619 23 11 23H15.25V24.5H11C10.0335 24.5 9.25 23.7165 9.25 22.75V12.75Z"
+          fill="white"
+        ></path>{' '}
+        <path
+          d="M26.75 16.5C27.0261 16.5 27.25 16.2761 27.25 16V12.75C27.25 11.5074 26.2426 10.5 25 10.5H11C9.75736 10.5 8.75 11.5074 8.75 12.75V22.75C8.75 23.9926 9.75736 25 11 25H15.25C15.5261 25 15.75 24.7761 15.75 24.5V23C15.75 22.7239 15.5261 22.5 15.25 22.5H11.25V13H24.75V16C24.75 16.2761 24.9739 16.5 25.25 16.5H26.75Z"
+          stroke="black"
+          stroke-opacity="0.1"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  );
 };
 
 const PipButton = ({ pip }: { pip: () => void }) => {
-  return <button onClick={pip}>PIP</button>;
+  return (
+    <button onClick={pip}>
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="17.75" y="18.5" width="9" height="6" rx="1" fill="white"></rect>{' '}
+        <rect
+          x="17.25"
+          y="18"
+          width="10"
+          height="7"
+          rx="1.5"
+          stroke="black"
+          stroke-opacity="0.1"
+          stroke-linejoin="round"
+        ></rect>{' '}
+        <path
+          d="M16.25 18L12.75 14.5"
+          stroke="white"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>{' '}
+        <path
+          d="M16.25 15L16.25 18L13.25 18"
+          stroke="white"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9.25 12.75C9.25 11.7835 10.0335 11 11 11H25C25.9665 11 26.75 11.7835 26.75 12.75V16H25.25V12.75C25.25 12.6119 25.1381 12.5 25 12.5H11C10.8619 12.5 10.75 12.6119 10.75 12.75V22.75C10.75 22.8881 10.8619 23 11 23H15.25V24.5H11C10.0335 24.5 9.25 23.7165 9.25 22.75V12.75Z"
+          fill="white"
+        ></path>{' '}
+        <path
+          d="M26.75 16.5C27.0261 16.5 27.25 16.2761 27.25 16V12.75C27.25 11.5074 26.2426 10.5 25 10.5H11C9.75736 10.5 8.75 11.5074 8.75 12.75V22.75C8.75 23.9926 9.75736 25 11 25H15.25C15.5261 25 15.75 24.7761 15.75 24.5V23C15.75 22.7239 15.5261 22.5 15.25 22.5H11.25V13H24.75V16C24.75 16.2761 24.9739 16.5 25.25 16.5H26.75Z"
+          stroke="black"
+          stroke-opacity="0.1"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  );
 };
 
 const PauseButton = ({ pause }: { pause: () => void }) => {
