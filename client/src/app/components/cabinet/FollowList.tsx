@@ -45,9 +45,9 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
               <img
                 src={follow.streamer?.profileImage}
                 alt={follow.title}
-                className="border-border-brand-strong box-content h-8 w-8 rounded-full"
+                className="border-border-brand-strong mt-[6px] box-content h-8 w-8 rounded-full"
               />
-              <section className="flex w-full pl-3">
+              <section className="flex w-full pl-[10px]">
                 <section className="flex w-2/3 flex-1 flex-col">
                   <div className="text-surface-neutral-inverse funch-bold14">{follow.streamer.name}</div>
                   <div className="funch-bold14">{follow.category}</div>
@@ -63,19 +63,19 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
       ) : (
         <div className="relative">
           <div
-            className={`border-neutral-weak funch-desktop:justify-start peer relative flex w-full items-center rounded-md py-3 pl-2 ${follow.isStreaming && 'pl-[5px]'}`}
+            className={`border-neutral-weak funch-desktop:justify-start peer relative flex w-full items-center rounded-md py-3 pl-1 ${follow.isStreaming && 'pl-[5px]'}`}
           >
             <img
               src={follow.streamer?.profileImage}
               alt={follow.title}
-              className={`border-border-brand-strong box-content h-8 w-8 rounded-full ${follow.isStreaming && 'border-2 hover:m-[-2px] hover:border-4'}`}
+              className={`border-border-brand-strong box-content h-8 w-8 rounded-full ${follow.isStreaming && 'mx-[-1px] border-2 hover:m-[-2.2px] hover:border-4'}`}
             />
           </div>
           {follow.isStreaming && (
             <div className="bg-surface-neutral-base z-100 absolute left-14 top-3 hidden h-32 w-52 flex-col rounded-md p-3 peer-hover:flex">
               <div className="flex h-1/4 w-full items-center gap-2 truncate">
                 <div className="text-content-brand-strong funch-bold16">{follow.streamer.name}</div>
-                <div className="funch-bold14 border-border-neutral-base rounded-md border-2 p-[3px]">
+                <div className="funch-bold14 bg-content-static-coolgray rounded-md border-2 p-[3px]">
                   {follow.tags[0]}
                 </div>
               </div>
