@@ -7,13 +7,26 @@ import LoginBtn from './LoginBtn';
 import ThemeController from './ThemeController';
 import useUser from '@hooks/useUser';
 import LogoutBtn from './LogoutBtn';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const ToolBar = () => {
+  const pathname = usePathname();
   const { isLoggedin } = useUser();
   return (
     <div className="bg-bg-base flex h-full w-full items-center justify-between px-4">
       <h1>
-        <a href="/" title="펀치 홈으로" className="relative grid h-12 grid-cols-[2.5rem,1fr] items-center gap-1">
+        <Link
+          href="/"
+          onClick={(e) => {
+            if (pathname === '/') {
+              e.preventDefault();
+              location.reload();
+            }
+          }}
+          title="펀치 홈으로"
+          className="relative grid h-12 grid-cols-[2.5rem,1fr] items-center gap-1"
+        >
           <span className="inline-flex h-full w-12 items-center justify-center">
             <FunchSvg />
           </span>
@@ -21,7 +34,7 @@ const ToolBar = () => {
             FUNCH
           </span>
           <span className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">펀치</span>
-        </a>
+        </Link>
       </h1>
       <div className="flex items-center gap-4">
         <div className="flex h-full items-center gap-1">

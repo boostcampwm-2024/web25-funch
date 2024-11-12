@@ -1,11 +1,14 @@
 'use client';
 
+import { Live } from '@libs/internalTypes';
+import { mockedLives } from '@mocks/lives';
 import { useParams, usePathname } from 'next/navigation';
 import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 
 type LiveContextType = {
   isLivePage: boolean;
   liveId: string | null;
+  liveInfo: Live | null;
 };
 
 export const LiveContext = createContext<LiveContextType | null>(null);
@@ -14,11 +17,13 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isLivePage = pathname.split('/')[1] === 'lives';
 
+  const [liveInfo, setLiveInfo] = useState<Live | null>(null);
+
   const { id } = useParams() as { id: string };
 
   const [isLoading, setIsLoading] = useState(false);
   // 로딩 처리 어떻게???
-  const [liveId, setLiveId] = useState<string | null>('iugkugkuku');
+  const [liveId, setLiveId] = useState<string | null>(null);
 
   /*
   isLivePage <- 이거 확인할 수 있어야 함.
@@ -47,9 +52,20 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   */
 
   useEffect(() => {
+    const fetchLive = async (id: string) => {
+      if (!id) return;
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const a = [null, 'ahahah'];
+      const randomIndex = Math.floor(Math.random() * a.length);
+      setLiveId(a[randomIndex]);
+      setLiveInfo(mockedLives[0]);
+      setIsLoading(false);
+    };
+
     if (isLivePage) {
       // id로 스트리밍 중인 방송이 있는지 확인
-      // setIsLoading(); 어쩌구 저쩌구?
+      fetchLive(id);
     }
   }, [id, isLivePage]);
 
@@ -58,6 +74,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
       value={{
         isLivePage,
         liveId,
+        liveInfo,
       }}
     >
       {isLoading ? null : children}
