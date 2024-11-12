@@ -19,6 +19,7 @@ interface RtmpChunk {
   extendedTimestamp: number;
   payload: Buffer;
   extraBytes: number;
+  headerBytes: Buffer;
 }
 
 function createRtmpChunk(chunkType = 0, chunkStreamId = 0): RtmpChunk {
@@ -37,6 +38,7 @@ function createRtmpChunk(chunkType = 0, chunkStreamId = 0): RtmpChunk {
     extendedTimestamp: 0,
     payload: Buffer.alloc(0),
     extraBytes: 0,
+    headerBytes: Buffer.alloc(0),
   };
 }
 
