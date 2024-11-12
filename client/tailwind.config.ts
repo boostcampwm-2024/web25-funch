@@ -7,9 +7,12 @@ import {
   // home
   HOME_MIN_HEIGHT,
   // live
+  LIVE_SECTION_DEFAULT_HEIGHT,
   LIVE_X_GAP,
   LIVE_WIDTH,
   LIVE_ASPECT_RATIO,
+  LIVE_PIP_WIDTH,
+  LIVE_PIP_HEIGHT,
   // search
   SEARCH_WIDTH,
   SEARCH_WIDTH_WIDE,
@@ -31,9 +34,12 @@ const config: Config = {
         live: LIVE_WIDTH,
         search: SEARCH_WIDTH,
         'search-wide': SEARCH_WIDTH_WIDE,
+        'live-pip': LIVE_PIP_WIDTH,
       },
       height: {
         header: HEADER_HEIGHT,
+        'live-section': LIVE_SECTION_DEFAULT_HEIGHT,
+        'live-pip': LIVE_PIP_HEIGHT,
       },
       minHeight: {
         home: HOME_MIN_HEIGHT,
