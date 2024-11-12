@@ -3,10 +3,10 @@
 import {
   type ChangeEvent,
   type ForwardedRef,
-  forwardRef,
   type PropsWithChildren,
   type ReactNode,
   type RefObject,
+  forwardRef,
   useEffect,
   useRef,
   useState,
@@ -25,7 +25,8 @@ const LiveController = ({
     pause: () => void;
     fullscreen: () => void;
     pip: () => void;
-    handleChangeVolue: (e: ChangeEvent<HTMLInputElement>) => void;
+    toggleMute: () => void;
+    handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   }) => ReactNode;
 }) => {
   // 유효한 스트리밍인지 어떻게 알 수 있을까?
@@ -58,7 +59,13 @@ const LiveController = ({
     }
   };
 
-  const handleChangeVolue = (e: ChangeEvent<HTMLInputElement>) => {
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+    }
+  };
+
+  const handleChangeVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const nextVolume = Number(e.target.value);
     setVolume(nextVolume);
   };
@@ -78,9 +85,9 @@ const LiveController = ({
       );
       hls.attachMedia(videoRef.current);
 
-      // hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      //   videoRef.current!.play();
-      // });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        videoRef.current!.play();
+      });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
       videoRef.current.src =
@@ -99,25 +106,29 @@ const LiveController = ({
     play,
     pause,
     fullscreen,
+    toggleMute,
     pip,
-    handleChangeVolue,
+    handleChangeVolume,
   });
 };
 
 const VideoWrapper = forwardRef(({ children }: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <div className="w-full" ref={ref}>
-      {children}
+      <div className="pb-live-aspect-ratio relative block w-full">{children}</div>
     </div>
   );
 });
 
 const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   return (
-    <div className="pb-live-aspect-ratio relative w-full">
-      <div className="absolute left-0 top-0 h-full w-full">
-        <video ref={ref} controls autoPlay controlsList="nodownload" width="100%" height="100%" playsInline />
-      </div>
+    <div className="absolute left-0 top-0 h-full w-full">
+      <video
+        ref={ref}
+        className="bg-surface-static-black absolute left-0 top-0 h-full w-full"
+        controlsList="nodownload"
+        playsInline
+      />
     </div>
   );
 });
@@ -138,14 +149,18 @@ const PauseButton = ({ pause }: { pause: () => void }) => {
   return <button onClick={pause}>일시정지</button>;
 };
 
+const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
+  return <button onClick={toggleMute}>음소거</button>;
+};
+
 const VolumeController = ({
   volume,
-  handleChangeVolue,
+  handleChangeVolume,
 }: {
   volume: number;
-  handleChangeVolue: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
-  return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolue} />;
+  return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
 };
 
 const Live = Object.assign(LiveController, {
@@ -155,6 +170,7 @@ const Live = Object.assign(LiveController, {
   Fullscreen: FullscreenButton,
   Pip: PipButton,
   Pause: PauseButton,
+  Mute: MuteButton,
   Volume: VolumeController,
 });
 
