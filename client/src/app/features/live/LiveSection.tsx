@@ -1,19 +1,11 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
-import LiveProvider from '@providers/LiveProvider';
-import NoLiveContent from './NoLiveContent';
 import Live from './Live';
+import useLiveContext from '@hooks/useLiveContext';
+import NoLiveContent from './NoLiveContent';
 
 const LiveSection = () => {
-  const pathname = usePathname();
-
-  if (pathname.split('/')[1] !== 'lives') return null;
-
-  const { id } = useParams();
-  console.log('id', id); // <- hls id? live streaming id?
-  // 이 id 값으로 현재 스트리밍이 유효한지 알려주는 API를 호출해야 할 것 같다.
-
+  const { isLivePage, liveId } = useLiveContext();
   // ** lives 페이지라면 [id]에 해당하는 스트리밍 중인 방송이 있는지 확인하여
   // 없으면 NoLiveContent를 보여주고,(liveId를 null로)
   // 있으면 확장된 Live 섹션을 보여준다.(liveId를 id로)
@@ -45,46 +37,47 @@ const LiveSection = () => {
   // if liveId === null
   // 3.1 아무것도 보여주지 않기
 
+  if (!isLivePage && liveId === null) return null;
+
+  if (isLivePage && liveId === null) return <NoLiveContent />;
+
   return (
-    <LiveProvider>
-      <section>
-        <Live>
-          {({
-            isStreaming,
-            videoRef,
-            videoWrapperRef,
-            toggleMute,
-            play,
-            pause,
-            fullscreen,
-            pip,
-            volume,
-            handleChangeVolume,
-          }) => (
-            <>
-              {isStreaming ? (
-                <>
-                  <Live.VideoWrapper ref={videoWrapperRef}>
-                    <Live.Video ref={videoRef} />
-                  </Live.VideoWrapper>
-                  <div>
-                    <p>hihihi</p>
-                    <Live.Play play={play} />
-                    <Live.Fullscreen fullscreen={fullscreen} />
-                    <Live.Pip pip={pip} />
-                    <Live.Pause pause={pause} />
-                    <Live.Mute toggleMute={toggleMute} />
-                    <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
-                  </div>
-                </>
-              ) : (
-                <NoLiveContent />
-              )}
-            </>
-          )}
-        </Live>
-      </section>
-    </LiveProvider>
+    <section className="w-full">
+      {/*
+        !isLivePage && liveId === null -> null
+
+        나머지 = children?
+      */}
+      <Live>
+        {({
+          liveId,
+          videoRef,
+          videoWrapperRef,
+          toggleMute,
+          play,
+          pause,
+          fullscreen,
+          pip,
+          volume,
+          handleChangeVolume,
+        }) => (
+          <>
+            <Live.VideoWrapper ref={videoWrapperRef}>
+              <Live.Video ref={videoRef} />
+            </Live.VideoWrapper>
+            <div>
+              <p>hihihi</p>
+              <Live.Play play={play} />
+              <Live.Fullscreen fullscreen={fullscreen} />
+              <Live.Pip pip={pip} />
+              <Live.Pause pause={pause} />
+              <Live.Mute toggleMute={toggleMute} />
+              <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
+            </div>
+          </>
+        )}
+      </Live>
+    </section>
   );
 };
 
