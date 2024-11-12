@@ -2,7 +2,7 @@
 
 import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 import type { AppTheme } from '@libs/internalTypes';
-import { appTheme } from '@libs/constants';
+import { appTheme, LOCAL_STORAGE_THEME_KEY } from '@libs/constants';
 
 type ThemeContextType = {
   theme: AppTheme;
@@ -24,17 +24,28 @@ const ThemeProvider = ({ children }: Props) => {
   const [theme, setTheme] = useState<AppTheme>(appTheme.LIGHT);
 
   const toggleTheme = () => {
+    if (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) === appTheme.DARK) {
+      localStorage.setItem(LOCAL_STORAGE_THEME_KEY, appTheme.LIGHT);
+    } else {
+      localStorage.setItem(LOCAL_STORAGE_THEME_KEY, appTheme.DARK);
+    }
     setTheme((prevTheme) => (prevTheme === appTheme.LIGHT ? appTheme.DARK : appTheme.LIGHT));
   };
 
-  const setLightTheme = () => setTheme(appTheme.LIGHT);
+  const setLightTheme = () => {
+    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, appTheme.LIGHT);
+    setTheme(appTheme.LIGHT);
+  };
 
-  const setDarkTheme = () => setTheme(appTheme.DARK);
+  const setDarkTheme = () => {
+    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, appTheme.DARK);
+    setTheme(appTheme.DARK);
+  };
 
   useEffect(() => {
     if (
       localStorage.theme === appTheme.DARK ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      (!(LOCAL_STORAGE_THEME_KEY in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
       setDarkTheme();
     } else {
