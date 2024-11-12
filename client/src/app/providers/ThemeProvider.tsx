@@ -43,7 +43,6 @@ const ThemeProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log('theme', theme);
     if (theme === appTheme.DARK) {
       document.documentElement.classList.add('dark');
     } else {
