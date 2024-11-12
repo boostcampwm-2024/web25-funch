@@ -2,14 +2,18 @@
 
 import ChatFoldSvg from '@components/svgs/ChatFoldSvg';
 import DottedSvg from '@components/svgs/DottedSvg';
+import Button from '@components/Button';
 
 import Live from './Live';
 import useLiveContext from '@hooks/useLiveContext';
 import NoLiveContent from './NoLiveContent';
+import useTheme from '@hooks/useThemeContext';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 
 const LiveSection = () => {
   const { isLivePage, liveId } = useLiveContext();
+  const { theme } = useTheme();
   // ** lives 페이지라면 [id]에 해당하는 스트리밍 중인 방송이 있는지 확인하여
   // 없으면 NoLiveContent를 보여주고,(liveId를 null로)
   // 있으면 확장된 Live 섹션을 보여준다.(liveId를 id로)
@@ -45,6 +49,10 @@ const LiveSection = () => {
 
   if (isLivePage && liveId === null) return <NoLiveContent />;
 
+  useEffect(() => {
+    console.log('theme:', theme);
+  }, [theme]);
+
   return (
     <section
       className={clsx(isLivePage ? 'h-live-section relative w-full' : 'h-live-pip w-live-pip fixed bottom-20 right-20')}
@@ -72,18 +80,40 @@ const LiveSection = () => {
               {isLivePage && <Live.Info />}
             </div>
             {isLivePage && (
-              <aside className={clsx('flex h-full w-[22rem] flex-col')}>
-                <div className="flex h-11 w-full items-center justify-between border-y-[1px]">
+              <aside
+                className={clsx(
+                  'flex h-full w-[22rem] flex-col border-x',
+                  theme === 'DARK' ? 'border-content-neutral-weak' : 'border-content-static-coolgray',
+                )}
+              >
+                <div
+                  className={clsx(
+                    'flex h-11 w-full items-center justify-between border-y',
+                    theme === 'DARK' ? 'border-content-neutral-weak' : 'border-content-static-coolgray',
+                  )}
+                >
                   <ChatFoldSvg />
-                  <strong>채팅</strong>
+                  <strong
+                    className={clsx(theme === 'DARK' ? 'text-content-static-white' : 'text-content-neutral-strong')}
+                  >
+                    채팅
+                  </strong>
                   <DottedSvg />
                 </div>
                 <div className="flex flex-1 flex-col"></div>
-                <div className="h-[82px] px-[10px] py-5">
-                  <div className="h-8 w-full py-3">
-                    <textarea className="rounded-md" placeholder="채팅을 입력해주세요"></textarea>
+                <div className="flex h-[82px] flex-col px-[10px]">
+                  <div className="h-10 w-full">
+                    <textarea
+                      className={clsx(
+                        'h-full w-full resize-none rounded-md border-none px-2 py-2',
+                        theme === 'DARK' ? 'bg-content-neutral-weak' : 'bg-content-static-coolgray',
+                      )}
+                      placeholder="채팅을 입력해주세요"
+                    ></textarea>
                   </div>
-                  <div className="flex h-8 justify-end">채팅</div>
+                  <div className="flex justify-end py-1">
+                    <Button>채팅</Button>
+                  </div>
                 </div>
               </aside>
             )}
