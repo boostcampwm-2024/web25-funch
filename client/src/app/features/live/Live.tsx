@@ -17,6 +17,11 @@ import Image from 'next/image';
 import { comma } from '@libs/formats';
 import clsx from 'clsx';
 import Badge from '@app/features/Badge';
+import PlaySvg from '@components/svgs/PlaySvg';
+import PauseSvg from '@components/svgs/PauseSvg';
+import SoundLowSvg from '@components/svgs/SoundLowSvg';
+import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
+import SoundHighSvg from '@components/svgs/SoundHighSvg';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -196,7 +201,11 @@ const VideoControllersWrapper = ({ children }: PropsWithChildren, ref: Forwarded
 };
 
 const PlayButton = ({ play }: { play: () => void }) => {
-  return <button onClick={play}>재생</button>;
+  return (
+    <button onClick={play} className="text-content-static-white inline-flex h-10 w-10 items-center justify-center">
+      <PlaySvg />
+    </button>
+  );
 };
 
 const FullscreenButton = ({ fullscreen }: { fullscreen: () => void }) => {
@@ -335,11 +344,24 @@ const PipButton = ({ pip }: { pip: () => void }) => {
 };
 
 const PauseButton = ({ pause }: { pause: () => void }) => {
-  return <button onClick={pause}>일시정지</button>;
+  return (
+    <button onClick={pause} className="text-content-static-white inline-flex h-10 w-10 items-center justify-center">
+      <PauseSvg />
+    </button>
+  );
 };
 
 const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
-  return <button onClick={toggleMute}>음소거</button>;
+  return (
+    <button
+      onClick={toggleMute}
+      className="text-content-static-white inline-flex h-10 w-10 items-center justify-center"
+    >
+      <SoundMutedSvg />
+      <SoundLowSvg />
+      <SoundHighSvg />
+    </button>
+  );
 };
 
 const VolumeController = ({
