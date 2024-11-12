@@ -1,5 +1,9 @@
 import net from 'net';
 import crypto from 'crypto';
+import fs from 'fs';
+import ffmpegPath from '@ffmpeg-installer/ffmpeg';
+import ffprobePath from '@ffprobe-installer/ffprobe';
+import ffmpeg from 'fluent-ffmpeg';
 import { RtmpChunk, createRtmpChunk, parseBasicHeader, parseMessageHeader } from '@core/rtmp/packet';
 import { handshake, HandshakeData } from '@core/rtmp/handshake';
 import { connect } from '@core/rtmp/connect';
@@ -7,8 +11,11 @@ import { createStream } from '@core/rtmp/createStream';
 import { publish } from '@core/rtmp/publish';
 import { decodeAMF } from '@core/rtmp/utils';
 import { createFlvHeader, previousTagSize0, createFlvTag } from './flv';
-import fs from 'fs';
-import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
+import { uploadData } from './storage';
+import { PassThrough } from 'stream';
+
+ffmpeg.setFfmpegPath(ffmpegPath.path);
+ffmpeg.setFfprobePath(ffprobePath.path);
 
 const BASIC_HEADER_STATE = 0;
 const MESSAGE_HEADER_STATE = 1;
@@ -37,8 +44,10 @@ class RTMPStream {
   chunkMap: Map<number, RtmpChunk>;
   workingChunk: RtmpChunk;
 
-  ffmpeg: ChildProcessWithoutNullStreams;
+  ffmpeg: ffmpeg.FfmpegCommand;
+  ffmpegInputStream: PassThrough;
   storagePath = '../mediaStorage/zzawang'; // TODO: 스트림 키 검증 후 브로드캐스트 아이디 가져와서 Path에 등록
+  timerObject: Record<string, NodeJS.Timeout>;
 
   constructor(private socket: net.Socket) {
     this.handshakeData = {
@@ -57,128 +66,101 @@ class RTMPStream {
     this.chunkMap = new Map();
     this.workingChunk = createRtmpChunk();
 
-    this.ffmpeg = spawn('ffmpeg', [
-      '-loglevel',
-      'info',
-      '-re',
-      '-f',
-      'flv',
-      '-i',
-      '-',
+    this.timerObject = {};
 
-      // 1080p 출력 설정
-      '-map',
-      '0:v',
-      '-map',
-      '0:a',
-      '-s:v:0',
-      '1920x1080',
-      '-c:v:0',
-      'libx264',
-      '-b:v:0',
-      '5000k', // 비트레이트 설정
-      '-c:a:0',
-      'aac',
-      '-b:a:0',
-      '192k',
-      '-hls_fmp4_init_filename',
-      'chunkList_1080p_0_0.mp4',
-      '-hls_time',
-      '2',
-      '-hls_list_size',
-      '3',
-      '-hls_segment_type',
-      'fmp4',
-      '-hls_flags',
-      'delete_segments+split_by_time+independent_segments+omit_endlist',
-      '-f',
-      'hls',
-      `${this.storagePath}/chunklist_1080p_.m3u8`,
-
-      // 720p 출력 설정
-      '-map',
-      '0:v',
-      '-map',
-      '0:a',
-      '-s:v:1',
-      '1280x720',
-      '-c:v:1',
-      'libx264',
-      '-b:v:1',
-      '3000k',
-      '-c:a:1',
-      'aac',
-      '-b:a:1',
-      '128k',
-      '-hls_fmp4_init_filename',
-      'chunkList_720p_0_0.mp4',
-      '-hls_time',
-      '2',
-      '-hls_list_size',
-      '3',
-      '-hls_segment_type',
-      'fmp4',
-      '-hls_flags',
-      'delete_segments+split_by_time+independent_segments+omit_endlist',
-      '-f',
-      'hls',
-      `${this.storagePath}/chunklist_720p_.m3u8`,
-
-      // 480p 출력 설정
-      '-map',
-      '0:v',
-      '-map',
-      '0:a',
-      '-s:v:2',
-      '854x480',
-      '-c:v:2',
-      'libx264',
-      '-b:v:2',
-      '1500k',
-      '-c:a:2',
-      'aac',
-      '-b:a:2',
-      '96k',
-      '-hls_fmp4_init_filename',
-      'chunkList_480p_0_0.mp4',
-      '-hls_time',
-      '2',
-      '-hls_list_size',
-      '3',
-      '-hls_segment_type',
-      'fmp4',
-      '-hls_flags',
-      'delete_segments+split_by_time+independent_segments+omit_endlist',
-      '-f',
-      'hls',
-      `${this.storagePath}/chunklist_480p_.m3u8`,
-    ]);
+    this.ffmpegInputStream = new PassThrough();
+    this.ffmpeg = ffmpeg()
+      .input(this.ffmpegInputStream)
+      .inputOptions(['-re'])
+      .inputFormat('flv')
+      .outputOptions([
+        '-map 0:v',
+        '-map 0:a',
+        '-hls_time 2',
+        '-hls_list_size 3',
+        '-hls_segment_type fmp4',
+        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
+        '-preset veryfast',
+      ])
+      .output(`${this.storagePath}/chunklist_1080p_.m3u8`)
+      .videoCodec('libx264')
+      .audioCodec('aac')
+      .size('1920x1080')
+      .videoBitrate('5000k')
+      .audioBitrate('192k')
+      .outputOptions(['-hls_fmp4_init_filename chunkList_1080p_0_0.mp4'])
+      .output(`${this.storagePath}/chunklist_720p_.m3u8`)
+      .videoCodec('libx264')
+      .audioCodec('aac')
+      .size('1280x720')
+      .videoBitrate('3000k')
+      .audioBitrate('128k')
+      .outputOptions([
+        '-map 0:v',
+        '-map 0:a',
+        '-hls_time 2',
+        '-hls_list_size 3',
+        '-hls_segment_type fmp4',
+        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
+        '-preset veryfast',
+      ])
+      .outputOptions(['-hls_fmp4_init_filename chunkList_720p_0_0.mp4'])
+      .output(`${this.storagePath}/chunklist_480p_.m3u8`)
+      .videoCodec('libx264')
+      .audioCodec('aac')
+      .size('854x480')
+      .videoBitrate('1500k')
+      .audioBitrate('96k')
+      .outputOptions([
+        '-map 0:v',
+        '-map 0:a',
+        '-hls_time 2',
+        '-hls_list_size 3',
+        '-hls_segment_type fmp4',
+        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
+        '-preset veryfast',
+      ])
+      .outputOptions(['-hls_fmp4_init_filename chunkList_480p_0_0.mp4'])
+      .on('data', (data) => {
+        console.error(`FFmpeg stderr: ${data}`);
+      })
+      .on('close', (code) => {
+        console.log(`FFmpeg process exited with code ${code}`);
+      })
+      .on('error', (code) => {
+        console.log(`FFmpeg process error with code ${code}`);
+      });
 
     if (!fs.existsSync(this.storagePath)) {
       fs.mkdirSync(this.storagePath, { recursive: true });
     }
 
-    fs.watch(this.storagePath, () => {
-      // if (filename === 'chunklist_1080p_50.ts' && this.maxCount === 1) {
-      //   this.maxCount++;
-      //   console.timeEnd('ts time check: ');
-      // }
+    fs.watch(this.storagePath, async (eventType, filename) => {
+      if (filename!.match(/^(.*\.m4s$)/) && eventType === 'change') {
+        clearTimeout(this.timerObject[filename!]);
+        this.timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
+          500,
+        );
+      } else if (filename!.match(/^(.*\.m3u8$)/)) {
+        clearTimeout(this.timerObject[filename!]);
+        this.timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
+          500,
+        );
+      } else if (filename!.match(/^(.*\.mp4$)/) && eventType === 'change') {
+        clearTimeout(this.timerObject[filename!]);
+        this.timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
+          500,
+        );
+      }
     });
 
-    this.ffmpeg.stderr.on('data', (data) => {
-      console.error(`FFmpeg stderr: ${data}`);
-    });
+    this.ffmpegInputStream.write(createFlvHeader());
+    this.ffmpegInputStream.write(previousTagSize0);
 
-    this.ffmpeg.on('close', (code) => {
-      console.log(`FFmpeg process exited with code ${code}`);
-    });
-
-    this.ffmpeg.on('error', (code) => {
-      console.log(`FFmpeg process error with code ${code}`);
-    });
-
-    this.ffmpeg.stdin.write(createFlvHeader());
-    this.ffmpeg.stdin.write(previousTagSize0);
+    this.ffmpeg.run();
   }
 
   run() {
@@ -293,7 +275,7 @@ class RTMPStream {
     switch (typeId) {
       case AUDIO_MESSAGE:
       case VIDEO_MESSAGE:
-        this.ffmpeg.stdin.write(createFlvTag(this.workingChunk));
+        this.ffmpegInputStream.write(createFlvTag(this.workingChunk));
         break;
     }
   }
