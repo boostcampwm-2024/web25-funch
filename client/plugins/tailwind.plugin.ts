@@ -77,6 +77,10 @@ const appBoxes = plugin(function ({ addUtilities }) {
         display: 'none',
       },
     },
+    '.funch-overlay': {
+      background:
+        'linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 50%), linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 50%)',
+    },
   };
 
   addUtilities(newUtilities);
