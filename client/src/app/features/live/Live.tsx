@@ -67,6 +67,7 @@ const LiveController = ({
   };
 
   const toggleFullscreen = () => {
+    console.log('hi');
     setIsFullscreen((prev) => !prev);
   };
 
