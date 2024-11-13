@@ -159,6 +159,7 @@ const config: Config = {
               strong: 'var(--surface-static-blackalpha-strong)',
             },
           },
+          deemed: 'hsla(0, 0%, 100%, .2)',
         },
 
         // Content 색상
