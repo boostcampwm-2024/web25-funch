@@ -16,21 +16,17 @@ type IconProps = {
   componentType?: IconType;
 };
 
-const VideoIconButton: React.FC<IconProps> = ({
-  children,
-  onClick,
-  disabled = false,
-  componentType = 'DEFAULT',
-}: IconProps) => {
+const VideoIconButton = ({ children, onClick, disabled = false, componentType = 'DEFAULT' }: IconProps) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'hover:bg-surface-neutral-weak inline-flex items-center justify-center rounded-full transition-opacity ease-in hover:opacity-80 disabled:opacity-50',
+        'text-content-static-white inline-flex items-center justify-center rounded-full',
+        'hover:bg-surface-deemed bg-transparent',
         {
-          'h-16 w-16': componentType === ICON_TYPES.DEFAULT,
-          'h-20 w-20': componentType === ICON_TYPES.FULLSCREEN,
+          'h-8 w-8': componentType === ICON_TYPES.DEFAULT,
+          'h-9 w-9': componentType === ICON_TYPES.FULLSCREEN,
         },
       )}
       type="button"
