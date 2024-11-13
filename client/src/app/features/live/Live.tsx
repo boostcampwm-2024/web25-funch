@@ -84,6 +84,21 @@ const LiveController = ({
   };
 
   useEffect(() => {
+    const playVideo = async () => {
+      try {
+        if (videoRef.current) {
+          videoRef.current.muted = true;
+
+          await videoRef.current.play();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    playVideo();
+  }, []);
+
+  useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = volume / 100;
     }
