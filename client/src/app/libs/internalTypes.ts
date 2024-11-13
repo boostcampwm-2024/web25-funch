@@ -1,4 +1,4 @@
-import { appTheme } from '@libs/constants';
+import { appTheme, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 
 export type SvgComponentProps = {
   svgTitle?: string;
@@ -26,3 +26,5 @@ export type Follow = {
 };
 
 export type AppTheme = keyof typeof appTheme;
+
+export type VideoIconComponentType = keyof typeof VIDEO_ICON_COMPONENT_TYPE;
