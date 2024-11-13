@@ -7,6 +7,7 @@ import {
   type ReactNode,
   type RefObject,
   forwardRef,
+  use,
   useEffect,
   useRef,
   useState,
@@ -28,6 +29,7 @@ import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
 import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
+import usePlay from '@hooks/usePlay';
 import useLiveContext from '@hooks/useLiveContext';
 import LiveSvg from '@components/svgs/LiveSvg';
 
@@ -56,7 +58,6 @@ const LiveController = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
-  const [isPlay, setIsPlay] = useState(true);
 
   const { isFullscreen, startFullscreen, exitFullscreen } = useFullscreen(videoWrapperRef);
 
@@ -64,15 +65,7 @@ const LiveController = ({
 
   const { isMouseMoving } = useMouseMovementOnElement(videoWrapperRef);
 
-  const playToggle = () => {
-    if (videoRef.current && videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlay(true);
-    } else {
-      videoRef.current?.pause();
-      setIsPlay(false);
-    }
-  };
+  const { isPlay, playToggle } = usePlay(videoRef);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -90,8 +83,6 @@ const LiveController = ({
       try {
         if (videoRef.current) {
           videoRef.current.muted = true;
-
-          await videoRef.current.play();
         }
       } catch (error) {
         console.error(error);
