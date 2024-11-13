@@ -74,23 +74,21 @@ const LiveSection = () => {
             <div className="funch-scrollable bg-bg-weak w-full">
               <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls}>
                 <Live.Video ref={videoRef} />
-                {isShowControls && (
-                  <Live.VideoControllersWrapper>
-                    <div>
-                      <Live.Play isFullscreen={isFullscreen} playToggle={playToggle} isPlay={isPlay} />
-                      <Live.Mute toggleMute={toggleMute} />
-                      <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
-                    </div>
-                    <div>
-                      <Live.Pip pipToggle={pipToggle} isFullscreen={isFullscreen} isPip={isPip} />
-                      <Live.Fullscreen
-                        isFullscreen={isFullscreen}
-                        startFullscreen={startFullscreen}
-                        exitFullscreen={exitFullscreen}
-                      />
-                    </div>
-                  </Live.VideoControllersWrapper>
-                )}
+                <Live.VideoControllersWrapper isShowControls={isShowControls}>
+                  <div>
+                    <Live.Play isFullscreen={isFullscreen} playToggle={playToggle} isPlay={isPlay} />
+                    <Live.Mute toggleMute={toggleMute} />
+                    <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
+                  </div>
+                  <div>
+                    <Live.Pip pipToggle={pipToggle} isFullscreen={isFullscreen} isPip={isPip} />
+                    <Live.Fullscreen
+                      isFullscreen={isFullscreen}
+                      startFullscreen={startFullscreen}
+                      exitFullscreen={exitFullscreen}
+                    />
+                  </div>
+                </Live.VideoControllersWrapper>
               </Live.VideoWrapper>
               {isLivePage && <Live.Info />}
             </div>
