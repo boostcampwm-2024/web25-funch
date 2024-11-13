@@ -90,7 +90,7 @@ const LiveSection = () => {
                       <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
                     </div>
                     <div>
-                      <Live.Pip pipToggle={pipToggle} isPip={isPip} />
+                      <Live.Pip pipToggle={pipToggle} isFullscreen={isFullscreen} isPip={isPip} />
                       <Live.Fullscreen isFullscreen={isFullscreen} toggleFullscreen={toggleFullscreen} />
                     </div>
                   </Live.VideoControllersWrapper>
