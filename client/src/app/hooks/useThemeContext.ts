@@ -5,7 +5,7 @@ const useTheme = () => {
   const context = useContext(ThemeContext);
 
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error('컨텍스트가 초기화되지 않았습니다.');
   }
 
   return context;

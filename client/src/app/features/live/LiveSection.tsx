@@ -7,6 +7,7 @@ import Live from './Live';
 import useLiveContext from '@hooks/useLiveContext';
 import NoLiveContent from './NoLiveContent';
 import clsx from 'clsx';
+import { type PropsWithChildren } from 'react';
 
 const LiveSection = () => {
   const { isLivePage, liveId } = useLiveContext();
@@ -46,14 +47,11 @@ const LiveSection = () => {
   if (isLivePage && liveId === null) return <NoLiveContent />;
 
   return (
-    <section
-      className={clsx(isLivePage ? 'h-live-section relative w-full' : 'h-live-pip w-live-pip fixed bottom-20 right-20')}
-    >
+    <Wrapper>
       {/*
-        !isLivePage && liveId === null -> null
-
-        나머지 = children?
-      */}
+       *** !isLivePage && liveId === null -> null
+       *** 나머지 = children?
+       */}
       <Live>
         {({
           videoRef,
@@ -70,62 +68,77 @@ const LiveSection = () => {
           volume,
           handleChangeVolume,
         }) => (
-          <div className={clsx('h-full w-full', isLivePage ? 'grid grid-cols-[1fr,22rem]' : 'block')}>
-            <div className="funch-scrollable bg-bg-weak w-full">
-              <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls}>
-                <Live.Video ref={videoRef} />
-                <Live.VideoControllersWrapper isShowControls={isShowControls}>
-                  <div>
-                    <Live.Play isFullscreen={isFullscreen} togglePlay={togglePlay} isPlay={isPlay} />
-                    <Live.Mute toggleMute={toggleMute} />
-                    <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
-                  </div>
-                  <div>
+          <Live.Wrapper>
+            <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls} isFullscreen={isFullscreen}>
+              <Live.Video ref={videoRef} />
+              <Live.VideoControllersWrapper isShowControls={isShowControls}>
+                <Live.VideoControllers>
+                  <Live.Play isFullscreen={isFullscreen} togglePlay={togglePlay} isPlay={isPlay} />
+                  <Live.Mute toggleMute={toggleMute} />
+                  <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
+                </Live.VideoControllers>
+                {isLivePage && (
+                  <Live.VideoControllers>
                     <Live.Pip togglePip={togglePip} isFullscreen={isFullscreen} isPip={isPip} />
                     <Live.Fullscreen
                       isFullscreen={isFullscreen}
                       startFullscreen={startFullscreen}
                       exitFullscreen={exitFullscreen}
                     />
-                  </div>
-                </Live.VideoControllersWrapper>
-              </Live.VideoWrapper>
-              {isLivePage && <Live.Info />}
-            </div>
-            {isLivePage && (
-              <aside
-                className={clsx('flex h-full w-[22rem] flex-col', 'border-border-neutral-weak border-x border-solid')}
-              >
-                <div
-                  className={clsx(
-                    'flex h-11 w-full items-center justify-between border-y',
-                    'border-border-neutral-weak',
-                  )}
-                >
-                  <ChatFoldSvg />
-                  <strong className={clsx('text-content-neutral-strong')}>채팅</strong>
-                  <DottedSvg />
-                </div>
-                <div className="flex flex-1 flex-col"></div>
-                <div className="flex h-[82px] flex-col px-[10px]">
-                  <div className="h-10 w-full">
-                    <input
-                      className={clsx(
-                        'h-full w-full resize-none rounded-md border-none px-2 py-2',
-                        'bg-surface-neutral-weak',
-                      )}
-                      placeholder="채팅을 입력해주세요"
-                    />
-                  </div>
-                  <div className="flex justify-end py-1">
-                    <Button>채팅</Button>
-                  </div>
-                </div>
-              </aside>
-            )}
-          </div>
+                  </Live.VideoControllers>
+                )}
+              </Live.VideoControllersWrapper>
+            </Live.VideoWrapper>
+            {isLivePage && <Live.Info />}
+          </Live.Wrapper>
         )}
       </Live>
+      {isLivePage && (
+        <aside className={clsx('flex h-full w-[22rem] flex-col', 'border-border-neutral-weak border-x border-solid')}>
+          <div className={clsx('flex h-11 w-full items-center justify-between border-y', 'border-border-neutral-weak')}>
+            <ChatFoldSvg />
+            <strong className={clsx('text-content-neutral-primary')}>채팅</strong>
+            <DottedSvg />
+          </div>
+          <div className="flex flex-1 flex-col"></div>
+          <div className="flex h-[82px] flex-col px-[10px]">
+            <div className="h-10 w-full">
+              <input
+                className={clsx(
+                  'h-full w-full resize-none rounded-md border-none px-2 py-2',
+                  'bg-surface-neutral-weak',
+                )}
+                placeholder="채팅을 입력해주세요"
+              />
+            </div>
+            <div className="flex justify-end py-1">
+              <Button>채팅</Button>
+            </div>
+          </div>
+        </aside>
+      )}
+    </Wrapper>
+  );
+};
+
+const Wrapper = ({ children }: PropsWithChildren) => {
+  const { isLivePage } = useLiveContext();
+  return (
+    <section
+      className={clsx({
+        'h-live-section relative w-full': isLivePage,
+        'h-live-pip w-live-pip fixed bottom-20 right-20': !isLivePage,
+      })}
+    >
+      <div
+        className={clsx({
+          'h-full w-full': true,
+          'grid grid-cols-[1fr,22rem]': isLivePage,
+          block: !isLivePage,
+        })}
+      >
+        {children}
+      </div>
     </section>
   );
 };
