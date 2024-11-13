@@ -16,7 +16,7 @@ const NoLiveContent = () => {
         주소를 다시 확인해주세요.
       </p>
       <Link href="/" title="펀치 홈으로">
-        <button className="bg-surface-static-warmgray hover:bg-surface-static-coolgray text-content-static-white funch-bold16 rounded-3xl px-4 py-2">
+        <button className="bg-surface-brand-strong hover:bg-surface-brand-base text-content-static-white funch-bold14 rounded-full px-4 py-1.5">
           다른 방송 보러가기
         </button>
       </Link>
