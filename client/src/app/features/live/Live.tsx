@@ -9,6 +9,7 @@ import {
   forwardRef,
   use,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -32,6 +33,7 @@ import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 import usePlay from '@hooks/usePlay';
 import useLiveContext from '@hooks/useLiveContext';
 import LiveSvg from '@components/svgs/LiveSvg';
+import useFocused from '@hooks/useFocused';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -58,6 +60,8 @@ const LiveController = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
+
+  const { isFocusing } = useFocused(videoWrapperRef);
 
   const { isFullscreen, startFullscreen, exitFullscreen } = useFullscreen(videoWrapperRef);
 
@@ -116,11 +120,13 @@ const LiveController = ({
     }
   }, []);
 
+  const isShowControls = useMemo(() => isFocusing || isMouseMoving, [isFocusing, isMouseMoving]);
+
   return children({
     volume,
     videoRef,
     videoWrapperRef,
-    isShowControls: isMouseMoving,
+    isShowControls,
     isPip,
     isPlay,
     playToggle,
@@ -160,10 +166,19 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   );
 });
 
-const VideoControllersWrapper = ({ children }: PropsWithChildren) => {
+type VideoControllersWrapperProps = PropsWithChildren<{
+  isShowControls: boolean;
+}>;
+
+const VideoControllersWrapper = ({ children, isShowControls }: VideoControllersWrapperProps) => {
   const { isLivePage } = useLiveContext();
   return (
-    <div className="funch-overlay absolute bottom-0 left-0 right-0 top-0 px-3.5 pb-2.5 pt-3.5">
+    <div
+      className={clsx(
+        'funch-overlay absolute bottom-0 left-0 right-0 top-0 px-3.5 pb-2.5 pt-3.5',
+        isShowControls ? 'opacity-100' : 'opacity-0',
+      )}
+    >
       <div className={clsx('flex h-full w-full flex-col', isLivePage ? 'justify-between' : 'justify-end')}>
         {isLivePage && (
           <div className="w-full">
