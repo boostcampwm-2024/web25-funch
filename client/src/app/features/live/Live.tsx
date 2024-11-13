@@ -23,6 +23,7 @@ import SoundLowSvg from '@components/svgs/SoundLowSvg';
 import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
 import SoundHighSvg from '@components/svgs/SoundHighSvg';
 import HeartSvg from '@components/svgs/HeartSvg';
+import VideoIconButton from './VideoIconButton';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -35,11 +36,11 @@ const LiveController = ({
     videoRef: RefObject<HTMLVideoElement>;
     videoWrapperRef: RefObject<HTMLDivElement>;
     isShowControls: boolean;
+    isPip: boolean;
     play: () => void;
     pause: () => void;
     fullscreen: () => void;
-    pip: () => void;
-    quitPip: () => void;
+    pipToggle: () => void;
     quitFullscreen: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -52,6 +53,7 @@ const LiveController = ({
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
   const [isShowControls, setIsShowControls] = useState(false);
+  const [isPip, setIsPip] = useState(false);
 
   const play = () => {
     if (videoRef.current && videoRef.current.paused) {
@@ -71,15 +73,15 @@ const LiveController = ({
     }
   };
 
-  const pip = () => {
-    if (videoRef.current && videoRef.current.requestPictureInPicture) {
-      videoRef.current.requestPictureInPicture();
-    }
-  };
-
-  const quitPip = () => {
-    if (document.exitPictureInPicture) {
+  const pipToggle = () => {
+    if (document.pictureInPictureElement) {
       document.exitPictureInPicture();
+      setIsPip(false);
+    } else {
+      if (videoRef.current && videoRef.current.requestPictureInPicture) {
+        videoRef.current.requestPictureInPicture();
+        setIsPip(true);
+      }
     }
   };
 
@@ -142,18 +144,22 @@ const LiveController = ({
     }
   }, []);
 
+  useEffect(() => {
+    console.log('isPip', isPip);
+  }, [isPip]);
+
   return children({
     volume,
     videoRef,
     videoWrapperRef,
     isShowControls,
+    isPip,
     play,
     pause,
     fullscreen,
     quitFullscreen,
     toggleMute,
-    pip,
-    quitPip,
+    pipToggle,
     handleChangeVolume,
     handleMouseMoveOnVideoWrapper,
     handleMouseLeaveFromVideoWrapper,
@@ -250,9 +256,9 @@ const FullscreenQuitButton = ({ quitFullscreen }: { quitFullscreen: () => void }
   );
 };
 
-const PipQuitButton = ({ quitPip }: { quitPip: () => void }) => {
+const PipQuitButton = () => {
   return (
-    <button onClick={quitPip}>
+    <button>
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="17.75" y="18.5" width="9" height="6" rx="1" fill="white"></rect>{' '}
         <rect
@@ -266,16 +272,16 @@ const PipQuitButton = ({ quitPip }: { quitPip: () => void }) => {
           stroke-linejoin="round"
         ></rect>{' '}
         <path
-          d="M16.25 18L12.75 14.5"
+          d="M12.75 14.5L16.25 18"
           stroke="white"
-          strokeWidth="1.5"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         ></path>{' '}
         <path
-          d="M16.25 15L16.25 18L13.25 18"
+          d="M12.75 17.5V14.5H15.75"
           stroke="white"
-          strokeWidth="1.5"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         ></path>{' '}
@@ -297,9 +303,9 @@ const PipQuitButton = ({ quitPip }: { quitPip: () => void }) => {
   );
 };
 
-const PipButton = ({ pip }: { pip: () => void }) => {
+const PipButton = () => {
   return (
-    <button onClick={pip}>
+    <button>
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="17.75" y="18.5" width="9" height="6" rx="1" fill="white"></rect>{' '}
         <rect
@@ -342,6 +348,10 @@ const PipButton = ({ pip }: { pip: () => void }) => {
       </svg>
     </button>
   );
+};
+
+const PipToggleButton = ({ pipToggle, isPip }: { pipToggle: () => void; isPip: boolean }) => {
+  return <VideoIconButton onClick={pipToggle}>{isPip ? <PipQuitButton /> : <PipButton />}</VideoIconButton>;
 };
 
 const PauseButton = ({ pause }: { pause: () => void }) => {
@@ -363,6 +373,10 @@ const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
       <SoundHighSvg />
     </button>
   );
+};
+
+const PlayToggleButton = ({ play }: { play: () => void }) => {
+  return <></>;
 };
 
 const VolumeController = ({
@@ -446,9 +460,9 @@ const Live = Object.assign(LiveController, {
   VideoWrapper,
   Video,
   VideoControllersWrapper,
-  Play: PlayButton,
+  Play: PlayToggleButton,
   Fullscreen: FullscreenButton,
-  Pip: PipButton,
+  Pip: PipToggleButton,
   Pause: PauseButton,
   Mute: MuteButton,
   Volume: VolumeController,
