@@ -21,7 +21,7 @@ const S3 = new AWS.S3({
 
 async function uploadData(path, filePath) {
   try {
-    await S3.putObject({
+    await S3.upload({
       Bucket: BUCKET_NAME,
       Key: path,
       ACL: 'public-read',
