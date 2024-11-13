@@ -24,6 +24,8 @@ import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
 import SoundHighSvg from '@components/svgs/SoundHighSvg';
 import HeartSvg from '@components/svgs/HeartSvg';
 import VideoIconButton from './VideoIconButton';
+import FullscreenSvg from '@components/svgs/FullscreenSvg';
+import FullscreenQuitSvg from '@components/svgs/FullscreenQuitSvg';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -39,9 +41,9 @@ const LiveController = ({
     isPip: boolean;
     play: () => void;
     pause: () => void;
-    fullscreen: () => void;
     pipToggle: () => void;
-    quitFullscreen: () => void;
+    isFullscreen: boolean;
+    toggleFullscreen: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
     handleMouseMoveOnVideoWrapper: () => void;
@@ -54,6 +56,7 @@ const LiveController = ({
   const [volume, setVolume] = useState(50);
   const [isShowControls, setIsShowControls] = useState(false);
   const [isPip, setIsPip] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const play = () => {
     if (videoRef.current && videoRef.current.paused) {
@@ -61,16 +64,8 @@ const LiveController = ({
     }
   };
 
-  const fullscreen = () => {
-    if (videoWrapperRef.current && videoWrapperRef.current.requestFullscreen) {
-      videoWrapperRef.current.requestFullscreen();
-    }
-  };
-
-  const quitFullscreen = () => {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
+  const toggleFullscreen = () => {
+    setIsFullscreen((prev) => !prev);
   };
 
   const pipToggle = () => {
@@ -125,6 +120,29 @@ const LiveController = ({
     }
   }, [volume]);
 
+  // isFullscreen이 변경될 때마다 fullscreen을 실행하거나 종료한다.
+  useEffect(() => {
+    const fullscreen = () => {
+      if (videoWrapperRef.current && videoWrapperRef.current.requestFullscreen) {
+        videoWrapperRef.current.requestFullscreen();
+      }
+    };
+
+    const quitFullscreen = () => {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    };
+
+    if (isFullscreen) {
+      fullscreen();
+    } else {
+      if (document.fullscreenElement !== null) {
+        quitFullscreen();
+      }
+    }
+  }, [isFullscreen]);
+
   useEffect(() => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
@@ -156,8 +174,8 @@ const LiveController = ({
     isPip,
     play,
     pause,
-    fullscreen,
-    quitFullscreen,
+    isFullscreen,
+    toggleFullscreen,
     toggleMute,
     pipToggle,
     handleChangeVolume,
@@ -215,44 +233,17 @@ const PlayButton = ({ play }: { play: () => void }) => {
   );
 };
 
-const FullscreenButton = ({ fullscreen }: { fullscreen: () => void }) => {
+const FullscreenButton = ({
+  isFullscreen,
+  toggleFullscreen,
+}: {
+  isFullscreen: boolean;
+  toggleFullscreen: () => void;
+}) => {
   return (
-    <button onClick={fullscreen}>
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 30 30"
-        className="pzp-ui-icon__svg"
-      >
-        <g fill="#FFF" fill-rule="nonzero">
-          <path d="M19.564 19.964H16.6a.2.2 0 0 0-.2.2V22.4c0 .11.09.2.2.2h5a1 1 0 0 0 1-1v-5a.2.2 0 0 0-.2-.2h-2.236a.2.2 0 0 0-.2.2v2.964a.4.4 0 0 1-.4.4zM19.992 10.436V13.4c0 .11.09.2.2.2h2.237a.2.2 0 0 0 .2-.2v-5a1 1 0 0 0-1-1h-5a.2.2 0 0 0-.2.2v2.236c0 .11.09.2.2.2h2.963c.221 0 .4.18.4.4zM10.065 19.564V16.6a.2.2 0 0 0-.2-.2H7.629a.2.2 0 0 0-.2.2v5a1 1 0 0 0 1 1h5a.2.2 0 0 0 .2-.2v-2.236a.2.2 0 0 0-.2-.2h-2.964a.4.4 0 0 1-.4-.4zM10.465 10.036h2.964a.2.2 0 0 0 .2-.2V7.6a.2.2 0 0 0-.2-.2h-5a1 1 0 0 0-1 1v5c0 .11.09.2.2.2h2.236a.2.2 0 0 0 .2-.2v-2.964c0-.22.179-.4.4-.4z"></path>
-        </g>
-      </svg>
-    </button>
-  );
-};
-
-const FullscreenQuitButton = ({ quitFullscreen }: { quitFullscreen: () => void }) => {
-  return (
-    <button onClick={quitFullscreen}>
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 30 30"
-        className="pzp-ui-icon__svg"
-      >
-        <g fill="#FFF" fill-rule="evenodd" stroke="#FFF" stroke-width=".5">
-          <path
-            d="M.2 5.357c-.11 0-.2-.09-.2-.2V3.63c0-.11.09-.2.2-.2l3.015.001V3.43h.014c.092 0 .17-.063.192-.147l.008-.053v-.014h.001L3.43.2c0-.11.09-.2.2-.2h1.528c.11 0 .2.09.2.2v4.257c0 .497-.403.9-.9.9H.2zM14.8 5.357c.11 0 .2-.09.2-.2V3.63c0-.11-.09-.2-.2-.2l-3.015.001V3.43h-.014c-.092 0-.17-.063-.192-.147l-.008-.053v-.014h-.001L11.57.2c0-.11-.09-.2-.2-.2H9.843c-.11 0-.2.09-.2.2v4.257c0 .497.403.9.9.9H14.8zM3.429 14.786c0 .118.096.214.214.214h1.5c.118 0 .214-.096.214-.214v-4.179c0-.266-.108-.507-.282-.682-.175-.174-.416-.282-.682-.282H.214c-.118 0-.214.096-.214.214v1.5c0 .118.096.214.214.214h3c.119 0 .215.096.215.215v3zM14.786 11.571c.118 0 .214-.096.214-.214v-1.5c0-.118-.096-.214-.214-.214h-4.179c-.266 0-.507.108-.682.282-.174.175-.282.416-.282.682v4.179c0 .118.096.214.214.214h1.5c.118 0 .214-.096.214-.214v-3c0-.119.096-.215.215-.215h3z"
-            transform="translate(7.5 7.5)"
-          ></path>
-        </g>
-      </svg>
-    </button>
+    <VideoIconButton onClick={toggleFullscreen} componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'}>
+      {isFullscreen ? <FullscreenQuitSvg /> : <FullscreenSvg />}
+    </VideoIconButton>
   );
 };
 

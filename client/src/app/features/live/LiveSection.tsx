@@ -64,8 +64,9 @@ const LiveSection = () => {
           toggleMute,
           play,
           pause,
-          fullscreen,
           pipToggle,
+          isFullscreen,
+          toggleFullscreen,
           volume,
           handleChangeVolume,
           handleMouseLeaveFromVideoWrapper,
@@ -90,7 +91,7 @@ const LiveSection = () => {
                     </div>
                     <div>
                       <Live.Pip pipToggle={pipToggle} isPip={isPip} />
-                      <Live.Fullscreen fullscreen={fullscreen} />
+                      <Live.Fullscreen isFullscreen={isFullscreen} toggleFullscreen={toggleFullscreen} />
                     </div>
                   </Live.VideoControllersWrapper>
                 )}
