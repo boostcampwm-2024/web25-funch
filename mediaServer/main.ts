@@ -6,7 +6,7 @@ const server = net.createServer((socket) => {
   rtmpStream.run();
 });
 
-const PORT = 3000;
+const PORT = 1935;
 
 server.listen(PORT, () => {
   console.log(`HTTP server running on port ${PORT}`);
