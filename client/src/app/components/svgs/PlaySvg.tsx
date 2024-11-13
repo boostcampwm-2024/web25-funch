@@ -8,8 +8,8 @@ const PlaySvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
       focusable="false"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 60 60"
-      width="60"
-      height="60"
+      width="30"
+      height="30"
     >
       {svgTitle && <title>{svgTitle}</title>}
       {svgDescription && <desc>{svgDescription}</desc>}
