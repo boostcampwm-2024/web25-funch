@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useRef, useState } from 'react';
 
 const useMouseMovementOnElement = (ref: RefObject<HTMLElement>) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);

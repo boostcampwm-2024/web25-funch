@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactElement } from 'react';
+import { type ButtonHTMLAttributes, type ReactElement } from 'react';
 import clsx from 'clsx';
 import { VideoIconComponentType } from '@libs/internalTypes';
 import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';

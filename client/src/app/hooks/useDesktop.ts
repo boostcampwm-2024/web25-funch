@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const useDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1200);
