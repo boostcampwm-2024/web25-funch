@@ -341,8 +341,20 @@ const PipButton = () => {
   );
 };
 
-const PipToggleButton = ({ pipToggle, isPip }: { pipToggle: () => void; isPip: boolean }) => {
-  return <VideoIconButton onClick={pipToggle}>{isPip ? <PipQuitButton /> : <PipButton />}</VideoIconButton>;
+const PipToggleButton = ({
+  pipToggle,
+  isPip,
+  isFullscreen,
+}: {
+  pipToggle: () => void;
+  isPip: boolean;
+  isFullscreen: boolean;
+}) => {
+  return (
+    <VideoIconButton componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'} onClick={pipToggle}>
+      {isPip ? <PipQuitButton /> : <PipButton />}
+    </VideoIconButton>
+  );
 };
 
 const PauseButton = ({ pause }: { pause: () => void }) => {
