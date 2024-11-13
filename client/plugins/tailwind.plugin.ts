@@ -61,6 +61,19 @@ const appFonts = plugin(function ({ addUtilities }) {
       fontWeight: '500',
       lineHeight: '1.5',
     },
+    // meta
+    '.funch-meta16': {
+      fontFamily: FONT_FAMILY,
+      fontSize: '1rem',
+      fontWeight: '700',
+      lineHeight: '1',
+    },
+    '.funch-meta14': {
+      fontFamily: FONT_FAMILY,
+      fontSize: '0.875rem',
+      fontWeight: '700',
+      lineHeight: '1',
+    },
   };
 
   addUtilities(newUtilities);

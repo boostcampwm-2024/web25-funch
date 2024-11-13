@@ -9,7 +9,7 @@ export const mockedLives: Live[] = [
     category: '카테고리',
     tags: ['경제', '수다', '글로벌', '태그2', '태그2', '태그2'],
     streamer: {
-      name: '슈카월드',
+      name: '슈카월드 슈카월드 슈카월드 슈카월드 슈카월드 슈카월드 슈카월드 슈카월드',
       profileImage: 'https://via.placeholder.com/150',
     },
   },
