@@ -32,4 +32,34 @@ async function uploadData(path, filePath) {
   }
 }
 
-export { uploadData };
+function initLocalStorageSetting(storagePath, timerObject) {
+  const TIME_OUT = 800;
+  if (!fs.existsSync(storagePath)) {
+    fs.mkdirSync(storagePath, { recursive: true });
+  }
+
+  fs.watch(storagePath, async (eventType, filename) => {
+    if (filename!.match(/^(.*\.m4s$)/) && eventType === 'change') {
+      clearTimeout(timerObject[filename!]);
+
+      timerObject[filename!] = setTimeout(
+        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+        TIME_OUT,
+      );
+    } else if (filename!.match(/^(.*\.m3u8$)/)) {
+      clearTimeout(timerObject[filename!]);
+      timerObject[filename!] = setTimeout(
+        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+        TIME_OUT,
+      );
+    } else if (filename!.match(/^(.*\.mp4$)/) && eventType === 'change') {
+      clearTimeout(timerObject[filename!]);
+      timerObject[filename!] = setTimeout(
+        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+        TIME_OUT,
+      );
+    }
+  });
+}
+
+export { initLocalStorageSetting };
