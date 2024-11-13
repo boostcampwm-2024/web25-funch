@@ -25,6 +25,9 @@ import PipSvg from '@components/svgs/PipSvg';
 import PipQuitSvg from '@components/svgs/PipQuitSvg';
 import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 import LiveInfo from './LiveInfo';
+import useFullscreen from '@hooks/useFullscreen';
+import usePip from '@hooks/usePip';
+import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -46,42 +49,18 @@ const LiveController = ({
     exitFullscreen: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleMouseMoveOnVideoWrapper: () => void;
-    handleMouseLeaveFromVideoWrapper: () => void;
   }) => ReactNode;
 }) => {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
-  const [isShowControls, setIsShowControls] = useState(false);
-  const [isPip, setIsPip] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlay, setIsPlay] = useState(true);
 
-  const startFullscreen = () => {
-    if (videoWrapperRef.current && videoWrapperRef.current.requestFullscreen) {
-      videoWrapperRef.current.requestFullscreen();
-    }
-  };
+  const { isFullscreen, startFullscreen, exitFullscreen } = useFullscreen(videoWrapperRef);
 
-  const exitFullscreen = () => {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  };
+  const { isPip, pipToggle } = usePip(videoRef);
 
-  const pipToggle = () => {
-    if (document.pictureInPictureElement) {
-      document.exitPictureInPicture();
-      setIsPip(false);
-    } else {
-      if (videoRef.current && videoRef.current.requestPictureInPicture) {
-        videoRef.current.requestPictureInPicture();
-        setIsPip(true);
-      }
-    }
-  };
+  const { isMouseMoving } = useMouseMovementOnElement(videoWrapperRef);
 
   const playToggle = () => {
     if (videoRef.current && videoRef.current.paused) {
@@ -102,23 +81,6 @@ const LiveController = ({
   const handleChangeVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const nextVolume = Number(e.target.value);
     setVolume(nextVolume);
-  };
-
-  const handleMouseMoveOnVideoWrapper = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    setIsShowControls(true);
-    timerRef.current = setTimeout(() => {
-      setIsShowControls(false);
-    }, 3000);
-  };
-
-  const handleMouseLeaveFromVideoWrapper = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    setIsShowControls(false);
   };
 
   useEffect(() => {
@@ -146,25 +108,11 @@ const LiveController = ({
     }
   }, []);
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('isPip', isPip);
-  }, [isPip]);
-
   return children({
     volume,
     videoRef,
     videoWrapperRef,
-    isShowControls,
+    isShowControls: isMouseMoving,
     isPip,
     isPlay,
     playToggle,
@@ -174,29 +122,17 @@ const LiveController = ({
     toggleMute,
     pipToggle,
     handleChangeVolume,
-    handleMouseMoveOnVideoWrapper,
-    handleMouseLeaveFromVideoWrapper,
   });
 };
 
 type VideoWrapperProps = PropsWithChildren<{
   isShowControls: boolean;
-  handleMouseMove: () => void;
-  handleMouseLeave: () => void;
 }>;
 
 const VideoWrapper = forwardRef(
-  (
-    { children, isShowControls, handleMouseLeave, handleMouseMove }: VideoWrapperProps,
-    ref: ForwardedRef<HTMLDivElement>,
-  ) => {
+  ({ children, isShowControls }: VideoWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-      <div
-        className={clsx('w-full', isShowControls ? 'cursor-auto' : 'cursor-none')}
-        ref={ref}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className={clsx('w-full', isShowControls ? 'cursor-auto' : 'cursor-none')} ref={ref}>
         <div className="pb-live-aspect-ratio relative block w-full">{children}</div>
       </div>
     );
@@ -251,7 +187,10 @@ const PipToggleButton = ({
   isFullscreen: boolean;
 }) => {
   return (
-    <VideoIconButton componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'} onClick={pipToggle}>
+    <VideoIconButton
+      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
+      onClick={pipToggle}
+    >
       {isPip ? <PipQuitSvg /> : <PipSvg />}
     </VideoIconButton>
   );
@@ -280,7 +219,10 @@ const PlayToggleButton = ({
   isFullscreen: boolean;
 }) => {
   return (
-    <VideoIconButton componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'} onClick={playToggle}>
+    <VideoIconButton
+      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
+      onClick={playToggle}
+    >
       {isPlay ? <PauseSvg /> : <PlaySvg />}
     </VideoIconButton>
   );
