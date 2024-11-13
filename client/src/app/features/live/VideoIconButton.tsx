@@ -1,12 +1,7 @@
 import { ButtonHTMLAttributes, ReactElement } from 'react';
 import clsx from 'clsx';
-
-const VIDEO_ICON_COMPONENT_TYPE = {
-  DEFAULT: 'DEFAULT' as const,
-  FULLSCREEN: 'FULLSCREEN' as const,
-};
-
-type VideoIconComponentType = keyof typeof VIDEO_ICON_COMPONENT_TYPE;
+import { VideoIconComponentType } from '@libs/internalTypes';
+import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 
 type Props = {
   children: ReactElement<SVGElement>;

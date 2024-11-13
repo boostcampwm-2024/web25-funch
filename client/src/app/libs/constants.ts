@@ -4,3 +4,8 @@ export const appTheme = {
 };
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
+
+export const VIDEO_ICON_COMPONENT_TYPE = {
+  DEFAULT: 'DEFAULT' as const,
+  FULLSCREEN: 'FULLSCREEN' as const,
+};
