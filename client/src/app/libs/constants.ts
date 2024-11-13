@@ -1,4 +1,4 @@
-export const appTheme = {
+export const APP_THEME = {
   LIGHT: 'LIGHT' as const,
   DARK: 'DARK' as const,
 };
