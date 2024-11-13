@@ -69,17 +69,10 @@ const LiveSection = () => {
           exitFullscreen,
           volume,
           handleChangeVolume,
-          handleMouseLeaveFromVideoWrapper,
-          handleMouseMoveOnVideoWrapper,
         }) => (
           <div className={clsx('h-full w-full', isLivePage ? 'grid grid-cols-[1fr,22rem]' : 'block')}>
             <div className="funch-scrollable bg-bg-weak w-full">
-              <Live.VideoWrapper
-                ref={videoWrapperRef}
-                isShowControls={isShowControls}
-                handleMouseMove={handleMouseMoveOnVideoWrapper}
-                handleMouseLeave={handleMouseLeaveFromVideoWrapper}
-              >
+              <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls}>
                 <Live.Video ref={videoRef} />
                 {isShowControls && (
                   <Live.VideoControllersWrapper>
