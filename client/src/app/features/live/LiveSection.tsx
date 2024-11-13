@@ -7,6 +7,7 @@ import Live from './Live';
 import useLiveContext from '@hooks/useLiveContext';
 import NoLiveContent from './NoLiveContent';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 
 const LiveSection = () => {
   const { isLivePage, liveId } = useLiveContext();
@@ -59,11 +60,12 @@ const LiveSection = () => {
           videoRef,
           videoWrapperRef,
           isShowControls,
+          isPip,
           toggleMute,
           play,
           pause,
           fullscreen,
-          pip,
+          pipToggle,
           volume,
           handleChangeVolume,
           handleMouseLeaveFromVideoWrapper,
@@ -87,7 +89,7 @@ const LiveSection = () => {
                       <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
                     </div>
                     <div>
-                      <Live.Pip pip={pip} />
+                      <Live.Pip pipToggle={pipToggle} isPip={isPip} />
                       <Live.Fullscreen fullscreen={fullscreen} />
                     </div>
                   </Live.VideoControllersWrapper>
