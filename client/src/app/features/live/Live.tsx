@@ -22,6 +22,7 @@ import PauseSvg from '@components/svgs/PauseSvg';
 import SoundLowSvg from '@components/svgs/SoundLowSvg';
 import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
 import SoundHighSvg from '@components/svgs/SoundHighSvg';
+import HeartSvg from '@components/svgs/HeartSvg';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -405,8 +406,13 @@ const LiveInfo = () => {
             )}
           />
         </div>
-        <div className="ml-2.5">
-          <h4 className="text-content-neutral-strong funch-bold16">{liveInfo.streamer.name}</h4>
+        <div className="ml-2.5 w-60">
+          <h4
+            title={liveInfo.streamer.name}
+            className="text-content-neutral-strong funch-bold16 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            {liveInfo.streamer.name}
+          </h4>
           {liveInfo.tags.length > 0 && (
             <ul className="mt-1.5 flex gap-1">
               {liveInfo.tags.map((tag, idx) => (
@@ -419,6 +425,17 @@ const LiveInfo = () => {
           <p className="mt-1">
             <span className="funch-medium12 text-content-neutral-base">{comma(liveInfo.viewers)}명 시청 중</span>
           </p>
+        </div>
+        <div className="ml-4 pt-5">
+          <button
+            className={clsx(
+              'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5 pr-4',
+              'bg-surface-brand-strong text-content-neutral-inverse hover:bg-surface-brand-base',
+            )}
+          >
+            <HeartSvg />
+            <span className="funch-meta14">팔로우</span>
+          </button>
         </div>
       </div>
     </div>
