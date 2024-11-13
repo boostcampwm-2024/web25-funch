@@ -28,6 +28,8 @@ import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
 import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
+import useLiveContext from '@hooks/useLiveContext';
+import LiveSvg from '@components/svgs/LiveSvg';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -167,8 +169,22 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   );
 });
 
-const VideoControllersWrapper = ({ children }: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
-  return <div className="funch-overlay absolute bottom-0 left-0 right-0 top-0">{children}</div>;
+const VideoControllersWrapper = ({ children }: PropsWithChildren) => {
+  const { isLivePage } = useLiveContext();
+  return (
+    <div className="funch-overlay absolute bottom-0 left-0 right-0 top-0 px-3.5 pb-2.5 pt-3.5">
+      <div className={clsx('flex h-full w-full flex-col', isLivePage ? 'justify-between' : 'justify-end')}>
+        {isLivePage && (
+          <div className="w-full">
+            <div className="bg-surface-red-strong ml-auto flex h-6 w-14 items-center justify-center rounded-md">
+              <LiveSvg />
+            </div>
+          </div>
+        )}
+        <div className="flex h-9 items-center justify-between">{children}</div>
+      </div>
+    </div>
+  );
 };
 
 const FullscreenButton = ({
