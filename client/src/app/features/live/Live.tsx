@@ -12,22 +12,19 @@ import {
   useState,
 } from 'react';
 import Hls from 'hls.js';
-import useLiveContext from '@hooks/useLiveContext';
-import Image from 'next/image';
-import { comma } from '@libs/formats';
 import clsx from 'clsx';
-import Badge from '@app/features/Badge';
 import PlaySvg from '@components/svgs/PlaySvg';
 import PauseSvg from '@components/svgs/PauseSvg';
 import SoundLowSvg from '@components/svgs/SoundLowSvg';
 import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
 import SoundHighSvg from '@components/svgs/SoundHighSvg';
-import HeartSvg from '@components/svgs/HeartSvg';
 import VideoIconButton from './VideoIconButton';
 import FullscreenSvg from '@components/svgs/FullscreenSvg';
 import FullscreenQuitSvg from '@components/svgs/FullscreenQuitSvg';
 import PipSvg from '@components/svgs/PipSvg';
 import PipQuitSvg from '@components/svgs/PipQuitSvg';
+import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
+import LiveInfo from './LiveInfo';
 
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
@@ -45,7 +42,8 @@ const LiveController = ({
     playToggle: () => void;
     pipToggle: () => void;
     isFullscreen: boolean;
-    toggleFullscreen: () => void;
+    startFullscreen: () => void;
+    exitFullscreen: () => void;
     toggleMute: () => void;
     handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
     handleMouseMoveOnVideoWrapper: () => void;
@@ -61,9 +59,16 @@ const LiveController = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlay, setIsPlay] = useState(true);
 
-  const toggleFullscreen = () => {
-    console.log('hi');
-    setIsFullscreen((prev) => !prev);
+  const startFullscreen = () => {
+    if (videoWrapperRef.current && videoWrapperRef.current.requestFullscreen) {
+      videoWrapperRef.current.requestFullscreen();
+    }
+  };
+
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
   };
 
   const pipToggle = () => {
@@ -122,29 +127,6 @@ const LiveController = ({
     }
   }, [volume]);
 
-  // isFullscreen이 변경될 때마다 fullscreen을 실행하거나 종료한다.
-  useEffect(() => {
-    const fullscreen = () => {
-      if (videoWrapperRef.current && videoWrapperRef.current.requestFullscreen) {
-        videoWrapperRef.current.requestFullscreen();
-      }
-    };
-
-    const quitFullscreen = () => {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    };
-
-    if (isFullscreen) {
-      fullscreen();
-    } else {
-      if (document.fullscreenElement !== null) {
-        quitFullscreen();
-      }
-    }
-  }, [isFullscreen]);
-
   useEffect(() => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
@@ -165,6 +147,16 @@ const LiveController = ({
   }, []);
 
   useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  useEffect(() => {
     console.log('isPip', isPip);
   }, [isPip]);
 
@@ -177,7 +169,8 @@ const LiveController = ({
     isPlay,
     playToggle,
     isFullscreen,
-    toggleFullscreen,
+    startFullscreen,
+    exitFullscreen,
     toggleMute,
     pipToggle,
     handleChangeVolume,
@@ -229,13 +222,20 @@ const VideoControllersWrapper = ({ children }: PropsWithChildren, ref: Forwarded
 
 const FullscreenButton = ({
   isFullscreen,
-  toggleFullscreen,
+  startFullscreen,
+  exitFullscreen,
 }: {
   isFullscreen: boolean;
-  toggleFullscreen: () => void;
+  startFullscreen: () => void;
+  exitFullscreen: () => void;
 }) => {
   return (
-    <VideoIconButton onClick={toggleFullscreen} componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'}>
+    <VideoIconButton
+      onClick={() => {
+        isFullscreen ? exitFullscreen() : startFullscreen();
+      }}
+      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
+    >
       {isFullscreen ? <FullscreenQuitSvg /> : <FullscreenSvg />}
     </VideoIconButton>
   );
@@ -294,73 +294,6 @@ const VolumeController = ({
   handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
-};
-
-const LiveInfo = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const { liveInfo } = useLiveContext();
-
-  return (
-    <div className="px-7 pb-6 pt-4">
-      <h3 className="funch-bold20 text-content-neutral-strong">{liveInfo.title}</h3>
-      <div className="mt-4 flex">
-        <div
-          // image wrapper
-          className="relative h-16 w-16"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="relative h-full w-full p-1.5">
-            <div className="relative h-full w-full overflow-hidden rounded-full">
-              <Image
-                fill={true}
-                sizes="100%"
-                src={liveInfo.streamer.profileImage}
-                alt={`스트리머 ${liveInfo.streamer.name}의 프로필 이미지`}
-              />
-            </div>
-          </div>
-          <div
-            className={clsx(
-              'border-border-brand-base absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-solid',
-              isHovered ? 'border-4' : 'border-2',
-            )}
-          />
-        </div>
-        <div className="ml-2.5 w-60">
-          <h4
-            title={liveInfo.streamer.name}
-            className="text-content-neutral-strong funch-bold16 w-full overflow-hidden text-ellipsis whitespace-nowrap"
-          >
-            {liveInfo.streamer.name}
-          </h4>
-          {liveInfo.tags.length > 0 && (
-            <ul className="mt-1.5 flex gap-1">
-              {liveInfo.tags.map((tag, idx) => (
-                <li key={idx}>
-                  <Badge componentType="OUTLINE">{tag}</Badge>
-                </li>
-              ))}
-            </ul>
-          )}
-          <p className="mt-1">
-            <span className="funch-medium12 text-content-neutral-base">{comma(liveInfo.viewers)}명 시청 중</span>
-          </p>
-        </div>
-        <div className="ml-4 pt-5">
-          <button
-            className={clsx(
-              'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5 pr-4',
-              'bg-surface-brand-strong text-content-neutral-inverse hover:bg-surface-brand-base',
-            )}
-          >
-            <HeartSvg />
-            <span className="funch-meta14">팔로우</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 };
 
 const Live = Object.assign(LiveController, {
