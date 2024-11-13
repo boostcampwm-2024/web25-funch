@@ -41,8 +41,8 @@ const LiveController = ({
     videoWrapperRef: RefObject<HTMLDivElement>;
     isShowControls: boolean;
     isPip: boolean;
-    play: () => void;
-    pause: () => void;
+    isPlay: boolean;
+    playToggle: () => void;
     pipToggle: () => void;
     isFullscreen: boolean;
     toggleFullscreen: () => void;
@@ -59,12 +59,7 @@ const LiveController = ({
   const [isShowControls, setIsShowControls] = useState(false);
   const [isPip, setIsPip] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  const play = () => {
-    if (videoRef.current && videoRef.current.paused) {
-      videoRef.current.play();
-    }
-  };
+  const [isPlay, setIsPlay] = useState(true);
 
   const toggleFullscreen = () => {
     console.log('hi');
@@ -83,9 +78,13 @@ const LiveController = ({
     }
   };
 
-  const pause = () => {
-    if (videoRef.current && !videoRef.current.paused) {
-      videoRef.current.pause();
+  const playToggle = () => {
+    if (videoRef.current && videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlay(true);
+    } else {
+      videoRef.current?.pause();
+      setIsPlay(false);
     }
   };
 
@@ -175,8 +174,8 @@ const LiveController = ({
     videoWrapperRef,
     isShowControls,
     isPip,
-    play,
-    pause,
+    isPlay,
+    playToggle,
     isFullscreen,
     toggleFullscreen,
     toggleMute,
@@ -228,14 +227,6 @@ const VideoControllersWrapper = ({ children }: PropsWithChildren, ref: Forwarded
   return <div className="funch-overlay absolute bottom-0 left-0 right-0 top-0">{children}</div>;
 };
 
-const PlayButton = ({ play }: { play: () => void }) => {
-  return (
-    <button onClick={play} className="text-content-static-white inline-flex h-10 w-10 items-center justify-center">
-      <PlaySvg />
-    </button>
-  );
-};
-
 const FullscreenButton = ({
   isFullscreen,
   toggleFullscreen,
@@ -266,14 +257,6 @@ const PipToggleButton = ({
   );
 };
 
-const PauseButton = ({ pause }: { pause: () => void }) => {
-  return (
-    <button onClick={pause} className="text-content-static-white inline-flex h-10 w-10 items-center justify-center">
-      <PauseSvg />
-    </button>
-  );
-};
-
 const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
   return (
     <button
@@ -287,8 +270,20 @@ const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
   );
 };
 
-const PlayToggleButton = ({ play }: { play: () => void }) => {
-  return <></>;
+const PlayToggleButton = ({
+  playToggle,
+  isPlay,
+  isFullscreen,
+}: {
+  playToggle: () => void;
+  isPlay: boolean;
+  isFullscreen: boolean;
+}) => {
+  return (
+    <VideoIconButton componentType={isFullscreen ? 'FULLSCREEN' : 'DEFAULT'} onClick={playToggle}>
+      {isPlay ? <PauseSvg /> : <PlaySvg />}
+    </VideoIconButton>
+  );
 };
 
 const VolumeController = ({
@@ -375,7 +370,6 @@ const Live = Object.assign(LiveController, {
   Play: PlayToggleButton,
   Fullscreen: FullscreenButton,
   Pip: PipToggleButton,
-  Pause: PauseButton,
   Mute: MuteButton,
   Volume: VolumeController,
   Info: LiveInfo,
