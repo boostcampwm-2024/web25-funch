@@ -7,7 +7,6 @@ import Live from './Live';
 import useLiveContext from '@hooks/useLiveContext';
 import NoLiveContent from './NoLiveContent';
 import clsx from 'clsx';
-import { useEffect } from 'react';
 
 const LiveSection = () => {
   const { isLivePage, liveId } = useLiveContext();
