@@ -1,4 +1,4 @@
-import { RefObject, useState } from 'react';
+import { type RefObject, useState } from 'react';
 
 const usePip = (ref: RefObject<HTMLVideoElement>) => {
   const [isPip, setIsPip] = useState(false);
