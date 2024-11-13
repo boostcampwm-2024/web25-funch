@@ -37,25 +37,27 @@ import useFocused from '@hooks/useFocused';
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
 
-const LiveController = ({
-  children,
-}: {
-  children: (args: {
-    volume: number;
-    videoRef: RefObject<HTMLVideoElement>;
-    videoWrapperRef: RefObject<HTMLDivElement>;
-    isShowControls: boolean;
-    isPip: boolean;
-    isPlay: boolean;
-    playToggle: () => void;
-    pipToggle: () => void;
-    isFullscreen: boolean;
-    startFullscreen: () => void;
-    exitFullscreen: () => void;
-    toggleMute: () => void;
-    handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-  }) => ReactNode;
-}) => {
+type ChildrenArgs = {
+  volume: number;
+  videoRef: RefObject<HTMLVideoElement>;
+  videoWrapperRef: RefObject<HTMLDivElement>;
+  isShowControls: boolean;
+  isPip: boolean;
+  isPlay: boolean;
+  playToggle: () => void;
+  pipToggle: () => void;
+  isFullscreen: boolean;
+  startFullscreen: () => void;
+  exitFullscreen: () => void;
+  toggleMute: () => void;
+  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+type Props = {
+  children: (args: ChildrenArgs) => ReactNode;
+};
+
+const LiveController = ({ children }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);

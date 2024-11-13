@@ -1,4 +1,4 @@
-import { RefObject, useState } from 'react';
+import { type RefObject, useState } from 'react';
 
 const usePlay = (ref: RefObject<HTMLVideoElement>) => {
   const [isPlay, setIsPlay] = useState(true);
