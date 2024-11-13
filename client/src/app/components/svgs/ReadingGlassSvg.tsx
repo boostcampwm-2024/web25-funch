@@ -2,7 +2,16 @@ import type { SvgComponentProps } from '@libs/internalTypes';
 
 const ReadingGlassSvg = ({ svgTitle, svgDescription }: SvgComponentProps) => {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      role="img"
+      aria-hidden="true"
+      focusable="false"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       {svgTitle && <title>{svgTitle}</title>}
       {svgDescription && <desc>{svgDescription}</desc>}
       <g opacity="0.9">
