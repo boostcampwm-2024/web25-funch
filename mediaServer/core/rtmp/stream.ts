@@ -1,6 +1,5 @@
 import net from 'net';
 import crypto from 'crypto';
-import fs from 'fs';
 import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import ffprobePath from '@ffprobe-installer/ffprobe';
 import ffmpeg from 'fluent-ffmpeg';
@@ -11,8 +10,9 @@ import { createStream } from '@core/rtmp/createStream';
 import { publish } from '@core/rtmp/publish';
 import { decodeAMF } from '@core/rtmp/utils';
 import { createFlvHeader, previousTagSize0, createFlvTag } from './flv';
-import { uploadData } from './storage';
+import { initLocalStorageSetting } from './storage';
 import { PassThrough } from 'stream';
+import { initializeFFMepg, createMasterPlaylist } from './ffmpeg';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -67,99 +67,14 @@ class RTMPStream {
     this.workingChunk = createRtmpChunk();
 
     this.timerObject = {};
-
     this.ffmpegInputStream = new PassThrough();
-    this.ffmpeg = ffmpeg()
-      .input(this.ffmpegInputStream)
-      .inputOptions(['-re'])
-      .inputFormat('flv')
-      .outputOptions([
-        '-map 0:v',
-        '-map 0:a',
-        '-hls_time 2',
-        '-hls_list_size 3',
-        '-hls_segment_type fmp4',
-        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
-        '-preset veryfast',
-      ])
-      .output(`${this.storagePath}/chunklist_1080p_.m3u8`)
-      .videoCodec('libx264')
-      .audioCodec('aac')
-      .size('1920x1080')
-      .videoBitrate('5000k')
-      .audioBitrate('192k')
-      .outputOptions(['-hls_fmp4_init_filename chunkList_1080p_0_0.mp4'])
-      .output(`${this.storagePath}/chunklist_720p_.m3u8`)
-      .videoCodec('libx264')
-      .audioCodec('aac')
-      .size('1280x720')
-      .videoBitrate('3000k')
-      .audioBitrate('128k')
-      .outputOptions([
-        '-map 0:v',
-        '-map 0:a',
-        '-hls_time 2',
-        '-hls_list_size 3',
-        '-hls_segment_type fmp4',
-        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
-        '-preset veryfast',
-      ])
-      .outputOptions(['-hls_fmp4_init_filename chunkList_720p_0_0.mp4'])
-      .output(`${this.storagePath}/chunklist_480p_.m3u8`)
-      .videoCodec('libx264')
-      .audioCodec('aac')
-      .size('854x480')
-      .videoBitrate('1500k')
-      .audioBitrate('96k')
-      .outputOptions([
-        '-map 0:v',
-        '-map 0:a',
-        '-hls_time 2',
-        '-hls_list_size 3',
-        '-hls_segment_type fmp4',
-        '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
-        '-preset veryfast',
-      ])
-      .outputOptions(['-hls_fmp4_init_filename chunkList_480p_0_0.mp4'])
-      .on('data', (data) => {
-        console.error(`FFmpeg stderr: ${data}`);
-      })
-      .on('close', (code) => {
-        console.log(`FFmpeg process exited with code ${code}`);
-      })
-      .on('error', (code) => {
-        console.log(`FFmpeg process error with code ${code}`);
-      });
 
-    if (!fs.existsSync(this.storagePath)) {
-      fs.mkdirSync(this.storagePath, { recursive: true });
-    }
-
-    fs.watch(this.storagePath, async (eventType, filename) => {
-      if (filename!.match(/^(.*\.m4s$)/) && eventType === 'change') {
-        clearTimeout(this.timerObject[filename!]);
-        this.timerObject[filename!] = setTimeout(
-          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
-          500,
-        );
-      } else if (filename!.match(/^(.*\.m3u8$)/)) {
-        clearTimeout(this.timerObject[filename!]);
-        this.timerObject[filename!] = setTimeout(
-          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
-          500,
-        );
-      } else if (filename!.match(/^(.*\.mp4$)/) && eventType === 'change') {
-        clearTimeout(this.timerObject[filename!]);
-        this.timerObject[filename!] = setTimeout(
-          () => uploadData(`zzawang/${filename}`, this.storagePath + '/' + filename),
-          500,
-        );
-      }
-    });
-
+    // TODO: 방송을 최초 한 번은 시작한 다음에 실행
+    initLocalStorageSetting(this.storagePath, this.timerObject);
+    createMasterPlaylist(this.storagePath);
+    this.ffmpeg = initializeFFMepg(this.ffmpegInputStream, this.storagePath);
     this.ffmpegInputStream.write(createFlvHeader());
     this.ffmpegInputStream.write(previousTagSize0);
-
     this.ffmpeg.run();
   }
 
