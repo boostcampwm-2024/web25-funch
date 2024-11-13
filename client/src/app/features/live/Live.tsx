@@ -37,25 +37,27 @@ import useFocused from '@hooks/useFocused';
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
 
-const LiveController = ({
-  children,
-}: {
-  children: (args: {
-    volume: number;
-    videoRef: RefObject<HTMLVideoElement>;
-    videoWrapperRef: RefObject<HTMLDivElement>;
-    isShowControls: boolean;
-    isPip: boolean;
-    isPlay: boolean;
-    togglePlay: () => void;
-    togglePip: () => void;
-    isFullscreen: boolean;
-    startFullscreen: () => void;
-    exitFullscreen: () => void;
-    toggleMute: () => void;
-    handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-  }) => ReactNode;
-}) => {
+type ChildrenArgs = {
+  volume: number;
+  videoRef: RefObject<HTMLVideoElement>;
+  videoWrapperRef: RefObject<HTMLDivElement>;
+  isShowControls: boolean;
+  isPip: boolean;
+  isPlay: boolean;
+  togglePlay: () => void;
+  togglePip: () => void;
+  isFullscreen: boolean;
+  startFullscreen: () => void;
+  exitFullscreen: () => void;
+  toggleMute: () => void;
+  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+type Props = {
+  children: (args: ChildrenArgs) => ReactNode;
+};
+
+const LiveController = ({ children }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
@@ -138,14 +140,27 @@ const LiveController = ({
   });
 };
 
+const LiveWrapper = ({ children }: PropsWithChildren) => {
+  return <div className="funch-scrollable bg-bg-weak w-full">{children}</div>;
+};
+
 type VideoWrapperProps = PropsWithChildren<{
   isShowControls: boolean;
+  isFullscreen: boolean;
 }>;
 
 const VideoWrapper = forwardRef(
-  ({ children, isShowControls }: VideoWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
+  ({ children, isShowControls, isFullscreen }: VideoWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-      <div className={clsx('w-full', isShowControls ? 'cursor-auto' : 'cursor-none')} ref={ref}>
+      <div
+        className={clsx('w-full', {
+          'flex items-center': isFullscreen,
+        })}
+        style={{
+          cursor: isShowControls ? 'auto' : 'none',
+        }}
+        ref={ref}
+      >
         <div className="pb-live-aspect-ratio relative block w-full">{children}</div>
       </div>
     );
@@ -192,6 +207,10 @@ const VideoControllersWrapper = ({ children, isShowControls }: VideoControllersW
   );
 };
 
+const VideoControllers = ({ children }: PropsWithChildren) => {
+  return <div className={clsx('flex items-center')}>{children}</div>;
+};
+
 const FullscreenButton = ({
   isFullscreen,
   startFullscreen,
@@ -203,6 +222,8 @@ const FullscreenButton = ({
 }) => {
   return (
     <VideoIconButton
+      title={isFullscreen ? '전체화면 종료' : '전체화면 시작'}
+      aria-label={isFullscreen ? '전체화면 종료하기' : '전체화면 시작하기'}
       onClick={() => {
         isFullscreen ? exitFullscreen() : startFullscreen();
       }}
@@ -224,6 +245,8 @@ const PipToggleButton = ({
 }) => {
   return (
     <VideoIconButton
+      title="PIP 모드 전환"
+      aria-label={isPip ? 'PIP 모드 종료하기' : 'PIP 모드 시작하기'}
       componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
       onClick={togglePip}
     >
@@ -256,6 +279,8 @@ const TogglePlayButton = ({
 }) => {
   return (
     <VideoIconButton
+      title={isPlay ? '정지' : '재생'}
+      aria-label={isPlay ? '영상 정지하기' : '영상 재생하기'}
       componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
       onClick={togglePlay}
     >
@@ -275,9 +300,11 @@ const VolumeController = ({
 };
 
 const Live = Object.assign(LiveController, {
+  Wrapper: LiveWrapper,
   VideoWrapper,
   Video,
   VideoControllersWrapper,
+  VideoControllers,
   Play: TogglePlayButton,
   Fullscreen: FullscreenButton,
   Pip: PipToggleButton,
