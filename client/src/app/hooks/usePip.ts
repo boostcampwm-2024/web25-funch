@@ -3,7 +3,7 @@ import { type RefObject, useState } from 'react';
 const usePip = (ref: RefObject<HTMLVideoElement>) => {
   const [isPip, setIsPip] = useState(false);
 
-  const pipToggle = () => {
+  const togglePip = () => {
     if (document.pictureInPictureElement) {
       document.exitPictureInPicture();
       setIsPip(false);
@@ -15,7 +15,7 @@ const usePip = (ref: RefObject<HTMLVideoElement>) => {
     }
   };
 
-  return { isPip, pipToggle };
+  return { isPip, togglePip };
 };
 
 export default usePip;

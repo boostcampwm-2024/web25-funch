@@ -3,7 +3,7 @@ import { type RefObject, useState } from 'react';
 const usePlay = (ref: RefObject<HTMLVideoElement>) => {
   const [isPlay, setIsPlay] = useState(true);
 
-  const playToggle = () => {
+  const togglePlay = () => {
     if (ref.current && ref.current.paused) {
       ref.current.play();
       setIsPlay(true);
@@ -13,7 +13,7 @@ const usePlay = (ref: RefObject<HTMLVideoElement>) => {
     }
   };
 
-  return { isPlay, playToggle };
+  return { isPlay, togglePlay };
 };
 
 export default usePlay;

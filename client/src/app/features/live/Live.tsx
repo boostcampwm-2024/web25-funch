@@ -37,27 +37,25 @@ import useFocused from '@hooks/useFocused';
 const demoHlsUrl =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
 
-type ChildrenArgs = {
-  volume: number;
-  videoRef: RefObject<HTMLVideoElement>;
-  videoWrapperRef: RefObject<HTMLDivElement>;
-  isShowControls: boolean;
-  isPip: boolean;
-  isPlay: boolean;
-  playToggle: () => void;
-  pipToggle: () => void;
-  isFullscreen: boolean;
-  startFullscreen: () => void;
-  exitFullscreen: () => void;
-  toggleMute: () => void;
-  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-type Props = {
-  children: (args: ChildrenArgs) => ReactNode;
-};
-
-const LiveController = ({ children }: Props) => {
+const LiveController = ({
+  children,
+}: {
+  children: (args: {
+    volume: number;
+    videoRef: RefObject<HTMLVideoElement>;
+    videoWrapperRef: RefObject<HTMLDivElement>;
+    isShowControls: boolean;
+    isPip: boolean;
+    isPlay: boolean;
+    togglePlay: () => void;
+    togglePip: () => void;
+    isFullscreen: boolean;
+    startFullscreen: () => void;
+    exitFullscreen: () => void;
+    toggleMute: () => void;
+    handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
+  }) => ReactNode;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(50);
@@ -66,11 +64,11 @@ const LiveController = ({ children }: Props) => {
 
   const { isFullscreen, startFullscreen, exitFullscreen } = useFullscreen(videoWrapperRef);
 
-  const { isPip, pipToggle } = usePip(videoRef);
+  const { isPip, togglePip } = usePip(videoRef);
 
   const { isMouseMoving } = useMouseMovementOnElement(videoWrapperRef);
 
-  const { isPlay, playToggle } = usePlay(videoRef);
+  const { isPlay, togglePlay } = usePlay(videoRef);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -130,12 +128,12 @@ const LiveController = ({ children }: Props) => {
     isShowControls,
     isPip,
     isPlay,
-    playToggle,
+    togglePlay,
     isFullscreen,
     startFullscreen,
     exitFullscreen,
     toggleMute,
-    pipToggle,
+    togglePip,
     handleChangeVolume,
   });
 };
@@ -216,18 +214,18 @@ const FullscreenButton = ({
 };
 
 const PipToggleButton = ({
-  pipToggle,
+  togglePip,
   isPip,
   isFullscreen,
 }: {
-  pipToggle: () => void;
+  togglePip: () => void;
   isPip: boolean;
   isFullscreen: boolean;
 }) => {
   return (
     <VideoIconButton
       componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
-      onClick={pipToggle}
+      onClick={togglePip}
     >
       {isPip ? <PipQuitSvg /> : <PipSvg />}
     </VideoIconButton>
@@ -247,19 +245,19 @@ const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
   );
 };
 
-const PlayToggleButton = ({
-  playToggle,
+const TogglePlayButton = ({
+  togglePlay,
   isPlay,
   isFullscreen,
 }: {
-  playToggle: () => void;
+  togglePlay: () => void;
   isPlay: boolean;
   isFullscreen: boolean;
 }) => {
   return (
     <VideoIconButton
       componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
-      onClick={playToggle}
+      onClick={togglePlay}
     >
       {isPlay ? <PauseSvg /> : <PlaySvg />}
     </VideoIconButton>
@@ -280,7 +278,7 @@ const Live = Object.assign(LiveController, {
   VideoWrapper,
   Video,
   VideoControllersWrapper,
-  Play: PlayToggleButton,
+  Play: TogglePlayButton,
   Fullscreen: FullscreenButton,
   Pip: PipToggleButton,
   Mute: MuteButton,
