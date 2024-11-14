@@ -8,6 +8,7 @@ import useLiveContext from '@hooks/useLiveContext';
 import NoLiveContent from './NoLiveContent';
 import clsx from 'clsx';
 import { type PropsWithChildren } from 'react';
+import VideoController from './VideoController';
 
 const LiveSection = () => {
   const { isLivePage, liveId } = useLiveContext();
@@ -71,23 +72,34 @@ const LiveSection = () => {
           <Live.Wrapper>
             <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls} isFullscreen={isFullscreen}>
               <Live.Video ref={videoRef} />
-              <Live.VideoControllersWrapper isShowControls={isShowControls}>
-                <Live.VideoControllers>
-                  <Live.Play isFullscreen={isFullscreen} togglePlay={togglePlay} isPlay={isPlay} />
-                  <Live.Mute toggleMute={toggleMute} />
-                  <Live.Volume volume={volume} handleChangeVolume={handleChangeVolume} />
-                </Live.VideoControllers>
-                {isLivePage && (
-                  <Live.VideoControllers>
-                    <Live.Pip togglePip={togglePip} isFullscreen={isFullscreen} isPip={isPip} />
-                    <Live.Fullscreen
-                      isFullscreen={isFullscreen}
-                      startFullscreen={startFullscreen}
-                      exitFullscreen={exitFullscreen}
-                    />
-                  </Live.VideoControllers>
-                )}
-              </Live.VideoControllersWrapper>
+              <VideoController
+                value={{
+                  isFullscreen,
+                  volume,
+                  isPip,
+                  isPlay,
+                  startFullscreen,
+                  exitFullscreen,
+                  togglePip,
+                  togglePlay,
+                  toggleMute,
+                  handleChangeVolume,
+                }}
+              >
+                <VideoController.Wrapper isShowControls={isShowControls}>
+                  <VideoController.Box>
+                    <VideoController.Play />
+                    <VideoController.Mute />
+                    <VideoController.Volume />
+                  </VideoController.Box>
+                  {isLivePage && (
+                    <VideoController.Box>
+                      <VideoController.Pip />
+                      <VideoController.Fullscreen />
+                    </VideoController.Box>
+                  )}
+                </VideoController.Wrapper>
+              </VideoController>
             </Live.VideoWrapper>
             {isLivePage && <Live.Info />}
           </Live.Wrapper>
