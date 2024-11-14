@@ -15,6 +15,7 @@ import SoundLowSvg from '@components/svgs/SoundLowSvg';
 import SoundHighSvg from '@components/svgs/SoundHighSvg';
 import PauseSvg from '@components/svgs/PauseSvg';
 import PlaySvg from '@components/svgs/PlaySvg';
+import RangeInput from '@components/RangeInput';
 
 type PlayContextType = {
   isPlay: boolean;
@@ -44,7 +45,7 @@ const PlayContext = createContext<PlayContextType>({
 });
 
 const VolumeContext = createContext<VolumeContextType>({
-  volume: 50,
+  volume: 0,
   handleChangeVolume: () => {},
   toggleMute: () => {},
 });
@@ -180,19 +181,60 @@ const PipButton = () => {
   );
 };
 
-const MuteButton = () => {
-  const { toggleMute } = useVolumeContext();
+const VolumeController = () => {
+  const { volume, handleChangeVolume, toggleMute } = useVolumeContext();
+
+  console.log('volume', volume);
   return (
-    <button
-      onClick={toggleMute}
-      className="text-content-static-white inline-flex h-10 w-10 items-center justify-center"
-    >
-      <SoundMutedSvg />
-      <SoundLowSvg />
-      <SoundHighSvg />
-    </button>
+    <div className="flex items-center">
+      <VideoIconButton componentType="DEFAULT" onClick={toggleMute}>
+        <VolumeSvg volume={volume} />
+      </VideoIconButton>
+      {/* <input type="range" tabIndex={-1} min="0" max="100" value={volume} onChange={handleChangeVolume} /> */}
+      <div className="w-20">
+        <RangeInput
+          //  tabIndex={-1}
+          min={0}
+          max={100}
+          step={1}
+          value={volume}
+          onChange={handleChangeVolume}
+        />
+      </div>
+    </div>
   );
 };
+
+const VolumeSvg = ({ volume }: { volume: number }) => {
+  const renderedVolumeIcon = () => {
+    switch (true) {
+      case volume === 0:
+        return <SoundMutedSvg />;
+
+      case volume > 0 && volume <= 50:
+        return <SoundLowSvg />;
+
+      default:
+        return <SoundHighSvg />;
+    }
+  };
+
+  return <>{renderedVolumeIcon()}</>;
+};
+
+// const MuteButton = () => {
+//   const { toggleMute } = useVolumeContext();
+//   return (
+//     <button
+//       onClick={toggleMute}
+//       className="text-content-static-white inline-flex h-10 w-10 items-center justify-center"
+//     >
+//       <SoundMutedSvg />
+//       <SoundLowSvg />
+//       <SoundHighSvg />
+//     </button>
+//   );
+// };
 
 const PlayButton = () => {
   const { togglePlay, isPlay } = usePlayContext();
@@ -209,17 +251,17 @@ const PlayButton = () => {
   );
 };
 
-const VolumeController = () => {
-  const { volume, handleChangeVolume } = useVolumeContext();
-  return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
-};
+// const VolumeController = () => {
+//   const { volume, handleChangeVolume } = useVolumeContext();
+//   return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
+// };
 
 const VideoController = Object.assign(VideoControllerProvider, {
   Wrapper: VideoControllerWrapper,
   Box: VideoControllerBox,
   Fullscreen: FullscreenButton,
   Pip: PipButton,
-  Mute: MuteButton,
+  // Mute: MuteButton,
   Play: PlayButton,
   Volume: VolumeController,
 });
