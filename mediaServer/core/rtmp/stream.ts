@@ -200,12 +200,11 @@ class RTMPStream {
     let currentChunkState = 0;
 
     if (this.workingChunk.extraBytes > 0) {
-      this.workingChunk.payload = Buffer.concat([
-        this.workingChunk.payload,
-        data.subarray(offset, this.workingChunk.extraBytes),
-      ]);
-      offset += this.workingChunk.extraBytes;
-      this.workingChunk.extraBytes = 0;
+      const leftData = data.subarray(offset, offset + this.workingChunk.extraBytes);
+      this.workingChunk.payload = Buffer.concat([this.workingChunk.payload, leftData]);
+
+      offset += leftData.length;
+      this.workingChunk.extraBytes -= leftData.length;
 
       if (this.workingChunk.payload.length === this.workingChunk.messageHeader.messageLength) {
         this.handleMessage();
@@ -290,13 +289,11 @@ class RTMPStream {
               this.workingChunk.headerBytes = Buffer.concat([this.workingChunk.headerBytes, data.subarray(offset)]);
               return;
             }
-
             this.workingChunk.extendedTimestamp = data.subarray(offset, offset + 4).readUInt32BE();
             offset += 4;
           }
 
           currentChunkState += 1;
-
           this.workingChunk.headerBytes = Buffer.alloc(0);
           break;
         }
@@ -311,6 +308,8 @@ class RTMPStream {
             data.subarray(offset).length < this.chunkSize
           ) {
             this.workingChunk.extraBytes = this.chunkSize - minimumValid;
+          } else if (minimumValid < this.chunkSize && availablePayloadLength > data.subarray(offset).length) {
+            this.workingChunk.extraBytes = availablePayloadLength - data.subarray(offset).length;
           }
 
           this.workingChunk.payload = Buffer.concat([
