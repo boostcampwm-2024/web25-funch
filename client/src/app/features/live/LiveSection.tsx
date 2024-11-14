@@ -89,7 +89,7 @@ const LiveSection = () => {
                 <VideoController.Wrapper isShowControls={isShowControls}>
                   <VideoController.Box>
                     <VideoController.Play />
-                    <VideoController.Mute />
+                    {/* <VideoController.Mute /> */}
                     <VideoController.Volume />
                   </VideoController.Box>
                   {isLivePage && (

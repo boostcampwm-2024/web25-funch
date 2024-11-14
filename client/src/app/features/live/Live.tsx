@@ -20,7 +20,8 @@ import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 import usePlay from '@hooks/usePlay';
 import useFocused from '@hooks/useFocused';
 
-const demoHlsUrl =
+const demoHlsUrl1 = 'https://kr.object.ncloudstorage.com/media-storage/zzawang/master_playlist.m3u8';
+const demoHlsUrl2 =
   'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
 
 type ChildrenArgs = {
@@ -46,7 +47,8 @@ type Props = {
 const LiveController = ({ children }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(0);
+  const [savedVolume, setSavedVolume] = useState(1);
 
   const { isFocusing } = useFocused(videoWrapperRef);
 
@@ -60,13 +62,21 @@ const LiveController = ({ children }: Props) => {
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
+      if (videoRef.current.muted) {
+        videoRef.current.volume = savedVolume;
+        setVolume(savedVolume);
+      } else {
+        setSavedVolume(videoRef.current.volume);
+        setVolume(0);
+      }
     }
   };
 
   const handleChangeVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const nextVolume = Number(e.target.value);
     setVolume(nextVolume);
+
+    if (!nextVolume) setSavedVolume(nextVolume);
   };
 
   useEffect(() => {
@@ -86,13 +96,21 @@ const LiveController = ({ children }: Props) => {
     if (videoRef.current) {
       videoRef.current.volume = volume / 100;
     }
+
+    if (videoRef.current && volume !== 0) {
+      videoRef.current.muted = false;
+    }
+
+    if (videoRef.current && volume === 0) {
+      videoRef.current.muted = true;
+    }
   }, [volume]);
 
   useEffect(() => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(demoHlsUrl);
+      hls.loadSource(demoHlsUrl2);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -100,7 +118,7 @@ const LiveController = ({ children }: Props) => {
       });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = demoHlsUrl;
+      videoRef.current.src = demoHlsUrl2;
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play();
       });
