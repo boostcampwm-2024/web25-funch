@@ -1,5 +1,5 @@
 import net from 'net';
-import { writeType0Packet } from '@core/rtmp/packet';
+import { writeType0Packet } from '@rtmp/packet';
 import { encodeAmf0Cmd } from 'node-amfutils';
 
 const getResultCommandMessage = (streamCount: number) => {

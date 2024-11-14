@@ -8,7 +8,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "@core/*": ["core/*"]
+      "@rtmp/*": ["core/rtmp/*"],
+      "@media/*": ["core/media/*"]
     },
     "noImplicitAny": false
   }
