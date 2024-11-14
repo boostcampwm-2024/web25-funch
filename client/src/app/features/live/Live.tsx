@@ -8,30 +8,16 @@ import {
   type RefObject,
   forwardRef,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 import Hls from 'hls.js';
 import clsx from 'clsx';
-import PlaySvg from '@components/svgs/PlaySvg';
-import PauseSvg from '@components/svgs/PauseSvg';
-import SoundLowSvg from '@components/svgs/SoundLowSvg';
-import SoundMutedSvg from '@components/svgs/SoundMutedSvg';
-import SoundHighSvg from '@components/svgs/SoundHighSvg';
-import VideoIconButton from './VideoIconButton';
-import FullscreenSvg from '@components/svgs/FullscreenSvg';
-import FullscreenQuitSvg from '@components/svgs/FullscreenQuitSvg';
-import PipSvg from '@components/svgs/PipSvg';
-import PipQuitSvg from '@components/svgs/PipQuitSvg';
-import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
 import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 import usePlay from '@hooks/usePlay';
-import useLiveContext from '@hooks/useLiveContext';
-import LiveSvg from '@components/svgs/LiveSvg';
 import useFocused from '@hooks/useFocused';
 
 const demoHlsUrl =
@@ -121,7 +107,7 @@ const LiveController = ({ children }: Props) => {
     }
   }, []);
 
-  const isShowControls = useMemo(() => isFocusing || isMouseMoving, [isFocusing, isMouseMoving]);
+  const isShowControls = isFocusing || isMouseMoving;
 
   return children({
     volume,
@@ -180,136 +166,10 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
   );
 });
 
-type VideoControllersWrapperProps = PropsWithChildren<{
-  isShowControls: boolean;
-}>;
-
-const VideoControllersWrapper = ({ children, isShowControls }: VideoControllersWrapperProps) => {
-  const { isLivePage } = useLiveContext();
-  return (
-    <div
-      className={clsx(
-        'funch-overlay absolute bottom-0 left-0 right-0 top-0 px-3.5 pb-2.5 pt-3.5',
-        isShowControls ? 'opacity-100' : 'opacity-0',
-      )}
-    >
-      <div className={clsx('flex h-full w-full flex-col', isLivePage ? 'justify-between' : 'justify-end')}>
-        {isLivePage && (
-          <div className="w-full">
-            <div className="bg-surface-red-strong ml-auto flex h-6 w-14 items-center justify-center rounded-md">
-              <LiveSvg />
-            </div>
-          </div>
-        )}
-        <div className="flex h-9 items-center justify-between">{children}</div>
-      </div>
-    </div>
-  );
-};
-
-const VideoControllers = ({ children }: PropsWithChildren) => {
-  return <div className={clsx('flex items-center')}>{children}</div>;
-};
-
-const FullscreenButton = ({
-  isFullscreen,
-  startFullscreen,
-  exitFullscreen,
-}: {
-  isFullscreen: boolean;
-  startFullscreen: () => void;
-  exitFullscreen: () => void;
-}) => {
-  return (
-    <VideoIconButton
-      title={isFullscreen ? '전체화면 종료' : '전체화면 시작'}
-      aria-label={isFullscreen ? '전체화면 종료하기' : '전체화면 시작하기'}
-      onClick={() => {
-        isFullscreen ? exitFullscreen() : startFullscreen();
-      }}
-      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
-    >
-      {isFullscreen ? <FullscreenQuitSvg /> : <FullscreenSvg />}
-    </VideoIconButton>
-  );
-};
-
-const PipToggleButton = ({
-  togglePip,
-  isPip,
-  isFullscreen,
-}: {
-  togglePip: () => void;
-  isPip: boolean;
-  isFullscreen: boolean;
-}) => {
-  return (
-    <VideoIconButton
-      title="PIP 모드 전환"
-      aria-label={isPip ? 'PIP 모드 종료하기' : 'PIP 모드 시작하기'}
-      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
-      onClick={togglePip}
-    >
-      {isPip ? <PipQuitSvg /> : <PipSvg />}
-    </VideoIconButton>
-  );
-};
-
-const MuteButton = ({ toggleMute }: { toggleMute: () => void }) => {
-  return (
-    <button
-      onClick={toggleMute}
-      className="text-content-static-white inline-flex h-10 w-10 items-center justify-center"
-    >
-      <SoundMutedSvg />
-      <SoundLowSvg />
-      <SoundHighSvg />
-    </button>
-  );
-};
-
-const TogglePlayButton = ({
-  togglePlay,
-  isPlay,
-  isFullscreen,
-}: {
-  togglePlay: () => void;
-  isPlay: boolean;
-  isFullscreen: boolean;
-}) => {
-  return (
-    <VideoIconButton
-      title={isPlay ? '정지' : '재생'}
-      aria-label={isPlay ? '영상 정지하기' : '영상 재생하기'}
-      componentType={isFullscreen ? VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN : VIDEO_ICON_COMPONENT_TYPE.DEFAULT}
-      onClick={togglePlay}
-    >
-      {isPlay ? <PauseSvg /> : <PlaySvg />}
-    </VideoIconButton>
-  );
-};
-
-const VolumeController = ({
-  volume,
-  handleChangeVolume,
-}: {
-  volume: number;
-  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-}) => {
-  return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
-};
-
 const Live = Object.assign(LiveController, {
   Wrapper: LiveWrapper,
   VideoWrapper,
   Video,
-  VideoControllersWrapper,
-  VideoControllers,
-  Play: TogglePlayButton,
-  Fullscreen: FullscreenButton,
-  Pip: PipToggleButton,
-  Mute: MuteButton,
-  Volume: VolumeController,
   Info: LiveInfo,
 });
 
