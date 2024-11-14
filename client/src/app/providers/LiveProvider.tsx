@@ -73,7 +73,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
       const a = [null, 'ahahah'];
       const randomIndex = Math.floor(Math.random() * a.length);
       setLiveId(a[randomIndex]);
-      setLiveInfo(mockedLives[0]);
+      setLiveInfo(mockedLives[1]);
       setIsLoading(false);
     };
 
