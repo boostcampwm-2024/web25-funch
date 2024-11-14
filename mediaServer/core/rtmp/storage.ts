@@ -28,7 +28,7 @@ async function uploadData(path, filePath) {
       Body: fs.createReadStream(filePath),
     }).promise();
   } catch (e) {
-    console.log(e);
+    return e;
   }
 }
 
@@ -39,25 +39,27 @@ function initLocalStorageSetting(storagePath, timerObject) {
   }
 
   fs.watch(storagePath, async (eventType, filename) => {
-    if (filename!.match(/^(.*\.m4s$)/) && eventType === 'change') {
-      clearTimeout(timerObject[filename!]);
+    if (filename!.match(/^(?!.*\.tmp$)/)) {
+      if (filename!.match(/^(.*\.m4s$)/)) {
+        clearTimeout(timerObject[filename!]);
 
-      timerObject[filename!] = setTimeout(
-        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
-        TIME_OUT,
-      );
-    } else if (filename!.match(/^(.*\.m3u8$)/)) {
-      clearTimeout(timerObject[filename!]);
-      timerObject[filename!] = setTimeout(
-        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
-        TIME_OUT,
-      );
-    } else if (filename!.match(/^(.*\.mp4$)/) && eventType === 'change') {
-      clearTimeout(timerObject[filename!]);
-      timerObject[filename!] = setTimeout(
-        () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
-        TIME_OUT,
-      );
+        timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+          TIME_OUT,
+        );
+      } else if (filename!.match(/^(.*\.m3u8$)/)) {
+        clearTimeout(timerObject[filename!]);
+        timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+          TIME_OUT,
+        );
+      } else if (filename!.match(/^(.*\.mp4$)/)) {
+        clearTimeout(timerObject[filename!]);
+        timerObject[filename!] = setTimeout(
+          () => uploadData(`zzawang/${filename}`, storagePath + '/' + filename),
+          TIME_OUT,
+        );
+      }
     }
   });
 }
