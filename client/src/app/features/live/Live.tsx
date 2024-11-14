@@ -110,7 +110,7 @@ const LiveController = ({ children }: Props) => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(demoHlsUrl2);
+      hls.loadSource(demoHlsUrl1);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -118,7 +118,7 @@ const LiveController = ({ children }: Props) => {
       });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = demoHlsUrl2;
+      videoRef.current.src = demoHlsUrl1;
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play();
       });

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactNode, type PropsWithChildren, useState } from 'react';
 import LiveBadge from './LiveBadge';
+import mochaImage from '@assets/mocha.png';
 
 type ChildrenArgs = {
   visibleLives: Live[];
@@ -61,7 +62,8 @@ const Live = ({ live }: LiveProps) => {
       >
         <div className="absolute left-0 top-0 h-full w-full">
           <Image
-            src={live.thumbnail}
+            // src={live.thumbnail}
+            src={mochaImage}
             fill={true}
             sizes="100%"
             alt={`스트리머 ${live.streamer.name}가 스트리밍 중인 영상의 섬네일`}
