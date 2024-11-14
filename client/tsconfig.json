@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@assets/*": ["./src/app/assets/*"],
       "@test/*": ["./src/app/__test__/*"],
       "@mocks/*": ["./src/app/__mocks__/*"],
       "@hooks/*": ["./src/app/hooks/*"],
