@@ -15,7 +15,7 @@ const CabinetLink = ({ link }: LinkProps) => {
   return link === 'category' ? (
     <Link
       href="/categories"
-      className={`funch-desktop:flex hover:bg-border-neutral-weak funch-desktop:pl-[12px] funch-desktop:h-8 mx-auto mt-4 block h-16 w-4/5 items-center rounded-md ${
+      className={`funch-desktop:flex hover:bg-border-neutral-weak funch-desktop:pl-[12px] funch-desktop:h-12 mx-auto mt-4 block h-14 w-4/5 items-center rounded-md ${
         pathname === '/categories' ? 'text-content-brand-base' : 'text-neutral-strong'
       }`}
     >
@@ -27,7 +27,7 @@ const CabinetLink = ({ link }: LinkProps) => {
         <CategorySvg />
       </div>
       <span
-        className={`funch-desktop:mt-0 funch-desktop:h-9 funch-desktop:flex funch-desktop:items-center funch-desktop:funch-bold16 funch-desktop:px-2 funch-medium14 mt-1 block text-center ${
+        className={`funch-desktop:mt-0 funch-desktop:h-12 funch-desktop:flex funch-desktop:items-center funch-desktop:funch-bold16 funch-desktop:px-2 funch-medium14 mt-1 block text-center ${
           pathname === '/categories' ? 'text-content-brand-base' : 'text-neutral-strong'
         }`}
       >
@@ -37,7 +37,7 @@ const CabinetLink = ({ link }: LinkProps) => {
   ) : (
     <Link
       href="/following"
-      className={`funch-desktop:flex hover:bg-border-neutral-weak funch-desktop:pl-[12px] funch-desktop:h-8 mx-auto mt-4 block h-14 w-4/5 items-center rounded-md ${
+      className={`funch-desktop:flex hover:bg-border-neutral-weak funch-desktop:pl-[12px] funch-desktop:h-12 funch-desktop:mt-2 mx-auto mt-4 block h-14 w-4/5 items-center rounded-md ${
         pathname === '/following' ? 'text-content-brand-base' : 'text-neutral-strong'
       }`}
     >
