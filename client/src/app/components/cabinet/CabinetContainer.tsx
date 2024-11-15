@@ -20,7 +20,7 @@ const CabinetContainer = () => {
 
 const CategoryNavigator = () => {
   return (
-    <div className="funch-desktop:h-28 h-40 min-h-28">
+    <div className="funch-desktop:h-32 h-40 min-h-28">
       <CabinetLink link="category" />
       <CabinetLink link="follow" />
     </div>
