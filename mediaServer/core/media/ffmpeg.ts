@@ -3,6 +3,7 @@ import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import ffprobePath from '@ffprobe-installer/ffprobe';
 import ffmpeg from 'fluent-ffmpeg';
 import { PassThrough } from 'stream';
+import { logger } from '@/logger';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -51,13 +52,13 @@ function initializeFFMepg(ffmpegInputStream: PassThrough, storagePath: string) {
     .outputOptions(['-vf', 'fps=1/30', '-update', '1', '-s', '426x240'])
 
     .on('end', (err, stdout, stderr) => {
-      console.log('Finished processing!', err, stdout, stderr);
+      logger.info(`Finished processing! err: ${err}, stdout: ${stdout}, stderr: ${stderr}`);
     })
     .on('close', (code) => {
-      console.log(`FFmpeg process exited with code ${code}`);
+      logger.error(`FFmpeg process exited with code ${code}`);
     })
     .on('error', (code) => {
-      console.log(`FFmpeg process error with code ${code}`);
+      logger.error(`FFmpeg process error with code ${code}`);
     });
 }
 
