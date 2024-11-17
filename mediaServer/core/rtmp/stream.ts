@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import ffprobePath from '@ffprobe-installer/ffprobe';
 import ffmpeg from 'fluent-ffmpeg';
+import fs from 'fs';
 import { RtmpChunk, createRtmpChunk, parseBasicHeader, parseMessageHeader } from '@rtmp/packet';
 import { handshake, HandshakeData } from '@rtmp/handshake';
 import { connect } from '@rtmp/connect';
@@ -10,9 +11,9 @@ import { createStream } from '@rtmp/createStream';
 import { publish } from '@rtmp/publish';
 import { decodeAMF } from '@rtmp/utils';
 import { createFlvHeader, previousTagSize0, createFlvTag } from '@media/flv';
-import { initLocalStorageSetting } from '@media/storage';
 import { PassThrough } from 'stream';
 import { initializeFFMepg, createMasterPlaylist } from '@media/ffmpeg';
+import { logger } from '@/logger';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -46,7 +47,7 @@ class RTMPStream {
 
   ffmpeg: ffmpeg.FfmpegCommand;
   ffmpegInputStream: PassThrough;
-  storagePath = '../mediaStorage/zzawang'; // TODO: 스트림 키 검증 후 브로드캐스트 아이디 가져와서 Path에 등록
+  storagePath = '../../media-storage/zzawang'; // TODO: 스트림 키 검증 후 브로드캐스트 아이디 가져와서 Path에 등록
   timerObject: Record<string, NodeJS.Timeout>;
 
   constructor(private socket: net.Socket) {
@@ -70,7 +71,9 @@ class RTMPStream {
     this.ffmpegInputStream = new PassThrough();
 
     // TODO: 방송을 최초 한 번은 시작한 다음에 실행
-    initLocalStorageSetting(this.storagePath, this.timerObject);
+    if (!fs.existsSync(this.storagePath)) {
+      fs.mkdirSync(this.storagePath, { recursive: true });
+    }
     createMasterPlaylist(this.storagePath);
     this.ffmpeg = initializeFFMepg(this.ffmpegInputStream, this.storagePath);
     this.ffmpegInputStream.write(createFlvHeader());
@@ -92,24 +95,26 @@ class RTMPStream {
       try {
         this.parseRtmpChunk(data);
       } catch (e) {
-        console.log('parse error: ', e);
+        logger.error(`parse error: ${e}`);
       }
     }
   }
 
-  closeEvent() {
-    console.log('Close Socket Event!');
+  async closeEvent() {
+    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
+    logger.info(`The ${this.streamKey} has been closed.`);
     this.socket.end();
   }
 
   errorEvent(error) {
-    console.log('Error Socket Event!');
-    console.error(error);
+    logger.error(`The ${this.streamKey} has made an error: ${error}`);
+    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
     this.socket.destroy();
   }
 
   timeoutEvent() {
-    console.log('Timeout Socket Event!');
+    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
+    logger.info(`The ${this.streamKey} timed out.`);
     this.socket.destroy();
   }
 
@@ -122,7 +127,6 @@ class RTMPStream {
       case 4:
       case 5:
       case 6:
-        // TODO: 제어 메시지 처리
         this.handleControlMessage(typeId);
         break;
       case 17:
@@ -131,10 +135,9 @@ class RTMPStream {
         break;
       case 19:
       case 16:
-        console.log('shared Object Message ', decodeAMF(typeId, this.workingChunk.payload, 19, 16));
+        logger.info(`shared Object Message : ${decodeAMF(typeId, this.workingChunk.payload, 19, 16)}`);
         break;
       default:
-        // TODO: 데이터 메시지 처리
         this.handleDataMessage(typeId);
         break;
     }
@@ -146,19 +149,19 @@ class RTMPStream {
         this.chunkSize = this.workingChunk.payload.readUInt32BE();
         break;
       case ABORT_MESSAGE:
-        console.log('ABORT_MESSAGE');
+        logger.debug(`${this.streamKey} ABORT_MESSAGE`);
         break;
       case ACK:
-        console.log('ACK');
+        logger.debug(`${this.streamKey} ACK`);
         break;
       case USER_CONTROL_MESSAGE:
-        console.log('USER_CONTROL_MESSAGE');
+        logger.debug(`${this.streamKey} USER_CONTROL_MESSAGE`);
         break;
       case WINDOW_ACK_SIZE:
-        console.log('WINDOW_ACK_SIZE');
+        logger.debug(`${this.streamKey} WINDOW_ACK_SIZE`);
         break;
       case SET_PEER_BANDWIDTH:
-        console.log('SET_PEER_BANDWIDTH');
+        logger.debug(`${this.streamKey} SET_PEER_BANDWIDTH`);
         break;
     }
   }
@@ -174,12 +177,13 @@ class RTMPStream {
         this.streamKey = decodedPayload.streamId;
         break;
       case 'createStream':
-        // TODO: DB 저장된 streamKey와 비교하여 등록된 스트림 key가 아니라면 error 이벤트 발생 함수
+        // TODO: API서버에 Stream key 전달하고 broadcast key 가져오기, //API서버가 할 일 DB 저장된 streamKey와 비교하여 등록된 스트림 key가 아니라면 false 반환,
         this.streamCount++;
         createStream(this.socket, this.streamCount);
         break;
       case 'publish':
         publish(this.socket);
+        logger.info(`${this.streamKey} successfully connected to the broadcast`);
         break;
       default:
         break;
@@ -260,7 +264,6 @@ class RTMPStream {
             break;
           }
 
-          // 남은 data가 메시지 헤더 길이보다 부족하면
           if (messageHeaderBytes > data.subarray(offset, offset + messageHeaderBytes).length) {
             this.workingChunk.headerBytes = Buffer.concat([this.workingChunk.headerBytes, data.subarray(offset)]);
             return;
