@@ -13,11 +13,9 @@ const defaultOutputOptions = [
   '-hls_time 2',
   '-hls_list_size 3',
   '-hls_segment_type fmp4',
-  '-hls_flags delete_segments+split_by_time+independent_segments+omit_endlist',
+  '-hls_flags split_by_time+independent_segments+omit_endlist',
   '-preset veryfast',
 ];
-
-// .outputOptions(['-master_pl_name master.m3u8'])
 
 function initializeFFMepg(ffmpegInputStream: PassThrough, storagePath: string) {
   return ffmpeg()
@@ -48,6 +46,9 @@ function initializeFFMepg(ffmpegInputStream: PassThrough, storagePath: string) {
     .videoBitrate('1500k')
     .audioBitrate('96k')
     .outputOptions([...defaultOutputOptions, '-hls_fmp4_init_filename chunkList_480p_0_0.mp4'])
+
+    .output(`${storagePath}/dynamic_thumbnail.jpg`)
+    .outputOptions(['-vf', 'fps=1/30', '-update', '1', '-s', '426x240'])
 
     .on('end', (err, stdout, stderr) => {
       console.log('Finished processing!', err, stdout, stderr);
