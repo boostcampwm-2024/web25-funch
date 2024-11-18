@@ -23,10 +23,11 @@ const RangeInput = ({ value, updateValue, min = 0, max = 100, step = 10 }: Props
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
 
     // 드래그 위치를 비율로 계산
-    let newValue = ((clientX - rect.left) / rect.width) * (max - min) + min;
+    let newValue = rect.width === 0 ? 0 : ((clientX - rect.left) / rect.width) * (max - min) + min;
 
     // 범위 내 값으로 제한
     newValue = Math.max(min, Math.min(max, Math.round(newValue / step) * step));
+
     setInternalValue(newValue);
     updateValue(newValue);
   };
