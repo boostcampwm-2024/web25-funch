@@ -38,6 +38,7 @@ type ChildrenArgs = {
   exitFullscreen: () => void;
   toggleMute: () => void;
   handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
+  updateVolume: (value: number) => void;
 };
 
 type Props = {
@@ -59,6 +60,10 @@ const LiveController = ({ children }: Props) => {
   const { isMouseMoving } = useMouseMovementOnElement(videoWrapperRef);
 
   const { isPlay, togglePlay } = usePlay(videoRef);
+
+  const updateVolume = (value: number) => {
+    setVolume(value);
+  };
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -109,7 +114,7 @@ const LiveController = ({ children }: Props) => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(demoHlsUrl1);
+      hls.loadSource(demoHlsUrl2);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -117,7 +122,7 @@ const LiveController = ({ children }: Props) => {
       });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = demoHlsUrl1;
+      videoRef.current.src = demoHlsUrl2;
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play();
       });
@@ -140,6 +145,7 @@ const LiveController = ({ children }: Props) => {
     toggleMute,
     togglePip,
     handleChangeVolume,
+    updateVolume,
   });
 };
 

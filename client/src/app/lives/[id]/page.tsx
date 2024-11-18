@@ -1,14 +1,5 @@
-// import React from 'react';
+const LivePage = async () => {
+  return null;
+};
 
-// type Props = {
-//   params: Promise<{ id: string }>;
-// };
-
-const page = async () =>
-  // { params }: Props
-  {
-    // const id = (await params).id;
-    return null;
-  };
-
-export default page;
+export default LivePage;

@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@test': fileURLToPath(new URL('./src/__test__', import.meta.url)),
-      '@mocks': fileURLToPath(new URL('./src/__mocks__', import.meta.url)),
+      '@assets': fileURLToPath(new URL('./src/app/assets', import.meta.url)),
+      '@test': fileURLToPath(new URL('./src/app/__test__', import.meta.url)),
+      '@mocks': fileURLToPath(new URL('./src/app/__mocks__', import.meta.url)),
       '@hooks': fileURLToPath(new URL('./src/app/hooks', import.meta.url)),
       '@providers': fileURLToPath(new URL('./src/app/providers', import.meta.url)),
       '@libs': fileURLToPath(new URL('./src/app/libs', import.meta.url)),
