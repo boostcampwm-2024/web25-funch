@@ -38,7 +38,6 @@ const RootLayout = ({
             <GlobalProvider>
               <Header />
               <Cabinet />
-              {/* {!wideView && <Cabinet />} */}
               <Main>
                 {children}
                 <LiveProvider>
