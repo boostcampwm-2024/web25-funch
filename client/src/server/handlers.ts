@@ -2,6 +2,10 @@ import { mockedBroadcasts } from '@mocks/broadcasts';
 import { mockedUsers } from '@mocks/users';
 import { http, HttpResponse } from 'msw';
 
+const ping = () => {
+  return HttpResponse.json('pong');
+};
+
 const getBroadcasts = () => {
   return HttpResponse.json(mockedBroadcasts);
 };
@@ -12,6 +16,7 @@ const getUserByBroadcastId = ({ params }: { params: { broadcastId: string } }) =
 };
 
 export const handlers = [
+  http.get('/api/ping', ping),
   http.get('/api/broadcasts', getBroadcasts),
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
 ];

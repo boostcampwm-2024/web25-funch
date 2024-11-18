@@ -6,6 +6,10 @@ const nextConfig = {
         source: '/lives',
         destination: '/',
       },
+      {
+        source: '/api/:path*',
+        destination: process.env.NODE_ENV !== 'production' ? '/api/:path*' : 'https://api.example.com/:path*',
+      },
     ];
   },
   images: {
