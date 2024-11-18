@@ -63,10 +63,9 @@ const LiveController = ({ children }: Props) => {
   const toggleMute = () => {
     if (videoRef.current) {
       if (videoRef.current.muted) {
-        videoRef.current.volume = savedVolume;
         setVolume(savedVolume);
       } else {
-        setSavedVolume(videoRef.current.volume);
+        setSavedVolume(videoRef.current.volume * 100);
         setVolume(0);
       }
     }
