@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Suspense, type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import MswInitializer from './MswInitializer';

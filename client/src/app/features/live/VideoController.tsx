@@ -3,7 +3,7 @@
 import LiveSvg from '@components/svgs/LiveSvg';
 import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
-import { createContext, useContext, useMemo, type ChangeEvent, type PropsWithChildren } from 'react';
+import { createContext, useContext, useMemo, useState, type PropsWithChildren } from 'react';
 import VideoIconButton from './VideoIconButton';
 import { VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 import FullscreenQuitSvg from '@components/svgs/FullscreenQuitSvg';
@@ -24,8 +24,8 @@ type PlayContextType = {
 
 type VolumeContextType = {
   volume: number;
-  handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   toggleMute: () => void;
+  updateVolume: (value: number) => void;
 };
 
 type PipContextType = {
@@ -46,8 +46,8 @@ const PlayContext = createContext<PlayContextType>({
 
 const VolumeContext = createContext<VolumeContextType>({
   volume: 0,
-  handleChangeVolume: () => {},
   toggleMute: () => {},
+  updateVolume: () => {},
 });
 
 const PipContext = createContext<PipContextType>({
@@ -67,8 +67,8 @@ const usePlayContext = () => {
 };
 
 const useVolumeContext = () => {
-  const { volume, handleChangeVolume, toggleMute } = useContext(VolumeContext);
-  return useMemo(() => ({ volume, handleChangeVolume, toggleMute }), [volume, handleChangeVolume, toggleMute]);
+  const { volume, updateVolume, toggleMute } = useContext(VolumeContext);
+  return useMemo(() => ({ volume, updateVolume, toggleMute }), [volume, updateVolume, toggleMute]);
 };
 
 const usePipContext = () => {
@@ -105,13 +105,13 @@ const VideoControllerProvider = ({
     togglePip,
     togglePlay,
     toggleMute,
-    handleChangeVolume,
+    updateVolume,
   },
 }: Props) => {
   return (
     <FullscreenContext.Provider value={{ isFullscreen, startFullscreen, exitFullscreen }}>
       <PipContext.Provider value={{ isPip, togglePip }}>
-        <VolumeContext.Provider value={{ volume, handleChangeVolume, toggleMute }}>
+        <VolumeContext.Provider value={{ volume, updateVolume, toggleMute }}>
           <PlayContext.Provider value={{ isPlay, togglePlay }}>{children}</PlayContext.Provider>
         </VolumeContext.Provider>
       </PipContext.Provider>
@@ -182,24 +182,30 @@ const PipButton = () => {
 };
 
 const VolumeController = () => {
-  const { volume, handleChangeVolume, toggleMute } = useVolumeContext();
+  const { volume, updateVolume, toggleMute } = useVolumeContext();
+  const [isHidden, setIsHidden] = useState(true);
 
   console.log('volume', volume);
   return (
-    <div className="flex items-center">
+    <div
+      className="flex items-center gap-2"
+      onMouseMove={() => {
+        setIsHidden(false);
+      }}
+      onMouseLeave={() => {
+        setIsHidden(true);
+      }}
+    >
       <VideoIconButton componentType="DEFAULT" onClick={toggleMute}>
         <VolumeSvg volume={volume} />
       </VideoIconButton>
-      {/* <input type="range" tabIndex={-1} min="0" max="100" value={volume} onChange={handleChangeVolume} /> */}
-      <div className="w-20">
-        <RangeInput
-          //  tabIndex={-1}
-          min={0}
-          max={100}
-          step={1}
-          value={volume}
-          onChange={handleChangeVolume}
-        />
+      <div
+        className={clsx('overflow-hidden transition-all duration-300', {
+          'w-0': isHidden,
+          'w-20': !isHidden,
+        })}
+      >
+        <RangeInput min={0} max={100} step={1} value={volume} updateValue={updateVolume} />
       </div>
     </div>
   );
@@ -222,20 +228,6 @@ const VolumeSvg = ({ volume }: { volume: number }) => {
   return <>{renderedVolumeIcon()}</>;
 };
 
-// const MuteButton = () => {
-//   const { toggleMute } = useVolumeContext();
-//   return (
-//     <button
-//       onClick={toggleMute}
-//       className="text-content-static-white inline-flex h-10 w-10 items-center justify-center"
-//     >
-//       <SoundMutedSvg />
-//       <SoundLowSvg />
-//       <SoundHighSvg />
-//     </button>
-//   );
-// };
-
 const PlayButton = () => {
   const { togglePlay, isPlay } = usePlayContext();
   const { isFullscreen } = useFullscreenContext();
@@ -251,17 +243,11 @@ const PlayButton = () => {
   );
 };
 
-// const VolumeController = () => {
-//   const { volume, handleChangeVolume } = useVolumeContext();
-//   return <input type="range" min="0" max="100" value={volume} onChange={handleChangeVolume} />;
-// };
-
 const VideoController = Object.assign(VideoControllerProvider, {
   Wrapper: VideoControllerWrapper,
   Box: VideoControllerBox,
   Fullscreen: FullscreenButton,
   Pip: PipButton,
-  // Mute: MuteButton,
   Play: PlayButton,
   Volume: VolumeController,
 });

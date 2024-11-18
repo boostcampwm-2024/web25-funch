@@ -1,9 +1,9 @@
-import { type RefObject, useEffect, useState } from 'react';
+import { type RefObject, useCallback, useEffect, useState } from 'react';
 
 const usePip = (ref: RefObject<HTMLVideoElement>) => {
   const [isPip, setIsPip] = useState(false);
 
-  const togglePip = () => {
+  const togglePip = useCallback(() => {
     if (document.pictureInPictureElement) {
       document.exitPictureInPicture();
     } else {
@@ -11,7 +11,7 @@ const usePip = (ref: RefObject<HTMLVideoElement>) => {
         ref.current.requestPictureInPicture();
       }
     }
-  };
+  }, [ref]);
 
   useEffect(() => {
     const handleEnterPip = () => {
