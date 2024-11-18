@@ -28,3 +28,35 @@ export type Follow = {
 export type AppTheme = keyof typeof APP_THEME;
 
 export type VideoIconComponentType = keyof typeof VIDEO_ICON_COMPONENT_TYPE;
+
+// API models
+export type Broadcast = {
+  broadcastId: string;
+  title: string;
+  contentCategory: string;
+  moodCategory: string;
+  tags: string[];
+  thumbnailUrl: string;
+  viewerCount: number;
+};
+
+export type Playlist = {
+  url: string;
+};
+
+export type Streamkey = {
+  id: string;
+};
+
+export type Token = {
+  accessToken: string;
+  refreshToken?: string;
+};
+
+export type User = {
+  name: string;
+  profileImageUrl: string;
+  broadcastId: string;
+  followerCount: number;
+  isLive: boolean;
+};
