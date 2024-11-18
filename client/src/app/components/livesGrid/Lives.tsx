@@ -2,22 +2,22 @@
 
 import Badge from '@app/(domain)/features/Badge';
 import AccordionButton from '@components/AccordionButton';
-import type { Live } from '@libs/internalTypes';
+import type { Broadcast, Live, User } from '@libs/internalTypes';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type ReactNode, type PropsWithChildren, useState } from 'react';
+import { type ReactNode, type PropsWithChildren, useState, useEffect } from 'react';
 import LiveBadge from './LiveBadge';
 import mochaImage from '@assets/mocha.png';
 
 type ChildrenArgs = {
-  visibleLives: Live[];
+  visibleLives: Broadcast[];
   isExpanded: boolean;
   toggle: () => void;
 };
 
 type Props = {
-  lives: Live[];
+  lives: Broadcast[];
   children: (args: ChildrenArgs) => ReactNode;
 };
 
@@ -46,15 +46,43 @@ const LivesList = ({ children }: PropsWithChildren) => {
 };
 
 type LiveProps = {
-  live: Live;
+  live: Broadcast;
 };
 
 const Live = ({ live }: LiveProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  // user 정보 패칭 필요
+  useEffect(() => {
+    let isValidEffect = true;
+    setIsLoading(true);
+    const broadcatId = live.broadcastId;
+    const fetchUser = async () => {
+      const response = await fetch(`/api/users/${broadcatId}`);
+
+      if (!response.ok) throw new Error('유저 정보를 불러오는데 실패했어요.');
+
+      const data = await response.json();
+      if (!isValidEffect) return;
+      setUser(data);
+      setIsLoading(false);
+    };
+
+    fetchUser();
+
+    return () => {
+      isValidEffect = false;
+    };
+  }, []);
+
+  if (isLoading || !user) return null;
+
   return (
     <div className={clsx('w-live')}>
       <Link
-        aria-label={`${live.viewers}명이 보고 있는 방송 보러가기, 제목 '${live.title}'`}
-        href={`/lives/${live.id}`}
+        aria-label={`${live.viewerCount}명이 보고 있는 방송 보러가기, 제목 '${live.title}'`}
+        href={`/lives/${live.broadcastId}`}
         className={clsx(
           'pb-live-aspect-ratio relative block overflow-hidden',
           'rounded-xl border-0 border-solid border-transparent',
@@ -62,29 +90,23 @@ const Live = ({ live }: LiveProps) => {
       >
         <div className="absolute left-0 top-0 h-full w-full">
           <Image
-            // src={live.thumbnail}
-            src={mochaImage}
+            src={live.thumbnailUrl}
             fill={true}
             sizes="100%"
-            alt={`스트리머 ${live.streamer.name}가 스트리밍 중인 영상의 섬네일`}
+            alt={`스트리머 ${user.name}가 스트리밍 중인 영상의 섬네일`}
           />
         </div>
-        <LiveBadge viewers={live.viewers} />
+        <LiveBadge viewers={live.viewerCount} />
       </Link>
       <div className={clsx('mt-3 grid grid-cols-[2.5rem,1fr] gap-2.5')}>
         <div className="relative h-10 w-full overflow-hidden rounded-full">
-          <Image
-            src={live.streamer.profileImage}
-            fill={true}
-            sizes="100%"
-            alt={`스트리머 ${live.streamer.name}의 프로필 이미지`}
-          />
+          <Image src={user.profileImageUrl} fill={true} sizes="100%" alt={`스트리머 ${user.name}의 프로필 이미지`} />
         </div>
         <div className="w-full pr-5">
           <h3 className="text-content-neutral-primary funch-bold16">{live.title}</h3>
-          <p className="funch-bold14 text-content-neutral-strong inline-flex items-center">{live.streamer.name}</p>
+          <p className="funch-bold14 text-content-neutral-strong inline-flex items-center">{user.name}</p>
           <div className="mt-1.5 flex flex-wrap gap-1">
-            <Badge>{live.category}</Badge>
+            <Badge>{live.contentCategory}</Badge>
             {live.tags.map((tag, index) => (
               <Badge key={index}>{tag}</Badge>
             ))}
