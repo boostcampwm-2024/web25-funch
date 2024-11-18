@@ -5,7 +5,7 @@ import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState } from 'react';
-import Badge from '@app/features/Badge';
+import Badge from '@app/(domain)/features/Badge';
 import { comma } from '@libs/formats';
 
 const LiveInfo = () => {
