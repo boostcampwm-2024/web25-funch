@@ -67,7 +67,7 @@ const LiveSection = () => {
           startFullscreen,
           exitFullscreen,
           volume,
-          handleChangeVolume,
+          updateVolume,
         }) => (
           <Live.Wrapper>
             <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls} isFullscreen={isFullscreen}>
@@ -83,13 +83,12 @@ const LiveSection = () => {
                   togglePip,
                   togglePlay,
                   toggleMute,
-                  handleChangeVolume,
+                  updateVolume,
                 }}
               >
                 <VideoController.Wrapper isShowControls={isShowControls}>
                   <VideoController.Box>
                     <VideoController.Play />
-                    {/* <VideoController.Mute /> */}
                     <VideoController.Volume />
                   </VideoController.Box>
                   {isLivePage && (

@@ -1,16 +1,16 @@
-import { type RefObject, useEffect, useState } from 'react';
+import { type RefObject, useCallback, useEffect, useState } from 'react';
 
 const usePlay = (ref: RefObject<HTMLVideoElement>) => {
   const [isPlay, setIsPlay] = useState(true);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (!ref.current) return;
     if (ref.current.paused) {
       ref.current.play();
     } else {
       ref.current.pause();
     }
-  };
+  }, [ref]);
 
   useEffect(() => {
     const handlePlay = () => {
