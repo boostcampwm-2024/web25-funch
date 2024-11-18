@@ -20,11 +20,11 @@ class Member {
   @Column({ type: 'int', nullable: false })
   private follower_count: number;
 
-  @Column('timestamp with time zone', { name: 'created_at', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  @Column('timestamp', { name: 'created_at', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   private createdAt: Date;
 
-  @Column('timestamp with time zone', { name: 'updated_at', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
-  private updatedAt: Date;
+  @Column('timestamp', { name: 'deleted_at', nullable: true })
+  private deletedAt: Date | null;
 }
 
 export { Member };
