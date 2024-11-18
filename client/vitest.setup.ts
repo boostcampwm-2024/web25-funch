@@ -7,7 +7,7 @@ dotenv.config({
 });
 
 beforeAll(async () => {
-  const { server } = await import('./src/app/server/node');
+  const { server } = await import('@server/node');
   server.listen();
 });
 
