@@ -10,12 +10,16 @@ const headerControlButtonType = {
   STUDIO: 'STUDIO' as const,
   DARK: 'DARK' as const,
   LIGHT: 'LIGHT' as const,
+  SETTING: 'SETTING' as const,
+  BROADCAST: 'BROADCAST' as const,
 };
 
 const headerControlButtonTextContent = {
   STUDIO: '스튜디오' as const,
   DARK: '밝은 테마' as const,
   LIGHT: '어두운 테마' as const,
+  SETTING: '방송 설정' as const,
+  BROADCAST: '내 방송' as const,
 };
 
 type Props = {
@@ -31,6 +35,10 @@ const getButtonContent = (componentType: HeaderControlButtonType) => {
       return headerControlButtonTextContent.DARK;
     case headerControlButtonType.LIGHT:
       return headerControlButtonTextContent.LIGHT;
+    case headerControlButtonType.SETTING:
+      return headerControlButtonTextContent.SETTING;
+    case headerControlButtonType.BROADCAST:
+      return headerControlButtonTextContent.BROADCAST;
     default:
       return '';
   }
@@ -84,6 +92,13 @@ const HeaderControlIcon = ({ componentType }: { componentType: HeaderControlButt
   if (componentType === headerControlButtonType.LIGHT) {
     return <MoonSvg />;
   }
+  if (componentType === headerControlButtonType.SETTING) {
+    return null;
+  }
+  if (componentType === headerControlButtonType.BROADCAST) {
+    return null;
+  }
+
   return null;
 };
 
