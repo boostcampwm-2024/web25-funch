@@ -1,6 +1,6 @@
 'use client';
 
-import Badge from '@app/features/Badge';
+import Badge from '@app/(domain)/features/Badge';
 import AccordionButton from '@components/AccordionButton';
 import type { Live } from '@libs/internalTypes';
 import clsx from 'clsx';
