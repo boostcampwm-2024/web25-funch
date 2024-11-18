@@ -1,7 +1,6 @@
 import LogoutBtn from '@components/layout/LogoutBtn';
 import StudioLogo from './StudioLogo';
 import StudioRouter from './StudioRouter';
-import ThemeController from '@components/layout/ThemeController';
 
 const StudioHeader = () => {
   return (
