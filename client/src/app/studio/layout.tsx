@@ -1,7 +1,12 @@
 import { type PropsWithChildren } from 'react';
-
+import StudioHeader from '@components/studio/StudioHeader';
 const layout = ({ children }: PropsWithChildren) => {
-  return <>studio layout{children}</>;
+  return (
+    <>
+      <StudioHeader />
+      {children}
+    </>
+  );
 };
 
 export default layout;
