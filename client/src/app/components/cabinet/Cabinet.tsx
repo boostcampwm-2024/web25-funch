@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import CabinetContainer from './CabinetContainer';
 
 const Cabinet = () => {
