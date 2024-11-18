@@ -3,11 +3,7 @@ import { type PropsWithChildren } from 'react';
 import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import MswInitializer from './MswInitializer';
-import Header from './components/layout/Header';
 import GlobalProvider from './GlobalProvider';
-import Cabinet from '@components/cabinet/Cabinet';
-import LiveSection from './features/live/LiveSection';
-import LiveProvider from '@providers/LiveProvider';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -35,16 +31,7 @@ const RootLayout = ({
       <body suppressHydrationWarning={true} className={`${notoSansKR.className} antialiased`}>
         <Layout>
           <MswInitializer>
-            <GlobalProvider>
-              <Header />
-              <Cabinet />
-              <Main>
-                {children}
-                <LiveProvider>
-                  <LiveSection />
-                </LiveProvider>
-              </Main>
-            </GlobalProvider>
+            <GlobalProvider>{children}</GlobalProvider>
           </MswInitializer>
         </Layout>
       </body>
@@ -54,10 +41,6 @@ const RootLayout = ({
 
 const Layout = ({ children }: PropsWithChildren) => {
   return <div className="pt-header min-w-layout relative min-h-screen overflow-clip">{children}</div>;
-};
-
-const Main = ({ children }: PropsWithChildren) => {
-  return <main className="funch-desktop:pl-60 w-full pl-20">{children}</main>;
 };
 
 export default RootLayout;

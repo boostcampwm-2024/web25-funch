@@ -17,15 +17,16 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@assets/*": ["./src/app/assets/*"],
-      "@test/*": ["./src/app/__test__/*"],
-      "@mocks/*": ["./src/app/__mocks__/*"],
-      "@hooks/*": ["./src/app/hooks/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@test/*": ["src/__test__/*"],
+      "@mocks/*": ["src/__mocks__/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@providers/*": ["./src/app/providers/*"],
-      "@libs/*": ["./src/app/libs/*"],
+      "@libs/*": ["./src/libs/*"],
       "@components/*": ["./src/app/components/*"],
-      "@server/*": ["./src/app/server/*"],
+      "@server/*": ["src/server/*"],
       "@app/*": ["./src/app/*"],
       "@/*": ["./src/*"]
     }
