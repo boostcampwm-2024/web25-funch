@@ -15,7 +15,11 @@ const StudioPage = () => {
     <div className="w-80">
       <StudioInput placeholder="플레이스 홀더" />
       <TextareaRendererForTest />
-      <StudioImageInput setImage={setImage} />
+      <StudioImageInput setImage={setImage}>
+        <StudioImageInput.Upload />
+        <StudioImageInput.Preview />
+        <StudioImageInput.Controls />
+      </StudioImageInput>
       <StudioAddButton>추가</StudioAddButton>
       <StudioAddButton disabled>추가</StudioAddButton>
       <StudioUpdateButton>업데이트</StudioUpdateButton>
