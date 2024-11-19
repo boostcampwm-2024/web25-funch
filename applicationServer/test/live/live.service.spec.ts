@@ -67,8 +67,8 @@ describe('LiveService 테스트', () => {
     const live: Live = Live.getInstance();
     getMockLiveDataList(liveCount * 3).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
 
-    const testList1 = service.getCurrentLiveListRandomShuffle(liveCount);
-    const testList2 = service.getCurrentLiveListRandomShuffle(liveCount);
+    const testList1 = service.getRandomLiveList(liveCount);
+    const testList2 = service.getRandomLiveList(liveCount);
 
     expect(testList1).not.toEqual(testList2);
     live.data.clear();
@@ -79,7 +79,7 @@ describe('LiveService 테스트', () => {
     const live: Live = Live.getInstance();
     getMockLiveDataList(liveCount).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
 
-    const testList1 = service.getCurrentLiveListRandomShuffle(liveCount + 10);
+    const testList1 = service.getRandomLiveList(liveCount + 10);
 
     expect(testList1.length).toBe(liveCount);
     live.data.clear();
