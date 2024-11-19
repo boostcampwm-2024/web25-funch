@@ -1,0 +1,45 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#fff5e6"/>
+  
+  <!-- 조리대 -->
+  <rect x="20" y="250" width="260" height="130" fill="#e6e6e6"/>
+  
+  <!-- 냄비 -->
+  <g transform="translate(50,200)">
+    <path d="M0,30 C0,30 0,80 80,80 C160,80 160,30 160,30" fill="#stainless-steel"/>
+    <path d="M0,30 C0,0 160,0 160,30" fill="#666"/>
+    <!-- 손잡이 -->
+    <path d="M150,20 L180,20 L180,40 L150,40" fill="#444"/>
+    <!-- 증기 -->
+    <path d="M40,0 Q50,-10 60,0 Q70,-10 80,0" stroke="#ccc" fill="none" stroke-width="2"/>
+    <path d="M90,0 Q100,-10 110,0 Q120,-10 130,0" stroke="#ccc" fill="none" stroke-width="2"/>
+  </g>
+  
+  <!-- 칼 -->
+  <g transform="translate(200,150) rotate(-45)">
+    <rect x="0" y="0" width="100" height="15" fill="#666"/>
+    <path d="M0,7.5 L-20,0 L-20,15 Z" fill="#444"/>
+    <rect x="100" y="0" width="30" height="15" fill="#8b4513"/>
+  </g>
+  
+  <!-- 도마 -->
+  <rect x="50" y="100" width="120" height="80" fill="#deb887"/>
+  
+  <!-- 재료들 -->
+  <g transform="translate(60,120)">
+    <!-- 토마토 -->
+    <circle cx="20" cy="20" r="15" fill="#ff6b6b"/>
+    <!-- 당근 -->
+    <rect x="50" y="10" width="10" height="30" fill="#ff7f00"/>
+    <!-- 양파 -->
+    <circle cx="80" cy="20" r="15" fill="#f0f0f0"/>
+  </g>
+  
+  <!-- 조미료통 -->
+  <g transform="translate(200,80)">
+    <rect x="0" y="0" width="20" height="40" fill="#a0522d"/>
+    <rect x="30" y="0" width="20" height="40" fill="#deb887"/>
+    <rect x="60" y="0" width="20" height="40" fill="#8b4513"/>
+  </g>
+</svg>

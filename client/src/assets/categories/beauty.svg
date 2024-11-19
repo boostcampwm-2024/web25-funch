@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#FFF5F5"/>
+  
+  <!-- 장식적인 곡선 패턴 -->
+  <path d="M0 50 Q150 100 300 50" stroke="#FFD1DC" fill="none" stroke-width="4"/>
+  <path d="M0 60 Q150 110 300 60" stroke="#FFC0CB" fill="none" stroke-width="3"/>
+  
+  <!-- 메인 화장품 용기들 -->
+  <!-- 향수병 -->
+  <path d="M60 150 L80 150 L85 170 L85 250 L55 250 L55 170 Z" fill="#FFB6C1"/>
+  <rect x="65" y="130" width="10" height="20" fill="#FFB6C1"/>
+  <circle cx="70" cy="125" r="5" fill="#FFB6C1"/>
+  
+  <!-- 파운데이션 용기 -->
+  <rect x="120" y="160" width="40" height="80" rx="5" fill="#FFA07A"/>
+  <rect x="125" y="165" width="30" height="70" rx="3" fill="#FFE4E1"/>
+  <circle cx="140" cy="200" r="12" fill="#FFA07A"/>
+  
+  <!-- 립스틱 -->
+  <path d="M200 180 L220 180 L220 240 L200 240 Z" fill="#FF69B4"/>
+  <path d="M203 170 L217 170 L217 180 L203 180 Z" fill="#FF1493"/>
+  <path d="M205 165 L215 165 L217 170 L203 170 Z" fill="#FF69B4"/>
+  
+  <!-- 메이크업 브러시들 -->
+  <path d="M250 160 L270 160 L265 250 L255 250 Z" fill="#DDA0DD"/>
+  <path d="M255 150 L265 150 L270 160 L250 160 Z" fill="#BA55D3"/>
+  
+  <!-- 장식용 원형 요소들 -->
+  <circle cx="50" cy="320" r="20" fill="#FFC0CB" opacity="0.5"/>
+  <circle cx="250" cy="300" r="25" fill="#FFB6C1" opacity="0.5"/>
+  <circle cx="150" cy="340" r="30" fill="#FFD1DC" opacity="0.5"/>
+  
+  <!-- 반짝이는 효과 -->
+  <circle cx="70" cy="180" r="2" fill="white"/>
+  <circle cx="140" cy="190" r="2" fill="white"/>
+  <circle cx="210" cy="200" r="2" fill="white"/>
+  <circle cx="260" cy="180" r="2" fill="white"/>
+  
+  <!-- 작은 꽃잎 장식들 -->
+  <circle cx="40" cy="100" r="5" fill="#FFB6C1" opacity="0.7"/>
+  <circle cx="260" cy="120" r="5" fill="#FFB6C1" opacity="0.7"/>
+  <circle cx="150" cy="80" r="5" fill="#FFB6C1" opacity="0.7"/>
+  
+  <!-- 화장품 텍스처를 표현하는 물결무늬 -->
+  <path d="M0 350 Q75 330 150 350 Q225 370 300 350" fill="#FFC0CB" opacity="0.3"/>
+  <path d="M0 370 Q75 350 150 370 Q225 390 300 370" fill="#FFB6C1" opacity="0.3"/>
+</svg>

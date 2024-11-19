@@ -1,0 +1,44 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#1a1a1a"/>
+  
+  <!-- 게임 컨트롤러 -->
+  <g transform="translate(75,150)">
+    <!-- 컨트롤러 본체 -->
+    <path d="M0,0 C0,0 -20,30 -20,50 C-20,110 20,130 75,130 C130,130 170,110 170,50 C170,30 150,0 150,0" 
+          fill="#333"/>
+    
+    <!-- D-패드 -->
+    <rect x="20" y="40" width="30" height="10" fill="#666"/>
+    <rect x="30" y="30" width="10" height="30" fill="#666"/>
+    
+    <!-- 버튼들 -->
+    <circle cx="120" cy="40" r="8" fill="#ff4444"/>
+    <circle cx="140" cy="50" r="8" fill="#44ff44"/>
+    <circle cx="100" cy="50" r="8" fill="#4444ff"/>
+    <circle cx="120" cy="60" r="8" fill="#ffff44"/>
+    
+    <!-- 중앙 버튼 -->
+    <rect x="60" y="30" width="30" height="10" rx="5" fill="#888"/>
+    <rect x="60" y="50" width="30" height="10" rx="5" fill="#888"/>
+  </g>
+  
+  <!-- 픽셀 아트 스타일 아이콘들 -->
+  <g transform="translate(50,50)">
+    <rect x="0" y="0" width="20" height="20" fill="#ff4444"/>
+    <rect x="25" y="0" width="20" height="20" fill="#44ff44"/>
+    <rect x="50" y="0" width="20" height="20" fill="#4444ff"/>
+  </g>
+  
+  <!-- 게임 창 -->
+  <rect x="50" y="250" width="200" height="100" fill="#333" rx="10"/>
+  <rect x="60" y="260" width="180" height="80" fill="#222" rx="5"/>
+  
+  <!-- 픽셀 캐릭터 -->
+  <g transform="translate(130,270)">
+    <rect x="0" y="0" width="40" height="40" fill="#ffeb3b"/>
+    <rect x="10" y="10" width="5" height="5" fill="#000"/>
+    <rect x="25" y="10" width="5" height="5" fill="#000"/>
+    <path d="M10,25 Q20,35 30,25" stroke="#000" fill="none" stroke-width="2"/>
+  </g>
+</svg>

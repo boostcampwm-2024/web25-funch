@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#F8F9FA"/>
+  
+  <!-- 책상 -->
+  <rect x="20" y="200" width="260" height="15" fill="#8B4513"/>
+  <rect x="35" y="215" width="15" height="185" fill="#8B4513"/>
+  <rect x="250" y="215" width="15" height="185" fill="#8B4513"/>
+  
+  <!-- 책들 -->
+  <!-- 세워진 책들 -->
+  <rect x="50" y="130" width="20" height="70" fill="#4169E1"/>
+  <rect x="70" y="140" width="25" height="60" fill="#32CD32"/>
+  <rect x="95" y="135" width="15" height="65" fill="#FF6B6B"/>
+  <rect x="110" y="145" width="20" height="55" fill="#FFD700"/>
+  
+  <!-- 눕혀진 책들 -->
+  <rect x="150" y="180" width="80" height="20" fill="#9370DB"/>
+  <rect x="150" y="160" width="70" height="20" fill="#40E0D0"/>
+  <rect x="150" y="140" width="60" height="20" fill="#FF7F50"/>
+  
+  <!-- 노트북 -->
+  <g transform="translate(180, 80) rotate(-10)">
+    <path d="M0 0 L60 0 L60 40 L0 40 Z" fill="#C0C0C0"/>
+    <path d="M0 40 L60 40 L65 45 L-5 45 Z" fill="#A9A9A9"/>
+    <rect x="5" y="5" width="50" height="30" fill="#333"/>
+  </g>
+  
+  <!-- 필기구들 -->
+  <rect x="140" y="100" width="2" height="30" transform="rotate(45)" fill="#2F4F4F"/>
+  <rect x="130" y="120" width="2" height="30" transform="rotate(-30)" fill="#4682B4"/>
+  
+  <!-- 테이블 램프 -->
+  <path d="M240 100 L260 100 L250 140 L230 140 Z" fill="#FFD700" opacity="0.8"/>
+  <rect x="245" y="140" width="5" height="60" fill="#696969"/>
+  <path d="M235 200 L260 200 L255 205 L240 205 Z" fill="#696969"/>
+  
+  <!-- 커피잔 -->
+  <path d="M50 170 C50 160 70 160 70 170 L65 190 L55 190 Z" fill="#FFF"/>
+  <path d="M55 190 L65 190 L67 195 L53 195 Z" fill="#DDD"/>
+  <path d="M57 175 C57 170 63 170 63 175" fill="none" stroke="#DDD" stroke-width="1"/>
+  
+  <!-- 포스트잇 -->
+  <rect x="220" y="150" width="30" height="30" fill="#FFD700" opacity="0.6"/>
+  <rect x="225" y="155" width="20" height="2" fill="#000" opacity="0.2"/>
+  <rect x="225" y="160" width="15" height="2" fill="#000" opacity="0.2"/>
+  
+  <!-- 둥둥 떠다니는 수학 기호들 -->
+  <text x="40" y="80" fill="#2F4F4F" opacity="0.3" font-size="20">∑</text>
+  <text x="90" y="60" fill="#2F4F4F" opacity="0.3" font-size="20">π</text>
+  <text x="150" y="50" fill="#2F4F4F" opacity="0.3" font-size="20">∫</text>
+  <text x="200" y="70" fill="#2F4F4F" opacity="0.3" font-size="20">√</text>
+  <text x="250" y="90" fill="#2F4F4F" opacity="0.3" font-size="20">α</text>
+  
+  <!-- 원형 장식 요소들 -->
+  <circle cx="50" cy="350" r="20" fill="#4169E1" opacity="0.1"/>
+  <circle cx="250" cy="320" r="25" fill="#32CD32" opacity="0.1"/>
+  <circle cx="150" cy="370" r="30" fill="#FFD700" opacity="0.1"/>
+</svg>

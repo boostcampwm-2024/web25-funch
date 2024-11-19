@@ -1,0 +1,63 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#FFF8E7"/>
+  
+  <!-- 식탁/테이블 -->
+  <rect x="20" y="200" width="260" height="180" fill="#8B4513"/>
+  <rect x="20" y="190" width="260" height="10" fill="#A0522D"/>
+  
+  <!-- 메인 음식 그릇 -->
+  <g transform="translate(100,150)">
+    <!-- 그릇 -->
+    <ellipse cx="50" cy="50" rx="70" ry="20" fill="#FFF"/>
+    <path d="M-20,50 C-20,50 -20,100 50,100 C120,100 120,50 120,50" fill="#FFF"/>
+    <!-- 라면 -->
+    <g transform="translate(0,-10)">
+      <path d="M10,60 C30,50 70,50 90,60" stroke="#FFD700" fill="none" stroke-width="3"/>
+      <path d="M15,70 C35,60 65,60 85,70" stroke="#FFD700" fill="none" stroke-width="3"/>
+      <path d="M20,80 C40,70 60,70 80,80" stroke="#FFD700" fill="none" stroke-width="3"/>
+      <!-- 고명 -->
+      <circle cx="30" cy="55" r="5" fill="#FF6B6B"/>
+      <circle cx="70" cy="55" r="5" fill="#98FB98"/>
+      <ellipse cx="50" cy="60" rx="8" ry="5" fill="#FFA07A"/>
+    </g>
+  </g>
+  
+  <!-- 젓가락 -->
+  <g transform="translate(200,140) rotate(-30)">
+    <rect width="100" height="4" fill="#8B4513"/>
+    <rect y="8" width="100" height="4" fill="#8B4513"/>
+  </g>
+  
+  <!-- 사이드 디쉬들 -->
+  <g transform="translate(40,220)">
+    <!-- 김치 -->
+    <rect width="40" height="30" rx="5" fill="#FF6B6B"/>
+    <!-- 계란프라이 -->
+    <circle cx="100" cy="15" r="15" fill="#FFDB58"/>
+    <circle cx="100" cy="15" r="5" fill="#FFB90F"/>
+  </g>
+  
+  <!-- 음식 스팀 효과 -->
+  <g stroke="#CCC" fill="none" stroke-width="2">
+    <path d="M120,140 Q130,120 140,140">
+      <animate attributeName="d" 
+               values="M120,140 Q130,120 140,140;M120,140 Q130,110 140,140;M120,140 Q130,120 140,140" 
+               dur="3s" 
+               repeatCount="indefinite"/>
+    </path>
+    <path d="M150,140 Q160,120 170,140">
+      <animate attributeName="d" 
+               values="M150,140 Q160,120 170,140;M150,140 Q160,110 170,140;M150,140 Q160,120 170,140" 
+               dur="2.5s" 
+               repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- 평가 별표 -->
+  <g transform="translate(220,50)" fill="#FFD700">
+    <path d="M10,10 L13,16 L20,17 L15,22 L16,29 L10,26 L4,29 L5,22 L0,17 L7,16 Z">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
