@@ -161,6 +161,10 @@ const config: Config = {
               base: 'var(--surface-static-blackalpha-base)',
               strong: 'var(--surface-static-blackalpha-strong)',
             },
+            violetalpha: {
+              base: 'rgba(78, 65, 219, .15)',
+              strong: 'rgba(78, 65, 219, .3)',
+            },
           },
           deemed: 'hsla(0, 0%, 100%, .2)',
         },
