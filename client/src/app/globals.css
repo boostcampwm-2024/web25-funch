@@ -138,6 +138,8 @@
   --border-static-black: var(--neutral-100);
   --border-static-blackalpha-base: #rgba(0, 0, 0, 0.15);
   --border-static-blackalpha-strong: #rgba(0, 0, 0, 0.3);
+
+  --dropdown-shadow: 0 0 2px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* @media (prefers-color-scheme: dark) { */
@@ -209,6 +211,8 @@
   --border-static-black: var(--neutral-100);
   --border-static-blackalpha-base: #rgba(0, 0, 0, 0.15);
   --border-static-blackalpha-strong: #rgba(0, 0, 0, 0.3);
+
+  --dropdown-shadow: 0 0 2px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 /* } */
 * {
