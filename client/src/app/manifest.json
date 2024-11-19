@@ -1,0 +1,9 @@
+{
+  "name": "뻔한 일상에 웃음 한 방 FUNCH!",
+  "short_name": "FUNCH",
+  "description": "실시간 비디오 스트리밍 서비스 | 뻔한 일상에 웃음 한 방 FUNCH!",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
