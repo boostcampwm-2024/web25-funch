@@ -16,8 +16,6 @@ import {
   type ButtonHTMLAttributes,
 } from 'react';
 
-type DropdownKey = string | number;
-
 type ChildrenArgs = {
   inputRef: RefObject<HTMLInputElement>;
   inputValue: string;
@@ -28,11 +26,10 @@ type ChildrenArgs = {
 };
 
 type Props = {
-  keys: DropdownKey[];
   children: (args: ChildrenArgs) => ReactNode;
 };
 
-const DropdownWrapper = ({ children, keys }: Props) => {
+const DropdownWrapper = ({ children }: Props) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -92,7 +89,7 @@ const DropdownSearch = forwardRef(
           onFocus={() => console.log('focus')}
           ref={ref}
           className={clsx(
-            'funch-medium14 text-content-neutral-primary placeholder:text-content-neutral-weak w-full outline-none',
+            'funch-medium14 text-content-neutral-primary placeholder:text-content-neutral-weak w-full bg-transparent outline-none',
           )}
           type="text"
           {...rest}
@@ -103,15 +100,23 @@ const DropdownSearch = forwardRef(
 );
 
 const DropdownList = ({ children }: PropsWithChildren) => {
-  return <ul>{children}</ul>;
+  return (
+    <ul
+      className={clsx('shadow-dropdown bg-surface-neutral-primary absolute left-0 top-[53px] w-full rounded-md py-1.5')}
+    >
+      {children}
+    </ul>
+  );
 };
 
 type DropdownItemProps = ButtonHTMLAttributes<HTMLButtonElement> & PropsWithChildren;
 
 const DropdownItem = ({ children, ...rest }: DropdownItemProps) => {
   return (
-    <li>
-      <button {...rest}>{children}</button>
+    <li className="h-10 w-full px-1 py-0.5">
+      <button className="hover:bg-surface-neutral-weak inline-flex h-full w-full items-center rounded-md" {...rest}>
+        {children}
+      </button>
     </li>
   );
 };
@@ -134,14 +139,14 @@ const categories = [
 ];
 
 export const StudioDropdownRendererForTest = () => {
-  const [selectedKey, setSelectedKey] = useState<DropdownKey | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   const selectCategory = (key: string) => {
     setSelectedKey(key);
   };
 
   return (
-    <StudioDropdown keys={categories.map((c) => c.id)}>
+    <StudioDropdown>
       {({ inputRef, inputValue, isFocused, handleChangeInput, handleFocusInput, blurDropdown }) => (
         <>
           <StudioDropdown.Search
@@ -149,6 +154,7 @@ export const StudioDropdownRendererForTest = () => {
             value={inputValue}
             onChange={handleChangeInput}
             onFocus={handleFocusInput}
+            placeholder="플레이스 홀더"
           />
           {isFocused && (
             <StudioDropdown.List>
@@ -162,7 +168,7 @@ export const StudioDropdownRendererForTest = () => {
                       blurDropdown();
                     }}
                   >
-                    {c.name}
+                    <span>{c.name}</span>
                   </StudioDropdown.Item>
                 ))}
             </StudioDropdown.List>
