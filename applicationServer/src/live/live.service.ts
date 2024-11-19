@@ -14,11 +14,26 @@ export class LiveService {
       `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
 
     if (!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    
+
     const playlist: Playlist = { url: createMultivariantPlaylistUrl(broadcastId) };
-      return playlist;
-    } else {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    return playlist;
+  }
+
+  getCurrentLiveListRandomShuffle(count) {
+    const allLives = Array.from(this.live.data.values());
+    if (allLives.length <= count) return allLives;
+
+    const result: Broadcast[] = [];
+    while (result.length < count) {
+      const history = {};
+      const randomCount = Math.floor(allLives.length * Math.random());
+
+      if (!history[randomCount]) {
+        result.push(allLives[randomCount]);
+        history[randomCount] = true;
+      }
     }
+
+    return result;
   }
 }
