@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { LiveService } from '@live/live.service';
+import { SUGGEST_LIVE_COUNT } from '@src/constants';
 
 @Controller('live')
 export class LiveController {
@@ -8,5 +9,10 @@ export class LiveController {
   @Get(':broadcastId')
   getPlaylistUrl(@Param('broadcastId') broadcastId: string) {
     return this.liveService.responsePlaylistUrl(broadcastId);
+  }
+
+  @Get('/list/suggest')
+  getSuggestLiveList() {
+    return { suggest: this.liveService.getCurrentLiveListRandomShuffle(SUGGEST_LIVE_COUNT) };
   }
 }
