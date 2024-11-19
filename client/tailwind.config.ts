@@ -224,6 +224,46 @@ const config: Config = {
             },
           },
         },
+
+        // mood
+        mood: {
+          unknown: {
+            start: 'var(--mood-unknown-start)',
+            end: 'var(--mood-unknown-end)',
+          },
+          lonely: {
+            start: 'var(--mood-lonely-start)',
+            end: 'var(--mood-lonely-end)',
+          },
+          interesting: {
+            start: 'var(--mood-interesting-start)',
+            end: 'var(--mood-interesting-end)',
+          },
+          calm: {
+            start: 'var(--mood-calm-start)',
+            end: 'var(--mood-calm-end)',
+          },
+          depressed: {
+            start: 'var(--mood-depressed-start)',
+            end: 'var(--mood-depressed-end)',
+          },
+          happy: {
+            start: 'var(--mood-happy-start)',
+            end: 'var(--mood-happy-end)',
+          },
+          'get-king': {
+            start: 'var(--mood-get-king-start)',
+            end: 'var(--mood-get-king-end)',
+          },
+          funny: {
+            start: 'var(--mood-funny-start)',
+            end: 'var(--mood-funny-end)',
+          },
+          energetic: {
+            start: 'var(--mood-energetic-start)',
+            end: 'var(--mood-energetic-end)',
+          },
+        },
       },
     },
   },
