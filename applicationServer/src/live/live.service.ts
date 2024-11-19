@@ -17,6 +17,9 @@ export class LiveService {
       return playlist;
     } else {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    }
+if(!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
+const playlist: Playlist = { url: createMultivariantPlaylistUrl(broadcastId) }
+return playlist;
   }
 }
