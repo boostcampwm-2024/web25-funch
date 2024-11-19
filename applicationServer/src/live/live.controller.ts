@@ -6,6 +6,11 @@ import { SUGGEST_LIVE_COUNT } from '@src/constants';
 export class LiveController {
   constructor(private readonly liveService: LiveService) {}
 
+  @Get('/list')
+  getLivelistAlignViewerCount(@Query('start') start: number, @Query('end') end: number) {
+    return this.liveService.getLiveList(start, end);
+  }
+
   @Get(':broadcastId')
   getPlaylistUrl(@Param('broadcastId') broadcastId: string) {
     return this.liveService.responsePlaylistUrl(broadcastId);

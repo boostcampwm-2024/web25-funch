@@ -9,6 +9,11 @@ export class LiveService {
     this.live = Live.getInstance();
   }
 
+  getLiveList(start, end) {
+    const alignLiveList = Array.from(this.live.data.values()).sort((a, b) => b.viewerCount - a.viewerCount);
+    return alignLiveList.slice(start, end ?? alignLiveList.length);
+  }
+
   responsePlaylistUrl(broadcastId) {
     const createMultivariantPlaylistUrl = (id) =>
       `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
