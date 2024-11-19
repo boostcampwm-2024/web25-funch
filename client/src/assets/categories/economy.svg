@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 그라데이션 정의 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#134e5e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#71b280;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4b6e;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ff4b6e;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- 추상적인 곡선 장식 -->
+  <path d="M0,100 C50,80 100,120 150,100 S250,80 300,100" 
+        stroke="#ffffff" 
+        fill="none" 
+        stroke-width="1.5"
+        opacity="0.3"/>
+  
+  <path d="M0,150 C50,130 100,170 150,150 S250,130 300,150" 
+        stroke="#ffffff" 
+        fill="none" 
+        stroke-width="1.5"
+        opacity="0.2"/>
+  
+  <!-- 메인 차트 -->
+  <g transform="translate(30,80)">
+    <!-- 차트 영역 -->
+    <path d="M0,180 L40,160 L80,170 L120,140 L160,90 L200,110 L240,60 L240,180 L0,180 Z" 
+          fill="url(#chartGradient)"/>
+    
+    <!-- 차트 라인 -->
+    <path d="M0,180 L40,160 L80,170 L120,140 L160,90 L200,110 L240,60" 
+          fill="none"
+          stroke="#ff4b6e"
+          stroke-width="3"
+          stroke-linecap="round"/>
+    
+    <!-- 포인트 마커 -->
+    <circle cx="40" cy="160" r="4" fill="#ff4b6e"/>
+    <circle cx="80" cy="170" r="4" fill="#ff4b6e"/>
+    <circle cx="120" cy="140" r="4" fill="#ff4b6e"/>
+    <circle cx="160" cy="90" r="4" fill="#ff4b6e"/>
+    <circle cx="200" cy="110" r="4" fill="#ff4b6e"/>
+    <circle cx="240" cy="60" r="4" fill="#ff4b6e"/>
+  </g>
+  
+  <!-- 작은 장식용 차트들 -->
+  <g transform="translate(50,280)">
+    <path d="M0,30 L20,20 L40,25 L60,15" 
+          stroke="#ffffff"
+          stroke-width="2"
+          fill="none"
+          opacity="0.5"/>
+  </g>
+  
+  <g transform="translate(190,300)">
+    <path d="M0,20 L20,10 L40,15 L60,5" 
+          stroke="#ffffff"
+          stroke-width="2"
+          fill="none"
+          opacity="0.5"/>
+  </g>
+  
+  <!-- 통계 막대 그래프 -->
+  <g transform="translate(220,230)">
+    <rect x="0" y="0" width="8" height="30" fill="#ffffff" opacity="0.3"/>
+    <rect x="12" y="10" width="8" height="20" fill="#ffffff" opacity="0.4"/>
+    <rect x="24" y="5" width="8" height="25" fill="#ffffff" opacity="0.5"/>
+  </g>
+  
+  <!-- 추상적인 원형 요소 -->
+  <circle cx="50" cy="50" r="20" fill="#ffffff" opacity="0.1"/>
+  <circle cx="250" cy="350" r="25" fill="#ffffff" opacity="0.1"/>
+  
+  <!-- 그리드 라인 -->
+  <g stroke="#ffffff" stroke-width="0.5" opacity="0.1">
+    <line x1="30" y1="140" x2="270" y2="140"/>
+    <line x1="30" y1="200" x2="270" y2="200"/>
+    <line x1="30" y1="260" x2="270" y2="260"/>
+  </g>
+</svg>

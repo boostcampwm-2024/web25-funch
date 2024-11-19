@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 배경 - 어두운 IDE 스타일 -->
+  <rect width="300" height="400" fill="#1E1E1E"/>
+  
+  <!-- 상단 메뉴바 -->
+  <rect x="0" y="0" width="300" height="25" fill="#2D2D2D"/>
+  <circle cx="15" cy="12" r="5" fill="#FF5F56"/>
+  <circle cx="35" cy="12" r="5" fill="#FFBD2E"/>
+  <circle cx="55" cy="12" r="5" fill="#27C93F"/>
+  
+  <!-- 좌측 파일 트리 -->
+  <rect x="0" y="25" width="60" height="375" fill="#252526"/>
+  <rect x="10" y="35" width="40" height="12" fill="#3C3C3C"/>
+  <rect x="10" y="55" width="35" height="12" fill="#3C3C3C"/>
+  <rect x="10" y="75" width="38" height="12" fill="#3C3C3C"/>
+  
+  <!-- 코드 에디터 영역 -->
+  <!-- 행 번호 -->
+  <rect x="60" y="25" width="25" height="375" fill="#1E1E1E"/>
+  <text x="70" y="45" fill="#666" font-size="10">1</text>
+  <text x="70" y="65" fill="#666" font-size="10">2</text>
+  <text x="70" y="85" fill="#666" font-size="10">3</text>
+  <text x="70" y="105" fill="#666" font-size="10">4</text>
+  <text x="70" y="125" fill="#666" font-size="10">5</text>
+  
+  <!-- 코드 하이라이트 -->
+  <rect x="85" y="35" width="60" height="12" fill="#569CD6" opacity="0.2"/>
+  
+  <!-- 코드 텍스트 시뮬레이션 -->
+  <rect x="90" y="38" width="40" height="6" fill="#569CD6"/>
+  <rect x="90" y="58" width="30" height="6" fill="#4EC9B0"/>
+  <rect x="130" y="58" width="50" height="6" fill="#CE9178"/>
+  <rect x="90" y="78" width="25" height="6" fill="#DCDCAA"/>
+  <rect x="125" y="78" width="40" height="6" fill="#9CDCFE"/>
+  <rect x="90" y="98" width="35" height="6" fill="#C586C0"/>
+  <rect x="135" y="98" width="45" height="6" fill="#9CDCFE"/>
+  
+  <!-- 터미널 영역 -->
+  <rect x="0" y="280" width="300" height="120" fill="#1E1E1E"/>
+  <rect x="0" y="280" width="300" height="20" fill="#323233"/>
+  <text x="10" y="294" fill="#FFF" font-size="10">TERMINAL</text>
+  <text x="10" y="315" fill="#00FF00" font-size="10">$</text>
+  <rect x="25" y="308" width="60" height="6" fill="#DDD"/>
+  
+  <!-- 미니맵 -->
+  <rect x="280" y="25" width="20" height="255" fill="#252526"/>
+  <rect x="285" y="30" width="10" height="40" fill="#3C3C3C"/>
+  <rect x="285" y="80" width="10" height="30" fill="#3C3C3C"/>
+  
+  <!-- 플로팅 코드 심볼 -->
+  <text x="200" y="150" fill="#569CD6" opacity="0.1" font-size="24">{}</text>
+  <text x="240" y="200" fill="#4EC9B0" opacity="0.1" font-size="24">()</text>
+  <text x="180" y="250" fill="#DCDCAA" opacity="0.1" font-size="24">&lt;/&gt;</text>
+  
+  <!-- Git 변경사항 표시 -->
+  <rect x="82" y="35" width="3" height="12" fill="#27C93F" opacity="0.8"/>
+  <rect x="82" y="55" width="3" height="12" fill="#27C93F" opacity="0.8"/>
+  <rect x="82" y="95" width="3" height="12" fill="#FFBD2E" opacity="0.8"/>
+  
+  <!-- 커서 깜빡임 효과 -->
+  <rect x="130" y="98" width="2" height="12" fill="#FFF"/>
+  
+  <!-- 상태바 -->
+  <rect x="0" y="380" width="300" height="20" fill="#007ACC"/>
+  <text x="10" y="394" fill="#FFF" font-size="10">main*</text>
+  <circle cx="280" cy="390" r="5" fill="#27C93F"/>
+</svg>

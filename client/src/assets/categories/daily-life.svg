@@ -1,0 +1,47 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#f8f9fa"/>
+  
+  <!-- 시계 -->
+  <g transform="translate(150,100)">
+    <circle cx="0" cy="0" r="40" fill="#fff" stroke="#333" stroke-width="3"/>
+    <line x1="0" y1="0" x2="0" y2="-25" stroke="#333" stroke-width="3"/>
+    <line x1="0" y1="0" x2="15" y2="10" stroke="#333" stroke-width="3"/>
+    <!-- 시계 숫자 -->
+    <text x="0" y="-30" text-anchor="middle" fill="#333" font-size="10">12</text>
+    <text x="30" y="0" text-anchor="middle" fill="#333" font-size="10">3</text>
+    <text x="0" y="35" text-anchor="middle" fill="#333" font-size="10">6</text>
+    <text x="-30" y="0" text-anchor="middle" fill="#333" font-size="10">9</text>
+  </g>
+  
+  <!-- 커피잔 -->
+  <g transform="translate(70,200)">
+    <path d="M0,0 L60,0 L55,60 L5,60 Z" fill="#fff"/>
+    <path d="M60,10 L75,10 L75,40 L60,40" fill="none" stroke="#333" stroke-width="3"/>
+    <ellipse cx="30" cy="0" rx="30" ry="5" fill="#ddd"/>
+    <!-- 김 -->
+    <path d="M15,-10 Q20,-20 25,-10" stroke="#ddd" fill="none"/>
+    <path d="M35,-10 Q40,-20 45,-10" stroke="#ddd" fill="none"/>
+  </g>
+  
+  <!-- 스마트폰 -->
+  <g transform="translate(180,180)">
+    <rect x="0" y="0" width="40" height="80" rx="5" fill="#333"/>
+    <rect x="3" y="3" width="34" height="74" rx="3" fill="#fff"/>
+    <circle cx="20" cy="65" r="3" fill="#ddd"/>
+  </g>
+  
+  <!-- 노트 -->
+  <g transform="translate(60,300)">
+    <rect x="0" y="0" width="80" height="60" fill="#fff" stroke="#ddd"/>
+    <line x1="0" y1="15" x2="80" y2="15" stroke="#eee"/>
+    <line x1="0" y1="30" x2="80" y2="30" stroke="#eee"/>
+    <line x1="0" y1="45" x2="80" y2="45" stroke="#eee"/>
+  </g>
+  
+  <!-- 가방 -->
+  <g transform="translate(180,280)">
+    <path d="M0,20 L60,20 L70,100 L-10,100 Z" fill="#FF9999"/>
+    <path d="M10,0 Q30,-10 50,0 L50,20 L10,20 Z" fill="#FF8888"/>
+  </g>
+</svg>

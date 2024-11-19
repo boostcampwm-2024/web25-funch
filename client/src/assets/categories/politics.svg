@@ -1,0 +1,62 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#f0f0f0"/>
+  
+  <!-- 국회의사당 스타일 건물 -->
+  <g transform="translate(50,100)">
+    <!-- 기둥들 -->
+    <rect x="20" y="80" width="20" height="120" fill="#ddd"/>
+    <rect x="60" y="80" width="20" height="120" fill="#ddd"/>
+    <rect x="100" y="80" width="20" height="120" fill="#ddd"/>
+    <rect x="140" y="80" width="20" height="120" fill="#ddd"/>
+    <rect x="180" y="80" width="20" height="120" fill="#ddd"/>
+    
+    <!-- 지붕 -->
+    <path d="M0,80 L200,80 L180,40 L20,40 Z" fill="#bbb"/>
+    <path d="M20,40 L180,40 L100,0 Z" fill="#999"/>
+    
+    <!-- 계단 -->
+    <rect x="0" y="200" width="220" height="10" fill="#ccc"/>
+    <rect x="10" y="210" width="200" height="10" fill="#bbb"/>
+    <rect x="20" y="220" width="180" height="10" fill="#999"/>
+  </g>
+  
+  <!-- 법정 망치 -->
+  <g transform="translate(200,250)">
+    <rect x="0" y="0" width="60" height="20" rx="5" fill="#8b4513"/>
+    <rect x="20" y="-30" width="20" height="30" fill="#a0522d"/>
+  </g>
+  
+  <!-- 투표함 -->
+  <g transform="translate(50,280)">
+    <rect x="0" y="0" width="80" height="60" fill="#4169e1"/>
+    <rect x="30" y="10" width="20" height="5" fill="#fff"/>
+    <path d="M20,0 L60,0 L60,20 L20,20 Z" fill="#1e90ff"/>
+  </g>
+  
+  <!-- 문서/법안 -->
+  <g transform="translate(150,300)">
+    <rect x="0" y="0" width="40" height="50" fill="#fff"/>
+    <line x1="5" y1="10" x2="35" y2="10" stroke="#000" stroke-width="1"/>
+    <line x1="5" y1="20" x2="35" y2="20" stroke="#000" stroke-width="1"/>
+    <line x1="5" y1="30" x2="35" y2="30" stroke="#000" stroke-width="1"/>
+    <line x1="5" y1="40" x2="25" y2="40" stroke="#000" stroke-width="1"/>
+  </g>
+  
+  <!-- 정의의 저울 -->
+  <g transform="translate(70,50)">
+    <!-- 기둥 -->
+    <rect x="25" y="0" width="10" height="40" fill="#666"/>
+    <!-- 저울대 -->
+    <line x1="0" y1="0" x2="60" y2="0" stroke="#666" stroke-width="4"/>
+    <!-- 저울 접시 -->
+    <g>
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#666" stroke-width="2"/>
+      <circle cx="0" cy="20" r="10" fill="#888"/>
+    </g>
+    <g>
+      <line x1="60" y1="0" x2="60" y2="20" stroke="#666" stroke-width="2"/>
+      <circle cx="60" cy="20" r="10" fill="#888"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#FDF6FF"/>
+  
+  <!-- 머리카락 뒷부분 -->
+  <path d="M70 160 Q150 40 230 160 L220 280 Q150 300 80 280 Z" fill="#8A7EDF"/>
+  
+  <!-- 머리 -->
+  <circle cx="150" cy="160" r="70" fill="#FFF0F5"/>
+  
+  <!-- 앞머리 -->
+  <path d="M85 140 Q150 40 215 140" fill="#8A7EDF"/>
+  <path d="M100 110 Q150 60 200 110" fill="#8A7EDF"/>
+  <!-- 옆머리 -->
+  <path d="M85 140 Q75 180 85 220" fill="#8A7EDF"/>
+  <path d="M215 140 Q225 180 215 220" fill="#8A7EDF"/>
+  
+  <!-- 눈 -->
+  <ellipse cx="120" cy="150" rx="20" ry="25" fill="#FFFFFF"/>
+  <ellipse cx="180" cy="150" rx="20" ry="25" fill="#FFFFFF"/>
+  
+  <!-- 눈동자 -->
+  <circle cx="120" cy="150" r="15" fill="#E6A9FF"/>
+  <circle cx="180" cy="150" r="15" fill="#E6A9FF"/>
+  <!-- 눈 하이라이트 -->
+  <circle cx="115" cy="145" r="6" fill="#FFFFFF"/>
+  <circle cx="125" cy="155" r="3" fill="#FFFFFF"/>
+  <circle cx="175" cy="145" r="6" fill="#FFFFFF"/>
+  <circle cx="185" cy="155" r="3" fill="#FFFFFF"/>
+  
+  <!-- 속눈썹 -->
+  <path d="M95 135 Q105 130 115 135" stroke="#8A7EDF" stroke-width="2" fill="none"/>
+  <path d="M155 135 Q165 130 175 135" stroke="#8A7EDF" stroke-width="2" fill="none"/>
+  
+  <!-- 홍조 -->
+  <circle cx="95" cy="170" r="12" fill="#FFB3B3" opacity="0.4"/>
+  <circle cx="205" cy="170" r="12" fill="#FFB3B3" opacity="0.4"/>
+  
+  <!-- 입 -->
+  <path d="M140 180 Q150 188 160 180" stroke="#FF9ECD" stroke-width="2" fill="none"/>
+  
+  <!-- 헤드폰 -->
+  <path d="M60 150 Q50 170 50 190 L50 210" stroke="#9D91FF" stroke-width="10" fill="none"/>
+  <path d="M240 150 Q250 170 250 190 L250 210" stroke="#9D91FF" stroke-width="10" fill="none"/>
+  <rect x="35" y="200" width="35" height="45" rx="8" fill="#9D91FF"/>
+  <rect x="230" y="200" width="35" height="45" rx="8" fill="#9D91FF"/>
+  
+  <!-- 의상 -->
+  <path d="M90 230 Q150 250 210 230 L200 400 L100 400 Z" fill="#9D91FF"/>
+  <!-- 의상 디테일 -->
+  <path d="M100 250 Q150 270 200 250" stroke="#8A7EDF" stroke-width="4" fill="none"/>
+  <path d="M110 280 Q150 300 190 280" stroke="#8A7EDF" stroke-width="3" fill="none"/>
+  
+  <!-- 리본 -->
+  <path d="M140 240 Q150 230 160 240 Q150 250 140 240" fill="#FF9ECD"/>
+  <path d="M130 245 Q140 235 150 245" stroke="#FF9ECD" stroke-width="3" fill="none"/>
+  <path d="M150 245 Q160 235 170 245" stroke="#FF9ECD" stroke-width="3" fill="none"/>
+  
+  <!-- LIVE 아이콘 -->
+  <circle cx="45" cy="45" r="20" fill="#FF4D8D"/>
+  <text x="30" y="52" font-family="Arial" font-size="14" fill="white" font-weight="bold">LIVE</text>
+  
+  <!-- 장식 효과 -->
+  <circle cx="250" cy="70" r="3" fill="#FFD700"/>
+  <circle cx="260" cy="50" r="2" fill="#FFD700"/>
+  <circle cx="240" cy="40" r="2" fill="#FFD700"/>
+</svg>
