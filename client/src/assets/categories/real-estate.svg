@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 하늘 배경 -->
+  <rect width="300" height="400" fill="#E8F4F8"/>
+  
+  <!-- 태양 -->
+  <circle cx="250" cy="80" r="30" fill="#FFB6C1" opacity="0.8"/>
+  
+  <!-- 구름 -->
+  <path d="M50 100 Q80 80 110 100 Q140 80 170 100" stroke="#FFF" fill="none" stroke-width="3"/>
+  <path d="M150 70 Q180 50 210 70 Q240 50 270 70" stroke="#FFF" fill="none" stroke-width="3"/>
+  
+  <!-- 고층 빌딩들 -->
+  <!-- 왼쪽 빌딩 -->
+  <rect x="40" y="150" width="60" height="250" fill="#4A90E2"/>
+  <rect x="45" y="160" width="10" height="230" fill="#81B7F3"/>
+  <rect x="65" y="160" width="10" height="230" fill="#81B7F3"/>
+  <rect x="85" y="160" width="10" height="230" fill="#81B7F3"/>
+  
+  <!-- 중앙 빌딩 -->
+  <rect x="120" y="100" width="80" height="300" fill="#2C3E50"/>
+  <rect x="125" y="110" width="15" height="280" fill="#34495E"/>
+  <rect x="150" y="110" width="15" height="280" fill="#34495E"/>
+  <rect x="175" y="110" width="15" height="280" fill="#34495E"/>
+  
+  <!-- 오른쪽 빌딩 -->
+  <rect x="220" y="180" width="50" height="220" fill="#95A5A6"/>
+  <rect x="225" y="190" width="10" height="200" fill="#BDC3C7"/>
+  <rect x="245" y="190" width="10" height="200" fill="#BDC3C7"/>
+  
+  <!-- 아파트 단지 -->
+  <rect x="20" y="250" width="30" height="150" fill="#E67E22"/>
+  <rect x="25" y="260" width="5" height="130" fill="#FFF" opacity="0.3"/>
+  <rect x="35" y="260" width="5" height="130" fill="#FFF" opacity="0.3"/>
+  
+  <!-- 주택 -->
+  <path d="M260 300 L290 300 L290 400 L260 400 Z" fill="#E74C3C"/>
+  <path d="M260 280 L275 260 L290 280 Z" fill="#C0392B"/>
+  <rect x="270" y="350" width="10" height="20" fill="#ECF0F1"/>
+  
+  <!-- 나무들 -->
+  <circle cx="15" cy="390" r="10" fill="#27AE60"/>
+  <rect x="13" y="390" width="4" height="10" fill="#795548"/>
+  
+  <circle cx="245" cy="390" r="10" fill="#27AE60"/>
+  <rect x="243" y="390" width="4" height="10" fill="#795548"/>
+  
+  <!-- 도로 -->
+  <rect x="0" y="380" width="300" height="20" fill="#95A5A6"/>
+  <rect x="10" y="389" width="30" height="2" fill="#FFF"/>
+  <rect x="60" y="389" width="30" height="2" fill="#FFF"/>
+  <rect x="110" y="389" width="30" height="2" fill="#FFF"/>
+  <rect x="160" y="389" width="30" height="2" fill="#FFF"/>
+  <rect x="210" y="389" width="30" height="2" fill="#FFF"/>
+  <rect x="260" y="389" width="30" height="2" fill="#FFF"/>
+</svg>

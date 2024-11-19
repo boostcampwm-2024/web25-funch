@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 밝은 그라데이션 배경 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- 음악 파형 패턴 -->
+  <path d="M0 200 Q 75 150, 150 200 T 300 200" stroke="#FF69B4" fill="none" stroke-width="3" opacity="0.6"/>
+  <path d="M0 180 Q 75 230, 150 180 T 300 180" stroke="#4169E1" fill="none" stroke-width="3" opacity="0.6"/>
+  <path d="M0 220 Q 75 170, 150 220 T 300 220" stroke="#7B68EE" fill="none" stroke-width="3" opacity="0.6"/>
+  
+  <!-- 음표들 -->
+  <g transform="translate(50,100)" fill="black">
+    <!-- 8분음표 -->
+    <path d="M15,0 L15,80 C15,90 30,90 30,80 C30,70 15,70 15,80" fill="black"/>
+    <circle cx="15" cy="80" r="8"/>
+  </g>
+  
+  <g transform="translate(150,150)" fill="black">
+    <!-- 4분음표 -->
+    <path d="M15,0 L15,60" stroke="black" stroke-width="3"/>
+    <circle cx="15" cy="60" r="8"/>
+  </g>
+  
+  <g transform="translate(220,200)" fill="black">
+    <!-- 16분음표 -->
+    <path d="M15,0 L15,70 C15,80 30,80 30,70 C30,60 15,60 15,70" fill="black"/>
+    <circle cx="15" cy="70" r="8"/>
+  </g>
+  
+  <!-- 음악 기호 -->
+  <g transform="translate(100,300)">
+    <path d="M0,0 C20,-20 40,-20 60,0 C40,20 20,20 0,0" fill="black"/>
+  </g>
+  
+  <!-- 추상적인 원형 요소들 -->
+  <circle cx="250" cy="50" r="20" fill="#FF69B4" opacity="0.5"/>
+  <circle cx="50" cy="350" r="25" fill="#4169E1" opacity="0.5"/>
+  <circle cx="200" cy="320" r="15" fill="#7B68EE" opacity="0.5"/>
+  
+  <!-- 작은 음표들 -->
+  <g transform="translate(270,120) scale(0.6)" fill="black">
+    <path d="M15,0 L15,60" stroke="black" stroke-width="3"/>
+    <circle cx="15" cy="60" r="8"/>
+  </g>
+  
+  <g transform="translate(80,250) scale(0.5)" fill="black">
+    <path d="M15,0 L15,60" stroke="black" stroke-width="3"/>
+    <circle cx="15" cy="60" r="8"/>
+  </g>
+</svg>

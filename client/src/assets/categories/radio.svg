@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 배경 -->
+  <rect width="300" height="400" fill="#2C3E50"/>
+  
+  <!-- 라디오 본체 -->
+  <rect x="50" y="100" width="200" height="160" rx="15" fill="#34495E" stroke="#ECF0F1" stroke-width="4"/>
+  
+  <!-- 스피커 그릴 -->
+  <circle cx="100" cy="150" r="30" fill="#7F8C8D"/>
+  <circle cx="200" cy="150" r="30" fill="#7F8C8D"/>
+  
+  <!-- 스피커 패턴 -->
+  <circle cx="100" cy="150" r="25" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  <circle cx="100" cy="150" r="20" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  <circle cx="100" cy="150" r="15" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  <circle cx="200" cy="150" r="25" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  <circle cx="200" cy="150" r="20" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  <circle cx="200" cy="150" r="15" fill="none" stroke="#95A5A6" stroke-width="2"/>
+  
+  <!-- 조작 패널 -->
+  <rect x="70" y="200" width="160" height="40" fill="#95A5A6" rx="5"/>
+  
+  <!-- 다이얼과 버튼들 -->
+  <circle cx="100" cy="220" r="15" fill="#E74C3C"/>
+  <circle cx="150" cy="220" r="8" fill="#3498DB"/>
+  <circle cx="180" cy="220" r="8" fill="#3498DB"/>
+  <circle cx="210" cy="220" r="8" fill="#3498DB"/>
+  
+  <!-- 음파 효과 -->
+  <path d="M240 150 Q 260 150, 260 130 Q 260 150, 260 170" fill="none" stroke="#3498DB" stroke-width="3"/>
+  <path d="M250 150 Q 270 150, 270 120 Q 270 150, 270 180" fill="none" stroke="#3498DB" stroke-width="3"/>
+  <path d="M260 150 Q 280 150, 280 110 Q 280 150, 280 190" fill="none" stroke="#3498DB" stroke-width="3"/>
+</svg>
