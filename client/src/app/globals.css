@@ -71,6 +71,25 @@
   --violet-80: #1f1a58;
   --violet-90: #100d2c;
 
+  --mood-unknown-start: #e0e0e0;
+  --mood-unknown-end: #f0f0f0;
+  --mood-lonely-start: #a5d8ff;
+  --mood-lonely-end: #1e90ff;
+  --mood-interesting-start: #ff69b4;
+  --mood-interesting-end: #9370db;
+  --mood-calm-start: #e0fff0;
+  --mood-calm-end: #98ff98;
+  --mood-depressed-start: #4b0082;
+  --mood-depressed-end: #191970;
+  --mood-happy-start: #ffd700;
+  --mood-happy-end: #ffa500;
+  --mood-get-king-start: #ff6b6b;
+  --mood-get-king-end: #dc143c;
+  --mood-funny-start: #ffa07a;
+  --mood-funny-end: #ffb6c1;
+  --mood-energetic-start: #98fb98;
+  --mood-energetic-end: #32cd32;
+
   --bg-weak: var(--neutral-1);
   --bg-base: var(--neutral-0);
   --bg-strong: var(--neutral-0);
