@@ -102,7 +102,7 @@ const DropdownSearch = forwardRef(
 const DropdownList = ({ children }: PropsWithChildren) => {
   return (
     <ul
-      className={clsx('shadow-dropdown bg-surface-neutral-primary absolute left-0 top-[53px] w-full rounded-md py-1.5')}
+      className={clsx('shadow-dropdown bg-surface-neutral-primary absolute left-0 top-[3rem] w-full rounded-md py-1.5')}
     >
       {children}
     </ul>
