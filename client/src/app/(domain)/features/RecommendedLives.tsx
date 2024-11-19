@@ -35,8 +35,8 @@ const RecommendedLives = () => {
         {({ visibleLives, isExpanded, toggle }) => (
           <>
             <Lives.List>
-              {visibleLives.map((live) => (
-                <Lives.Live key={live.broadcastId} live={live} />
+              {visibleLives.map((live, index) => (
+                <Lives.Live key={live.broadcastId} live={live} isPriority={index === 0} />
               ))}
             </Lives.List>
             <Lives.Expand isExpanded={isExpanded} toggle={toggle} />
