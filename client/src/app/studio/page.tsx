@@ -2,6 +2,7 @@
 
 import StudioImageInput from './StudioImageInput';
 import { useState } from 'react';
+import { StudioDropdownRendererForTest } from '@components/studio/StudioDropdown';
 import StudioInput from '@components/studio/StudioInput';
 import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
 
@@ -12,6 +13,7 @@ const StudioPage = () => {
       <StudioInput />
       <TextareaRendererForTest />
       <StudioImageInput setImage={setImage} />
+      <StudioDropdownRendererForTest />
     </div>
   );
 };
