@@ -1,21 +1,19 @@
 import DeleteBadgeSvg from '@components/svgs/DeleteBadgeSvg';
-import { PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import clsx from 'clsx';
 
-type StudioBadgeProps = {
-  handler?: () => void;
-};
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & PropsWithChildren;
 
-const StudioBadge = ({ children, handler }: PropsWithChildren & StudioBadgeProps) => {
+const StudioBadge = ({ children, ...rest }: Props) => {
   return (
     <div
       className={clsx(
-        'funch-medium14 border-1 bg-surface-neutral-base border-border-neutral-weak text-content-neutral-weak cursor-default',
+        'funch-medium12 border-1 bg-surface-neutral-base border-border-neutral-weak text-content-neutral-primary cursor-default',
         'hover:bg-surface-neutral-strong inline-flex h-4 items-center justify-center gap-1 rounded-full border-[1px] px-3 py-3',
       )}
     >
       {children}
-      <button onClick={handler}>
+      <button {...rest}>
         <DeleteBadgeSvg />
       </button>
     </div>
