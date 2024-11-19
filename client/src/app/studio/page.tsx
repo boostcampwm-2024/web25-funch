@@ -1,13 +1,13 @@
 'use client';
 
-import StudioImageInput from './StudioImageInput';
 import { useState } from 'react';
 import { StudioDropdownRendererForTest } from '@components/studio/StudioDropdown';
 import StudioInput from '@components/studio/StudioInput';
 import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
-import StudioAddButton from './StudioAddButton';
-import StudioUpdateButton from './StudioUpdateButton';
-import StudioBadge from './StudioBadge';
+import StudioAddButton from '@components/studio/StudioAddButton';
+import StudioUpdateButton from '@components/studio/StudioUpdateButton';
+import StudioBadge from '@components/studio/StudioBadge';
+import StudioImageInput from '@components/studio/StudioImageInput';
 
 const StudioPage = () => {
   const [image, setImage] = useState<File | null>(null);
