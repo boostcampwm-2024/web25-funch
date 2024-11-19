@@ -14,3 +14,7 @@ export const RESOURCE_URL = 'https://api.github.com/user';
 export const AUTHORIZATION_TOKEN = (accessToken: string) => `token ${accessToken}`;
 // member.service.ts
 export const DEFAULT_PROFILE_IMAGE = 'https://kr.object.ncloudstorage.com/funch-storage/profile/profile_default.png';
+// cookie.service.ts
+export const STRICT = 'strict';
+// github.controller.ts, auth.controller.ts
+export const REFRESH_TOKEN = 'refreshToken';
