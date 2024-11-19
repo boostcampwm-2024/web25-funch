@@ -1,16 +1,20 @@
 import clsx from 'clsx';
-import { type PropsWithChildren } from 'react';
+import { type ButtonHTMLAttributes, type PropsWithChildren } from 'react';
 
-const StudioUpdateButton = ({ children }: PropsWithChildren) => {
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & PropsWithChildren;
+
+const StudioUpdateButton = ({ children, ...rest }: Props) => {
   return (
-    <div
+    <button
       className={clsx(
-        'funch-bold14 border-border-neutral-base flex cursor-default items-center justify-center rounded-md px-1 py-0.5',
-        'text-content-static-white bg-surface-brand-base hover:bg-surface-brand-strong h-11 w-[466px]',
+        'flex h-11 w-full items-center justify-center rounded-md px-1 py-0.5',
+        'funch-bold14 text-content-static-white bg-surface-brand-base hover:bg-surface-brand-strong',
+        'opacity-100 disabled:opacity-35',
       )}
+      {...rest}
     >
       {children}
-    </div>
+    </button>
   );
 };
 

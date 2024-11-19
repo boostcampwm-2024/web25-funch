@@ -17,7 +17,9 @@ const StudioPage = () => {
       <TextareaRendererForTest />
       <StudioImageInput setImage={setImage} />
       <StudioAddButton>추가</StudioAddButton>
+      <StudioAddButton disabled>추가</StudioAddButton>
       <StudioUpdateButton>업데이트</StudioUpdateButton>
+      <StudioUpdateButton disabled>업데이트</StudioUpdateButton>
       <StudioDropdownRendererForTest />
       <StudioBadge>하이요</StudioBadge>
       <StudioBadge>흐어어어어엉어어어</StudioBadge>
