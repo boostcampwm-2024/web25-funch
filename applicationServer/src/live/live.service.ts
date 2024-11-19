@@ -24,21 +24,21 @@ export class LiveService {
     return playlist;
   }
 
-  getCurrentLiveListRandomShuffle(count) {
+  getRandomLiveList(count) {
     const allLives = Array.from(this.live.data.values());
     if (allLives.length <= count) return allLives;
 
-    const result: Broadcast[] = [];
-    while (result.length < count) {
+    const suggestLiveList: Broadcast[] = [];
+    while (suggestLiveList.length < count) {
       const history = {};
       const randomCount = Math.floor(allLives.length * Math.random());
 
       if (!history[randomCount]) {
-        result.push(allLives[randomCount]);
+        suggestLiveList.push(allLives[randomCount]);
         history[randomCount] = true;
       }
     }
 
-    return result;
+    return suggestLiveList;
   }
 }
