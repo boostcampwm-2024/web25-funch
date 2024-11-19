@@ -1,5 +1,5 @@
 const StudioPage = () => {
-  return <div>StudioPage</div>;
+  return <div className="w-80"></div>;
 };
 
 export default StudioPage;
