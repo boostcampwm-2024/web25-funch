@@ -47,9 +47,10 @@ const LivesList = ({ children }: PropsWithChildren) => {
 
 type LiveProps = {
   live: Broadcast;
+  isPriority?: boolean;
 };
 
-const Live = ({ live }: LiveProps) => {
+const Live = ({ live, isPriority = false }: LiveProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
@@ -90,6 +91,7 @@ const Live = ({ live }: LiveProps) => {
       >
         <div className="absolute left-0 top-0 h-full w-full">
           <Image
+            priority={isPriority}
             src={live.thumbnailUrl}
             fill={true}
             sizes="100%"
