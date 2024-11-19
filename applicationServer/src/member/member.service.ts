@@ -13,6 +13,10 @@ class MemberService {
   async findMembers(): Promise<Member[]> {
     return this.memberRepository.find();
   }
+
+  async findOneMemberWithCondition(condition: { [key: string]: string }) {
+    return this.memberRepository.findOne({ where: condition });
+  }
 }
 
 export { MemberService };
