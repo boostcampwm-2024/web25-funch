@@ -10,7 +10,12 @@ const StudioInput = ({ ...rest }: Props) => {
         'focus-within:border-border-brand-base border-border-neutral-weak h-10 rounded-md border border-solid pl-3.5 pr-1.5',
       )}
     >
-      <input className={clsx('inline-flex h-full w-full items-center outline-none')} {...rest} />
+      <input
+        className={clsx(
+          'text-content-neutral-primary funch-medium14 placeholder:text-content-neutral-weak inline-flex h-full w-full items-center bg-transparent outline-none',
+        )}
+        {...rest}
+      />
     </div>
   );
 };

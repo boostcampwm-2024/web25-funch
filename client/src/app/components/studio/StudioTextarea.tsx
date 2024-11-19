@@ -29,7 +29,14 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {};
 
 const Textarea = forwardRef(({ ...rest }: TextareaProps, ref: ForwardedRef<HTMLTextAreaElement>) => {
   return (
-    <textarea ref={ref} className={clsx('min-h-10 w-full resize-none outline-none', 'funch-medium14')} {...rest} />
+    <textarea
+      ref={ref}
+      className={clsx(
+        'min-h-10 w-full resize-none bg-transparent outline-none',
+        'funch-medium14 text-content-neutral-primary placeholder:text-content-neutral-weak',
+      )}
+      {...rest}
+    />
   );
 });
 
@@ -77,7 +84,14 @@ export const TextareaRendererForTest = () => {
   };
   return (
     <StudioTextarea>
-      <StudioTextarea.Textarea ref={textareaRef} value={value} onChange={onChange} maxLength={100} minLength={0} />
+      <StudioTextarea.Textarea
+        ref={textareaRef}
+        value={value}
+        onChange={onChange}
+        maxLength={100}
+        minLength={0}
+        placeholder="플레이스 홀더"
+      />
       <StudioTextarea.TextareaCount currentLength={currentLength} maxLength={maxLength} />
     </StudioTextarea>
   );

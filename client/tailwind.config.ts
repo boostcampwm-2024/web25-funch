@@ -30,6 +30,9 @@ const config: Config = {
       screens: {
         'funch-desktop': '1200px',
       },
+      boxShadow: {
+        dropdown: '0 0 2px rgba(0, 0, 0, .05), 0 2px 8px rgba(0, 0, 0, .1)',
+      },
       width: {
         live: LIVE_WIDTH,
         search: SEARCH_WIDTH,

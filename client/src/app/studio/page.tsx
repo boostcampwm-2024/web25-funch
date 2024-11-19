@@ -10,7 +10,7 @@ const StudioPage = () => {
   const [image, setImage] = useState<File | null>(null);
   return (
     <div className="w-80">
-      <StudioInput />
+      <StudioInput placeholder="플레이스 홀더" />
       <TextareaRendererForTest />
       <StudioImageInput setImage={setImage} />
       <StudioDropdownRendererForTest />
