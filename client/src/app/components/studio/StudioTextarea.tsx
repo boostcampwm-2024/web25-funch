@@ -2,12 +2,12 @@
 
 import clsx from 'clsx';
 import {
-  ChangeEvent,
-  ForwardedRef,
   forwardRef,
   RefObject,
   useRef,
   useState,
+  type ChangeEvent,
+  type ForwardedRef,
   type PropsWithChildren,
   type TextareaHTMLAttributes,
 } from 'react';
