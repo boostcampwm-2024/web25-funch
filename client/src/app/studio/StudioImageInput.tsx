@@ -49,6 +49,7 @@ const StudioImageInput = ({ setImage }: StudionImageInputProps) => {
             onChange={(e) => {
               handleChangeFile(e);
               setImage(e.target.files ? e.target.files[0] : null);
+              e.target.value = '';
             }}
             accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp"
           />
