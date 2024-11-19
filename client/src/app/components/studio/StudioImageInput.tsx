@@ -74,7 +74,7 @@ const Upload = () => {
       <span
         className={clsx(
           'bg-bg-strong absolute flex h-[140px] w-[247px] cursor-pointer',
-          'hover:bg-bg-base border-border-neutral-base flex-col items-center',
+          'hover:bg-bg-weak border-border-neutral-base flex-col items-center',
           'justify-center rounded-lg border-2 border-dashed',
         )}
       >
@@ -97,9 +97,10 @@ const Preview = () => {
   if (!isLoaded) return null;
 
   return (
-    <div className="h-[140px] w-[247px]">
-      <div className="flex h-full w-full items-center justify-center">
-        <img ref={imageRef} alt="이미지" className="z-50 h-28 w-28" />
+    <div className="relative h-[140px] w-[247px] overflow-hidden rounded-lg">
+      <div className="absolute inset-0 z-20 bg-gradient-to-b from-violet-100 to-gray-200" />
+      <div className="relative z-30 flex h-full w-full items-center justify-center">
+        <img ref={imageRef} alt="이미지" className="z-50 h-28 w-28 rounded-md object-cover" />
       </div>
     </div>
   );
@@ -123,9 +124,9 @@ const Controls = () => {
   };
 
   return (
-    <div className="funch-bold12 ml-4 flex w-[247px] items-center gap-4">
+    <div className="funch-bold12 mt-2 flex w-[247px] items-center gap-4">
       <button onClick={handleEditClick}>
-        <div className="border-border-neutral-weak hover:bg-bg-strong rounded-md border-2 px-4 py-2">수정</div>
+        <div className="border-border-neutral-weak hover:bg-bg-weak rounded-md border px-4 py-2">수정</div>
         <input
           type="file"
           ref={editFileInputRef}
@@ -135,7 +136,7 @@ const Controls = () => {
         />
       </button>
       <button
-        className="border-border-neutral-weak hover:bg-bg-strong rounded-md border-2 px-4 py-2"
+        className="border-border-neutral-weak hover:bg-bg-weak rounded-md border px-4 py-2"
         onClick={handleDelete}
       >
         삭제
