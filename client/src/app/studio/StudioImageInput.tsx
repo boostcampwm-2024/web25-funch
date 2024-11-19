@@ -26,7 +26,11 @@ const StudioImageInput = ({ setImage }: StudionImageInputProps) => {
   };
 
   return (
-    <div>
+    <div
+      className={clsx({
+        'pb-[140px]': !isLoaded,
+      })}
+    >
       <label
         className={clsx('relative w-[247px] pt-[140px]', {
           hidden: isLoaded,
