@@ -15,7 +15,8 @@
       "@src/*": ["src/*"],
       "@auth/*": ["src/database/*"],
       "@database/*": ["src/database/*"],
-      "@member/*": ["src/member/*"]
+      "@member/*": ["src/member/*"],
+      "@live/*": ["src/live/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
