@@ -2,7 +2,7 @@ import MoonSvg from '@components/svgs/MoonSvg';
 import StudioSvg from '@components/svgs/StudioSvg';
 import SunSvg from '@components/svgs/SunSvg';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { ButtonHTMLAttributes, useState } from 'react';
 
 type HeaderControlButtonType = keyof typeof headerControlButtonType;
 
@@ -18,9 +18,8 @@ const headerControlButtonTextContent = {
   LIGHT: '어두운 테마' as const,
 };
 
-type Props = {
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   componentType: HeaderControlButtonType;
-  onClick: () => void;
 };
 
 const getButtonContent = (componentType: HeaderControlButtonType) => {
@@ -36,7 +35,7 @@ const getButtonContent = (componentType: HeaderControlButtonType) => {
   }
 };
 
-const HeaderControlButton = ({ componentType, onClick }: Props) => {
+const HeaderControlButton = ({ componentType, ...rest }: Props) => {
   const [isHover, setIsHover] = useState(false);
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -52,9 +51,9 @@ const HeaderControlButton = ({ componentType, onClick }: Props) => {
           'text-content-neutral-primary',
           'hover:bg-surface-neutral-strong bg-transparent',
         )}
-        onClick={onClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        {...rest}
       >
         <HeaderControlIcon componentType={componentType} />
       </button>
