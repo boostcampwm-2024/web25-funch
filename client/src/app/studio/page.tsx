@@ -21,7 +21,7 @@ const StudioPage = () => {
       <StudioUpdateButton>업데이트</StudioUpdateButton>
       <StudioUpdateButton disabled>업데이트</StudioUpdateButton>
       <StudioDropdownRendererForTest />
-      <StudioBadge>하이요</StudioBadge>
+      <StudioBadge onClick={() => console.log('hi')}>하이요</StudioBadge>
       <StudioBadge>흐어어어어엉어어어</StudioBadge>
       <div className="bg-surface-static-violetalpha-base hover:bg-surface-static-violetalpha-strong h-6 w-6" />
     </div>
