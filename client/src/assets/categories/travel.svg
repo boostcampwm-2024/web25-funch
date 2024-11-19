@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 하늘 배경 -->
+  <rect width="300" height="400" fill="#87CEEB"/>
+  
+  <!-- 태양 -->
+  <circle cx="250" cy="60" r="30" fill="#FFD700"/>
+  
+  <!-- 구름들 -->
+  <path d="M60 80 Q90 60 120 80 Q150 60 180 80 L180 100 L60 100 Z" fill="white" opacity="0.8"/>
+  <path d="M200 120 Q230 100 260 120 L260 140 L200 140 Z" fill="white" opacity="0.8"/>
+  
+  <!-- 산 -->
+  <path d="M0 200 L100 120 L200 200 L300 150 L300 400 L0 400 Z" fill="#4CAF50"/>
+  
+  <!-- 바다 -->
+  <path d="M0 280 Q75 260 150 280 Q225 300 300 280 L300 400 L0 400 Z" fill="#0077be" opacity="0.6"/>
+  
+  <!-- 해변 -->
+  <path d="M0 300 Q75 280 150 300 Q225 320 300 300 L300 400 L0 400 Z" fill="#f4d03f"/>
+  
+  <!-- 야자수 -->
+  <path d="M80 280 L90 220" stroke="#654321" stroke-width="6"/>
+  <path d="M90 220 C60 210 70 190 90 200" fill="#228B22"/>
+  <path d="M90 220 C120 210 110 190 90 200" fill="#228B22"/>
+  <path d="M90 220 C60 230 70 210 90 220" fill="#228B22"/>
+  <path d="M90 220 C120 230 110 210 90 220" fill="#228B22"/>
+  
+  <!-- 비행기 -->
+  <path d="M200 100 L220 90 L240 100 L220 110 Z" fill="white"/>
+  <path d="M220 95 L225 92 L230 95 L225 98 Z" fill="#ddd"/>
+</svg>
