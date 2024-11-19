@@ -17,6 +17,7 @@ const StudioPage = () => {
       <StudioButton componentType="ADD">추가</StudioButton>
       <StudioButton componentType="UPDATE">업데이트</StudioButton>
       <StudioDropdownRendererForTest />
+      <div className="bg-surface-static-violetalpha-base hover:bg-surface-static-violetalpha-strong h-6 w-6" />
     </div>
   );
 };
