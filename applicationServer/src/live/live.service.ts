@@ -28,17 +28,17 @@ export class LiveService {
     const allLives = Array.from(this.live.data.values());
     if (allLives.length <= count) return allLives;
 
-    const suggestLiveList: Broadcast[] = [];
-    while (suggestLiveList.length < count) {
+    const result: Broadcast[] = [];
+    while (result.length < count) {
       const history = {};
       const randomCount = Math.floor(allLives.length * Math.random());
 
       if (!history[randomCount]) {
-        suggestLiveList.push(allLives[randomCount]);
+        result.push(allLives[randomCount]);
         history[randomCount] = true;
       }
     }
 
-    return suggestLiveList;
+    return result;
   }
 }
