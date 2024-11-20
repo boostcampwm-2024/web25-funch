@@ -2,15 +2,13 @@ import dotenv from 'dotenv';
 import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { MemberService } from '@src/member/member.service';
-import { GithubAuthService } from '@auth/github/github.service';
+import { GithubAuthService } from '@github/github.service';
 import { AuthService } from '@auth/auth.service';
-import { CookieService } from '@auth/cookie/cookie.service';
+import { CookieService } from '@cookie/cookie.service';
 import { REFRESH_TOKEN } from '@src/constants';
 
 dotenv.config();
 
-// TODO: strategy 적용
-// TODO: cors 적용?
 @Controller('auth/github')
 class GithubAuthController {
   constructor(
@@ -20,6 +18,7 @@ class GithubAuthController {
     private readonly cookieService: CookieService,
   ) {}
 
+  // TODO: refresh 토큰이 존재하면 접근 불가능
   @Get('/callback')
   async getAccessToken(@Query('code') code: string, @Res({ passthrough: true }) res: Response) {
     const githubAccessToken = await this.githubAuthService.getAccessToken(code);
