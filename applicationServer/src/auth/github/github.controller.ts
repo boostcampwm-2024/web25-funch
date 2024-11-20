@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { MemberService } from '@src/member/member.service';
 import { GithubAuthService } from '@github/github.service';
 import { AuthService } from '@auth/auth.service';
 import { CookieService } from '@cookie/cookie.service';
+import { NoNeedLoginGuard } from '@auth/auth.guard';
 import { REFRESH_TOKEN } from '@src/constants';
 
 dotenv.config();
@@ -18,8 +19,8 @@ class GithubAuthController {
     private readonly cookieService: CookieService,
   ) {}
 
-  // TODO: refresh 토큰이 존재하면 접근 불가능
   @Get('/callback')
+  @UseGuards(NoNeedLoginGuard)
   async getAccessToken(@Query('code') code: string, @Res({ passthrough: true }) res: Response) {
     const githubAccessToken = await this.githubAuthService.getAccessToken(code);
     const { id, avatar_url } = await this.githubAuthService.getUserInfo(githubAccessToken);
