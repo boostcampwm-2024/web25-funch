@@ -11,7 +11,7 @@ class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
   generateAccessToken(memberId: string) {
-    return this.jwtService.sign({ memberId });
+    return this.jwtService.sign({ memberId }, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE });
   }
 
   generateRefreshToken(memberId: string) {

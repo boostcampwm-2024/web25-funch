@@ -2,9 +2,9 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MemberModule } from './member/member.module';
+import { MemberModule } from '@member/member.module';
 import { LiveModule } from './live/live.module';
-import { GithubAuthModule } from '@auth/github/github.module';
+import { GithubAuthModule } from '@github/github.module';
 import { AuthModule } from '@auth/auth.module';
 
 @Module({
