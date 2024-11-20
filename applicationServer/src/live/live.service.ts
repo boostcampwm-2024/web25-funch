@@ -1,11 +1,13 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Live } from '@live/entities/live.entity';
 import { Broadcast, Playlist } from '@src/types';
+import { MemberService } from '@src/member/member.service';
+import { Member } from '@src/member/member.entity';
 
 @Injectable()
 export class LiveService {
   live: Live;
-  constructor() {
+  constructor(private readonly memberService: MemberService) {
     this.live = Live.getInstance();
   }
 
@@ -40,5 +42,33 @@ export class LiveService {
     }
 
     return result;
+  }
+
+  async verifyStreamKey(streamKey) {
+    const member = await this.memberService.findOneMemberWithCondition({ stream_key: streamKey });
+    if (!member) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+
+    return member;
+  }
+
+  addLiveData(member: Member) {
+    if (this.live.data.has(member.broadcast_id)) throw new HttpException('Conflict', HttpStatus.CONFLICT);
+
+    this.live.data.set(member.broadcast_id, {
+      broadcastId: member.broadcast_id,
+      title: `${member.name}의 라이브 방송`,
+      contentCategory: '',
+      moodCategory: '',
+      tags: [],
+      thumbnailUrl: `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/dynamic_thumbnail.jpg`,
+      viewerCount: 0,
+      userName: member.name,
+      profileImageUrl: member.profile_image,
+    });
+  }
+
+  removeLiveData(member: Member) {
+    if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    this.live.data.delete(member.broadcast_id);
   }
 }
