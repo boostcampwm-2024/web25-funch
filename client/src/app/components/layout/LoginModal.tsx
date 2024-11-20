@@ -23,9 +23,14 @@ const LoginModal = ({ children, close }: Props) => {
 
   return (
     <Modal close={close}>
-      <p className="mb-3">{children}</p>
+      <h2 id="modal-title" className="funch-bold14 mb-2 text-center">
+        로그인
+      </h2>
+      <p id="modal-description" className="funch-medium16 mb-4 text-center">
+        {children}
+      </p>
       <form onSubmit={handleSubmit}>
-        <BrandButton type="submit">로그인</BrandButton>
+        <BrandButton type="submit">확인</BrandButton>
       </form>
     </Modal>
   );
