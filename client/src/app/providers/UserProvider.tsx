@@ -1,31 +1,54 @@
 'use client';
 
-import { createContext, useState, type PropsWithChildren } from 'react';
-
-type User = {
-  name: string;
-};
+import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { login as loginAction } from '@libs/actions';
+import type { User } from '@libs/internalTypes';
+import { LOCAL_STORAGE_USER_KEY } from '@libs/constants';
 
 type UserContextType = {
   user: User | null;
-  login: () => void;
+  login: () => Promise<void>;
   logout: () => void;
 };
 
 export const UserContext = createContext<UserContextType>({
   user: null,
-  login: () => {},
+  login: async () => {},
   logout: () => {},
 });
 
 type Props = PropsWithChildren;
 
 const UserProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User | null>({ name: '홍길동' });
+  const [user, setUser] = useState<User | null>(null);
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    const ok = confirm('로그아웃하시겠어요?');
+    if (!ok) {
+      return;
+    }
+    setUser(null);
+    localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
+  };
 
-  const login = () => setUser({ name: 'hong' });
+  const login = async () => {
+    const user = await loginAction();
+    if (user) {
+      setUser(user);
+      localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
+    } else {
+      setUser(null);
+      throw new Error('로그인에 실패했어요.');
+    }
+  };
+
+  useEffect(() => {
+    // localStorage에 저장된 사용자 정보가 있다면 로그인 상태로 설정
+    const user = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
 
   return (
     <UserContext.Provider

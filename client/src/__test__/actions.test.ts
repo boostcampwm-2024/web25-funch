@@ -1,5 +1,6 @@
-import { getLiveList, getPlaylist, getSuggestedLiveList } from '@libs/actions';
+import { getLiveList, getPlaylist, getSuggestedLiveList, login } from '@libs/actions';
 import { mockedBroadcasts } from '@mocks/broadcasts';
+import { mockedUsers } from '@mocks/users';
 import { describe, expect, test } from 'vitest';
 
 describe('actions', () => {
@@ -33,5 +34,10 @@ describe('actions', () => {
     expect(suggestedList).toHaveLength(10);
 
     expect(suggestedList[0].viewerCount).toBe(mostViewerCount);
+  });
+  test('should login and get user information', async () => {
+    const result = await login();
+    expect(result).not.toBeNull();
+    expect(result).toStrictEqual(mockedUsers[0]);
   });
 });
