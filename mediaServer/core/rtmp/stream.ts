@@ -185,12 +185,11 @@ class RTMPStream {
         const OK = 200;
         const response = await startStreaming(this.streamKey);
 
-        console.log('response: ', response);
         if (response.status === OK) {
           this.streamCount++;
-          createStream(this.socket, this.streamCount);
           const data = await response.json();
           this.storagePath = `../../media-storage/${data.broadcastId}`;
+          createStream(this.socket, this.streamCount);
         } else {
           this.socket.end();
         }
