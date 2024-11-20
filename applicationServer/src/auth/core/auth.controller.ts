@@ -1,12 +1,9 @@
-import dotenv from 'dotenv';
 import { Controller, Get, Res, Req, Redirect, UseGuards } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AuthService } from '@auth/auth.service';
 import { CookieService } from '@cookie/cookie.service';
 import { NeedLoginGuard, NeedRefreshTokenGuard } from '@auth/auth.guard';
 import { REFRESH_TOKEN } from '@src/constants';
-
-dotenv.config();
 
 @Controller('auth')
 class AuthController {
