@@ -3,8 +3,9 @@
 import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 import { login as loginAction } from '@libs/actions';
 import type { User } from '@libs/internalTypes';
-import { LOCAL_STORAGE_USER_KEY } from '@libs/constants';
+import { COOKIE_USER_KEY, LOCAL_STORAGE_USER_KEY } from '@libs/constants';
 import useInternalRouter from '@hooks/useInternalRouter';
+import cookies from 'js-cookie';
 
 type UserContextType = {
   user: User | null;
@@ -31,6 +32,7 @@ const UserProvider = ({ children }: Props) => {
     }
     setUser(null);
     localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
+    cookies.remove(COOKIE_USER_KEY);
     push('/');
   };
 
@@ -39,6 +41,7 @@ const UserProvider = ({ children }: Props) => {
     if (user) {
       setUser(user);
       localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
+      cookies.set(COOKIE_USER_KEY, user.name);
     } else {
       setUser(null);
       throw new Error('로그인에 실패했어요.');
