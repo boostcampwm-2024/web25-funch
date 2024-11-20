@@ -1,13 +1,18 @@
-import { Controller, Get, Post, Param, Query, Body, HttpCode, Sse, Req } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpCode, Sse, Req, UseGuards } from '@nestjs/common';
 import { LiveService } from '@live/live.service';
 import { SUGGEST_LIVE_COUNT } from '@src/constants';
 import { Observable } from 'rxjs';
 import { Broadcast } from '@src/types';
 import { Request } from 'express';
+import { NeedLoginGuard } from '@src/auth/core/auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('live')
 export class LiveController {
-  constructor(private readonly liveService: LiveService) {}
+  constructor(
+    private readonly liveService: LiveService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @Get('/list')
   getLivelistAlignViewerCount(@Query('start') start: number, @Query('end') end: number) {
@@ -24,7 +29,7 @@ export class LiveController {
     return { suggest: this.liveService.getRandomLiveList(SUGGEST_LIVE_COUNT) };
   }
 
-  @Post('start')
+  @Post('/start')
   @HttpCode(200)
   async startLive(@Body('streamKey') streamKey) {
     const member = await this.liveService.verifyStreamKey(streamKey);
@@ -32,11 +37,20 @@ export class LiveController {
     return { broadcastId: member.broadcast_id };
   }
 
-  @Post('end')
+  @Post('/end')
   async endLive(@Body('streamKey') streamKey) {
     const member = await this.liveService.verifyStreamKey(streamKey);
     this.liveService.removeLiveData(member);
     return { broadcastId: member.broadcast_id };
+  }
+
+  @UseGuards(NeedLoginGuard)
+  @Post('/update')
+  @HttpCode(200)
+  updateLive(@Req() req: Request, @Body() body) {
+    const accessToken = req.headers['authorization']?.split(' ')[1];
+    const decodedPayload = this.jwtService.decode(accessToken);
+    return this.liveService.updateLiveData(decodedPayload, body);
   }
 
   @Sse('/sse/:broadcastId')
