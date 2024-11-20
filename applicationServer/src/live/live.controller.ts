@@ -1,13 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpCode } from '@nestjs/common';
 import { LiveService } from '@live/live.service';
 import { SUGGEST_LIVE_COUNT } from '@src/constants';
-import { AddMemberInfoToLive } from '@src/utils/interceptor/live.interceptor';
 
 @Controller('live')
 export class LiveController {
   constructor(private readonly liveService: LiveService) {}
 
-  @AddMemberInfoToLive()
   @Get('/list')
   getLivelistAlignViewerCount(@Query('start') start: number, @Query('end') end: number) {
     return this.liveService.getLiveList(start, end);
@@ -18,9 +16,23 @@ export class LiveController {
     return this.liveService.responsePlaylistUrl(broadcastId);
   }
 
-  @AddMemberInfoToLive()
   @Get('/list/suggest')
   getSuggestLiveList() {
-    return this.liveService.getRandomLiveList(SUGGEST_LIVE_COUNT);
+    return { suggest: this.liveService.getRandomLiveList(SUGGEST_LIVE_COUNT) };
+  }
+
+  @Post('start')
+  @HttpCode(200)
+  async startLive(@Body('streamKey') streamKey) {
+    const member = await this.liveService.verifyStreamKey(streamKey);
+    this.liveService.addLiveData(member);
+    return { broadcastId: member.broadcast_id };
+  }
+
+  @Post('end')
+  async endLive(@Body('streamKey') streamKey) {
+    const member = await this.liveService.verifyStreamKey(streamKey);
+    this.liveService.removeLiveData(member);
+    return { broadcastId: member.broadcast_id };
   }
 }
