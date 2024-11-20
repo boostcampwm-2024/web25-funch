@@ -20,7 +20,7 @@ class MemberService {
     return this.memberRepository.findOne({ where: condition });
   }
 
-  async save(id: string, image_url?: string): Promise<Member> {
+  async register(id: string, image_url?: string): Promise<Member> {
     const name = this.generateUniqueName();
     const user = {
       id,

@@ -24,7 +24,7 @@ class GithubAuthController {
 
     const memberId = `Github@${id}`;
     if (!(await this.memberService.findOneMemberWithCondition({ id: memberId }))) {
-      await this.memberService.save(memberId, avatar_url);
+      await this.memberService.register(memberId, avatar_url);
     }
 
     const accessToken = this.authService.generateAccessToken(memberId);
