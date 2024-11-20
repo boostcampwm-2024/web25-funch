@@ -77,6 +77,20 @@ export class LiveService {
     this.live.data.delete(member.broadcast_id);
   }
 
+  async updateLiveData(tokenPayload, requestBody) {
+    const member = await this.memberService.findOneMemberWithCondition({ id: tokenPayload.memberId });
+    if (this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
+    const memberLiveData = this.live.data.get(member.broadcast_id);
+    memberLiveData.title = requestBody.title;
+    memberLiveData.contentCategory = requestBody.contentCategory;
+    memberLiveData.moodCategory = requestBody.moodCategory;
+    memberLiveData.tags = requestBody.tags;
+    memberLiveData.thumbnailUrl =
+      requestBody.thumbnailUrl ??
+      `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/dynamic_thumbnail.jpg`;
+  }
+
   notifyLiveDataInterval(broadcastId: string, req: Request) {
     if (!this.live.data.has(broadcastId)) throw new HttpException('No Content', HttpStatus.NO_CONTENT);
     this.live.data.get(broadcastId).viewerCount++;
