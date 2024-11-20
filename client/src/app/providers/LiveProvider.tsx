@@ -1,28 +1,26 @@
 'use client';
 
-import { Live } from '@libs/internalTypes';
-import { mockedLives } from '@mocks/lives';
+import { getPlaylist } from '@libs/actions';
+import type { Broadcast, Playlist } from '@libs/internalTypes';
 import { useParams, usePathname } from 'next/navigation';
 import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 
 type LiveContextType = {
   isLivePage: boolean;
-  liveId: string | null;
-  liveInfo: Live;
+  liveInfo: Broadcast;
+  liveUrl: Playlist['playlistUrl'] | null;
 };
 
-const defaultLiveInfo: Live = {
-  id: '',
+const defaultLiveInfo: Broadcast = {
+  broadcastId: '',
   title: '',
-  thumbnail: '',
-  viewers: 0,
-  isStreaming: true,
-  category: '',
+  contentCategory: '',
+  moodCategory: '',
   tags: [],
-  streamer: {
-    name: '',
-    profileImage: '',
-  },
+  thumbnailUrl: '',
+  viewerCount: 0,
+  username: '',
+  profileImageUrl: '',
 };
 
 export const LiveContext = createContext<LiveContextType | null>(null);
@@ -31,13 +29,14 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isLivePage = pathname.split('/')[1] === 'lives';
 
-  const [liveInfo, setLiveInfo] = useState<Live>(defaultLiveInfo);
+  const [liveInfo, setLiveInfo] = useState<Broadcast>(defaultLiveInfo);
 
   const { id } = useParams() as { id: string };
 
-  const [isLoading, setIsLoading] = useState(false);
-  // 로딩 처리 어떻게???
-  const [liveId, setLiveId] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [liveUrl, setLiveUrl] = useState<Playlist['playlistUrl'] | null>(null);
 
   /*
   isLivePage <- 이거 확인할 수 있어야 함.
@@ -67,14 +66,20 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const fetchLive = async (id: string) => {
-      if (!id) return;
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const a = [null, 'ahahah'];
-      const randomIndex = Math.floor(Math.random() * a.length);
-      setLiveId(a[randomIndex]);
-      setLiveInfo(mockedLives[1]);
-      setIsLoading(false);
+      try {
+        if (!id) return;
+        setIsLoading(true);
+
+        const fetchedPlaylist = await getPlaylist(id);
+
+        setLiveUrl(fetchedPlaylist.playlistUrl);
+        setLiveInfo(fetchedPlaylist.broadCastData);
+        setIsLoading(false);
+      } catch (err) {
+        setIsError(true);
+        setLiveUrl(null);
+        setLiveInfo(defaultLiveInfo);
+      }
     };
 
     if (isLivePage) {
@@ -87,11 +92,11 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
     <LiveContext.Provider
       value={{
         isLivePage,
-        liveId,
         liveInfo,
+        liveUrl,
       }}
     >
-      {isLoading ? null : children}
+      {isError ? <p>에러 아님</p> : isLoading ? <p>방송을 불러오는 중</p> : children}
     </LiveContext.Provider>
   );
 };

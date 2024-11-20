@@ -19,10 +19,7 @@ import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 import usePlay from '@hooks/usePlay';
 import useFocused from '@hooks/useFocused';
-
-const demoHlsUrl1 = 'https://kr.object.ncloudstorage.com/media-storage/zzawang/master_playlist.m3u8';
-const demoHlsUrl2 =
-  'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8';
+import type { Playlist } from '@libs/internalTypes';
 
 type ChildrenArgs = {
   volume: number;
@@ -43,9 +40,10 @@ type ChildrenArgs = {
 
 type Props = {
   children: (args: ChildrenArgs) => ReactNode;
+  liveUrl: Playlist['playlistUrl'];
 };
 
-const LiveController = ({ children }: Props) => {
+const LiveController = ({ children, liveUrl }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(0);
@@ -114,7 +112,7 @@ const LiveController = ({ children }: Props) => {
     if (!videoRef.current) return;
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(demoHlsUrl2);
+      hls.loadSource(liveUrl);
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -122,12 +120,12 @@ const LiveController = ({ children }: Props) => {
       });
       return () => hls.destroy();
     } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = demoHlsUrl2;
+      videoRef.current.src = liveUrl;
       videoRef.current.addEventListener('loadedmetadata', () => {
         videoRef.current!.play();
       });
     }
-  }, []);
+  }, [liveUrl]);
 
   const isShowControls = isFocusing || isMouseMoving;
 
