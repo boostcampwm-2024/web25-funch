@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
-import { ACCESS_TOKEN_URL, APPLICATION_JSON, RESOURCE_URL, AUTHORIZATION_TOKEN } from '@src/constants';
+import { ACCESS_TOKEN_URL, APPLICATION_JSON, RESOURCE_URL } from '@src/constants';
 
 @Injectable()
 class GithubAuthService {
@@ -27,7 +27,7 @@ class GithubAuthService {
   async getUserInfo(accessToken: string) {
     const { data } = await axios.get(RESOURCE_URL, {
       headers: {
-        Authorization: AUTHORIZATION_TOKEN(accessToken),
+        Authorization: `token ${accessToken}`,
       },
     });
 
