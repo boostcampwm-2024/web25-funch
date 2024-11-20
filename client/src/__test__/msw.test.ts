@@ -3,13 +3,8 @@ import { mockedUsers } from '@mocks/users';
 import { describe, expect, test } from 'vitest';
 
 describe('msw handlers', () => {
-  test('should return pong', async () => {
-    const response = await fetch('/api/ping');
-    const data = await response.json();
-    expect(data).toBe('pong');
-  });
   test('should return mocked broadcasts', async () => {
-    const response = await fetch('/api/broadcasts');
+    const response = await fetch('/api/live/list');
     const data = await response.json();
     expect(data).toStrictEqual(mockedBroadcasts);
   });
@@ -18,5 +13,29 @@ describe('msw handlers', () => {
     const response = await fetch(`/api/users/${mockedUser.broadcastId}`);
     const data = await response.json();
     expect(data).toStrictEqual(mockedUser);
+  });
+  test('should return mocked playlist by broadcastId', async () => {
+    const mockedBroadcast = mockedBroadcasts[0];
+    const response = await fetch(`/api/live/${mockedBroadcast.broadcastId}`);
+    const data = await response.json();
+    expect(data.broadCastData).toStrictEqual(mockedBroadcast);
+  });
+  test('should return 404 when playlist not found', async () => {
+    const response = await fetch('/api/live/invalid-broadcast-id');
+    expect(response.status).toBe(404);
+  });
+  test('should return suggested live list', async () => {
+    let mostViewerCount = -Infinity;
+
+    mockedBroadcasts.forEach((broadcast) => {
+      if (broadcast.viewerCount > mostViewerCount) {
+        mostViewerCount = broadcast.viewerCount;
+      }
+    });
+
+    const response = await fetch('/api/live/list/suggest');
+    const data = await response.json();
+    expect(data).toHaveLength(10);
+    expect(data[0].viewerCount).toBe(mostViewerCount);
   });
 });

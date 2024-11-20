@@ -26,8 +26,8 @@ const LiveInfo = () => {
               <Image
                 fill={true}
                 sizes="100%"
-                src={liveInfo.streamer.profileImage}
-                alt={`스트리머 ${liveInfo.streamer.name}의 프로필 이미지`}
+                src={liveInfo.profileImageUrl}
+                alt={`스트리머 ${liveInfo.username}의 프로필 이미지`}
               />
             </div>
           </div>
@@ -40,10 +40,10 @@ const LiveInfo = () => {
         </div>
         <div className="ml-2.5 w-60">
           <h4
-            title={liveInfo.streamer.name}
+            title={liveInfo.username}
             className="text-content-neutral-strong funch-bold16 w-full overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            {liveInfo.streamer.name}
+            {liveInfo.username}
           </h4>
           {liveInfo.tags.length > 0 && (
             <ul className="mt-1.5 flex gap-1">
@@ -55,7 +55,7 @@ const LiveInfo = () => {
             </ul>
           )}
           <p className="mt-1">
-            <span className="funch-medium12 text-content-neutral-base">{comma(liveInfo.viewers)}명 시청 중</span>
+            <span className="funch-medium12 text-content-neutral-base">{comma(liveInfo.viewerCount)}명 시청 중</span>
           </p>
         </div>
         <div className="ml-4 pt-5">
