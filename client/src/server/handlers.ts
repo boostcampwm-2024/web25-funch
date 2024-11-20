@@ -29,8 +29,9 @@ const getUserByBroadcastId = ({ params }: { params: { broadcastId: string } }) =
 };
 
 const getSuggestedLiveList = () => {
-  const suggestedList = mockedBroadcasts.sort((a, b) => b.viewerCount - a.viewerCount).slice(0, 10);
-  return HttpResponse.json(suggestedList);
+  return HttpResponse.json({
+    suggest: mockedBroadcasts,
+  });
 };
 
 export const handlers = [

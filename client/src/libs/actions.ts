@@ -37,6 +37,10 @@ export const getPlaylist = async (broadcastId: string): Promise<Playlist> => {
   return result;
 };
 
+type SuggestedLiveListFetchResult = {
+  suggest: Broadcast[];
+};
+
 export const getSuggestedLiveList = async (): Promise<Broadcast[]> => {
   // const response = await fetch(`/api/live/list/suggest`);
 
@@ -47,12 +51,12 @@ export const getSuggestedLiveList = async (): Promise<Broadcast[]> => {
   // const data = await response.json();
 
   // return data as Broadcast[];
-  const result = await fetcher<Broadcast[]>({
+  const result = await fetcher<SuggestedLiveListFetchResult>({
     method: 'GET',
     url: '/api/live/list/suggest',
   });
 
-  return result;
+  return result.suggest;
 };
 
 export const login = async (): Promise<User> => {
