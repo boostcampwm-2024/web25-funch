@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Live } from '@live/entities/live.entity';
-import { Broadcast, Playlist } from '@src/types';
+import { Broadcast } from '@src/types';
 import { MemberService } from '@src/member/member.service';
 import { Member } from '@src/member/member.entity';
 
@@ -16,14 +16,16 @@ export class LiveService {
     return alignLiveList.slice(start, end ?? alignLiveList.length);
   }
 
-  responsePlaylistUrl(broadcastId) {
+  responseLiveData(broadcastId) {
+    if (!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
     const createMultivariantPlaylistUrl = (id) =>
       `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
 
-    if (!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    const broadcastData = this.live.data.get(broadcastId);
+    const playlistUrl = createMultivariantPlaylistUrl(broadcastId);
 
-    const playlist: Playlist = { url: createMultivariantPlaylistUrl(broadcastId) };
-    return playlist;
+    return { playlistUrl, broadcastData };
   }
 
   getRandomLiveList(count) {
