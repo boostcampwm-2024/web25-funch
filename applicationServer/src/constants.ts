@@ -15,3 +15,7 @@ export const DEFAULT_PROFILE_IMAGE = 'https://kr.object.ncloudstorage.com/funch-
 export const STRICT = 'strict';
 // github.controller.ts, auth.controller.ts
 export const REFRESH_TOKEN = 'refreshToken';
+// storage.repository.ts
+export const BUCKET_END_POINT_URL = 'https://kr.object.ncloudstorage.com';
+export const REGION = 'kr-standard';
+export const BUCKET_NAME = 'media-storage';
