@@ -11,7 +11,7 @@ import { type PropsWithChildren } from 'react';
 import VideoController from './VideoController';
 
 const LiveSection = () => {
-  const { isLivePage, liveId } = useLiveContext();
+  const { isLivePage, liveUrl } = useLiveContext();
   // ** lives 페이지라면 [id]에 해당하는 스트리밍 중인 방송이 있는지 확인하여
   // 없으면 NoLiveContent를 보여주고,(liveId를 null로)
   // 있으면 확장된 Live 섹션을 보여준다.(liveId를 id로)
@@ -43,9 +43,10 @@ const LiveSection = () => {
   // if liveId === null
   // 3.1 아무것도 보여주지 않기
 
-  if (!isLivePage && liveId === null) return null;
-
-  if (isLivePage && liveId === null) return <NoLiveContent />;
+  if (liveUrl === null) {
+    if (!isLivePage) return null;
+    else return <NoLiveContent />;
+  }
 
   return (
     <Wrapper>
@@ -53,7 +54,7 @@ const LiveSection = () => {
        *** !isLivePage && liveId === null -> null
        *** 나머지 = children?
        */}
-      <Live>
+      <Live liveUrl={liveUrl}>
         {({
           videoRef,
           videoWrapperRef,

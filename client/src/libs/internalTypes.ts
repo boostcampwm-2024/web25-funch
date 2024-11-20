@@ -30,6 +30,7 @@ export type AppTheme = keyof typeof APP_THEME;
 export type VideoIconComponentType = keyof typeof VIDEO_ICON_COMPONENT_TYPE;
 
 // API models
+// 11.20 17:40
 export type Broadcast = {
   broadcastId: string;
   title: string;
@@ -38,10 +39,14 @@ export type Broadcast = {
   tags: string[];
   thumbnailUrl: string;
   viewerCount: number;
+  username: string;
+  profileImageUrl: string;
 };
 
+// 11.20 18:30
 export type Playlist = {
-  url: string;
+  playlistUrl: string;
+  broadCastData: Broadcast;
 };
 
 export type Streamkey = {

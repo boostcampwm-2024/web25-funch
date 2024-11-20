@@ -185,7 +185,6 @@ const VolumeController = () => {
   const { volume, updateVolume, toggleMute } = useVolumeContext();
   const [isHidden, setIsHidden] = useState(true);
 
-  console.log('volume', volume);
   return (
     <div
       className="flex items-center gap-2"
