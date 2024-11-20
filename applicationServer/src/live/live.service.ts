@@ -3,6 +3,9 @@ import { Live } from '@live/entities/live.entity';
 import { Broadcast } from '@src/types';
 import { MemberService } from '@src/member/member.service';
 import { Member } from '@src/member/member.entity';
+import { interval, map } from 'rxjs';
+import { NOTIFY_LIVE_DATA_INTERVAL_TIME } from '@src/constants';
+import { Request } from 'express';
 
 @Injectable()
 export class LiveService {
@@ -72,5 +75,16 @@ export class LiveService {
   removeLiveData(member: Member) {
     if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     this.live.data.delete(member.broadcast_id);
+  }
+
+  notifyLiveDataInterval(broadcastId: string, req: Request) {
+    if (!this.live.data.has(broadcastId)) throw new HttpException('No Content', HttpStatus.NO_CONTENT);
+    this.live.data.get(broadcastId).viewerCount++;
+
+    req.on('close', () => {
+      this.live.data.get(broadcastId).viewerCount--;
+    });
+
+    return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(map(() => ({ data: this.live.data.get(broadcastId) })));
   }
 }

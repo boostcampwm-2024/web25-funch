@@ -1,6 +1,9 @@
-import { Controller, Get, Post, Param, Query, Body, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpCode, Sse, Req } from '@nestjs/common';
 import { LiveService } from '@live/live.service';
 import { SUGGEST_LIVE_COUNT } from '@src/constants';
+import { Observable } from 'rxjs';
+import { Broadcast } from '@src/types';
+import { Request } from 'express';
 
 @Controller('live')
 export class LiveController {
@@ -34,5 +37,10 @@ export class LiveController {
     const member = await this.liveService.verifyStreamKey(streamKey);
     this.liveService.removeLiveData(member);
     return { broadcastId: member.broadcast_id };
+  }
+
+  @Sse('/sse/:broadcastId')
+  intervalNotifyBroadcastData(@Param('broadcastId') broadcastId, @Req() req: Request): Observable<{ data: Broadcast }> {
+    return this.liveService.notifyLiveDataInterval(broadcastId, req);
   }
 }
