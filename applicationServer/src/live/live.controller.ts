@@ -13,7 +13,7 @@ export class LiveController {
 
   @Get(':broadcastId')
   getPlaylistUrl(@Param('broadcastId') broadcastId: string) {
-    return this.liveService.responsePlaylistUrl(broadcastId);
+    return this.liveService.responseLiveData(broadcastId);
   }
 
   @Get('/list/suggest')
