@@ -11,7 +11,6 @@ export const GITHUB_LOGIN_ID = (id: string) => `Github@${id}`;
 export const ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token';
 export const APPLICATION_JSON = 'application/json';
 export const RESOURCE_URL = 'https://api.github.com/user';
-export const AUTHORIZATION_TOKEN = (accessToken: string) => `token ${accessToken}`;
 // member.service.ts
 export const DEFAULT_PROFILE_IMAGE = 'https://kr.object.ncloudstorage.com/funch-storage/profile/profile_default.png';
 // cookie.service.ts
