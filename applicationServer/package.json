@@ -58,7 +58,11 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "^@live/(.*)$": "<rootDir>/src/live/$1"
+      "^@live/(.*)$": "<rootDir>/src/live/$1",
+      "^@src/(.*)$": "<rootDir>/src/$1",
+      "^@database/(.*)$": "<rootDir>/src/database/$1",
+      "^@member/(.*)$": "<rootDir>/src/member/$1",
+      "^@auth/(.*)$": "<rootDir>/src/auth/$1"
     }
   }
 }
