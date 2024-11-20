@@ -11,6 +11,7 @@ export const COOKIE_USER_KEY = 'funch-user';
 export const VIDEO_ICON_COMPONENT_TYPE = {
   DEFAULT: 'DEFAULT' as const,
   FULLSCREEN: 'FULLSCREEN' as const,
+  MINI_PLAYER: 'MINI_PLAYER' as const,
 };
 
 export const HTTP_METHOD = {

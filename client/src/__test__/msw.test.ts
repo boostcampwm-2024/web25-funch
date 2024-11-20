@@ -25,18 +25,9 @@ describe('msw handlers', () => {
     expect(response.status).toBe(404);
   });
   test('should return suggested live list', async () => {
-    let mostViewerCount = -Infinity;
-
-    mockedBroadcasts.forEach((broadcast) => {
-      if (broadcast.viewerCount > mostViewerCount) {
-        mostViewerCount = broadcast.viewerCount;
-      }
-    });
-
     const response = await fetch('/api/live/list/suggest');
     const data = await response.json();
-    expect(data).toHaveLength(10);
-    expect(data[0].viewerCount).toBe(mostViewerCount);
+    expect(data.suggest).toStrictEqual(mockedBroadcasts);
   });
   test('should login and get user information', async () => {
     const response = await fetch('/api/login', {
