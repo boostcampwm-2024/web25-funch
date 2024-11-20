@@ -8,12 +8,12 @@ type Props = {
 
 const StudioRows = ({ children, labelName, isFlex = false }: Props) => {
   return (
-    <div className="grid grid-cols-5">
-      <div className="col-span-2">
+    <div className="grid grid-cols-11">
+      <div className="col-span-3">
         <label className="funch-bold16">{labelName}</label>
       </div>
       <div
-        className={clsx('col-span-3', {
+        className={clsx('col-span-8', {
           'flex gap-4': isFlex,
         })}
       >
