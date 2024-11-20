@@ -10,14 +10,6 @@ type Broadcast = {
   profileImageUrl: string;
 };
 
-type Playlist = {
-  url: string;
-};
-
-type Streamkey = {
-  id: string;
-};
-
 type Token = {
   accessToken: string;
   refreshToken?: string;
@@ -31,4 +23,4 @@ type User = {
   isLive: boolean;
 };
 
-export { Broadcast, Playlist, Streamkey, Token, User };
+export { Broadcast, Token, User };
