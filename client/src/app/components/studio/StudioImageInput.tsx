@@ -73,7 +73,7 @@ const Upload = () => {
     <label className="relative w-[247px] pt-[140px]">
       <span
         className={clsx(
-          'bg-bg-strong absolute flex h-[140px] w-[247px] cursor-pointer',
+          'bg-surface-neutral-base absolute flex h-[140px] w-[247px] cursor-pointer',
           'hover:bg-bg-weak border-border-neutral-base flex-col items-center',
           'justify-center rounded-lg border-2 border-dashed',
         )}
