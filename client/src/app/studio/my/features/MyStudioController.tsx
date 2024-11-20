@@ -1,47 +1,17 @@
 'use client';
 
-import clsx from 'clsx';
-import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
-import { StudioDropdownRendererForTest } from '@components/studio/StudioDropdown';
-import StudioImageInput from '@components/studio/StudioImageInput';
-import StudioInput from '@components/studio/StudioInput';
-
-import { useState } from 'react';
-import StudioAddButton from '@components/studio/StudioAddButton';
-import StudioUpdateButton from '@components/studio/StudioUpdateButton';
-import StudioRows from './StudioRows';
 import MyStudioVideo from './MyStudioVideo';
+import MyStudioForm from './MyStudioForm';
 
 const MyStudioController = () => {
-  const [image, setImage] = useState<File | null>(null);
+  const handleFormSubmit = (formData: any) => {
+    console.log(formData);
+  };
+
   return (
     <section className="funch-scrollable w-full">
       <MyStudioVideo />
-      <section className="w-full space-y-8 p-[30px]">
-        <StudioRows labelName="방송 제목">
-          <TextareaRendererForTest />
-        </StudioRows>
-        <StudioRows labelName="카테고리">
-          <StudioDropdownRendererForTest />
-        </StudioRows>
-        <StudioRows labelName="방송 소개">
-          <StudioDropdownRendererForTest />
-        </StudioRows>
-        <StudioRows isFlex labelName="태그">
-          <div className="flex-1">
-            <StudioInput placeholder="태그를 입력하세요" />
-          </div>
-          <StudioAddButton>추가</StudioAddButton>
-        </StudioRows>
-        <StudioRows labelName="미리보기 이미지">
-          <StudioImageInput setImage={setImage}>
-            <StudioImageInput.Upload />
-            <StudioImageInput.Preview />
-            <StudioImageInput.Controls />
-          </StudioImageInput>
-        </StudioRows>
-        <StudioUpdateButton>업데이트</StudioUpdateButton>
-      </section>
+      <MyStudioForm onSubmit={handleFormSubmit} />
     </section>
   );
 };
