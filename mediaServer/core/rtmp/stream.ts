@@ -14,6 +14,7 @@ import { createFlvHeader, previousTagSize0, createFlvTag } from '@media/flv';
 import { PassThrough } from 'stream';
 import { initializeFFMepg, createMasterPlaylist } from '@media/ffmpeg';
 import { logger } from '@/logger';
+import { startStreaming, endStreaming } from '@/core/fetch';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -47,7 +48,7 @@ class RTMPStream {
 
   ffmpeg: ffmpeg.FfmpegCommand;
   ffmpegInputStream: PassThrough;
-  storagePath = '../../media-storage/zzawang'; // TODO: 스트림 키 검증 후 브로드캐스트 아이디 가져와서 Path에 등록
+  storagePath?: string;
   timerObject: Record<string, NodeJS.Timeout>;
 
   constructor(private socket: net.Socket) {
@@ -69,16 +70,6 @@ class RTMPStream {
 
     this.timerObject = {};
     this.ffmpegInputStream = new PassThrough();
-
-    // TODO: 방송을 최초 한 번은 시작한 다음에 실행
-    if (!fs.existsSync(this.storagePath)) {
-      fs.mkdirSync(this.storagePath, { recursive: true });
-    }
-    createMasterPlaylist(this.storagePath);
-    this.ffmpeg = initializeFFMepg(this.ffmpegInputStream, this.storagePath);
-    this.ffmpegInputStream.write(createFlvHeader());
-    this.ffmpegInputStream.write(previousTagSize0);
-    this.ffmpeg.run();
   }
 
   run() {
@@ -101,21 +92,24 @@ class RTMPStream {
   }
 
   async closeEvent() {
-    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
+    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
     logger.info(`The ${this.streamKey} has been closed.`);
     this.socket.end();
+    endStreaming(this.streamKey);
   }
 
   errorEvent(error) {
+    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
     logger.error(`The ${this.streamKey} has made an error: ${error}`);
-    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
     this.socket.destroy();
+    endStreaming(this.streamKey);
   }
 
   timeoutEvent() {
-    fs.rm(this.storagePath, { recursive: true, force: true }, () => {});
+    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
     logger.info(`The ${this.streamKey} timed out.`);
     this.socket.destroy();
+    endStreaming(this.streamKey);
   }
 
   handleMessage() {
@@ -166,7 +160,18 @@ class RTMPStream {
     }
   }
 
-  handleCommandMessage(typeId: number) {
+  initStreaming() {
+    if (!fs.existsSync(this.storagePath!)) {
+      fs.mkdirSync(this.storagePath!, { recursive: true });
+    }
+    createMasterPlaylist(this.storagePath);
+    this.ffmpeg = initializeFFMepg(this.ffmpegInputStream, this.storagePath!);
+    this.ffmpegInputStream.write(createFlvHeader());
+    this.ffmpegInputStream.write(previousTagSize0);
+    this.ffmpeg.run();
+  }
+
+  async handleCommandMessage(typeId: number) {
     const decodedPayload = decodeAMF(typeId, this.workingChunk.payload, COMMAND_AMF0, COMMAND_AMF3);
     switch (decodedPayload.cmd) {
       case 'connect':
@@ -176,12 +181,23 @@ class RTMPStream {
       case 'FCPublish':
         this.streamKey = decodedPayload.streamId;
         break;
-      case 'createStream':
-        // TODO: API서버에 Stream key 전달하고 broadcast key 가져오기, //API서버가 할 일 DB 저장된 streamKey와 비교하여 등록된 스트림 key가 아니라면 false 반환,
-        this.streamCount++;
-        createStream(this.socket, this.streamCount);
+      case 'createStream': {
+        const OK = 200;
+        const response = await startStreaming(this.streamKey);
+
+        console.log('response: ', response);
+        if (response.status === OK) {
+          this.streamCount++;
+          createStream(this.socket, this.streamCount);
+          const data = await response.json();
+          this.storagePath = `../../media-storage/${data.broadcastId}`;
+        } else {
+          this.socket.end();
+        }
         break;
+      }
       case 'publish':
+        this.initStreaming();
         publish(this.socket);
         logger.info(`${this.streamKey} successfully connected to the broadcast`);
         break;
