@@ -12,7 +12,7 @@ const StudioLayout = ({ children }: PropsWithChildren) => {
 
 const Main = ({ children }: PropsWithChildren) => {
   return (
-    <main className="mx-auto flex justify-center">
+    <main className="flex w-full justify-center">
       <div className="min-w-layout w-full">{children}</div>
     </main>
   );
