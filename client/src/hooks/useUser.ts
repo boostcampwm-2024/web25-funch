@@ -14,6 +14,7 @@ const useUser = () => {
   }, [user]);
 
   return {
+    loggedinUser: user,
     isLoggedin,
     logout,
     login,

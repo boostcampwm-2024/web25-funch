@@ -11,7 +11,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import Hls from 'hls.js';
 import clsx from 'clsx';
 import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
@@ -20,6 +19,7 @@ import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
 import usePlay from '@hooks/usePlay';
 import useFocused from '@hooks/useFocused';
 import type { Playlist } from '@libs/internalTypes';
+import useHls from '@hooks/useHls';
 
 type ChildrenArgs = {
   volume: number;
@@ -81,6 +81,8 @@ const LiveController = ({ children, liveUrl }: Props) => {
     if (!nextVolume) setSavedVolume(nextVolume);
   };
 
+  useHls({ videoRef, liveUrl });
+
   useEffect(() => {
     const playVideo = async () => {
       try {
@@ -108,24 +110,24 @@ const LiveController = ({ children, liveUrl }: Props) => {
     }
   }, [volume]);
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(liveUrl);
-      hls.attachMedia(videoRef.current);
+  // useEffect(() => {
+  //   if (!videoRef.current) return;
+  //   if (Hls.isSupported()) {
+  //     const hls = new Hls();
+  //     hls.loadSource(liveUrl);
+  //     hls.attachMedia(videoRef.current);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        videoRef.current!.play();
-      });
-      return () => hls.destroy();
-    } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = liveUrl;
-      videoRef.current.addEventListener('loadedmetadata', () => {
-        videoRef.current!.play();
-      });
-    }
-  }, [liveUrl]);
+  //     hls.on(Hls.Events.MANIFEST_PARSED, () => {
+  //       videoRef.current!.play();
+  //     });
+  //     return () => hls.destroy();
+  //   } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
+  //     videoRef.current.src = liveUrl;
+  //     videoRef.current.addEventListener('loadedmetadata', () => {
+  //       videoRef.current!.play();
+  //     });
+  //   }
+  // }, [liveUrl]);
 
   const isShowControls = isFocusing || isMouseMoving;
 
