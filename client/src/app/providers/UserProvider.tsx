@@ -4,6 +4,7 @@ import { createContext, useEffect, useState, type PropsWithChildren } from 'reac
 import { login as loginAction } from '@libs/actions';
 import type { User } from '@libs/internalTypes';
 import { LOCAL_STORAGE_USER_KEY } from '@libs/constants';
+import useInternalRouter from '@hooks/useInternalRouter';
 
 type UserContextType = {
   user: User | null;
@@ -20,6 +21,7 @@ export const UserContext = createContext<UserContextType>({
 type Props = PropsWithChildren;
 
 const UserProvider = ({ children }: Props) => {
+  const { push } = useInternalRouter();
   const [user, setUser] = useState<User | null>(null);
 
   const logout = () => {
@@ -29,6 +31,7 @@ const UserProvider = ({ children }: Props) => {
     }
     setUser(null);
     localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
+    push('/');
   };
 
   const login = async () => {
