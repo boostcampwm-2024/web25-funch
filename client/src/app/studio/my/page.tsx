@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 
 const StudioMyPage = () => {
   return (
-    <div className={clsx('mx-auto grid h-full w-full max-w-[calc(48rem+20rem+4rem)] grid-cols-[1fr,20rem] px-8')}>
+    <div
+      className={clsx(
+        'h-live-section border-border-neutral-weak mx-auto grid w-full max-w-[calc(48rem+20rem+4rem)] grid-cols-[1fr,20rem] border-x',
+      )}
+    >
       <MyStudioController />
       <MyStudioChat />
     </div>
