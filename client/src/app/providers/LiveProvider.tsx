@@ -96,7 +96,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         liveUrl,
       }}
     >
-      {isError ? <p>에러 아님</p> : isLoading ? <p>방송을 불러오는 중</p> : children}
+      {isError ? <p>에러 아님</p> : isLivePage && isLoading ? <p>방송을 불러오는 중</p> : children}
     </LiveContext.Provider>
   );
 };
