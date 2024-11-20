@@ -1,9 +1,9 @@
 import Button from '@components/Button';
-import useUser from '@hooks/useUser';
+import useInternalRouter from '@hooks/useInternalRouter';
 
 const LoginBtn = () => {
-  const { login } = useUser();
-  return <Button onClick={login}>로그인</Button>;
+  const { push } = useInternalRouter();
+  return <Button onClick={() => push('/login')}>로그인</Button>;
 };
 
 export default LoginBtn;
