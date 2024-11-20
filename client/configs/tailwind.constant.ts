@@ -7,6 +7,7 @@ export const LIVE_SECTION_DEFAULT_HEIGHT = `calc(100vh - ${HEADER_HEIGHT})`;
 export const LIVE_X_GAP = '0.875rem'; // 14px
 export const LIVE_WIDTH = `calc(33.332% - (${LIVE_X_GAP} * 2 / 3))`;
 export const LIVE_ASPECT_RATIO = '56.25%'; // 16:9
+export const STUDIO_CHAT_HEIGHT = 'calc(100vh - 7.5rem)';
 
 export const LIVE_PIP_WIDTH = '399px';
 export const LIVE_PIP_HEIGHT = '225px';
