@@ -32,6 +32,7 @@ const config: Config = {
       },
       boxShadow: {
         dropdown: '0 0 2px rgba(0, 0, 0, .05), 0 2px 8px rgba(0, 0, 0, .1)',
+        modal: '0 0 4px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .5)',
       },
       width: {
         live: LIVE_WIDTH,
@@ -128,6 +129,7 @@ const config: Config = {
           weak: 'var(--bg-weak)',
           base: 'var(--bg-base)',
           strong: 'var(--bg-strong)',
+          modal: 'rgba(0, 0, 0, .5)',
         },
 
         // Surface 색상
