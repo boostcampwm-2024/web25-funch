@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Lives from '@components/livesGrid/Lives';
 import { useEffect, useState } from 'react';
 import type { Broadcast } from '@libs/internalTypes';
-import { getSuggestedLiveList } from '@libs/actions';
+import { getLiveList } from '@libs/actions';
 
 const RecommendedLives = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,7 @@ const RecommendedLives = () => {
     let isValidEffect = true;
     const fetchLives = async () => {
       try {
-        const fetchedLives = await getSuggestedLiveList();
+        const fetchedLives = await getLiveList();
         setLives(fetchedLives);
         setIsLoading(false);
       } catch (err) {

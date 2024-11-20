@@ -110,25 +110,6 @@ const LiveController = ({ children, liveUrl }: Props) => {
     }
   }, [volume]);
 
-  // useEffect(() => {
-  //   if (!videoRef.current) return;
-  //   if (Hls.isSupported()) {
-  //     const hls = new Hls();
-  //     hls.loadSource(liveUrl);
-  //     hls.attachMedia(videoRef.current);
-
-  //     hls.on(Hls.Events.MANIFEST_PARSED, () => {
-  //       videoRef.current!.play();
-  //     });
-  //     return () => hls.destroy();
-  //   } else if (videoRef.current!.canPlayType('application/vnd.apple.mpegurl')) {
-  //     videoRef.current.src = liveUrl;
-  //     videoRef.current.addEventListener('loadedmetadata', () => {
-  //       videoRef.current!.play();
-  //     });
-  //   }
-  // }, [liveUrl]);
-
   const isShowControls = isFocusing || isMouseMoving;
 
   return children({

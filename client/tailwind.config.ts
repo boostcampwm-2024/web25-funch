@@ -171,6 +171,7 @@ const config: Config = {
             },
           },
           deemed: 'hsla(0, 0%, 100%, .2)',
+          'deemed-on-white': 'hsla(0, 0%, 0%, .2)',
         },
 
         // Content 색상

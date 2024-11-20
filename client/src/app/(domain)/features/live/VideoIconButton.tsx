@@ -12,11 +12,16 @@ const VideoIconButton = ({ children, componentType = 'DEFAULT', ...rest }: Props
   return (
     <button
       className={clsx(
-        'text-content-static-white inline-flex items-center justify-center rounded-full',
+        'inline-flex items-center justify-center rounded-full',
         'hover:bg-surface-deemed bg-transparent',
+        componentType === VIDEO_ICON_COMPONENT_TYPE.MINI_PLAYER
+          ? 'text-content-neutral-primary hover:bg-surface-deemed-on-white dark:hover:bg-surface-deemed'
+          : 'text-content-static-white hover:bg-surface-deemed',
         {
           'h-8 w-8': componentType === VIDEO_ICON_COMPONENT_TYPE.DEFAULT,
-          'h-9 w-9': componentType === VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN,
+          'h-9 w-9':
+            componentType === VIDEO_ICON_COMPONENT_TYPE.FULLSCREEN ||
+            componentType === VIDEO_ICON_COMPONENT_TYPE.MINI_PLAYER,
         },
       )}
       {...rest}
