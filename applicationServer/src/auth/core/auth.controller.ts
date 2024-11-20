@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { Controller, Get, Res, Req, HttpException, HttpStatus, Redirect } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AuthService } from '@auth/auth.service';
-import { CookieService } from '@auth/cookie/cookie.service';
+import { CookieService } from '@cookie/cookie.service';
 import { REFRESH_TOKEN } from '@src/constants';
 
 dotenv.config();
@@ -14,6 +14,7 @@ class AuthController {
     private readonly cookieService: CookieService,
   ) {}
 
+  // TODO: refresh 토큰이 존재하고, 유효해야지 접근 가능
   @Get('/refresh')
   async refreshAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN];
@@ -35,6 +36,7 @@ class AuthController {
     return { accessToken };
   }
 
+  // TODO: refresh 토큰이 존재하고, 유효해야지 접근 가능
   @Get('/logout')
   @Redirect('/', 302)
   async logout(@Res({ passthrough: true }) res: Response) {

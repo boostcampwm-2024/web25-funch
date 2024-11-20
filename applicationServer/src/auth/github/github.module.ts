@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { GithubAuthController } from '@auth/github/github.controller';
-import { GithubAuthService } from '@auth/github/github.service';
+import { GithubAuthController } from '@github/github.controller';
+import { GithubAuthService } from '@github/github.service';
 import { DatabaseModule } from '@src/database/database.module';
 import { MemberModule } from '@src/member/member.module';
 import { AuthModule } from '@auth/auth.module';

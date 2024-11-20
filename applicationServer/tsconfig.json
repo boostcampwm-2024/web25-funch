@@ -13,7 +13,10 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],
-      "@auth/*": ["src/auth/*"],
+      "@auth/*": ["src/auth/core/*"],
+      "@cookie/*": ["src/auth/cookie/*"],
+      "@github/*": ["src/auth/github/*"],
+      "@authUtil/*": ["src/auth/util/*"],
       "@database/*": ["src/database/*"],
       "@member/*": ["src/member/*"],
       "@live/*": ["src/live/*"]

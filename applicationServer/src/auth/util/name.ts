@@ -1,4 +1,4 @@
-import { prefix, objects, suffix } from '@auth/util/constants';
+import { prefix, objects, suffix } from '@authUtil/constants';
 
 const generateRandomName = () => {
   const pre = prefix[Math.floor(Math.random() * prefix.length)];
