@@ -4,6 +4,7 @@ export const APP_THEME = {
 };
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
+export const LOCAL_STORAGE_USER_KEY = 'funch-user';
 
 export const VIDEO_ICON_COMPONENT_TYPE = {
   DEFAULT: 'DEFAULT' as const,

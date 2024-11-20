@@ -38,4 +38,14 @@ describe('msw handlers', () => {
     expect(data).toHaveLength(10);
     expect(data[0].viewerCount).toBe(mostViewerCount);
   });
+  test('should login and get user information', async () => {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    expect(data).toStrictEqual(mockedUsers[0]);
+  });
 });
