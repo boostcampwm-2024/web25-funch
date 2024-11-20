@@ -21,19 +21,9 @@ describe('actions', () => {
     await expect(fetcher).rejects.toThrowError();
   });
   test('should return suggested live list', async () => {
-    let mostViewerCount = -Infinity;
-
-    mockedBroadcasts.forEach((broadcast) => {
-      if (broadcast.viewerCount > mostViewerCount) {
-        mostViewerCount = broadcast.viewerCount;
-      }
-    });
-
     const suggestedList = await getSuggestedLiveList();
 
-    expect(suggestedList).toHaveLength(10);
-
-    expect(suggestedList[0].viewerCount).toBe(mostViewerCount);
+    expect(suggestedList).toStrictEqual(mockedBroadcasts);
   });
   test('should login and get user information', async () => {
     const result = await login();

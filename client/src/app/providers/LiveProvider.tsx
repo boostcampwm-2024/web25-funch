@@ -9,6 +9,7 @@ type LiveContextType = {
   isLivePage: boolean;
   liveInfo: Broadcast;
   liveUrl: Playlist['playlistUrl'] | null;
+  clear: () => void;
 };
 
 const defaultLiveInfo: Broadcast = {
@@ -37,6 +38,11 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [liveUrl, setLiveUrl] = useState<Playlist['playlistUrl'] | null>(null);
+
+  const clear = () => {
+    setLiveInfo(defaultLiveInfo);
+    setLiveUrl(null);
+  };
 
   /*
   isLivePage <- 이거 확인할 수 있어야 함.
@@ -94,6 +100,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         isLivePage,
         liveInfo,
         liveUrl,
+        clear,
       }}
     >
       {isError ? <p>에러 아님</p> : isLivePage && isLoading ? <p>방송을 불러오는 중</p> : children}
