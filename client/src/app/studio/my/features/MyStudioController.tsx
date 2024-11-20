@@ -10,14 +10,13 @@ import { useState } from 'react';
 import StudioAddButton from '@components/studio/StudioAddButton';
 import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
+import MyStudioVideo from './MyStudioVideo';
 
 const MyStudioController = () => {
   const [image, setImage] = useState<File | null>(null);
   return (
     <section className="funch-scrollable w-full">
-      <div className={clsx('pt-live-aspect-ratio relative w-full')}>
-        <div className={clsx('bg-surface-static-black absolute left-0 top-0 h-full w-full')} />
-      </div>
+      <MyStudioVideo />
       <section className="w-full space-y-8 p-[30px]">
         <StudioRows labelName="방송 제목">
           <TextareaRendererForTest />
