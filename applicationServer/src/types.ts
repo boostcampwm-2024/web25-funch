@@ -6,6 +6,8 @@ type Broadcast = {
   tags: Array<string>;
   thumbnailUrl: string;
   viewerCount: number;
+  userName: string;
+  profileImageUrl: string;
 };
 
 type Playlist = {
