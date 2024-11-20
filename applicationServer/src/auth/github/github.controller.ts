@@ -1,32 +1,42 @@
 import dotenv from 'dotenv';
-import { Controller, Get, Query, Redirect } from '@nestjs/common';
-import { GithubAuthService } from './github.service';
+import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { MemberService } from '@src/member/member.service';
-import { GITHUB_LOGIN_ID } from '@src/constants';
+import { GithubAuthService } from '@auth/github/github.service';
+import { AuthService } from '@auth/auth.service';
+import { CookieService } from '@auth/cookie/cookie.service';
+import { REFRESH_TOKEN } from '@src/constants';
 
 dotenv.config();
 
+// TODO: strategy 적용
+// TODO: cors 적용?
 @Controller('auth/github')
-export class GithubAuthController {
+class GithubAuthController {
   constructor(
     private readonly githubAuthService: GithubAuthService,
     private readonly memberService: MemberService,
+    private readonly authService: AuthService,
+    private readonly cookieService: CookieService,
   ) {}
 
   @Get('/callback')
-  @Redirect('/', 302)
-  async getAccessToken(@Query('code') code: string) {
-    const accessToken = await this.githubAuthService.getAccessToken(code);
-    const { id, avatar_url } = await this.githubAuthService.getUserInfo(accessToken);
+  async getAccessToken(@Query('code') code: string, @Res({ passthrough: true }) res: Response) {
+    const githubAccessToken = await this.githubAuthService.getAccessToken(code);
+    const { id, avatar_url } = await this.githubAuthService.getUserInfo(githubAccessToken);
 
-    const memberId = GITHUB_LOGIN_ID(id);
+    const memberId = `Github@${id}`;
     if (!(await this.memberService.existsById(memberId))) {
-      const joinMember = await this.memberService.save(memberId, avatar_url);
+      await this.memberService.save(memberId, avatar_url);
     }
 
-    // TODO: 로그인 수행
-    const loginMember = await this.memberService.findById(memberId);
+    const accessToken = this.authService.generateAccessToken(memberId);
+    const refreshToken = this.authService.generateRefreshToken(memberId);
+    this.authService.saveRefreshToken(memberId, refreshToken);
+    this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
-    // TODO: JWT 적용
+    return { accessToken, profileImage: avatar_url };
   }
 }
+
+export { GithubAuthController };
