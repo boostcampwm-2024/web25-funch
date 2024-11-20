@@ -61,17 +61,17 @@ describe('LiveService 테스트', () => {
     const live: Live = Live.getInstance();
     getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
 
-    const result = service.responsePlaylistUrl('test0');
+    const result = service.responseLiveData('test0');
     const createMultivariantPlaylistUrl = (id) =>
       `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
 
-    expect(result.url).toEqual(createMultivariantPlaylistUrl('test0'));
+    expect(result.playlistUrl).toEqual(createMultivariantPlaylistUrl('test0'));
     live.data.clear();
   });
 
   it('오프라인 스트리머의 broadcast Id로 playlist를 요청하면 에러가 발생해야 한다.', () => {
     expect(() => {
-      service.responsePlaylistUrl('no user');
+      service.responseLiveData('no user');
     }).toThrow();
   });
 
