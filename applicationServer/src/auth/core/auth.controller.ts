@@ -3,7 +3,7 @@ import { Controller, Get, Res, Req, Redirect, UseGuards } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AuthService } from '@auth/auth.service';
 import { CookieService } from '@cookie/cookie.service';
-import { NeedLoginGuard } from '@auth/auth.guard';
+import { NeedLoginGuard, NeedRefreshTokenGuard } from '@auth/auth.guard';
 import { REFRESH_TOKEN } from '@src/constants';
 
 dotenv.config();
@@ -16,7 +16,7 @@ class AuthController {
   ) {}
 
   @Get('/refresh')
-  @UseGuards(NeedLoginGuard)
+  @UseGuards(NeedRefreshTokenGuard)
   async refreshAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN];
     const payload = this.authService.verifyToken(oldRefreshToken);

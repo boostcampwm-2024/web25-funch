@@ -22,7 +22,7 @@ class AuthService {
     try {
       return this.jwtService.verify(token);
     } catch (error) {
-      throw new HttpException(error, HttpStatus.UNAUTHORIZED);
+      throw new HttpException(`Token이 유효하지 않습니다 : ${error}`, HttpStatus.UNAUTHORIZED);
     }
   }
 

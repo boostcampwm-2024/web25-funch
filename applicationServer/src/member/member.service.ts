@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Member } from '@member/member.entity';
 import { MEMBER_REPOSITORY, DEFAULT_PROFILE_IMAGE } from '@src/constants';
@@ -20,22 +20,6 @@ class MemberService {
     return this.memberRepository.findOne({ where: condition });
   }
 
-  async findById(id: string) {
-    const member = await this.memberRepository.findOneBy({ id });
-    if (!member) {
-      throw new HttpException('사용자를 찾을 수 없습니다.', HttpStatus.NOT_FOUND);
-    }
-    return member;
-  }
-
-  async existsById(id: string) {
-    return this.memberRepository.existsBy({ id });
-  }
-
-  async existsByName(name: string) {
-    return this.memberRepository.existsBy({ name });
-  }
-
   async save(id: string, image_url?: string): Promise<Member> {
     const name = this.generateUniqueName();
     const user = {
@@ -52,7 +36,7 @@ class MemberService {
 
   private generateUniqueName() {
     let name = generateRandomName();
-    while (!this.existsByName(name)) {
+    while (!this.findOneMemberWithCondition({ name })) {
       name = generateRandomName();
     }
     return name;
