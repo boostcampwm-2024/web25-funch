@@ -1,4 +1,4 @@
-import { APP_THEME, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
+import { APP_THEME, HTTP_METHOD, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 
 export type SvgComponentProps = {
   svgTitle?: string;
@@ -28,6 +28,14 @@ export type Follow = {
 export type AppTheme = keyof typeof APP_THEME;
 
 export type VideoIconComponentType = keyof typeof VIDEO_ICON_COMPONENT_TYPE;
+
+export type HttpMethod = keyof typeof HTTP_METHOD;
+
+export type FetcherParams = {
+  method: HttpMethod;
+  url: `/${string}`;
+  customOptions?: RequestInit;
+};
 
 // API models
 // 11.20 17:40
