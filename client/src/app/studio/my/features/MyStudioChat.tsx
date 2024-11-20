@@ -1,5 +1,5 @@
 const MyStudioChat = () => {
-  return <div>BroadcastChat</div>;
+  return <section>채팅 영역</section>;
 };
 
 export default MyStudioChat;
