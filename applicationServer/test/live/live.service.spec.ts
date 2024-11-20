@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LiveService } from '@live/live.service';
 import { Live } from '@live/entities/live.entity';
 import { Broadcast } from '@src/types';
+import { Member } from '@src/member/member.entity';
+import { MemberModule } from '@src/member/member.module';
 
 function getMockLiveDataList(count) {
   const dummy = new Array(count).fill(0);
@@ -14,7 +16,27 @@ function getMockLiveDataList(count) {
       tags: [`i${i}`],
       thumbnailUrl: `http://thumbnail${i}`,
       viewerCount: Math.ceil((i + 1000) * Math.random()),
+      userName: `testUser${i}`,
+      profileImageUrl: 'http://zz.com',
     };
+  });
+
+  return result;
+}
+
+function getMockMemberList(count) {
+  const dummy = new Array(count).fill(0);
+  const result: Member[] = dummy.map((e, i) => {
+    return {
+      id: `id${i}`,
+      name: `name${i}`,
+      profile_image: 'http://test.com',
+      stream_key: `test_stream_key${i}`,
+      broadcast_id: `test${i}`,
+      follower_count: 0,
+      createdAt: new Date(),
+      deletedAt: null,
+    } as Member;
   });
 
   return result;
@@ -23,18 +45,9 @@ function getMockLiveDataList(count) {
 describe('LiveService 테스트', () => {
   let service: LiveService;
 
-  const mockBroadcastData: Broadcast = {
-    broadcastId: 'test',
-    title: 'title',
-    contentCategory: 'content',
-    moodCategory: 'mood',
-    tags: [],
-    thumbnailUrl: 'thumbnail',
-    viewerCount: 24,
-  };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [MemberModule],
       providers: [LiveService],
     }).compile();
     service = module.get<LiveService>(LiveService);
@@ -46,13 +59,13 @@ describe('LiveService 테스트', () => {
 
   it('생방송 중인 스트리머의 broadcast Id로 playlist를 요청하면 playlist url이 담긴 객체를 반환해야 한다.', () => {
     const live: Live = Live.getInstance();
-    live.data.set('test', mockBroadcastData);
+    getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
 
-    const result = service.responsePlaylistUrl('test');
+    const result = service.responsePlaylistUrl('test0');
     const createMultivariantPlaylistUrl = (id) =>
       `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
 
-    expect(result.url).toEqual(createMultivariantPlaylistUrl('test'));
+    expect(result.url).toEqual(createMultivariantPlaylistUrl('test0'));
     live.data.clear();
   });
 
@@ -82,6 +95,50 @@ describe('LiveService 테스트', () => {
     const testList1 = service.getRandomLiveList(liveCount + 10);
 
     expect(testList1.length).toBe(liveCount);
+    live.data.clear();
+  });
+
+  it('방송 시작 요청이 왔을 때 해당 Broadcast Id로 이미 방송 중이라면 에러가 발생해야 한다.', () => {
+    const live: Live = Live.getInstance();
+    getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const member = getMockMemberList(1)[0];
+
+    expect(() => {
+      service.addLiveData(member);
+    }).toThrow();
+
+    live.data.clear();
+  });
+
+  it('방송 시작 요청이 왔을 때 해당 Broadcast Id로 방송 중이 아니라면 방송 목록에 등록되어야 한다.', () => {
+    const live: Live = Live.getInstance();
+    const member = getMockMemberList(1)[0];
+    service.addLiveData(member);
+
+    expect(live.data.get(member.broadcast_id)).toBeDefined();
+
+    live.data.clear();
+  });
+
+  it('방송 종료 요청이 왔을 때 해당 Broadcast Id로 방송 중이 아니라면 에러가 발생해야 한다.', () => {
+    const live: Live = Live.getInstance();
+    const member = getMockMemberList(1)[0];
+
+    expect(() => {
+      service.removeLiveData(member);
+    }).toThrow();
+
+    live.data.clear();
+  });
+
+  it('방송 종료 요청이 왔을 때 해당 Broadcast Id로 방송 중이라면 방송 목록에서 제거되어야 한다.', () => {
+    const live: Live = Live.getInstance();
+    getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const member = getMockMemberList(1)[0];
+    service.removeLiveData(member);
+
+    expect(live.data.get(member.broadcast_id)).not.toBeDefined();
+
     live.data.clear();
   });
 });
