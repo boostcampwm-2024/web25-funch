@@ -16,6 +16,7 @@ import {
   // search
   SEARCH_WIDTH,
   SEARCH_WIDTH_WIDE,
+  STUDIO_CHAT_HEIGHT,
 } from './configs/tailwind.constant';
 
 const config: Config = {
@@ -43,6 +44,7 @@ const config: Config = {
       height: {
         header: HEADER_HEIGHT,
         'live-section': LIVE_SECTION_DEFAULT_HEIGHT,
+        'studio-chat': STUDIO_CHAT_HEIGHT,
         'live-pip': LIVE_PIP_HEIGHT,
       },
       minHeight: {
