@@ -30,7 +30,7 @@ export const mockedUsers: User[] = [
     isLive: true,
   },
   {
-    name: '펭수',
+    name: '펭귄',
     profileImageUrl: 'https://via.placeholder.com/150',
     broadcastId: 'eee',
     followerCount: 8765,
