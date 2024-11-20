@@ -1,8 +1,5 @@
-import dotenv from 'dotenv';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
-dotenv.config();
 
 @Injectable()
 class AuthService {

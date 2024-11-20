@@ -1,9 +1,6 @@
-import dotenv from 'dotenv';
 import path from 'path';
 import { DataSource } from 'typeorm';
 import { DATA_SOURCE } from '@src/constants';
-
-dotenv.config();
 
 const databaseProvider = {
   provide: DATA_SOURCE,
