@@ -4,6 +4,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import MswInitializer from './MswInitializer';
 import GlobalProvider from './GlobalProvider';
+import GlobalPortal from './GlobalPortal';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -31,7 +32,9 @@ const RootLayout = ({
       <body suppressHydrationWarning={true} className={`${notoSansKR.className} antialiased`}>
         <Layout>
           <MswInitializer>
-            <GlobalProvider>{children}</GlobalProvider>
+            <GlobalPortal>
+              <GlobalProvider>{children}</GlobalProvider>
+            </GlobalPortal>
           </MswInitializer>
         </Layout>
       </body>
