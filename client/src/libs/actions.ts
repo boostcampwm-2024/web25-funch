@@ -1,4 +1,4 @@
-import type { Broadcast, Playlist } from '@libs/internalTypes';
+import type { Broadcast, Playlist, User } from '@libs/internalTypes';
 
 export const getLiveList = async (): Promise<Broadcast[]> => {
   const response = await fetch(`/api/live/list`);
@@ -34,4 +34,21 @@ export const getSuggestedLiveList = async (): Promise<Broadcast[]> => {
   const data = await response.json();
 
   return data as Broadcast[];
+};
+
+export const login = async (): Promise<User> => {
+  const response = await fetch(`/api/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('로그인에 실패했어요.');
+  }
+
+  const data = await response.json();
+
+  return data as User;
 };
