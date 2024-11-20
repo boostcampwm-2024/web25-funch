@@ -6,6 +6,7 @@ import { Member } from '@src/member/member.entity';
 import { interval, map } from 'rxjs';
 import { NOTIFY_LIVE_DATA_INTERVAL_TIME } from '@src/constants';
 import { Request } from 'express';
+import { uploadData } from '@src/storage/storage.repository';
 
 @Injectable()
 export class LiveService {
@@ -81,14 +82,19 @@ export class LiveService {
     const member = await this.memberService.findOneMemberWithCondition({ id: tokenPayload.memberId });
     if (this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
+    if (requestBody.thumbnail) {
+      const imageData = Buffer.from(requestBody.thumbnail, 'base64');
+      uploadData(`${member.broadcast_id}/static_thumbnail.jpg`, imageData);
+    }
+
     const memberLiveData = this.live.data.get(member.broadcast_id);
     memberLiveData.title = requestBody.title;
     memberLiveData.contentCategory = requestBody.contentCategory;
     memberLiveData.moodCategory = requestBody.moodCategory;
     memberLiveData.tags = requestBody.tags;
-    memberLiveData.thumbnailUrl =
-      requestBody.thumbnailUrl ??
-      `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/dynamic_thumbnail.jpg`;
+    memberLiveData.thumbnailUrl = requestBody.thumbnail
+      ? `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/static_thumbnail.jpg`
+      : `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/dynamic_thumbnail.jpg`;
   }
 
   notifyLiveDataInterval(broadcastId: string, req: Request) {
