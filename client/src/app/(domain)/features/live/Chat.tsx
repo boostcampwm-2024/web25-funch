@@ -37,13 +37,19 @@ const ChatWrapper = ({ children }: Props) => {
 
   useEffect(() => {
     setIsSocketConnected(false);
-    const socket = io('ws://localhost:8000', {
+    const socketUrl =
+      process.env.NODE_ENV === 'production'
+        ? process.env.NEXT_PUBLIC_CHAT_SERVER_URL
+        : process.env.NEXT_PUBLIC_CHAT_SERVER_URL_DEV;
+
+    const socket = io(socketUrl, {
       path: '/live',
       query: {
         broadcastId,
         name: loggedinUser?.name || null,
       },
     });
+
     socketRef.current = socket;
 
     socket.on(SOCKET_EVENT.CONNECT, () => {
@@ -53,6 +59,7 @@ const ChatWrapper = ({ children }: Props) => {
 
     socket.on(SOCKET_EVENT.CHAT, (receivedData: { name: string; content: string }) => {
       // 상태 업데이트
+      console.log('😇 RECEIVING : ', receivedData);
       setChatList((prev) => [...prev, receivedData]);
     });
 
@@ -61,7 +68,7 @@ const ChatWrapper = ({ children }: Props) => {
     });
 
     return () => {
-      socket.close();
+      socket.disconnect();
       socketRef.current = null;
     };
   }, [broadcastId, loggedinUser]);
@@ -70,17 +77,29 @@ const ChatWrapper = ({ children }: Props) => {
     ({ socketRef, name, content }: { socketRef: MutableRefObject<Socket | null>; name: string; content: string }) => {
       if (!socketRef.current) return;
 
-      socketRef.current.emit(SOCKET_EVENT.CHAT, {
+      console.log('🚀 EMITING TO SERVER : ', {
         name,
         content,
       });
+
+      socketRef.current.emit(
+        SOCKET_EVENT.CHAT,
+        Buffer.from(
+          JSON.stringify({
+            name,
+            content,
+          }),
+        ),
+      );
     },
     [],
   );
 
   return (
     <aside className={clsx('flex h-full w-[22rem] flex-col', 'border-border-neutral-weak border-x border-solid')}>
-      <div className={clsx('flex h-11 w-full items-center justify-center border-y', 'border-border-neutral-weak')}>
+      <div
+        className={clsx('h-chat-header flex w-full items-center justify-center border-y', 'border-border-neutral-weak')}
+      >
         <strong className={clsx('text-content-neutral-primary')}>채팅</strong>
       </div>
       {children({
@@ -100,10 +119,19 @@ type ChatListProps = {
 
 const ChatList = ({ chatList }: ChatListProps) => {
   return (
-    <div className="flex flex-1 flex-col">
-      {chatList.map((chat, index) => (
-        <p key={index}>{chat.content}</p>
-      ))}
+    <div className="flex h-full flex-1 flex-col px-2 py-1">
+      <div className="relative h-full w-full">
+        <div className={clsx('h-chat absolute bottom-0 left-0 flex w-full flex-col')}>
+          <div className="funch-scrollable absolute bottom-0 max-h-full w-full">
+            {chatList.map((chat, index) => (
+              <p key={index} className="funch-medium14">
+                <span>{chat.name} 님 : </span>
+                <span>{chat.content}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -117,15 +145,16 @@ type ChatFormProps = {
 const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
   const [inputValue, setInputValue] = useState('');
   return (
-    <div className="flex h-[82px] flex-col px-[10px]">
+    <div className="h-chat-form flex flex-col px-2.5">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           sendChat({
             socketRef,
             name: chatname,
-            content: '채팅',
+            content: inputValue,
           });
+          setInputValue('');
         }}
       >
         <div className="h-10 w-full">

@@ -19,6 +19,10 @@ import {
   STUDIO_CHAT_HEIGHT,
 } from './configs/tailwind.constant';
 
+const CHAT_FORM_HEIGHT = '5rem';
+const CHAT_HEADER_HEIGHT = '2.75rem';
+const CAHT_HEIGHT = `calc(${LIVE_SECTION_DEFAULT_HEIGHT} - ${CHAT_HEADER_HEIGHT} - ${CHAT_FORM_HEIGHT})`;
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -46,6 +50,9 @@ const config: Config = {
         'live-section': LIVE_SECTION_DEFAULT_HEIGHT,
         'studio-chat': STUDIO_CHAT_HEIGHT,
         'live-pip': LIVE_PIP_HEIGHT,
+        'chat-form': CHAT_FORM_HEIGHT,
+        'chat-header': CHAT_HEADER_HEIGHT,
+        chat: CAHT_HEIGHT,
       },
       minHeight: {
         home: HOME_MIN_HEIGHT,
