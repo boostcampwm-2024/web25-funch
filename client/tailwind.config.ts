@@ -17,11 +17,11 @@ import {
   SEARCH_WIDTH,
   SEARCH_WIDTH_WIDE,
   STUDIO_CHAT_HEIGHT,
+  // chat
+  CHAT_FORM_HEIGHT,
+  CHAT_HEADER_HEIGHT,
+  CAHT_HEIGHT,
 } from './configs/tailwind.constant';
-
-const CHAT_FORM_HEIGHT = '5rem';
-const CHAT_HEADER_HEIGHT = '2.75rem';
-const CAHT_HEIGHT = `calc(${LIVE_SECTION_DEFAULT_HEIGHT} - ${CHAT_HEADER_HEIGHT} - ${CHAT_FORM_HEIGHT})`;
 
 const config: Config = {
   content: [

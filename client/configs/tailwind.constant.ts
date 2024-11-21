@@ -14,3 +14,7 @@ export const LIVE_PIP_HEIGHT = '225px';
 
 export const SEARCH_WIDTH = 'calc(100% - 41.25rem)'; // 660px = 41.25rem
 export const SEARCH_WIDTH_WIDE = 'calc(100% - 58.125rem)'; // 930px = 58.125rem
+
+export const CHAT_FORM_HEIGHT = '5rem';
+export const CHAT_HEADER_HEIGHT = '2.75rem';
+export const CAHT_HEIGHT = `calc(${LIVE_SECTION_DEFAULT_HEIGHT} - ${CHAT_HEADER_HEIGHT} - ${CHAT_FORM_HEIGHT})`;
