@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Query, Body, HttpCode, Sse, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpCode, Sse, Req, UseGuards, Patch } from '@nestjs/common';
 import { LiveService } from '@live/live.service';
 import { SUGGEST_LIVE_COUNT } from '@src/constants';
 import { Observable } from 'rxjs';
@@ -45,7 +45,7 @@ export class LiveController {
   }
 
   @UseGuards(NeedLoginGuard)
-  @Post('/update')
+  @Patch('/update')
   @HttpCode(200)
   updateLive(@Req() req: Request, @Body() body) {
     const accessToken = req.headers['authorization']?.split(' ')[1];
