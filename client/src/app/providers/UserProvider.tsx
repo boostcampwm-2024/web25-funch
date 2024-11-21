@@ -50,7 +50,11 @@ const UserProvider = ({ children }: Props) => {
   };
 
   const login = async () => {
-    location.href = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_AUTH_CLIENT_ID}`;
+    const githubClientId =
+      process.env.NODE_ENV === 'production'
+        ? process.env.NEXT_PUBLIC_AUTH_CLIENT_ID
+        : process.env.NEXT_PUBLIC_AUTH_CLIENT_ID_DEV;
+    location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
   };
 
   useEffect(() => {
