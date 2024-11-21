@@ -140,11 +140,16 @@ const categories = [
   },
 ];
 
-export const StudioDropdownRendererForTest = () => {
+type CategoryTestProps = {
+  setData: (data: string) => void;
+};
+
+export const StudioDropdownRendererForTest = ({ setData }: CategoryTestProps) => {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   const selectCategory = (key: string) => {
     setSelectedKey(key);
+    setData(key);
   };
 
   return (
