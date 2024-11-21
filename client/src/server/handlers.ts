@@ -1,6 +1,7 @@
 import { mockedBroadcasts } from '@mocks/broadcasts';
 import { mockedPlaylists } from '@mocks/playlists';
 import { mockedUsers } from '@mocks/users';
+import { mockedUpdates } from '@mocks/updates';
 import { http, HttpResponse } from 'msw';
 
 const getLiveList = () => {
@@ -16,6 +17,16 @@ const getPlaylist = ({ params }: { params: { broadcastId: string } }) => {
   }
 
   return HttpResponse.json(playlist);
+};
+
+const login = () => {
+  const user = mockedUsers[0];
+  return HttpResponse.json(user);
+};
+
+const update = () => {
+  const updated = mockedUpdates[0];
+  return HttpResponse.json(updated);
 };
 
 const getUserByBroadcastId = ({ params }: { params: { broadcastId: string } }) => {
@@ -44,4 +55,6 @@ export const handlers = [
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
   http.get('/api/live/list/suggest', getSuggestedLiveList),
   http.post('/api/auth/github/callback', authenticate),
+  http.post('/api/login', login),
+  http.post('/api/live/update', update),
 ];
