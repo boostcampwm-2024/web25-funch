@@ -15,8 +15,6 @@ export class LiveService {
   constructor(private readonly memberService: MemberService) {
     this.live = Live.getInstance();
     registerMockLive(this.live);
-
-    console.log(this.live);
   }
 
   getLiveList(start, end) {
