@@ -19,3 +19,7 @@ export const REFRESH_TOKEN = 'refreshToken';
 export const BUCKET_END_POINT_URL = 'https://kr.object.ncloudstorage.com';
 export const REGION = 'kr-standard';
 export const BUCKET_NAME = 'media-storage';
+// app.module.ts
+export const LOCALHOST = 'localhost';
+export const CORS_ORIGIN = 'https://funch.site/';
+export const CORS_ORIGIN_WWW = 'https://www.funch.site/';
