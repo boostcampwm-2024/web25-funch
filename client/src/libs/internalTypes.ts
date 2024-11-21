@@ -48,6 +48,11 @@ export type InternalUserSession = {
   user: UserSession;
 };
 
+export type Chat = {
+  name: string;
+  content: string;
+};
+
 // API models
 // 11.20 17:40
 export type Broadcast = {

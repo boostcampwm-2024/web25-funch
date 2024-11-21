@@ -13,8 +13,6 @@ const useUser = () => {
     setIsLoggedin(getIsLoggedin(userSession));
   }, [userSession]);
 
-  console.log('userSession', userSession);
-
   return {
     loggedinUser: userSession?.user || null,
     isLoggedin,
