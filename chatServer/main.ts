@@ -3,11 +3,11 @@ import validate from 'utf-8-validate';
 import EventEmitter from 'events';
 import { generateRandomName } from './utils/name';
 
-const PORT = 8000;
+const PORT = 7990;
 const io = new Server(PORT, {
   path: '/live',
   cors: {
-    origin: 'https://www.funch.site',
+    origin: ['localhost', 'https://funch.site', 'https://www.funch.site'],
     methods: '*',
   },
 });
