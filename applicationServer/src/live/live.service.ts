@@ -7,12 +7,16 @@ import { interval, map } from 'rxjs';
 import { NOTIFY_LIVE_DATA_INTERVAL_TIME } from '@src/constants';
 import { Request } from 'express';
 import { uploadData } from '@src/storage/storage.repository';
+import { registerMockLive } from './mock/register-mock.util';
 
 @Injectable()
 export class LiveService {
   live: Live;
   constructor(private readonly memberService: MemberService) {
     this.live = Live.getInstance();
+    registerMockLive(this.live);
+
+    console.log(this.live);
   }
 
   getLiveList(start, end) {
