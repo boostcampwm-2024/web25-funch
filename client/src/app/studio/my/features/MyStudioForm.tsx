@@ -10,6 +10,7 @@ import { StudioDropdownRendererForTest } from '@components/studio/StudioDropdown
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
 import StudioBadge from '@components/studio/StudioBadge';
+import { updateInfo } from '@libs/actions';
 
 interface MyStudioFormProps {
   onSubmit: (FormData: MyStudioFormData) => void;
@@ -17,19 +18,19 @@ interface MyStudioFormProps {
 
 interface MyStudioFormData {
   title: string;
-  category: string;
-  mood: string;
+  contentCategory: string;
+  moodCategory: string;
   tags: string[];
-  previewImage: File | null;
+  thumbnail?: string | null;
 }
 
 const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
   const [formData, setFormData] = useState<MyStudioFormData>({
     title: '',
-    category: '',
-    mood: '',
+    contentCategory: '',
+    moodCategory: '',
     tags: [],
-    previewImage: null,
+    thumbnail: null,
   });
 
   const [tags, setTags] = useState<string[]>([]);
@@ -41,7 +42,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
   };
 
   const handleAddTag = () => {
-    if (tagInput) {
+    if (tagInput && tags.length < 5) {
       setFormData({
         ...formData,
         tags: [...formData.tags, tagInput.trim()],
@@ -61,6 +62,14 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
     });
   };
 
+  const UpdateInfo = async () => {
+    try {
+      await updateInfo(formData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="w-full space-y-8 p-[30px]">
@@ -68,14 +77,20 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
           <TextareaRendererForTest setText={(text) => setFormData((prev) => ({ ...prev, title: text }))} />
         </StudioRows>
         <StudioRows labelName="카테고리">
-          <StudioDropdownRendererForTest />
+          <StudioDropdownRendererForTest
+            setData={(category) => setFormData((prev) => ({ ...prev, contentCategory: category }))}
+          />
         </StudioRows>
         <StudioRows labelName="분위기">
-          <StudioDropdownRendererForTest />
+          <StudioDropdownRendererForTest setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))} />
         </StudioRows>
-        <StudioRows isFlex labelName="태그">
+        <StudioRows componentType="TAG" labelName="태그">
           <div className="flex-1">
-            <StudioInput onChange={(e) => setTagInput(e.target.value)} placeholder="태그를 입력하세요" />
+            <StudioInput
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="태그를 입력하세요"
+            />
           </div>
           <StudioAddButton
             onClick={() => {
@@ -85,20 +100,26 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
             추가
           </StudioAddButton>
         </StudioRows>
-        {tags.length > 0 &&
-          tags.map((tag, index) => (
-            <StudioBadge key={index} onClick={() => handleDeleteTag(index)}>
-              {tag}
-            </StudioBadge>
-          ))}
+        <StudioRows labelName="">
+          {tags.length > 0 &&
+            tags.map((tag, index) => (
+              <div className="mr-1 inline-flex">
+                <StudioBadge key={index} onClick={() => handleDeleteTag(index)}>
+                  {tag}
+                </StudioBadge>
+              </div>
+            ))}
+        </StudioRows>
         <StudioRows labelName="미리보기 이미지">
-          <StudioImageInput setImage={(file) => setFormData((prev) => ({ ...prev, previewImage: file }))}>
+          <StudioImageInput setImage={(file) => setFormData((prev) => ({ ...prev, thumbnail: file }))}>
             <StudioImageInput.Upload />
             <StudioImageInput.Preview />
             <StudioImageInput.Controls />
           </StudioImageInput>
         </StudioRows>
-        <StudioUpdateButton type="submit">업데이트</StudioUpdateButton>
+        <StudioUpdateButton type="submit" onClick={UpdateInfo}>
+          업데이트
+        </StudioUpdateButton>
       </div>
     </form>
   );

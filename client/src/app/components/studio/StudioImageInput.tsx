@@ -9,7 +9,7 @@ type StudioImageInputContextType = {
   isLoaded: boolean;
   setIsLoaded: (value: boolean) => void;
   handleChangeFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setImage: (image: File | null) => void;
+  setImage: (image: string | null) => void;
 };
 
 const StudioImageInputContext = createContext<StudioImageInputContextType | null>(null);
@@ -25,7 +25,7 @@ const useStudioImageInput = () => {
 type RootProps = {
   children: React.ReactNode;
   className?: string;
-  setImage: (image: File | null) => void;
+  setImage: (image: string | null) => void;
 };
 
 const StudioImageInput = ({ children, className, setImage }: RootProps) => {
@@ -40,12 +40,13 @@ const StudioImageInput = ({ children, className, setImage }: RootProps) => {
     reader.onload = (e) => {
       if (imageRef.current && e.target?.result) {
         imageRef.current.src = e.target.result as string;
+
+        setImage(e.target.result as string);
       }
     };
     setIsLoaded(true);
 
     reader.readAsDataURL(file);
-    setImage(file);
     e.target.value = '';
   };
 
