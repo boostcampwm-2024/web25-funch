@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import CabinetLink from './CabinetLink';
-import FollowList from './FollowList';
 import useDesktop from '@hooks/useDesktop';
 import AccordionButton from '@components/AccordionButton';
 import SuggestedList from './SuggestedList';
@@ -23,36 +22,6 @@ const CategoryNavigator = () => {
       <CabinetLink link="category" />
       <CabinetLink link="follow" />
     </div>
-  );
-};
-
-const StreamerNavigator = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isFolded, setIsFolded] = useState(false);
-  const { isDesktop } = useDesktop();
-
-  useEffect(() => {
-    if (!isDesktop) {
-      setIsExpanded(true);
-    }
-  }, [isDesktop]);
-
-  return (
-    <>
-      <div className="funch-desktop:w-5/6 border-y-surface-neutral-base mx-auto w-1/2 border-y-2 py-4 pb-2">
-        {isDesktop ? (
-          <DesktopHeader isExpanded={isExpanded} componentType="SUGGEST" setIsExpanded={setIsExpanded} />
-        ) : (
-          <NavHeader />
-        )}
-        <FollowList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} />
-        {isExpanded && isDesktop && (
-          <div className="flex justify-center">
-            <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
-          </div>
-        )}
-      </div>
-    </>
   );
 };
 
