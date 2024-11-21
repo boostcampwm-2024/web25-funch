@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { MemberService } from '@src/member/member.service';
 import { GithubAuthService } from '@github/github.service';
@@ -16,23 +16,29 @@ class GithubAuthController {
     private readonly cookieService: CookieService,
   ) {}
 
-  @Get('/callback')
+  @Post('/callback')
   @UseGuards(NoNeedLoginGuard)
-  async getAccessToken(@Query('code') code: string, @Res({ passthrough: true }) res: Response) {
+  async getAccessToken(@Body('code') code: string, @Res({ passthrough: true }) res: Response) {
     const githubAccessToken = await this.githubAuthService.getAccessToken(code);
     const { id, avatar_url } = await this.githubAuthService.getUserInfo(githubAccessToken);
 
-    const memberId = `Github@${id}`;
-    if (!(await this.memberService.findOneMemberWithCondition({ id: memberId }))) {
-      await this.memberService.register(memberId, avatar_url);
-    }
+    const member = await this.findOrRegisterMember(`Github@${id}`, avatar_url);
+    const accessToken = this.authService.generateAccessToken(member.id);
+    const refreshToken = this.authService.generateRefreshToken(member.id);
 
-    const accessToken = this.authService.generateAccessToken(memberId);
-    const refreshToken = this.authService.generateRefreshToken(memberId);
-    this.authService.saveRefreshToken(memberId, refreshToken);
+    this.authService.saveRefreshToken(member.id, refreshToken);
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
-    return { accessToken, profileImage: avatar_url };
+    return { accessToken, name: member.name, profile_image: member.profile_image, broadcast_id: member.broadcast_id };
+  }
+
+  private async findOrRegisterMember(memberId: string, avatar_url: string) {
+    const member = await this.memberService.findOneMemberWithCondition({ id: memberId });
+    if (!member) {
+      const newMember = await this.memberService.register(memberId, avatar_url);
+      return newMember;
+    }
+    return member;
   }
 }
 
