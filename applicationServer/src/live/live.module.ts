@@ -3,16 +3,9 @@ import { LiveService } from '@live/live.service';
 import { LiveController } from '@live/live.controller';
 import { MemberModule } from '@src/member/member.module';
 import { AuthModule } from '@src/auth/core/auth.module';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    MemberModule,
-    AuthModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-    }),
-  ],
+  imports: [MemberModule, AuthModule],
   controllers: [LiveController],
   providers: [LiveService],
 })

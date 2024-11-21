@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { Broadcast } from '@src/types';
 import { Request } from 'express';
 import { NeedLoginGuard } from '@src/auth/core/auth.guard';
-import { JwtService } from '@nestjs/jwt';
+import { AuthService } from '@src/auth/core/auth.service';
 
 @Controller('live')
 export class LiveController {
   constructor(
     private readonly liveService: LiveService,
-    private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   @Get('/list')
@@ -49,7 +49,7 @@ export class LiveController {
   @HttpCode(200)
   updateLive(@Req() req: Request, @Body() body) {
     const accessToken = req.headers['authorization']?.split(' ')[1];
-    const decodedPayload = this.jwtService.decode(accessToken);
+    const decodedPayload = this.authService.verifyToken(accessToken);
     return this.liveService.updateLiveData(decodedPayload, body);
   }
 
