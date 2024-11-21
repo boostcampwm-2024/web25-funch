@@ -11,7 +11,6 @@ import { comma } from '@libs/formats';
 const LiveInfo = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { liveInfo } = useLiveContext();
-
   return (
     <div className="px-7 pb-6 pt-4">
       <h3 className="funch-bold20 text-content-neutral-strong">{liveInfo.title}</h3>
@@ -27,7 +26,7 @@ const LiveInfo = () => {
                 fill={true}
                 sizes="100%"
                 src={liveInfo.profileImageUrl}
-                alt={`스트리머 ${liveInfo.username}의 프로필 이미지`}
+                alt={`스트리머 ${liveInfo.userName}의 프로필 이미지`}
               />
             </div>
           </div>
@@ -40,10 +39,10 @@ const LiveInfo = () => {
         </div>
         <div className="ml-2.5 w-60">
           <h4
-            title={liveInfo.username}
+            title={liveInfo.userName}
             className="text-content-neutral-strong funch-bold16 w-full overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            {liveInfo.username}
+            {liveInfo.userName}
           </h4>
           {liveInfo.tags.length > 0 && (
             <ul className="mt-1.5 flex gap-1">

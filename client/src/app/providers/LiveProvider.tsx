@@ -21,7 +21,7 @@ const defaultLiveInfo: Broadcast = {
   tags: [],
   thumbnailUrl: '',
   viewerCount: 0,
-  username: '',
+  userName: '',
   profileImageUrl: '',
 };
 
@@ -80,7 +80,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         const fetchedPlaylist = await getPlaylist(id);
 
         setLiveUrl(fetchedPlaylist.playlistUrl);
-        setLiveInfo(fetchedPlaylist.broadCastData);
+        setLiveInfo(fetchedPlaylist.broadcastData);
         setIsLoading(false);
       } catch (err) {
         setIsError(true);

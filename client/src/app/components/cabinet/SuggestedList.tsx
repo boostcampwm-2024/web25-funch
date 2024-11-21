@@ -103,7 +103,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
                 />
                 <section className="flex w-full pl-[10px]">
                   <section className="flex w-2/3 flex-1 flex-col">
-                    <div className="text-surface-neutral-inverse funch-medium14">{suggest.username}</div>
+                    <div className="text-surface-neutral-inverse funch-medium14">{suggest.userName}</div>
                     <div className="funch-bold12">{suggest.contentCategory}</div>
                   </section>
                   <em className="text-content-red-base funch-bold16 flex items-center pr-2">
@@ -143,7 +143,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
             >
               <div className="flex h-1/4 w-full items-center gap-2 truncate">
-                <div className="text-content-brand-strong funch-bold16">{suggest.username}</div>
+                <div className="text-content-brand-strong funch-bold16">{suggest.userName}</div>
                 <div className="funch-bold14 bg-content-static-coolgray rounded-md border-2 p-[3px]">
                   {suggest.tags[0]}
                 </div>

@@ -9,7 +9,7 @@ const getLiveList = () => {
 };
 
 const getPlaylist = ({ params }: { params: { broadcastId: string } }) => {
-  const playlist = mockedPlaylists.find((playlist) => playlist.broadCastData.broadcastId === params.broadcastId);
+  const playlist = mockedPlaylists.find((playlist) => playlist.broadcastData.broadcastId === params.broadcastId);
   if (!playlist) {
     return HttpResponse.json(null, {
       status: 404,

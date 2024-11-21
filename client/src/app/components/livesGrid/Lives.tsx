@@ -66,7 +66,7 @@ const Live = ({ live, isPriority = false }: LiveProps) => {
             src={live.thumbnailUrl}
             fill={true}
             sizes="100%"
-            alt={`스트리머 ${live.username}가 스트리밍 중인 영상의 섬네일`}
+            alt={`스트리머 ${live.userName}가 스트리밍 중인 영상의 섬네일`}
           />
         </div>
         <LiveBadge viewers={live.viewerCount} />
@@ -77,12 +77,12 @@ const Live = ({ live, isPriority = false }: LiveProps) => {
             src={live.profileImageUrl}
             fill={true}
             sizes="100%"
-            alt={`스트리머 ${live.username}의 프로필 이미지`}
+            alt={`스트리머 ${live.userName}의 프로필 이미지`}
           />
         </div>
         <div className="w-full pr-5">
           <h3 className="text-content-neutral-primary funch-bold16">{live.title}</h3>
-          <p className="funch-bold14 text-content-neutral-strong inline-flex items-center">{live.username}</p>
+          <p className="funch-bold14 text-content-neutral-strong inline-flex items-center">{live.userName}</p>
           <div className="mt-1.5 flex flex-wrap gap-1">
             <Badge>{live.contentCategory}</Badge>
             {live.tags.map((tag, index) => (

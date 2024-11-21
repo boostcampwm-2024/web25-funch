@@ -63,7 +63,7 @@ export type Broadcast = {
   tags: string[];
   thumbnailUrl: string;
   viewerCount: number;
-  username: string;
+  userName: string;
   profileImageUrl: string;
 };
 
@@ -76,14 +76,14 @@ export type Suggest = {
   tags: string[];
   thumbnailUrl: string;
   viewerCount: number;
-  username: string;
+  userName: string;
   profileImageUrl: string;
 };
 
 // 11.20 18:30
 export type Playlist = {
   playlistUrl: string;
-  broadCastData: Broadcast;
+  broadcastData: Broadcast;
 };
 
 export type Streamkey = {

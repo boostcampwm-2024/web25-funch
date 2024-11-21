@@ -20,6 +20,15 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'via.placeholder.com',
       }, // sample domain for test
+      {
+        protocol: 'https',
+        hostname: 'api.funch.site',
+      },
+      // https://kr.object.ncloudstorage.com
+      {
+        protocol: 'https',
+        hostname: 'kr.object.ncloudstorage.com',
+      },
     ],
   },
 };
