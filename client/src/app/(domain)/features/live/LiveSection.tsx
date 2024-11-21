@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { type PropsWithChildren } from 'react';
 import VideoController from './VideoController';
 import MiniPlayerController from './MiniPlayerController';
+import Chat from './Chat';
 
 const LiveSection = () => {
   const { isLivePage, liveUrl } = useLiveContext();
@@ -107,28 +108,18 @@ const LiveSection = () => {
         )}
       </Live>
       {isLivePage && (
-        <aside className={clsx('flex h-full w-[22rem] flex-col', 'border-border-neutral-weak border-x border-solid')}>
-          <div className={clsx('flex h-11 w-full items-center justify-between border-y', 'border-border-neutral-weak')}>
-            <ChatFoldSvg />
-            <strong className={clsx('text-content-neutral-primary')}>채팅</strong>
-            <DottedSvg />
-          </div>
-          <div className="flex flex-1 flex-col"></div>
-          <div className="flex h-[82px] flex-col px-[10px]">
-            <div className="h-10 w-full">
-              <input
-                className={clsx(
-                  'h-full w-full resize-none rounded-md border-none px-2 py-2',
-                  'bg-surface-neutral-weak',
-                )}
-                placeholder="채팅을 입력해주세요"
-              />
-            </div>
-            <div className="flex justify-end py-1">
-              <Button>채팅</Button>
-            </div>
-          </div>
-        </aside>
+        <Chat>
+          {({ chatList, isSocketConnected, socketRef, chatname, sendChat }) => (
+            <>
+              {isSocketConnected ? (
+                <>
+                  <Chat.List chatList={chatList} />
+                  <Chat.Form socketRef={socketRef} chatname={chatname} sendChat={sendChat} />
+                </>
+              ) : null}
+            </>
+          )}
+        </Chat>
       )}
     </Wrapper>
   );
