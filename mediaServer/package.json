@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "ts-node -r tsconfig-paths/register main.ts",
     "dev": "nodemon",
     "test": "jest"
   },
