@@ -16,7 +16,7 @@ const useUser = () => {
   console.log('userSession', userSession);
 
   return {
-    loggedinUser: userSession?.user,
+    loggedinUser: userSession?.user || null,
     isLoggedin,
     logout,
     login,

@@ -9,6 +9,7 @@ type LiveContextType = {
   isLivePage: boolean;
   liveInfo: Broadcast;
   liveUrl: Playlist['playlistUrl'] | null;
+  broadcastId: string;
   clear: () => void;
 };
 
@@ -100,6 +101,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         isLivePage,
         liveInfo,
         liveUrl,
+        broadcastId: id,
         clear,
       }}
     >
