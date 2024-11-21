@@ -84,3 +84,11 @@ export type User = {
   followerCount: number;
   isLive: boolean;
 };
+
+export type Update = {
+  title: string;
+  contentCategory: string;
+  moodCategory: string;
+  tags: Array<string>;
+  thumbnail?: string | null;
+};

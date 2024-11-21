@@ -1,10 +1,11 @@
 'use client';
+import { Update } from '@libs/internalTypes';
 
 import MyStudioVideo from './MyStudioVideo';
 import MyStudioForm from './MyStudioForm';
 
 const MyStudioController = () => {
-  const handleFormSubmit = (formData: any) => {
+  const handleFormSubmit = (formData: Update) => {
     console.log(formData);
   };
 

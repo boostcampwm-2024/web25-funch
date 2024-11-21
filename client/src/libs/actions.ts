@@ -1,4 +1,4 @@
-import type { Broadcast, InternalUserSession, Playlist, User } from '@libs/internalTypes';
+import type { Broadcast, InternalUserSession, Playlist, User, Update } from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
 export const getLiveList = async (): Promise<Broadcast[]> => {
@@ -55,4 +55,13 @@ export const authenticate = async (code: string): Promise<InternalUserSession> =
       broadcastId: result['broadcast_id'],
     },
   };
+};
+
+export const updateInfo = async (formData: Update): Promise<Update> => {
+  const result = await fetcher<Update>({
+    method: 'PATCH',
+    url: '/api/live/update',
+  });
+
+  return result;
 };
