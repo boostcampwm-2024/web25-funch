@@ -37,6 +37,17 @@ export type FetcherParams = {
   customOptions?: RequestInit;
 };
 
+type UserSession = {
+  name: string;
+  profileImageUrl: string;
+  broadcastId: string;
+};
+
+export type InternalUserSession = {
+  accessToken: string;
+  user: UserSession;
+};
+
 // API models
 // 11.20 17:40
 export type Broadcast = {
