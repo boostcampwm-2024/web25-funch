@@ -42,12 +42,17 @@ const ChatWrapper = ({ children }: Props) => {
         ? process.env.NEXT_PUBLIC_CHAT_SERVER_URL
         : process.env.NEXT_PUBLIC_CHAT_SERVER_URL_DEV;
 
+    const socketQuery = {
+      broadcastId,
+    } as any;
+
+    if (loggedinUser) {
+      socketQuery.name = loggedinUser.name;
+    }
+
     const socket = io(socketUrl, {
       path: '/live',
-      query: {
-        broadcastId,
-        name: loggedinUser?.name || null,
-      },
+      query: socketQuery,
     });
 
     socketRef.current = socket;
@@ -64,7 +69,8 @@ const ChatWrapper = ({ children }: Props) => {
     });
 
     socket.on(SOCKET_EVENT.SET_ANONYMOUS_NAME, (data) => {
-      setChatname(data);
+      console.log('🚀 SETTING ANONYMOUS NAME : ', data);
+      setChatname(data.name);
     });
 
     return () => {
