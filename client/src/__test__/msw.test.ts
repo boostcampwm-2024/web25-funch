@@ -29,14 +29,18 @@ describe('msw handlers', () => {
     const data = await response.json();
     expect(data.suggest).toStrictEqual(mockedBroadcasts);
   });
-  test('should login and get user information', async () => {
-    const response = await fetch('/api/login', {
+  test('should authenticate user', async () => {
+    const response = await fetch('/api/auth/github/callback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ code: 'auth-code' }),
     });
     const data = await response.json();
-    expect(data).toStrictEqual(mockedUsers[0]);
+    expect(data.accessToken).toBeDefined();
+    expect(data.name).toBeDefined();
+    expect(data.profile_image).toBeDefined();
+    expect(data.broadcast_id).toBeDefined();
   });
 });
