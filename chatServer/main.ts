@@ -6,6 +6,10 @@ import { generateRandomName } from 'utils/name';
 const PORT = 8000;
 const io = new Server(PORT, {
   path: '/live',
+  cors: {
+    origin: 'https://www.funch.site',
+    methods: '*',
+  },
 });
 
 const eventEmitter = new EventEmitter();
