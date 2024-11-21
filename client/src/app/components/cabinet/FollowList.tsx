@@ -1,5 +1,5 @@
 import { mockedFollows } from '@mocks/follow';
-import { Live } from '@libs/internalTypes';
+import { Broadcast, Live } from '@libs/internalTypes';
 
 const FollowList = ({
   isDesktop,
@@ -35,7 +35,7 @@ const FollowList = ({
   );
 };
 
-const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => {
+const Follow = ({ follow, isDesktop }: { follow: Broadcast; isDesktop: boolean }) => {
   return (
     <>
       {isDesktop ? (
@@ -43,16 +43,18 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
           <div className="border-neutral-weak funch-desktop:justify-start hover:bg-surface-neutral-strong peer flex w-full items-center rounded-md py-3 pl-2">
             <div className="relative flex flex-1">
               <img
-                src={follow.streamer?.profileImage}
+                src={follow.profileImageUrl}
                 alt={follow.title}
                 className="border-border-brand-strong mt-[6px] box-content h-8 w-8 rounded-full"
               />
               <section className="flex w-full pl-[10px]">
                 <section className="flex w-2/3 flex-1 flex-col">
-                  <div className="text-surface-neutral-inverse funch-bold14">{follow.streamer.name}</div>
-                  <div className="funch-bold14">{follow.category}</div>
+                  <div className="text-surface-neutral-inverse funch-bold14">{follow.username}</div>
+                  <div className="funch-bold14">{follow.contentCategory}</div>
                 </section>
-                <em className="text-content-red-base funch-bold16 flex items-center pr-2">{'· ' + follow.viewers}</em>
+                <em className="text-content-red-base funch-bold16 flex items-center pr-2">
+                  {'· ' + follow.viewerCount}
+                </em>
               </section>
             </div>
           </div>
@@ -66,7 +68,7 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
             className={`border-neutral-weak funch-desktop:justify-start peer relative flex w-full items-center rounded-md py-3 pl-1 ${follow.isStreaming && 'pl-[5px]'}`}
           >
             <img
-              src={follow.streamer?.profileImage}
+              src={follow.profileImageUrl}
               alt={follow.title}
               className={`border-border-brand-strong box-content h-8 w-8 rounded-full ${follow.isStreaming && 'mx-[-1px] border-2 hover:m-[-2.2px] hover:border-4'}`}
             />
@@ -74,13 +76,13 @@ const Follow = ({ follow, isDesktop }: { follow: Live; isDesktop: boolean }) => 
           {follow.isStreaming && (
             <div className="bg-surface-neutral-base z-100 absolute left-14 top-3 hidden h-32 w-52 flex-col rounded-md p-3 peer-hover:flex">
               <div className="flex h-1/4 w-full items-center gap-2 truncate">
-                <div className="text-content-brand-strong funch-bold16">{follow.streamer.name}</div>
+                <div className="text-content-brand-strong funch-bold16">{follow.username}</div>
                 <div className="funch-bold14 bg-content-static-coolgray rounded-md border-2 p-[3px]">
                   {follow.tags[0]}
                 </div>
               </div>
               <div className="funch-medium14 mt-2 flex-1 truncate">{follow.title}</div>
-              <div className="text-content-red-base funch-bold16 h-1/4">{'· ' + follow.viewers}</div>
+              <div className="text-content-red-base funch-bold16 h-1/4">{'· ' + follow.viewerCount}</div>
             </div>
           )}
         </div>
