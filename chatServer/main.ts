@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import validate from 'utf-8-validate';
 import EventEmitter from 'events';
-import { generateRandomName } from 'utils/name';
+import { generateRandomName } from './utils/name';
 
 const PORT = 8000;
 const io = new Server(PORT, {
