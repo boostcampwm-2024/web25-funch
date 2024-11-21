@@ -21,3 +21,9 @@ export const HTTP_METHOD = {
   PATCH: 'PATCH' as const,
   DELETE: 'DELETE' as const,
 };
+
+export const SOCKET_EVENT = {
+  CONNECT: 'connect' as const,
+  CHAT: 'chat' as const,
+  SET_ANONYMOUS_NAME: 'setAnonymousName' as const,
+};
