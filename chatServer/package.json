@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "npx ts-node main.ts"
+  },
   "dependencies": {
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
