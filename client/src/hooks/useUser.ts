@@ -6,18 +6,21 @@ import useUserContext from '@hooks/useUserContext';
 const getIsLoggedin = (user: any) => user !== null;
 
 const useUser = () => {
-  const { user, logout, login } = useUserContext();
-  const [isLoggedin, setIsLoggedin] = useState(getIsLoggedin(user));
+  const { userSession, logout, login, saveUserSession } = useUserContext();
+  const [isLoggedin, setIsLoggedin] = useState(getIsLoggedin(userSession));
 
   useEffect(() => {
-    setIsLoggedin(getIsLoggedin(user));
-  }, [user]);
+    setIsLoggedin(getIsLoggedin(userSession));
+  }, [userSession]);
+
+  console.log('userSession', userSession);
 
   return {
-    loggedinUser: user,
+    loggedinUser: userSession?.user,
     isLoggedin,
     logout,
     login,
+    saveUserSession,
   };
 };
 

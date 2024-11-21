@@ -1,6 +1,5 @@
-import { getLiveList, getPlaylist, getSuggestedLiveList, login } from '@libs/actions';
+import { getLiveList, getPlaylist, getSuggestedLiveList, authenticate } from '@libs/actions';
 import { mockedBroadcasts } from '@mocks/broadcasts';
-import { mockedUsers } from '@mocks/users';
 import { describe, expect, test } from 'vitest';
 
 describe('actions', () => {
@@ -25,9 +24,13 @@ describe('actions', () => {
 
     expect(suggestedList).toStrictEqual(mockedBroadcasts);
   });
-  test('should login and get user information', async () => {
-    const result = await login();
-    expect(result).not.toBeNull();
-    expect(result).toStrictEqual(mockedUsers[0]);
+  test('should authenticate user', async () => {
+    const code = 'auth-code';
+    const result = await authenticate(code);
+
+    expect(result.accessToken).toBeDefined();
+    expect(result.user.name).toBeDefined();
+    expect(result.user.profileImageUrl).toBeDefined();
+    expect(result.user.broadcastId).toBeDefined();
   });
 });
