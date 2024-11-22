@@ -9,7 +9,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['politics', 'election'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 10870,
-    username: '슈카월드',
+    userName: '슈카월드',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -20,7 +20,7 @@ export const mockedBroadcasts: Broadcast[] = [
     moodCategory: 'FUN',
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 100,
-    username: '짜왕',
+    userName: '짜왕',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -31,7 +31,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['cat', 'cute'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 300,
-    username: '모카',
+    userName: '모카',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -42,7 +42,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 200,
-    username: '토끼',
+    userName: '토끼',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -53,7 +53,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 300,
-    username: '펭귄',
+    userName: '펭귄',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -64,7 +64,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 400,
-    username: '오리',
+    userName: '오리',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -75,7 +75,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 500,
-    username: '앵무새',
+    userName: '앵무새',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -86,7 +86,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 600,
-    username: '거북이',
+    userName: '거북이',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -97,7 +97,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 700,
-    username: '물고기',
+    userName: '물고기',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -108,7 +108,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 800,
-    username: '물소',
+    userName: '물소',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -119,7 +119,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 900,
-    username: '말',
+    userName: '말',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -130,7 +130,7 @@ export const mockedBroadcasts: Broadcast[] = [
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 1000,
-    username: '사자',
+    userName: '사자',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
 ];

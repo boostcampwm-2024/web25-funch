@@ -6,7 +6,7 @@ const demoPlaylistUrl =
 
 export const mockedPlaylists: Playlist[] = mockedBroadcasts.map((broadcast) => ({
   playlistUrl: demoPlaylistUrl,
-  broadCastData: {
+  broadcastData: {
     ...broadcast,
   },
 }));
