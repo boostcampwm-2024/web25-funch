@@ -18,7 +18,7 @@ describe('msw handlers', () => {
     const mockedBroadcast = mockedBroadcasts[0];
     const response = await fetch(`/api/live/${mockedBroadcast.broadcastId}`);
     const data = await response.json();
-    expect(data.broadCastData).toStrictEqual(mockedBroadcast);
+    expect(data.broadcastData).toStrictEqual(mockedBroadcast);
   });
   test('should return 404 when playlist not found', async () => {
     const response = await fetch('/api/live/invalid-broadcast-id');
