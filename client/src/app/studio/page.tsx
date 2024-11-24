@@ -8,7 +8,7 @@ const StudioPage = () => {
   return (
     <StudioSettingWrapper>
       <StreamSettingContainer />
-      <div className="flex">
+      <div className="mt-4 flex justify-center gap-8">
         <StudioGuideContainer />
         <StudioInfoSettingGuide />
       </div>
