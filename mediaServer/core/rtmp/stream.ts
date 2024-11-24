@@ -12,9 +12,9 @@ import { publish } from '@rtmp/publish';
 import { decodeAMF } from '@rtmp/utils';
 import { createFlvHeader, previousTagSize0, createFlvTag } from '@media/flv';
 import { PassThrough } from 'stream';
-import { initializeFFMepg, createMasterPlaylist } from '@media/ffmpeg';
+import { initializeFFMpeg, createMasterPlaylist } from '@media/ffmpeg';
 import { logger } from '@/logger';
-import { startStreaming, endStreaming } from '@/core/fetch';
+import { streamingEvent } from '@/core/fetch';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -74,6 +74,9 @@ class RTMPStream {
 
   run() {
     this.socket.on('data', this.dataEvent.bind(this));
+  }
+
+  bindCloseEvent() {
     this.socket.on('close', this.closeEvent.bind(this));
     this.socket.on('error', this.errorEvent.bind(this));
     this.socket.on('timeout', this.timeoutEvent.bind(this));
@@ -87,29 +90,27 @@ class RTMPStream {
         this.parseRtmpChunk(data);
       } catch (e) {
         logger.error(`parse error: ${e}`);
+        streamingEvent('end', this.streamKey);
       }
     }
   }
 
   async closeEvent() {
-    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
     logger.info(`The ${this.streamKey} has been closed.`);
-    this.socket.end();
-    endStreaming(this.streamKey);
+    await streamingEvent('end', { streamKey: this.streamKey });
+    if (this.socket.readableEnded || this.socket.writableEnded) this.socket.end();
   }
 
-  errorEvent(error) {
-    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
+  async errorEvent(error) {
     logger.error(`The ${this.streamKey} has made an error: ${error}`);
-    this.socket.destroy();
-    endStreaming(this.streamKey);
+    await streamingEvent('end', { streamKey: this.streamKey });
+    if (this.socket.readableEnded || this.socket.writableEnded) this.socket.destroy();
   }
 
-  timeoutEvent() {
-    fs.rm(this.storagePath!, { recursive: true, force: true }, () => {});
+  async timeoutEvent() {
     logger.info(`The ${this.streamKey} timed out.`);
-    this.socket.destroy();
-    endStreaming(this.streamKey);
+    await streamingEvent('end', { streamKey: this.streamKey });
+    if (this.socket.readableEnded || this.socket.writableEnded) this.socket.destroy();
   }
 
   handleMessage() {
@@ -165,7 +166,8 @@ class RTMPStream {
       fs.mkdirSync(this.storagePath!, { recursive: true });
     }
     createMasterPlaylist(this.storagePath);
-    this.ffmpeg = initializeFFMepg(this.ffmpegInputStream, this.storagePath!);
+
+    this.ffmpeg = initializeFFMpeg(this.ffmpegInputStream, this.storagePath!);
     this.ffmpegInputStream.write(createFlvHeader());
     this.ffmpegInputStream.write(previousTagSize0);
     this.ffmpeg.run();
@@ -183,12 +185,18 @@ class RTMPStream {
         break;
       case 'createStream': {
         const OK = 200;
-        const response = await startStreaming(this.streamKey);
+        const now = new Date().toISOString();
+        const broadcastData = {
+          streamKey: this.streamKey,
+          internalPath: now,
+        };
+        const response = await streamingEvent('start', broadcastData);
 
-        if (response.status === OK) {
+        if (response?.status === OK) {
           this.streamCount++;
           const data = await response.json();
-          this.storagePath = `../../media-storage/${data.broadcastId}`;
+          this.storagePath = `../../media-storage/${data.broadcastId}/${now}`;
+          this.bindCloseEvent();
           createStream(this.socket, this.streamCount);
         } else {
           this.socket.end();
