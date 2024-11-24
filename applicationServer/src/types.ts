@@ -1,5 +1,6 @@
 type Broadcast = {
   broadcastId: string;
+  broadcastPath: string;
   title: string;
   contentCategory: string;
   moodCategory: string;

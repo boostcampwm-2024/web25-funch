@@ -31,13 +31,14 @@ export class LiveController {
 
   @Post('/start')
   @HttpCode(200)
-  async startLive(@Body('streamKey') streamKey) {
+  async startLive(@Body('streamKey') streamKey: string, @Body('internalPath') internalPath: string) {
     const member = await this.liveService.verifyStreamKey(streamKey);
-    this.liveService.addLiveData(member);
+    this.liveService.addLiveData(member, internalPath);
     return { broadcastId: member.broadcast_id };
   }
 
   @Post('/end')
+  @HttpCode(200)
   async endLive(@Body('streamKey') streamKey) {
     const member = await this.liveService.verifyStreamKey(streamKey);
     this.liveService.removeLiveData(member);
