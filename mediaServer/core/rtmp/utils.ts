@@ -1,4 +1,5 @@
 import { decodeAmf0Cmd, decodeAmf3Cmd } from 'node-amfutils';
+import { logger } from '@/logger';
 
 function decodeAMF(typeId: number, paylod: Buffer, amf0Num: number, amf3Num: number) {
   try {
@@ -8,7 +9,7 @@ function decodeAMF(typeId: number, paylod: Buffer, amf0Num: number, amf3Num: num
       return decodeAmf3Cmd(paylod);
     }
   } catch (e) {
-    console.log(typeId, JSON.stringify(paylod), e);
+    logger.debug(`[typeId${typeId}] ${JSON.stringify(paylod)}, error : ${e}`);
   }
 }
 
