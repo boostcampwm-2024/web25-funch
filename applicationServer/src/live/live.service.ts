@@ -25,11 +25,11 @@ export class LiveService {
   responseLiveData(broadcastId) {
     if (!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
-    const createMultivariantPlaylistUrl = (id) =>
-      `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
+    const createMultivariantPlaylistUrl = (path) =>
+      `https://kr.object.ncloudstorage.com/media-storage/${path}/master_playlist.m3u8`;
 
     const broadcastData = this.live.data.get(broadcastId);
-    const playlistUrl = createMultivariantPlaylistUrl(broadcastId);
+    const playlistUrl = createMultivariantPlaylistUrl(broadcastData.broadcastPath);
 
     return { playlistUrl, broadcastData };
   }
@@ -39,8 +39,9 @@ export class LiveService {
     if (allLives.length <= count) return allLives;
 
     const result: Broadcast[] = [];
+    const history = {};
+
     while (result.length < count) {
-      const history = {};
       const randomCount = Math.floor(allLives.length * Math.random());
 
       if (!history[randomCount]) {
@@ -52,23 +53,24 @@ export class LiveService {
     return result;
   }
 
-  async verifyStreamKey(streamKey) {
+  async verifyStreamKey(streamKey: string) {
     const member = await this.memberService.findOneMemberWithCondition({ stream_key: streamKey });
     if (!member) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     return member;
   }
 
-  addLiveData(member: Member) {
+  addLiveData(member: Member, internalPath: string) {
     if (this.live.data.has(member.broadcast_id)) throw new HttpException('Conflict', HttpStatus.CONFLICT);
 
     this.live.data.set(member.broadcast_id, {
       broadcastId: member.broadcast_id,
+      broadcastPath: `${member.broadcast_id}/${internalPath}`,
       title: `${member.name}의 라이브 방송`,
       contentCategory: '',
       moodCategory: '',
       tags: [],
-      thumbnailUrl: `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/dynamic_thumbnail.jpg`,
+      thumbnailUrl: `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/${internalPath}/dynamic_thumbnail.jpg`,
       viewerCount: 0,
       userName: member.name,
       profileImageUrl: member.profile_image,
