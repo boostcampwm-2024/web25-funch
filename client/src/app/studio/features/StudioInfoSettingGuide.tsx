@@ -4,7 +4,7 @@ import StudioTitleSvg from '@components/svgs/StudioTitleSvg';
 
 const StudioInfoSettingGuide = () => {
   return (
-    <div className="bg-surface-brand-base text-content-neutral-inverse h-[440px] w-[45%] rounded-md p-6 pb-12">
+    <div className="bg-surface-brand-base text-content-static-white h-[480px] w-[45%] min-w-[400px] rounded-md p-6 pb-12 shadow-xl">
       <label className="funch-bold20"> 방송 정보 설정 가이드</label>
       <div className="flex h-full w-full flex-col">
         <div className="grid h-1/3 grid-cols-5">
