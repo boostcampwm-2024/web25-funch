@@ -22,3 +22,5 @@ export const BUCKET_NAME = 'media-storage';
 export const LOCALHOST = 'localhost';
 export const CORS_ORIGIN = 'https://funch.site/';
 export const CORS_ORIGIN_WWW = 'https://www.funch.site/';
+// follow.provider.ts
+export const FOLLOW_REPOSITORY = 'FOLLOW_REPOSITORY';
