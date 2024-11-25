@@ -1,4 +1,4 @@
-import { APP_THEME, HTTP_METHOD, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
+import { APP_THEME, CONTENTS_CATEGORY, HTTP_METHOD, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 
 export type SvgComponentProps = {
   svgTitle?: string;
@@ -20,6 +20,8 @@ export type Live = {
     profileImage: string;
   };
 };
+
+export type ContentsCategoryKey = keyof typeof CONTENTS_CATEGORY;
 
 export type Follow = {
   id: string;
