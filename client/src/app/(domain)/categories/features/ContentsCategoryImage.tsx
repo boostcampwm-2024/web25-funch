@@ -27,43 +27,43 @@ type Props = {
 
 const ContentsCategoryImage = ({ code }: Props) => {
   switch (code) {
-    case CONTENTS_CATEGORY.talk.code:
+    case CONTENTS_CATEGORY.talk.CODE:
       return <Image fill={true} sizes="100%" src={talkImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.game.code:
+    case CONTENTS_CATEGORY.game.CODE:
       return <Image fill={true} sizes="100%" src={gameImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.cook.code:
+    case CONTENTS_CATEGORY.cook.CODE:
       return <Image fill={true} sizes="100%" src={cookImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.outdoor.code:
+    case CONTENTS_CATEGORY.outdoor.CODE:
       return <Image fill={true} sizes="100%" src={outdoorImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.dailylife.code:
+    case CONTENTS_CATEGORY.dailylife.CODE:
       return <Image fill={true} sizes="100%" src={dailylifeImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.virtual.code:
+    case CONTENTS_CATEGORY.virtual.CODE:
       return <Image fill={true} sizes="100%" src={virtualImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.mukbang.code:
+    case CONTENTS_CATEGORY.mukbang.CODE:
       return <Image fill={true} sizes="100%" src={mukbangImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.politics.code:
+    case CONTENTS_CATEGORY.politics.CODE:
       return <Image fill={true} sizes="100%" src={politicsImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.music.code:
+    case CONTENTS_CATEGORY.music.CODE:
       return <Image fill={true} sizes="100%" src={musicImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.economy.code:
+    case CONTENTS_CATEGORY.economy.CODE:
       return <Image fill={true} sizes="100%" src={economyImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.radio.code:
+    case CONTENTS_CATEGORY.radio.CODE:
       return <Image fill={true} sizes="100%" src={radioImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.develop.code:
+    case CONTENTS_CATEGORY.develop.CODE:
       return <Image fill={true} sizes="100%" src={developImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.fishing.code:
+    case CONTENTS_CATEGORY.fishing.CODE:
       return <Image fill={true} sizes="100%" src={fishingImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.news.code:
+    case CONTENTS_CATEGORY.news.CODE:
       return <Image fill={true} sizes="100%" src={newsImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.study.code:
+    case CONTENTS_CATEGORY.study.CODE:
       return <Image fill={true} sizes="100%" src={studyImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.beauty.code:
+    case CONTENTS_CATEGORY.beauty.CODE:
       return <Image fill={true} sizes="100%" src={beautyImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.house.code:
+    case CONTENTS_CATEGORY.house.CODE:
       return <Image fill={true} sizes="100%" src={houseImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.horror.code:
+    case CONTENTS_CATEGORY.horror.CODE:
       return <Image fill={true} sizes="100%" src={horrorImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
-    case CONTENTS_CATEGORY.travel.code:
+    case CONTENTS_CATEGORY.travel.CODE:
       return <Image fill={true} sizes="100%" src={travelImage} alt={`${CONTENTS_CATEGORY[code]} 카테고리`} />;
     default:
       return null;
