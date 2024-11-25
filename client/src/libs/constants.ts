@@ -28,27 +28,45 @@ export const SOCKET_EVENT = {
   SET_ANONYMOUS_NAME: 'setAnonymousName' as const,
 };
 
-// export const CONTENTS_CATEGORY = {
-//   talk: '소통' as const,
-//   game: '게임' as const,
-//   cook: '요리' as const,
-//   outdoor: '야외' as const,
-//   dailylife: '일상' as const,
-//   virtual: '버추얼' as const,
-//   mukbang: '먹방' as const,
-//   politics: '정치' as const,
-//   music: '음악' as const,
-//   economy: '경제' as const,
-//   radio: '라디오' as const,
-//   develop: '개발' as const,
-//   fishing: '낚시' as const,
-//   news: '뉴스' as const,
-//   study: '공부' as const,
-//   beauty: '뷰티' as const,
-//   house: '부동산' as const,
-//   horror: '호러' as const,
-//   travel: '여행' as const,
-// };
+export const MOODS_CATEGORY = {
+  unknown: {
+    code: 'unknown',
+    name: '나도 모름',
+  } as const,
+  lonely: {
+    code: 'lonely',
+    name: '쓸쓸한',
+  } as const,
+  interesting: {
+    code: 'interesting',
+    name: '흥미진진한',
+  } as const,
+  calm: {
+    code: 'calm',
+    name: '잔잔한',
+  } as const,
+  depressed: {
+    code: 'depressed',
+    name: '우울한',
+  } as const,
+  happy: {
+    code: 'happy',
+    name: '행복한',
+  } as const,
+  getking: {
+    code: 'getking',
+    name: '킹받는',
+  } as const,
+  funny: {
+    code: 'funny',
+    name: '웃기는',
+  } as const,
+  energetic: {
+    code: 'energetic',
+    name: '활기찬',
+  } as const,
+};
+
 export const CONTENTS_CATEGORY = {
   talk: {
     code: 'talk',
