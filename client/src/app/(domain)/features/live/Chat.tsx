@@ -11,6 +11,7 @@ import { io, type Socket } from 'socket.io-client';
 type ChatType = {
   name: string;
   content: string;
+  color?: string;
 };
 
 type SendChat = (args: { socketRef: MutableRefObject<Socket | null>; name: string; content: string }) => void;
@@ -62,7 +63,7 @@ const ChatWrapper = ({ children }: Props) => {
       setIsSocketConnected(true);
     });
 
-    socket.on(SOCKET_EVENT.CHAT, (receivedData: { name: string; content: string }) => {
+    socket.on(SOCKET_EVENT.CHAT, (receivedData: ChatType) => {
       // 상태 업데이트
       console.log('😇 RECEIVING : ', receivedData);
       setChatList((prev) => [...prev, receivedData]);
@@ -131,7 +132,13 @@ const ChatList = ({ chatList }: ChatListProps) => {
           <div className="funch-scrollable absolute bottom-0 max-h-full w-full">
             {chatList.map((chat, index) => (
               <p key={index} className="funch-medium14">
-                <span>{chat.name}</span>
+                <span
+                  style={{
+                    color: chat?.color || 'var(--content-neutral-primary)',
+                  }}
+                >
+                  {chat.name}
+                </span>
                 <span>{chat.content}</span>
               </p>
             ))}
