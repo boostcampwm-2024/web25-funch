@@ -7,7 +7,10 @@ export const NOTIFY_LIVE_DATA_INTERVAL_TIME = 30000;
 // github.service.ts
 export const GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token';
 export const APPLICATION_JSON = 'application/json';
-export const RESOURCE_URL = 'https://api.github.com/user';
+export const GITHUB_RESOURCE_URL = 'https://api.github.com/user';
+// naver.service.ts
+export const NAVER_ACCESS_TOKEN_URL = 'https://nid.naver.com/oauth2.0/token';
+export const NAVER_RESOURCE_URL = 'https://openapi.naver.com/v1/nid/me';
 // member.service.ts
 export const DEFAULT_PROFILE_IMAGE = 'https://kr.object.ncloudstorage.com/funch-storage/profile/profile_default.png';
 // cookie.service.ts
