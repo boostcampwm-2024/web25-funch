@@ -1,8 +1,9 @@
-import { Broadcast, Live, Suggest } from '@libs/internalTypes';
+import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { comma } from '@libs/formats';
 
 const SuggestedList = ({
   isDesktop,
@@ -15,8 +16,6 @@ const SuggestedList = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [suggestedList, setSuggestedList] = useState<Broadcast[]>([]);
-
-  const hoverRef = useRef(null);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -36,13 +35,13 @@ const SuggestedList = ({
         <>
           {isFolded ? (
             <>
-              {suggestedList.map((suggest: Suggest, key) => (
+              {suggestedList.map((suggest: Broadcast, key) => (
                 <SuggestedListItem key={suggest.broadcastId} isDesktop={isDesktop} suggest={suggest} />
               ))}
             </>
           ) : (
             <>
-              {foldedContent.map((suggest: Suggest, key) => (
+              {foldedContent.map((suggest: Broadcast, key) => (
                 <SuggestedListItem key={suggest.broadcastId} isDesktop={isDesktop} suggest={suggest} />
               ))}
             </>
@@ -53,7 +52,7 @@ const SuggestedList = ({
   );
 };
 
-const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop: boolean }) => {
+const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDesktop: boolean }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
@@ -106,9 +105,9 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
                     <div className="text-surface-neutral-inverse funch-medium14">{suggest.userName}</div>
                     <div className="funch-bold12">{suggest.contentCategory}</div>
                   </section>
-                  <em className="text-content-red-base funch-bold16 flex items-center pr-2">
-                    {'· ' + suggest.viewerCount}
-                  </em>
+                  <p className="text-content-red-base funch-bold14 flex items-center pr-2">
+                    {'· ' + comma(suggest.viewerCount)}
+                  </p>
                 </section>
               </div>
             </div>
@@ -126,7 +125,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
         <div className="relative">
           <Link href={'/lives/' + suggest.broadcastId}>
             <div
-              className={`border-neutral-weak funch-desktop:justify-start flex w-full items-center rounded-md py-3 pl-1 ${suggest.isStreaming && 'pl-[5px]'}`}
+              className={`border-neutral-weak funch-desktop:justify-start flex w-full items-center rounded-md py-3 pl-[5px]`}
               onMouseEnter={handleNarrowMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
@@ -149,7 +148,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
                 </div>
               </div>
               <div className="funch-medium14 mt-2 flex-1">{suggest.title}</div>
-              <div className="text-content-red-base funch-bold16 h-1/4">{'· ' + suggest.viewerCount}</div>
+              <div className="text-content-red-base funch-bold16 h-1/4">{'· ' + comma(suggest.viewerCount)}</div>
             </div>
           )}
         </div>

@@ -67,19 +67,6 @@ export type Broadcast = {
   profileImageUrl: string;
 };
 
-export type Suggest = {
-  isStreaming?: boolean;
-  broadcastId: string;
-  title: string;
-  contentCategory: string;
-  moodCategory: string;
-  tags: string[];
-  thumbnailUrl: string;
-  viewerCount: number;
-  userName: string;
-  profileImageUrl: string;
-};
-
 // 11.20 18:30
 export type Playlist = {
   playlistUrl: string;
@@ -118,6 +105,6 @@ export type Mydata = {
   stream_key: string;
   broadcast_id: string;
   follower_count: number;
-  createdAt: string;
-  deletedAt: string | null;
+  created_at: string;
+  deleted_at?: string;
 };
