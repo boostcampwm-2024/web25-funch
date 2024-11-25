@@ -12,7 +12,7 @@ import {
   useState,
 } from 'react';
 import clsx from 'clsx';
-import LiveInfo from './LiveInfo';
+// import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
 import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
@@ -174,7 +174,7 @@ const Live = Object.assign(LiveController, {
   Wrapper: LiveWrapper,
   VideoWrapper,
   Video,
-  Info: LiveInfo,
+  // Info: LiveInfo,
 });
 
 export default Live;
