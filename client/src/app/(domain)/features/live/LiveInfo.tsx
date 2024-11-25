@@ -4,13 +4,46 @@ import HeartSvg from '@components/svgs/HeartSvg';
 import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Badge from '@app/(domain)/features/Badge';
 import { comma } from '@libs/formats';
 
 const LiveInfo = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const { liveInfo } = useLiveContext();
+  const { liveInfo, refreshLiveInfo, broadcastId } = useLiveContext();
+  const eventSourceRef = useRef<EventSource | null>(null);
+
+  useEffect(() => {
+    // sse 통신을 이용해 지속적으로 라이브 정보를 받아서 refresh하도록 하기
+    const fetchLiveInfo = () => {
+      if (process.env.NODE_ENV !== 'production') return;
+
+      const eventSource = new EventSource(`/api/live/sse/${broadcastId}`);
+      eventSourceRef.current = eventSource;
+
+      eventSource.onopen = () => {
+        console.log('✅ EVENT SOURCE OPENED');
+      };
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log('🚀 SSE DATA HAVE BEEN SERVED', data);
+        refreshLiveInfo(data);
+      };
+
+      eventSource.onerror = () => {
+        eventSource.close();
+        fetchLiveInfo();
+      };
+    };
+
+    fetchLiveInfo();
+
+    return () => {
+      eventSourceRef.current?.close();
+    };
+  }, [broadcastId]);
+
   return (
     <div className="px-7 pb-6 pt-4">
       <h3 className="funch-bold20 text-content-neutral-strong">{liveInfo.title}</h3>
