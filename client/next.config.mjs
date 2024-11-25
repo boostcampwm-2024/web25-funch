@@ -24,10 +24,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'api.funch.site',
       },
-      // https://kr.object.ncloudstorage.com
       {
         protocol: 'https',
         hostname: 'kr.object.ncloudstorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
       },
     ],
   },
