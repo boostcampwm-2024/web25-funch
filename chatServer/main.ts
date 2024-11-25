@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import validate from 'utf-8-validate';
 import EventEmitter from 'events';
-import { generateRandomName } from './utils/name';
+import { Name } from './utils/name';
 
 const PORT = 7990;
 const io = new Server(PORT, {
@@ -17,9 +17,15 @@ eventEmitter.setMaxListeners(Infinity);
 
 io.on('connection', (socket) => {
   if (!socket.handshake.query.name) {
+    const randomName = Name.generateRandomName();
     socket.emit('setAnonymousName', {
-      name: generateRandomName(),
+      name: randomName,
     });
+    socket.handshake.query.name = randomName;
+  }
+
+  if (!Name.colors[socket.handshake.query.name as string]) {
+    Name.colors[socket.handshake.query.name as string] = Name.generateRandomColor();
   }
 
   const broadcastId = socket.handshake.query.broadcastId as string;
@@ -27,6 +33,7 @@ io.on('connection', (socket) => {
     socket.emit('chat', {
       name: chatData.name,
       content: chatData.content,
+      color: Name.colors[chatData.name],
     });
   };
   eventEmitter.on(broadcastId, chatEvent);
