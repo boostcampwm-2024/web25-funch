@@ -1,4 +1,4 @@
-import { APP_THEME, CONTENTS_CATEGORY, HTTP_METHOD, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
+import { APP_THEME, CONTENTS_CATEGORY, HTTP_METHOD, MOODS_CATEGORY, VIDEO_ICON_COMPONENT_TYPE } from '@libs/constants';
 
 export type SvgComponentProps = {
   svgTitle?: string;
@@ -21,6 +21,7 @@ export type Live = {
   };
 };
 
+export type MoodsCategoryKey = keyof typeof MOODS_CATEGORY;
 export type ContentsCategoryKey = keyof typeof CONTENTS_CATEGORY;
 
 export type Follow = {
