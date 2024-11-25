@@ -1,6 +1,6 @@
 'use client';
 import { PropsWithChildren } from 'react';
-import StreamSettingContainer from './features/StreamsettingContainer';
+import StreamSettingContainer from './features/StreamSettingContainer';
 import StudioGuideContainer from './features/StudioGuideContainer';
 import StudioInfoSettingGuide from './features/StudioInfoSettingGuide';
 
