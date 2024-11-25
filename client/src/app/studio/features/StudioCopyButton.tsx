@@ -6,7 +6,7 @@ type Props = PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement>;
 const StudioCopyButton = ({ children, ...rest }: Props) => {
   return (
     <button
-      className="bg-surface-brand-weak text-content-brand-base funch-bold14 h-[38px] w-[72px] rounded-md hover:opacity-90"
+      className="bg-surface-brand-weak text-content-brand-base funch-bold14 h-[2.4rem] w-[4.5rem] rounded-md hover:opacity-90"
       {...rest}
     >
       {children}
