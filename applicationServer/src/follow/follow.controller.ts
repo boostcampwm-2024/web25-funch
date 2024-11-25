@@ -1,6 +1,19 @@
-import { Controller, Post, UseGuards, Body, Delete, HttpException, HttpStatus, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Body,
+  Delete,
+  HttpException,
+  HttpStatus,
+  HttpCode,
+  Get,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { NeedLoginGuard } from '@src/auth/core/auth.guard';
 import { FollowService } from '@follow/follow.service';
+import { FOLLOWERS, FOLLOWING } from '@src/constants';
 
 @Controller('follow')
 @UseGuards(NeedLoginGuard)
@@ -10,6 +23,7 @@ export class FollowController {
   @Post()
   @HttpCode(201)
   async followMember(@Body('follower') follower: string, @Body('following') following: string) {
+    if (follower === following) throw new HttpException('본인을 팔로우할 수 없습니다.', HttpStatus.BAD_REQUEST);
     const isAlreadyFollowing = await this.followService.findOneFollowWithCondition({ follower, following });
     if (isAlreadyFollowing) throw new HttpException('이미 팔로우 중입니다.', HttpStatus.BAD_REQUEST);
 
@@ -19,6 +33,7 @@ export class FollowController {
   @Delete()
   @HttpCode(204)
   async unfollowMember(@Body('follower') follower: string, @Body('following') following: string) {
+    if (follower === following) throw new HttpException('본인을 언팔로우할 수 없습니다.', HttpStatus.BAD_REQUEST);
     const result = await this.followService.unfollowMember(follower, following);
     if (result.affected === 0) {
       throw new HttpException('팔로우 중이지 않습니다.', HttpStatus.BAD_REQUEST);
