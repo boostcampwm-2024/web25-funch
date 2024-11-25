@@ -1,5 +1,4 @@
 import { type Metadata } from 'next';
-import CategoryCard from './features/CategoryCard';
 
 export const metadata: Metadata = {
   title: '카테고리',
@@ -8,7 +7,8 @@ export const metadata: Metadata = {
 const CategoriesPage = () => {
   return (
     <div>
-      <CategoryCard></CategoryCard>
+      <h2>콘텐츠 카테고리</h2>
+      <div></div>
     </div>
   );
 };
