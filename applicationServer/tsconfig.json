@@ -19,7 +19,8 @@
       "@authUtil/*": ["src/auth/util/*"],
       "@database/*": ["src/database/*"],
       "@member/*": ["src/member/*"],
-      "@live/*": ["src/live/*"]
+      "@live/*": ["src/live/*"],
+      "@follow/*": ["src/follow/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
