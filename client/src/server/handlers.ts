@@ -3,6 +3,7 @@ import { mockedPlaylists } from '@mocks/playlists';
 import { mockedUsers } from '@mocks/users';
 import { mockedUpdates } from '@mocks/updates';
 import { http, HttpResponse } from 'msw';
+import { mockedMydata } from '@mocks/mydata';
 
 const getLiveList = () => {
   return HttpResponse.json(mockedBroadcasts);
@@ -49,11 +50,16 @@ const authenticate = () => {
   });
 };
 
+const getMydata = () => {
+  return HttpResponse.json(mockedMydata);
+};
+
 export const handlers = [
   http.get('/api/live/list', getLiveList),
   http.get('/api/live/:broadcastId', getPlaylist),
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
   http.get('/api/live/list/suggest', getSuggestedLiveList),
+  http.get('/api/members/mydata', getMydata),
   http.post('/api/auth/github/callback', authenticate),
   http.post('/api/login', login),
   http.post('/api/live/update', update),

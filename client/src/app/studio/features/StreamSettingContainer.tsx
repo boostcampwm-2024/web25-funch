@@ -1,16 +1,44 @@
+'use client';
+
 import { PropsWithChildren } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StudioCopyButton from './StudioCopyButton';
+import StudioReissueButton from './StudioReIssueButton';
+import useUser from '@hooks/useUser';
+import { getStreamInfo } from '@libs/actions';
+
+const handleCopy = async (streamURL: string) => {
+  if (typeof streamURL === 'string') {
+    await navigator.clipboard.writeText(streamURL);
+  }
+};
+
+const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL;
 
 const StreamSettingContainer = () => {
+  const { isLoggedin } = useUser();
+  const [streamKey, setStreamKey] = useState<string>('');
+
+  const getStreamKey = async () => {
+    console.log(isLoggedin);
+    if (isLoggedin) {
+      const streamInfo = await getStreamInfo();
+      setStreamKey(streamInfo.stream_key);
+    }
+  };
+
+  useEffect(() => {
+    getStreamKey();
+  }, []);
+
   return (
     <StreamKeyWrapper>
       <div className="mb-2 w-full justify-start">
-        <label className="funch-bold20">스트림 설정</label>
+        <label className="funch-bold20 ml-2">스트림 설정</label>
       </div>
       <div className="bg-surface-neutral-primary flex h-40 w-full flex-col items-center rounded-lg p-6">
         <StreamURLContainer />
-        <StreamKeyContainer />
+        <StreamKeyContainer streamKey={streamKey} />
       </div>
     </StreamKeyWrapper>
   );
@@ -18,35 +46,34 @@ const StreamSettingContainer = () => {
 
 const StreamKeyWrapper = ({ children }: PropsWithChildren) => {
   return (
-    <div className="bg-surface-neutral-base mx-auto flex w-[70%] flex-col items-center rounded-lg p-4 shadow-xl">
+    <div className="bg-surface-neutral-base mx-auto flex w-[70%] min-w-[40rem] flex-col items-center rounded-lg p-4 shadow-xl">
       {children}
     </div>
   );
 };
 
 const StreamURLContainer = () => {
-  const [streamURL, setStreamURL] = useState('rtmp://live.twitch.tv/app');
-
   return (
     <div className="grid h-1/2 w-full grid-cols-5">
       <div className="funch-bold16 col-span-1 flex items-center">스트림 URL</div>
       <div className="col-span-4 flex items-center gap-2">
-        {streamURL}
-        <StudioCopyButton>복사</StudioCopyButton>
+        {apiUrl}
+        <StudioCopyButton onClick={() => handleCopy(apiUrl ?? '')}>복사</StudioCopyButton>
       </div>
     </div>
   );
 };
 
-const StreamKeyContainer = () => {
-  const [streamKey, setStreamKey] = useState('ls1evndcyu2xsia18qzir1l7ot52w3e52t');
-
+const StreamKeyContainer = ({ streamKey }: { streamKey: string }) => {
   return (
     <div className="grid h-1/2 w-full grid-cols-5">
       <div className="funch-bold16 col-span-1 flex items-center">스트림 키</div>
-      <div className="col-span-4 flex items-center gap-2">
+      <div className="col-span-4 flex items-center gap-4">
         {streamKey}
-        <StudioCopyButton>복사</StudioCopyButton>
+        <div className="flex gap-2">
+          <StudioCopyButton onClick={() => handleCopy(streamKey)}>복사</StudioCopyButton>
+          <StudioReissueButton>재발급</StudioReissueButton>
+        </div>
       </div>
     </div>
   );
