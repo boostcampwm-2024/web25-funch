@@ -15,8 +15,14 @@ export class LiveController {
   ) {}
 
   @Get('/list')
-  getLivelistAlignViewerCount(@Query('start') start: number, @Query('end') end: number) {
+  getLiveListAlignViewerCount(@Query('start') start: number, @Query('end') end: number) {
     return this.liveService.getLiveList(start, end);
+  }
+
+  @Get('category')
+  getCategoryLiveList(@Query() query) {
+    const liveList = this.liveService.getLiveList(0);
+    return this.liveService.filterWithCategory(liveList, query);
   }
 
   @Get(':broadcastId')
