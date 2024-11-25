@@ -1,5 +1,5 @@
 import { MOODS_CATEGORY } from '@libs/constants';
-import { MoodsCategoryKey } from '@libs/internalTypes';
+import type { MoodsCategoryKey } from '@libs/internalTypes';
 import clsx from 'clsx';
 
 type Props = {

@@ -1,5 +1,5 @@
 import { CONTENTS_CATEGORY } from '@libs/constants';
-import { ContentsCategoryKey } from '@libs/internalTypes';
+import type { ContentsCategoryKey } from '@libs/internalTypes';
 import Image from 'next/image';
 import talkImage from '@assets/categories/communication.svg';
 import gameImage from '@assets/categories/game.svg';
