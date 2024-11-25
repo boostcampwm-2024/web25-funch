@@ -7,7 +7,7 @@ const PORT = 7990;
 const io = new Server(PORT, {
   path: '/live',
   cors: {
-    origin: ['localhost', 'https://funch.site', 'https://www.funch.site'],
+    origin: ['http://localhost:3000', 'https://funch.site', 'https://www.funch.site'],
     methods: '*',
   },
 });
