@@ -8,14 +8,17 @@ function registerMockLive(live) {
     '58fefadc-3fbd-40ad-bce1-f769c02c887f',
     'fec06dd7-11b4-4efd-b69e-5a9dc93c3891',
   ];
+  const contentCategoryList = ['music', 'talk', null, 'cook', 'mukbang'];
+  const moodCategoryList = [null, 'calm', null, 'happy', null];
 
   mockBroadcastIdList.forEach((data, idx) => {
     const name = generateRandomName();
     live.data.set(mockBroadcastIdList[idx], {
       broadcastId: mockBroadcastIdList[idx],
+      boradcastPath: `${mockBroadcastIdList[idx]}`,
       title: `${name}의 라이브 방송`,
-      contentCategory: '소통',
-      moodCategory: '',
+      contentCategory: contentCategoryList[idx],
+      moodCategory: moodCategoryList[idx],
       tags: [`방송 ${idx}`],
       thumbnailUrl: `https://kr.object.ncloudstorage.com/media-storage/${mockBroadcastIdList[idx]}/dynamic_thumbnail.jpg`,
       viewerCount: 0,
