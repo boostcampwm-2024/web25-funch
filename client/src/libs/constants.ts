@@ -30,118 +30,118 @@ export const SOCKET_EVENT = {
 
 export const MOODS_CATEGORY = {
   unknown: {
-    code: 'unknown',
-    name: '나도 모름',
+    CODE: 'unknown',
+    NAME: '나도 모름',
   } as const,
   lonely: {
-    code: 'lonely',
-    name: '쓸쓸한',
+    CODE: 'lonely',
+    NAME: '쓸쓸한',
   } as const,
   interesting: {
-    code: 'interesting',
-    name: '흥미진진한',
+    CODE: 'interesting',
+    NAME: '흥미진진한',
   } as const,
   calm: {
-    code: 'calm',
-    name: '잔잔한',
+    CODE: 'calm',
+    NAME: '잔잔한',
   } as const,
   depressed: {
-    code: 'depressed',
-    name: '우울한',
+    CODE: 'depressed',
+    NAME: '우울한',
   } as const,
   happy: {
-    code: 'happy',
-    name: '행복한',
+    CODE: 'happy',
+    NAME: '행복한',
   } as const,
   getking: {
-    code: 'getking',
-    name: '킹받는',
+    CODE: 'getking',
+    NAME: '킹받는',
   } as const,
   funny: {
-    code: 'funny',
-    name: '웃기는',
+    CODE: 'funny',
+    NAME: '웃기는',
   } as const,
   energetic: {
-    code: 'energetic',
-    name: '활기찬',
+    CODE: 'energetic',
+    NAME: '활기찬',
   } as const,
 };
 
 export const CONTENTS_CATEGORY = {
   talk: {
-    code: 'talk',
-    name: '소통',
+    CODE: 'talk',
+    NAME: '소통',
   } as const,
   game: {
-    code: 'game',
-    name: '게임',
+    CODE: 'game',
+    NAME: '게임',
   } as const,
   cook: {
-    code: 'cook',
-    name: '요리',
+    CODE: 'cook',
+    NAME: '요리',
   } as const,
   outdoor: {
-    code: 'outdoor',
-    name: '야외',
+    CODE: 'outdoor',
+    NAME: '야외',
   } as const,
   dailylife: {
-    code: 'dailylife',
-    name: '일상',
+    CODE: 'dailylife',
+    NAME: '일상',
   } as const,
   virtual: {
-    code: 'virtual',
-    name: '버추얼',
+    CODE: 'virtual',
+    NAME: '버추얼',
   } as const,
   mukbang: {
-    code: 'mukbang',
-    name: '먹방',
+    CODE: 'mukbang',
+    NAME: '먹방',
   } as const,
   politics: {
-    code: 'politics',
-    name: '정치',
+    CODE: 'politics',
+    NAME: '정치',
   } as const,
   music: {
-    code: 'music',
-    name: '음악',
+    CODE: 'music',
+    NAME: '음악',
   } as const,
   economy: {
-    code: 'economy',
-    name: '경제',
+    CODE: 'economy',
+    NAME: '경제',
   } as const,
   radio: {
-    code: 'radio',
-    name: '라디오',
+    CODE: 'radio',
+    NAME: '라디오',
   } as const,
   develop: {
-    code: 'develop',
-    name: '개발',
+    CODE: 'develop',
+    NAME: '개발',
   } as const,
   fishing: {
-    code: 'fishing',
-    name: '낚시',
+    CODE: 'fishing',
+    NAME: '낚시',
   } as const,
   news: {
-    code: 'news',
-    name: '뉴스',
+    CODE: 'news',
+    NAME: '뉴스',
   } as const,
   study: {
-    code: 'study',
-    name: '공부',
+    CODE: 'study',
+    NAME: '공부',
   } as const,
   beauty: {
-    code: 'beauty',
-    name: '뷰티',
+    CODE: 'beauty',
+    NAME: '뷰티',
   } as const,
   house: {
-    code: 'house',
-    name: '부동산',
+    CODE: 'house',
+    NAME: '부동산',
   } as const,
   horror: {
-    code: 'horror',
-    name: '호러',
+    CODE: 'horror',
+    NAME: '호러',
   } as const,
   travel: {
-    code: 'travel',
-    name: '여행',
+    CODE: 'travel',
+    NAME: '여행',
   } as const,
 };
