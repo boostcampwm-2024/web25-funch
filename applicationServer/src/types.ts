@@ -2,8 +2,8 @@ type Broadcast = {
   broadcastId: string;
   broadcastPath: string;
   title: string;
-  contentCategory: string;
-  moodCategory: string;
+  contentCategory?: string;
+  moodCategory?: string;
   tags: Array<string>;
   thumbnailUrl: string;
   viewerCount: number;
