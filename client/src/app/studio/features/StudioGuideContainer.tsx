@@ -63,7 +63,7 @@ const StudioNumberIcon = ({ children }: PropsWithChildren) => {
 
 const StudioBroadCastButton = ({ children }: PropsWithChildren) => {
   return (
-    <button className="bg-surface-brand-base text-content-neutral-inverse funch-bold16 h-[3rem] w-[10rem] rounded-md hover:opacity-90">
+    <button className="bg-surface-brand-strong text-content-neutral-inverse funch-bold16 h-[3rem] w-[10rem] rounded-md hover:opacity-90">
       <Link href="/studio/my">{children}</Link>
     </button>
   );

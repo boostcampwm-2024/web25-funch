@@ -1,4 +1,4 @@
-import type { Broadcast, InternalUserSession, Playlist, User, Update } from '@libs/internalTypes';
+import type { Broadcast, InternalUserSession, Playlist, User, Update, Mydata } from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
 export const getLiveList = async (): Promise<Broadcast[]> => {
@@ -61,6 +61,15 @@ export const updateInfo = async (formData: Update): Promise<Update> => {
   const result = await fetcher<Update>({
     method: 'PATCH',
     url: '/api/live/update',
+  });
+
+  return result;
+};
+
+export const getStreamInfo = async (): Promise<Mydata> => {
+  const result = await fetcher<Mydata>({
+    method: 'GET',
+    url: '/api/members/mydata',
   });
 
   return result;

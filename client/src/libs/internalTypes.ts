@@ -110,3 +110,14 @@ export type Update = {
   tags: Array<string>;
   thumbnail?: string | null;
 };
+
+export type Mydata = {
+  id: string;
+  name: string;
+  profile_image: string;
+  stream_key: string;
+  broadcast_id: string;
+  follower_count: number;
+  createdAt: string;
+  deletedAt: string | null;
+};
