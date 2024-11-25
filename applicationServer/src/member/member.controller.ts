@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { MemberService } from '@member/member.service';
 import { NeedLoginGuard } from '@src/auth/core/auth.guard';
 import { Request } from 'express';
@@ -22,5 +22,12 @@ export class MemberController {
     const accessToken = req.headers['authorization']?.split(' ')[1];
     const decodedPayload = this.authService.verifyToken(accessToken);
     return this.memberService.findOneMemberWithCondition({ id: decodedPayload.memberId });
+  }
+
+  @Patch('/refresh/streamKey')
+  getRefreshedStreamKey(@Req() req: Request) {
+    const accessToken = req.headers['authorization']?.split(' ')[1];
+    const decodedPayload = this.authService.verifyToken(accessToken);
+    return this.memberService.refreshStreamKey(decodedPayload.memberId);
   }
 }

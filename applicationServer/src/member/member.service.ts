@@ -41,6 +41,13 @@ class MemberService {
     }
     return name;
   }
+
+  async refreshStreamKey(id) {
+    const newStreamKey = crypto.randomUUID();
+    this.memberRepository.update(id, { stream_key: newStreamKey });
+
+    return { stream_key: newStreamKey };
+  }
 }
 
 export { MemberService };
