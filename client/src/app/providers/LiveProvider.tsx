@@ -11,6 +11,7 @@ type LiveContextType = {
   liveUrl: Playlist['playlistUrl'] | null;
   broadcastId: string;
   clear: () => void;
+  refreshLiveInfo: (updatedBroadcast: Broadcast) => void;
 };
 
 const defaultLiveInfo: Broadcast = {
@@ -44,6 +45,10 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const clear = () => {
     setLiveInfo(defaultLiveInfo);
     setLiveUrl(null);
+  };
+
+  const refreshLiveInfo = (updatedBroadcast: Broadcast) => {
+    setLiveInfo(updatedBroadcast);
   };
 
   /*
@@ -107,6 +112,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         liveUrl,
         broadcastId: id,
         clear,
+        refreshLiveInfo,
       }}
     >
       {isError ? <p>에러 아님</p> : isLivePage && isLoading ? <p>방송을 불러오는 중</p> : children}
