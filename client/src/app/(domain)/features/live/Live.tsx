@@ -12,7 +12,6 @@ import {
   useState,
 } from 'react';
 import clsx from 'clsx';
-// import LiveInfo from './LiveInfo';
 import useFullscreen from '@hooks/useFullscreen';
 import usePip from '@hooks/usePip';
 import useMouseMovementOnElement from '@hooks/useMouseMovementOnElement';
