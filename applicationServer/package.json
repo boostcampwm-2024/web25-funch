@@ -69,6 +69,7 @@
       "^@member/(.*)$": "<rootDir>/src/member/$1",
       "^@auth/(.*)$": "<rootDir>/src/auth/core/$1",
       "^@github/(.*)$": "<rootDir>/src/auth/github/$1",
+      "^@naver/(.*)$": "<rootDir>/src/auth/naver/$1",
       "^@cookie/(.*)$": "<rootDir>/src/auth/cookie/$1",
       "^@authUtil/(.*)$": "<rootDir>/src/auth/util/$1"
     }

@@ -16,6 +16,7 @@
       "@auth/*": ["src/auth/core/*"],
       "@cookie/*": ["src/auth/cookie/*"],
       "@github/*": ["src/auth/github/*"],
+      "@naver/*": ["src/auth/naver/*"],
       "@authUtil/*": ["src/auth/util/*"],
       "@database/*": ["src/database/*"],
       "@member/*": ["src/member/*"],
