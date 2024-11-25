@@ -131,7 +131,7 @@ const ChatList = ({ chatList }: ChatListProps) => {
           <div className="funch-scrollable absolute bottom-0 max-h-full w-full">
             {chatList.map((chat, index) => (
               <p key={index} className="funch-medium14">
-                <span>{chat.name} 님 : </span>
+                <span>{chat.name}</span>
                 <span>{chat.content}</span>
               </p>
             ))}
