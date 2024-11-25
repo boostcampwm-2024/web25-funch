@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { GithubAuthService } from '@github/github.service';
 import axios from 'axios';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ACCESS_TOKEN_URL, APPLICATION_JSON } from '@src/constants';
+import { GITHUB_ACCESS_TOKEN_URL, APPLICATION_JSON } from '@src/constants';
 
 jest.mock('axios');
 
@@ -30,7 +30,7 @@ describe('GithubAuthService', () => {
       const result = await githubAuthService.getAccessToken(code);
 
       expect(mockAxios.post).toHaveBeenCalledWith(
-        ACCESS_TOKEN_URL,
+        GITHUB_ACCESS_TOKEN_URL,
         {
           code,
           client_id: process.env.CLIENT_ID,
@@ -53,7 +53,7 @@ describe('GithubAuthService', () => {
       );
 
       expect(mockAxios.post).toHaveBeenCalledWith(
-        ACCESS_TOKEN_URL,
+        GITHUB_ACCESS_TOKEN_URL,
         {
           code,
           client_id: process.env.CLIENT_ID,
