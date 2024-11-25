@@ -17,7 +17,7 @@ export class LiveService {
     registerMockLive(this.live);
   }
 
-  getLiveList(start, end) {
+  getLiveList(start, end?) {
     const alignLiveList = Array.from(this.live.data.values()).sort((a, b) => b.viewerCount - a.viewerCount);
     return alignLiveList.slice(start, end ?? alignLiveList.length);
   }
@@ -67,8 +67,8 @@ export class LiveService {
       broadcastId: member.broadcast_id,
       broadcastPath: `${member.broadcast_id}/${internalPath}`,
       title: `${member.name}의 라이브 방송`,
-      contentCategory: '',
-      moodCategory: '',
+      contentCategory: null,
+      moodCategory: null,
       tags: [],
       thumbnailUrl: `https://kr.object.ncloudstorage.com/media-storage/${member.broadcast_id}/${internalPath}/dynamic_thumbnail.jpg`,
       viewerCount: 0,
@@ -110,5 +110,13 @@ export class LiveService {
     });
 
     return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(map(() => ({ data: this.live.data.get(broadcastId) })));
+  }
+
+  filterWithCategory(liveList: Array<Broadcast>, condition) {
+    return liveList.filter((live) => {
+      return (
+        live.contentCategory == (condition.content ?? 'unknown') || live.moodCategory == (condition.mood ?? 'unknown')
+      );
+    });
   }
 }
