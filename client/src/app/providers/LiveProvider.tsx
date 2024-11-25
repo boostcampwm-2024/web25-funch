@@ -34,6 +34,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const [liveInfo, setLiveInfo] = useState<Broadcast>(defaultLiveInfo);
 
   const { id } = useParams() as { id: string };
+  const [savedId, setSavedId] = useState<string | null>(null);
 
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,12 +76,15 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
     const fetchLive = async (id: string) => {
       try {
         if (!id) return;
+        if (id === savedId) return;
+
         setIsLoading(true);
 
         const fetchedPlaylist = await getPlaylist(id);
 
         setLiveUrl(fetchedPlaylist.playlistUrl);
         setLiveInfo(fetchedPlaylist.broadcastData);
+        setSavedId(id);
         setIsLoading(false);
       } catch (err) {
         setIsError(true);
@@ -93,7 +97,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
       // id로 스트리밍 중인 방송이 있는지 확인
       fetchLive(id);
     }
-  }, [id, isLivePage]);
+  }, [id, isLivePage, savedId]);
 
   return (
     <LiveContext.Provider

@@ -104,7 +104,7 @@ const LiveSection = () => {
           </Live.Wrapper>
         )}
       </Live>
-      {isLivePage && (
+      {/* {isLivePage && (
         <Chat>
           {({ chatList, isSocketConnected, socketRef, chatname, sendChat }) => (
             <>
@@ -117,7 +117,7 @@ const LiveSection = () => {
             </>
           )}
         </Chat>
-      )}
+      )} */}
     </Wrapper>
   );
 };
