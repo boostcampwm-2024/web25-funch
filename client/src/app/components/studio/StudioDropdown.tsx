@@ -19,6 +19,7 @@ import {
 import { CONTENTS_CATEGORY, MOODS_CATEGORY } from '@libs/constants';
 import MoodsCategoryPalette from '@app/(domain)/categories/features/MoodsCategoryPalette';
 import { MoodsCategoryKey, ContentsCategoryKey } from '@libs/internalTypes';
+import StudioCategoryCard from './StudioCategoryCard';
 
 type ChildrenArgs = {
   inputRef: RefObject<HTMLInputElement>;
@@ -151,6 +152,10 @@ export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestP
     setData(key);
   };
 
+  useEffect(() => {
+    console.log(selectedKey);
+  }, [selectedKey]);
+
   return (
     <StudioDropdown>
       {({ inputRef, inputValue, isFocused, handleChangeInput, handleFocusInput, blurDropdown }) => (
@@ -202,11 +207,18 @@ export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestP
             </StudioDropdown.List>
           )}
           {selectedKey && (
-            <div className="mt-1">
+            <div className="mt-5">
               {componentType === 'category' ? (
-                categories.find((c) => c.NAME === selectedKey)?.NAME
+                <div className="flex items-center justify-center">
+                  <StudioCategoryCard code={selectedCode} title={selectedKey} />
+                </div>
               ) : (
-                <div className="mt-2 h-10 w-full shadow-md">{MoodsCategoryPalette({ code: selectedMoodCode })}</div>
+                <div className="relative mt-2 h-10 w-full shadow-md">
+                  {MoodsCategoryPalette({ code: selectedMoodCode })}
+                  <div className="text-content-neutral-inverse absolute left-1/2 top-1/2 -translate-x-9 -translate-y-3">
+                    {moods.find((m) => m.NAME === selectedKey)?.NAME}
+                  </div>
+                </div>
               )}
             </div>
           )}
