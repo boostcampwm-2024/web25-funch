@@ -19,7 +19,7 @@ export class LiveController {
     return this.liveService.getLiveList(start, end);
   }
 
-  @Get('category')
+  @Get('/category')
   getCategoryLiveList(@Query() query) {
     const liveList = this.liveService.getLiveList(0);
     return this.liveService.filterWithCategory(liveList, query);
