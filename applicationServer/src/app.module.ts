@@ -5,11 +5,12 @@ import { MemberModule } from '@member/member.module';
 import { LiveModule } from '@live/live.module';
 import { GithubAuthModule } from '@github/github.module';
 import { AuthModule } from '@auth/auth.module';
+import { FollowModule } from '@follow/follow.module';
 
 dotenv.config();
 
 @Module({
-  imports: [MemberModule, GithubAuthModule, AuthModule, LiveModule],
+  imports: [MemberModule, GithubAuthModule, AuthModule, LiveModule, FollowModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
