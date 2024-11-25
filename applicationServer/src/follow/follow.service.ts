@@ -15,6 +15,10 @@ export class FollowService {
     return this.followRepository.findOne({ where: condition });
   }
 
+  async findAllFollowWithCondition(condition: { [key: string]: string }) {
+    return this.followRepository.find({ where: condition });
+  }
+
   async followMember(follower: string, following: string) {
     const follow = { id: crypto.randomUUID(), follower, following };
     await this.followRepository.save(follow);

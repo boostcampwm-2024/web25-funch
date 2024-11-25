@@ -24,3 +24,6 @@ export const CORS_ORIGIN = 'https://funch.site/';
 export const CORS_ORIGIN_WWW = 'https://www.funch.site/';
 // follow.provider.ts
 export const FOLLOW_REPOSITORY = 'FOLLOW_REPOSITORY';
+// follow.controller.ts
+export const FOLLOWERS = 'followers';
+export const FOLLOWING = 'following';
