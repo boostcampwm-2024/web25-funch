@@ -10,9 +10,10 @@ function getMockLiveDataList(count) {
   const result: Broadcast[] = dummy.map((e, i) => {
     return {
       broadcastId: `test${i}`,
+      broadcastPath: `test${i}/testInternalPath`,
       title: `title${i}`,
-      contentCategory: `content${i}`,
-      moodCategory: `mood${i}`,
+      contentCategory: `testContent`,
+      moodCategory: `testMood`,
       tags: [`i${i}`],
       thumbnailUrl: `http://thumbnail${i}`,
       viewerCount: Math.ceil((i + 1000) * Math.random()),
@@ -59,13 +60,15 @@ describe('LiveService 테스트', () => {
 
   it('생방송 중인 스트리머의 broadcast Id로 playlist를 요청하면 playlist url이 담긴 객체를 반환해야 한다.', () => {
     const live: Live = Live.getInstance();
-    getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const liveList = getMockLiveDataList(1);
+    liveList.forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const thisLive = liveList[0];
 
-    const result = service.responseLiveData('test0');
-    const createMultivariantPlaylistUrl = (id) =>
-      `https://kr.object.ncloudstorage.com/media-storage/${id}/master_playlist.m3u8`;
+    const result = service.responseLiveData(thisLive.broadcastId);
+    const createMultivariantPlaylistUrl = (path) =>
+      `https://kr.object.ncloudstorage.com/media-storage/${path}/master_playlist.m3u8`;
 
-    expect(result.playlistUrl).toEqual(createMultivariantPlaylistUrl('test0'));
+    expect(result.playlistUrl).toEqual(createMultivariantPlaylistUrl(thisLive.broadcastPath));
     live.data.clear();
   });
 
@@ -92,9 +95,9 @@ describe('LiveService 테스트', () => {
     const live: Live = Live.getInstance();
     getMockLiveDataList(liveCount).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
 
-    const testList1 = service.getRandomLiveList(liveCount + 10);
+    const testList1 = service.getRandomLiveList(liveCount + 100);
 
-    expect(testList1.length).toBe(liveCount);
+    expect(testList1.length).toBe(Array.from(live.data.keys()).length);
     live.data.clear();
   });
 
@@ -104,7 +107,7 @@ describe('LiveService 테스트', () => {
     const member = getMockMemberList(1)[0];
 
     expect(() => {
-      service.addLiveData(member);
+      service.addLiveData(member, 'testInternalPath');
     }).toThrow();
 
     live.data.clear();
@@ -113,7 +116,7 @@ describe('LiveService 테스트', () => {
   it('방송 시작 요청이 왔을 때 해당 Broadcast Id로 방송 중이 아니라면 방송 목록에 등록되어야 한다.', () => {
     const live: Live = Live.getInstance();
     const member = getMockMemberList(1)[0];
-    service.addLiveData(member);
+    service.addLiveData(member, 'testInternalPath');
 
     expect(live.data.get(member.broadcast_id)).toBeDefined();
 
@@ -139,6 +142,46 @@ describe('LiveService 테스트', () => {
 
     expect(live.data.get(member.broadcast_id)).not.toBeDefined();
 
+    live.data.clear();
+  });
+
+  it('콘텐츠 카테고리를 포함한 방송 목록 요청이 왔을 때 해당 카테고리를 가진 방송이 반환되어야 한다.', () => {
+    const live: Live = Live.getInstance();
+    const liveList = getMockLiveDataList(1);
+    liveList.forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const thisLive = liveList[0];
+
+    const contentCondition = {
+      content: 'testContent',
+    };
+    const result = service.filterWithCategory(Array.from(live.data.values()), contentCondition);
+    expect(result[0]).toEqual(thisLive);
+    live.data.clear();
+  });
+
+  it('분위기 카테고리를 포함한 방송 목록 요청이 왔을 때 해당 카테고리를 가진 방송이 반환되어야 한다.', () => {
+    const live: Live = Live.getInstance();
+    const liveList = getMockLiveDataList(1);
+    liveList.forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const thisLive = liveList[0];
+
+    const moodCondition = {
+      mood: 'testMood',
+    };
+    const result = service.filterWithCategory(Array.from(live.data.values()), moodCondition);
+    expect(result[0]).toEqual(thisLive);
+    live.data.clear();
+  });
+
+  it('카테고리를 포함한 방송 목록 요청이 왔을 때 해당 카테고리를 가진 방송이 없다면 빈 배열이 반환되어야 한다.', () => {
+    const live: Live = Live.getInstance();
+    getMockLiveDataList(1).forEach((mockData) => live.data.set(mockData.broadcastId, mockData));
+    const condition = {
+      content: 'aaa',
+      mood: 'bbb',
+    };
+    const result = service.filterWithCategory(Array.from(live.data.values()), condition);
+    expect(result.length).toBe(0);
     live.data.clear();
   });
 });
