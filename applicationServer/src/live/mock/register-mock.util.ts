@@ -15,7 +15,7 @@ function registerMockLive(live) {
     const name = generateRandomName();
     live.data.set(mockBroadcastIdList[idx], {
       broadcastId: mockBroadcastIdList[idx],
-      boradcastPath: `${mockBroadcastIdList[idx]}`,
+      broadcastPath: `${mockBroadcastIdList[idx]}`,
       title: `${name}의 라이브 방송`,
       contentCategory: contentCategoryList[idx],
       moodCategory: moodCategoryList[idx],
