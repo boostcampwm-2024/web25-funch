@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { type PropsWithChildren } from 'react';
 
 const ROWS_COMPONENT_TYPE = {
   DEFAULT: 'DEFAULT' as const,

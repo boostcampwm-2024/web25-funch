@@ -16,6 +16,10 @@ import {
   type ButtonHTMLAttributes,
 } from 'react';
 
+import { CONTENTS_CATEGORY, MOODS_CATEGORY } from '@libs/constants';
+import MoodsCategoryPalette from '@app/(domain)/categories/features/MoodsCategoryPalette';
+import { MoodsCategoryKey, ContentsCategoryKey } from '@libs/internalTypes';
+
 type ChildrenArgs = {
   inputRef: RefObject<HTMLInputElement>;
   inputValue: string;
@@ -129,23 +133,18 @@ const StudioDropdown = Object.assign(DropdownWrapper, {
   Item: DropdownItem,
 });
 
-const categories = [
-  {
-    id: 'aaa',
-    name: '졸림',
-  },
-  {
-    id: 'bbb',
-    name: '기쁨',
-  },
-];
-
 type CategoryTestProps = {
   setData: (data: string) => void;
+  componentType: 'category' | 'mood';
 };
 
-export const StudioDropdownRendererForTest = ({ setData }: CategoryTestProps) => {
+const categories = Object.values(CONTENTS_CATEGORY);
+const moods = Object.values(MOODS_CATEGORY);
+
+export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestProps) => {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedCode, setSelectedCode] = useState<ContentsCategoryKey>('talk');
+  const [selectedMoodCode, setSelectedMoodCode] = useState<MoodsCategoryKey>('unknown');
 
   const selectCategory = (key: string) => {
     setSelectedKey(key);
@@ -165,22 +164,52 @@ export const StudioDropdownRendererForTest = ({ setData }: CategoryTestProps) =>
           />
           {isFocused && (
             <StudioDropdown.List>
-              {categories
-                .filter((c) => c.name.includes(inputValue))
-                .map((c) => (
-                  <StudioDropdown.Item
-                    key={c.id}
-                    onClick={() => {
-                      selectCategory(c.id);
-                      blurDropdown();
-                    }}
-                  >
-                    <span>{c.name}</span>
-                  </StudioDropdown.Item>
-                ))}
+              {componentType === 'category' ? (
+                <>
+                  {categories
+                    .filter((c) => c.NAME.includes(inputValue))
+                    .map((c, idx) => (
+                      <StudioDropdown.Item
+                        key={idx}
+                        onClick={() => {
+                          selectCategory(c.NAME);
+                          blurDropdown();
+                          setSelectedCode(c.CODE);
+                        }}
+                      >
+                        <span>{c.NAME}</span>
+                      </StudioDropdown.Item>
+                    ))}
+                </>
+              ) : (
+                <>
+                  {moods
+                    .filter((m) => m.NAME.includes(inputValue))
+                    .map((m, idx) => (
+                      <StudioDropdown.Item
+                        key={idx}
+                        onClick={() => {
+                          selectCategory(m.NAME);
+                          blurDropdown();
+                          setSelectedMoodCode(m.CODE);
+                        }}
+                      >
+                        <span>{m.NAME}</span>
+                      </StudioDropdown.Item>
+                    ))}
+                </>
+              )}
             </StudioDropdown.List>
           )}
-          {selectedKey && <div>{categories.find((c) => c.id === selectedKey)?.name}</div>}
+          {selectedKey && (
+            <div className="mt-1">
+              {componentType === 'category' ? (
+                categories.find((c) => c.NAME === selectedKey)?.NAME
+              ) : (
+                <div className="mt-2 h-10 w-full shadow-md">{MoodsCategoryPalette({ code: selectedMoodCode })}</div>
+              )}
+            </div>
+          )}
         </>
       )}
     </StudioDropdown>
