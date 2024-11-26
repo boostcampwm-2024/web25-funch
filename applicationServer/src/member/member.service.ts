@@ -16,6 +16,14 @@ class MemberService {
     return this.memberRepository.find();
   }
 
+  async findMembersWithFollowTable(id) {
+    return this.memberRepository
+      .createQueryBuilder('member')
+      .innerJoin('follow', 'f', 'f.following = member.id')
+      .where('f.follower = :id', { id })
+      .getMany();
+  }
+
   async findOneMemberWithCondition(condition: { [key: string]: string }) {
     return this.memberRepository.findOne({ where: condition });
   }
