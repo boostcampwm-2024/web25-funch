@@ -1,7 +1,7 @@
 'use client';
 
 import useInternalRouter from '@hooks/useInternalRouter';
-import { authenticateByGithub } from '@libs/actions';
+import { authenticateByGoogle } from '@libs/actions';
 import { useEffect } from 'react';
 import useUser from '@hooks/useUser';
 
@@ -9,14 +9,14 @@ type Props = {
   authCode: string;
 };
 
-const AuthGithub = ({ authCode }: Props) => {
+const AuthGoogle = ({ authCode }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
   useEffect(() => {
     let isValidEffect = true;
     const fetchUser = async (code: string) => {
       try {
-        const fetchResult = await authenticateByGithub(code);
+        const fetchResult = await authenticateByGoogle(code);
         if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
@@ -36,4 +36,4 @@ const AuthGithub = ({ authCode }: Props) => {
   return <div>인증 중...</div>;
 };
 
-export default AuthGithub;
+export default AuthGoogle;

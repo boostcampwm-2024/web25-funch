@@ -1,7 +1,7 @@
 import AuthRedirection from '@app/(auth)/features/AuthRedirection';
 import AuthNaver from './features/AuthNaver';
 
-const GithubCallbackPage = ({
+const NaverCallbackPage = ({
   searchParams,
 }: {
   searchParams?: {
@@ -19,4 +19,4 @@ const GithubCallbackPage = ({
   return <AuthNaver authCode={code} authState={state} />;
 };
 
-export default GithubCallbackPage;
+export default NaverCallbackPage;
