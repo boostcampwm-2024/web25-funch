@@ -61,6 +61,8 @@ export const handlers = [
   http.get('/api/live/list/suggest', getSuggestedLiveList),
   http.get('/api/members/mydata', getMydata),
   http.post('/api/auth/github/callback', authenticate),
+  http.post('/api/auth/naver/callback', authenticate),
+  http.post('/api/auth/google/callback', authenticate),
   http.post('/api/login', login),
   http.patch('/api/live/update', update),
 ];

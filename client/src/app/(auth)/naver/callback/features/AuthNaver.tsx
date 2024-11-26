@@ -1,21 +1,25 @@
 'use client';
 
 import useInternalRouter from '@hooks/useInternalRouter';
-import { authenticate } from '@libs/actions';
+import { authenticateByGithub, authenticateByNaver } from '@libs/actions';
 import { useEffect } from 'react';
 import useUser from '@hooks/useUser';
 
 type Props = {
   authCode: string;
+  authState: string;
 };
 
-const Auth = ({ authCode }: Props) => {
+const AuthNaver = ({ authCode, authState }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
   useEffect(() => {
-    const fetchUser = async (code: string) => {
+    const fetchUser = async (code: string, state: string) => {
       try {
-        const fetchResult = await authenticate(code);
+        const fetchResult = await authenticateByNaver({
+          code,
+          state,
+        });
         saveUserSession(fetchResult);
       } catch (err) {
         alert('로그인에 실패했어요.');
@@ -23,9 +27,9 @@ const Auth = ({ authCode }: Props) => {
         replace('/');
       }
     };
-    fetchUser(authCode);
-  }, [authCode, replace, saveUserSession]);
+    fetchUser(authCode, authState);
+  }, [authCode, authState, replace, saveUserSession]);
   return <div>인증 중...</div>;
 };
 
-export default Auth;
+export default AuthNaver;
