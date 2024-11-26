@@ -6,6 +6,7 @@ import { Broadcast, User2 } from '@libs/internalTypes';
 
 interface FollowingLivesContextType {
   lives: Broadcast[];
+  Ids: string[];
   offlines: User2[];
   isLoading: boolean;
   isError: boolean;
@@ -17,6 +18,7 @@ export const FollowingLivesContext = createContext<FollowingLivesContextType | u
 export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [Ids, setIds] = useState<string[]>([]);
   const [lives, setLives] = useState<Broadcast[]>([]);
   const [offlines, setOfflines] = useState<User2[]>([]);
 
@@ -29,11 +31,14 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
       const fetchedFollowingLives = fetchedLives.onAir.map((live) => live.broadCastData);
       const fetchedFollowingOfflines = fetchedLives.offAir;
 
+      setIds(fetchedLives.onAir.map((live) => live.broadCastData.broadcastId));
       setLives(fetchedFollowingLives);
       setOfflines(fetchedFollowingOfflines);
+
       setIsLoading(false);
     } catch (err) {
       setLives([]);
+      setIds([]);
       setIsError(true);
       setIsLoading(false);
     }
@@ -47,6 +52,7 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
     <FollowingLivesContext.Provider
       value={{
         lives,
+        Ids,
         offlines,
         isLoading,
         isError,

@@ -25,6 +25,18 @@ const getPlaylist = ({ params }: { params: { broadcastId: string } }) => {
   return HttpResponse.json(playlist);
 };
 
+const makeFollow = ({ params }: { params: { follower: string; following: string } }) => {
+  return HttpResponse.json(null, {
+    status: 201,
+  });
+};
+
+const makeUnfollow = ({ params }: { params: { follower: string; following: string } }) => {
+  return HttpResponse.json(null, {
+    status: 201,
+  });
+};
+
 const login = () => {
   const user = mockedUsers[0];
   return HttpResponse.json(user);
@@ -70,5 +82,7 @@ export const handlers = [
   http.post('/api/auth/naver/callback', authenticate),
   http.post('/api/auth/google/callback', authenticate),
   http.post('/api/login', login),
+  http.post('/api/follow', makeFollow),
+  http.delete('/api/follow', makeUnfollow),
   http.patch('/api/live/update', update),
 ];
