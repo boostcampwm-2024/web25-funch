@@ -21,6 +21,7 @@ const FollowingLives = () => {
         const fetchedLives = await getFollowingLiveList();
 
         const fetchedFollowingLives = fetchedLives.onAir.map((live) => live.broadCastData);
+        console.log(fetchedFollowingLives[0].tags);
 
         setLives(fetchedFollowingLives);
 
