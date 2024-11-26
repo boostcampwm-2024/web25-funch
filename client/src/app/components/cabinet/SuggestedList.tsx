@@ -1,8 +1,9 @@
-import { Broadcast, Live, Suggest } from '@libs/internalTypes';
+import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { comma } from '@libs/formats';
 
 const SuggestedList = ({
   isDesktop,
@@ -36,13 +37,13 @@ const SuggestedList = ({
         <>
           {isFolded ? (
             <>
-              {suggestedList.map((suggest: Suggest, key) => (
+              {suggestedList.map((suggest: Broadcast, key) => (
                 <SuggestedListItem key={suggest.broadcastId} isDesktop={isDesktop} suggest={suggest} />
               ))}
             </>
           ) : (
             <>
-              {foldedContent.map((suggest: Suggest, key) => (
+              {foldedContent.map((suggest: Broadcast, key) => (
                 <SuggestedListItem key={suggest.broadcastId} isDesktop={isDesktop} suggest={suggest} />
               ))}
             </>
@@ -53,7 +54,7 @@ const SuggestedList = ({
   );
 };
 
-const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop: boolean }) => {
+const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDesktop: boolean }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
@@ -126,7 +127,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Suggest; isDesktop
         <div className="relative">
           <Link href={'/lives/' + suggest.broadcastId}>
             <div
-              className={`border-neutral-weak funch-desktop:justify-start flex w-full items-center rounded-md py-3 pl-1 ${suggest.isStreaming && 'pl-[5px]'}`}
+              className="border-neutral-weak funch-desktop:justify-start flex w-full items-center rounded-md py-3 pl-[5px]"
               onMouseEnter={handleNarrowMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
