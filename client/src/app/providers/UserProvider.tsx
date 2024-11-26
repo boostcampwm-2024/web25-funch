@@ -10,6 +10,7 @@ type UserContextType = {
   userSession: InternalUserSession | null;
   loginByGithub: () => Promise<void>;
   loginByNaver: () => Promise<void>;
+  loginByGoogle: () => void;
   logout: () => void;
   saveUserSession: (user: InternalUserSession) => void;
 };
@@ -18,6 +19,7 @@ export const UserContext = createContext<UserContextType>({
   userSession: null,
   loginByGithub: async () => {},
   loginByNaver: async () => {},
+  loginByGoogle: () => {},
   logout: () => {},
   saveUserSession: () => {},
 });
@@ -70,6 +72,21 @@ const UserProvider = ({ children }: Props) => {
     location.href = `${process.env.NEXT_PUBLIC_NAVER_AUTH_BASE_URL}?response_type=code&client_id=${naverClientId}&redirect_uri=${redirectUri}`;
   };
 
+  const loginByGoogle = () => {
+    // new URLSearchParams()
+    // https://accounts.google.com/o/oauth2/v2/auth?client_id={CLIENT_ID}&redirect_uri=https://funch.site/google/callback&response_type=code&scope=profile email
+    const clientId = `800585509743-8j219mpv4uuclvbo4f1397ocj2ei8tdh.apps.googleusercontent.com`;
+    const redirectUri = 'https://funch.site/google/callback';
+    const searchParams = new URLSearchParams({
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      response_type: 'code',
+      scope: 'profile email',
+    });
+
+    location.href = `https://accounts.google.com/o/oauth2/v2/auth?${searchParams.toString()}`;
+  };
+
   useEffect(() => {
     // localStorage에 저장된 사용자 정보가 있다면 로그인 상태로 설정
     const user = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
@@ -84,6 +101,7 @@ const UserProvider = ({ children }: Props) => {
         userSession,
         loginByGithub,
         loginByNaver,
+        loginByGoogle,
         logout,
         saveUserSession,
       }}
