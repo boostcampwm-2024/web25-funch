@@ -133,20 +133,20 @@ const LiveSection = () => {
           </Live.Wrapper>
         )}
       </Live>
-      {isLivePage && (
-        <Chat>
-          {({ chatList, isSocketConnected, socketRef, chatname, sendChat }) => (
-            <>
-              {isSocketConnected ? (
-                <>
-                  <Chat.List chatList={chatList} />
-                  <Chat.Form socketRef={socketRef} chatname={chatname} sendChat={sendChat} />
-                </>
-              ) : null}
-            </>
-          )}
-        </Chat>
-      )}
+      {/* {isLivePage && ( */}
+      <Chat>
+        {({ chatList, isSocketConnected, socketRef, chatname, sendChat }) => (
+          <>
+            {isSocketConnected ? (
+              <>
+                <Chat.List chatList={chatList} />
+                <Chat.Form socketRef={socketRef} chatname={chatname} sendChat={sendChat} />
+              </>
+            ) : null}
+          </>
+        )}
+      </Chat>
+      {/* )} */}
     </Wrapper>
   );
 };
