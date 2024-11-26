@@ -14,7 +14,7 @@ const StudioGuideContainer = () => {
           <StudioNumberIcon>1</StudioNumberIcon>
           스트리밍 소프트웨어를 다운로드하세요.
         </div>
-        <div className="mt-3 flex w-full justify-center gap-4">
+        <div className="mt-3 flex w-full items-center justify-center gap-4 text-center">
           <Link
             href="https://obsproject.com/"
             className="funch-medium12 flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"

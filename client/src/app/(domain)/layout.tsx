@@ -8,16 +8,16 @@ import { FollowingLivesProvider } from '@providers/FollowingLivesProvider';
 const DomainLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Header />
-      <Cabinet />
-      <Main>
-        {children}
-        <LiveProvider>
-          <FollowingLivesProvider>
+      <FollowingLivesProvider>
+        <Header />
+        <Cabinet />
+        <Main>
+          {children}
+          <LiveProvider>
             <LiveSection />
-          </FollowingLivesProvider>
-        </LiveProvider>
-      </Main>
+          </LiveProvider>
+        </Main>
+      </FollowingLivesProvider>
     </>
   );
 };

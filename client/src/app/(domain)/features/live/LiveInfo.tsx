@@ -8,6 +8,7 @@ import { memo, type PropsWithChildren, type ReactNode, useEffect, useRef, useSta
 import Badge from '@app/(domain)/features/Badge';
 import { comma } from '@libs/formats';
 import type { Broadcast } from '@libs/internalTypes';
+import { makeFollow, makeUnfollow } from '@libs/actions';
 
 type Props = {
   children: (args: { liveInfo: Broadcast }) => ReactNode;
@@ -113,17 +114,46 @@ const LiveInfoViewerCount = memo(({ viewerCount }: { viewerCount: number }) => {
   return <span className="funch-medium12 text-content-neutral-base">{comma(viewerCount)}명 시청 중</span>;
 });
 
-const LiveInfoFollowButton = () => {
+type LiveInfoFollowToggleButtonProps = {
+  Ids: string[];
+  broadcastId: string;
+  myId: string;
+};
+
+const LiveInfoFollowToggleButton = ({ Ids, broadcastId, myId }: LiveInfoFollowToggleButtonProps) => {
+  const isFollowed = Ids.includes(broadcastId);
+  const [followed, setFollowed] = useState(isFollowed);
+
+  const followInfo = {
+    follower: myId,
+    following: broadcastId,
+  };
+
+  const fetchFollow = async () => {
+    if (!followed) {
+      await makeFollow(followInfo);
+      setFollowed(true);
+    } else {
+      await makeUnfollow(followInfo);
+      setFollowed(false);
+    }
+  };
+
   return (
     <div className="pt-5">
       <button
         className={clsx(
-          'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5 pr-4',
-          'bg-surface-brand-strong text-content-neutral-inverse hover:bg-surface-brand-base',
+          'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5',
+          'text-content-neutral-inverse pr-4 hover:opacity-65',
+          {
+            'bg-surface-neutral-strong': followed,
+            'bg-surface-brand-strong': !followed,
+          },
         )}
+        onClick={fetchFollow}
       >
         <HeartSvg />
-        <span className="funch-meta14">팔로우</span>
+        <span className="funch-meta14">{followed ? '팔로잉' : '팔로우'}</span>
       </button>
     </div>
   );
@@ -137,7 +167,7 @@ const LiveInfo = Object.assign(LiveInfoWrapper, {
   UserName: LiveInfoUserName,
   Tags: LiveInfoTags,
   ViewerCount: LiveInfoViewerCount,
-  FollowButton: LiveInfoFollowButton,
+  FollowButton: LiveInfoFollowToggleButton,
 });
 
 export default LiveInfo;
