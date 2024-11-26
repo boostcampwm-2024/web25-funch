@@ -28,6 +28,15 @@ class MemberService {
     return this.memberRepository.findOne({ where: condition });
   }
 
+  async findOrRegisterMember(memberId: string, profile_url?: string) {
+    const member = await this.findOneMemberWithCondition({ id: memberId });
+    if (!member) {
+      const newMember = await this.register(memberId, profile_url);
+      return newMember;
+    }
+    return member;
+  }
+
   async register(id: string, image_url?: string): Promise<Member> {
     const name = this.generateUniqueName();
     const user = {
