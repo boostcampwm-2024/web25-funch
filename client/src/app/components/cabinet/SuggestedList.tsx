@@ -17,8 +17,6 @@ const SuggestedList = ({
   const [isLoading, setIsLoading] = useState(true);
   const [suggestedList, setSuggestedList] = useState<Broadcast[]>([]);
 
-  const hoverRef = useRef(null);
-
   useEffect(() => {
     const fetchSuggestions = async () => {
       const suggestions = await getSuggestedLiveList();
@@ -104,10 +102,10 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
                 />
                 <section className="flex w-full pl-[10px]">
                   <section className="flex w-2/3 flex-1 flex-col">
-                    <div className="text-surface-neutral-inverse funch-medium14">{suggest.userName}</div>
-                    <div className="funch-bold12">{suggest.contentCategory}</div>
+                    <div className="text-surface-neutral-inverse funch-bold16">{suggest.userName}</div>
+                    <div className="funch-bold10">{suggest.contentCategory}</div>
                   </section>
-                  <p className="text-content-red-base funch-bold14 flex items-center pr-2">
+                  <p className="text-content-red-base funch-bold12 flex items-center pr-2">
                     {'· ' + comma(suggest.viewerCount)}
                   </p>
                 </section>
@@ -116,7 +114,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
           </Link>
           {isTooltipVisible && (
             <div
-              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong fixed flex h-20 w-60 items-center rounded-md p-4"
+              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong funch-medium12 fixed flex h-20 w-60 items-center rounded-md p-4"
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
             >
               {suggest.title}
