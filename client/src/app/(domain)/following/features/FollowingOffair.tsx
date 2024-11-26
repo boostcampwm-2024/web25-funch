@@ -1,38 +1,10 @@
-'use client';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
-import type { Broadcast, User2 } from '@libs/internalTypes';
-import { getFollowingLiveList } from '@libs/actions';
+import type { User2 } from '@libs/internalTypes';
 import Image from 'next/image';
+import { useFollowingLives } from '@providers/FollowingLivesProvider';
 
 const FollowingOffair = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [offlines, setOfflines] = useState<User2[]>([]);
-
-  useEffect(() => {
-    let isValidEffect = true;
-    const fetchOfflines = async () => {
-      try {
-        const fetchedOfflines = await getFollowingLiveList();
-
-        const fetchedFollowingOfflines = fetchedOfflines.offAir;
-
-        setOfflines(fetchedFollowingOfflines);
-        setIsLoading(false);
-      } catch (err) {
-        if (!isValidEffect) return;
-        setOfflines([]);
-        setIsError(true);
-      }
-    };
-
-    fetchOfflines();
-
-    return () => {
-      isValidEffect = false;
-    };
-  }, []);
+  const { isError, isLoading, offlines } = useFollowingLives();
 
   if (isError) {
     return <div>에러가 발생했습니다.</div>;
