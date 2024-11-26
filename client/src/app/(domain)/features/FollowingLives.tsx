@@ -19,8 +19,11 @@ const FollowingLives = () => {
     const fetchLives = async () => {
       try {
         const fetchedLives = await getFollowingLiveList();
-        console.log(fetchedLives);
-        setLives(fetchedLives);
+
+        const fetchedFollowingLives = fetchedLives.onAir.map((live) => live.broadCastData);
+
+        setLives(fetchedFollowingLives);
+
         setIsLoading(false);
       } catch (err) {
         if (!isValidEffect) return;
