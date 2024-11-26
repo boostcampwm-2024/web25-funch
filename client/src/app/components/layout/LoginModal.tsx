@@ -8,7 +8,7 @@ import BrandButton from '@components/BrandButton';
 type Props = ComponentPropsWithoutRef<typeof Modal> & {};
 
 const LoginModal = ({ children, close }: Props) => {
-  const { loginByGithub, loginByNaver } = useUser();
+  const { loginByGithub, loginByNaver, loginByGoogle } = useUser();
 
   return (
     <Modal close={close}>
@@ -35,6 +35,7 @@ const LoginModal = ({ children, close }: Props) => {
         </BrandButton>
       </form>
       <form
+        className="mb-2"
         onSubmit={(e) => {
           e.preventDefault();
           loginByNaver();
@@ -47,6 +48,21 @@ const LoginModal = ({ children, close }: Props) => {
           }}
         >
           네이버로 로그인
+        </BrandButton>
+      </form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          loginByGoogle();
+        }}
+      >
+        <BrandButton
+          type="submit"
+          style={{
+            backgroundColor: '#4285F4',
+          }}
+        >
+          구글로 로그인
         </BrandButton>
       </form>
     </Modal>

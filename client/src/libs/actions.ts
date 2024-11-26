@@ -101,6 +101,31 @@ export const authenticateByGithub = async (code: string): Promise<InternalUserSe
   };
 };
 
+export const authenticateByGoogle = async (code: string): Promise<InternalUserSession> => {
+  const requestBody = { code } as any;
+  const result = await fetcher<{
+    accessToken: string;
+    name: string;
+    profile_image: string;
+    broadcast_id: string;
+  }>({
+    method: 'POST',
+    url: '/api/auth/google/callback',
+    customOptions: {
+      body: requestBody,
+    },
+  });
+
+  return {
+    accessToken: result.accessToken,
+    user: {
+      name: result.name,
+      profileImageUrl: result['profile_image'],
+      broadcastId: result['broadcast_id'],
+    },
+  };
+};
+
 export const authenticateByNaver = async ({
   code,
   state,
