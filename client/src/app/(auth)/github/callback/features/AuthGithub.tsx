@@ -9,37 +9,23 @@ type Props = {
   authCode: string;
 };
 
-const Auth = ({ authCode }: Props) => {
+const AuthGithub = ({ authCode }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
   useEffect(() => {
-    let isValidEffect = true;
     const fetchUser = async (code: string) => {
       try {
         const fetchResult = await authenticateByGithub(code);
-        if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
-        if (!isValidEffect) return;
         alert('로그인에 실패했어요.');
       } finally {
-        if (!isValidEffect) return;
         replace('/');
       }
     };
     fetchUser(authCode);
-
-    return () => {
-      isValidEffect = false;
-    };
   }, [authCode, replace, saveUserSession]);
-  return (
-    <div className="fixed left-0 top-0 flex h-screen w-screen items-center justify-center">
-      <div className="flex flex-col items-center">
-        <p className="funch-bold20 text-content-neutral-primary">인증 중...</p>
-      </div>
-    </div>
-  );
+  return <div>인증 중...</div>;
 };
 
-export default Auth;
+export default AuthGithub;

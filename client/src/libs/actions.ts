@@ -1,4 +1,4 @@
-import type { Broadcast, InternalUserSession, Playlist, User, Update, Mydata } from '@libs/internalTypes';
+import type { Broadcast, InternalUserSession, Playlist, Update, Mydata } from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
 export const getLiveList = async (): Promise<Broadcast[]> => {
@@ -32,7 +32,7 @@ export const getSuggestedLiveList = async (): Promise<Broadcast[]> => {
   return result.suggest;
 };
 
-export const authenticate = async (code: string): Promise<InternalUserSession> => {
+export const authenticateByGithub = async (code: string): Promise<InternalUserSession> => {
   const requestBody = { code } as any;
   const result = await fetcher<{
     accessToken: string;
@@ -42,6 +42,37 @@ export const authenticate = async (code: string): Promise<InternalUserSession> =
   }>({
     method: 'POST',
     url: '/api/auth/github/callback',
+    customOptions: {
+      body: requestBody,
+    },
+  });
+
+  return {
+    accessToken: result.accessToken,
+    user: {
+      name: result.name,
+      profileImageUrl: result['profile_image'],
+      broadcastId: result['broadcast_id'],
+    },
+  };
+};
+
+export const authenticateByNaver = async ({
+  code,
+  state,
+}: {
+  code: string;
+  state: string;
+}): Promise<InternalUserSession> => {
+  const requestBody = { code, state } as any;
+  const result = await fetcher<{
+    accessToken: string;
+    name: string;
+    profile_image: string;
+    broadcast_id: string;
+  }>({
+    method: 'POST',
+    url: '/api/auth/naver/callback',
     customOptions: {
       body: requestBody,
     },

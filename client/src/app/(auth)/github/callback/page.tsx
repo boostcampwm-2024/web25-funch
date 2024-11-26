@@ -1,5 +1,5 @@
-import Auth from './features/Auth';
-import AuthRedirection from './features/AuthRedirection';
+import AuthGithub from './features/AuthGithub';
+import AuthRedirection from '@app/(auth)/features/AuthRedirection';
 
 const GithubCallbackPage = ({
   searchParams,
@@ -14,7 +14,7 @@ const GithubCallbackPage = ({
     return <AuthRedirection />;
   }
 
-  return <Auth authCode={code} />;
+  return <AuthGithub authCode={code} />;
 };
 
 export default GithubCallbackPage;

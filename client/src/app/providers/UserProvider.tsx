@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { createContext, useCallback, useEffect, useState, type PropsWithChildren } from 'react';
 import type { InternalUserSession } from '@libs/internalTypes';
 import { COOKIE_USER_KEY, LOCAL_STORAGE_USER_KEY } from '@libs/constants';
 import useInternalRouter from '@hooks/useInternalRouter';
@@ -8,14 +8,16 @@ import cookies from 'js-cookie';
 
 type UserContextType = {
   userSession: InternalUserSession | null;
-  login: () => Promise<void>;
+  loginByGithub: () => Promise<void>;
+  loginByNaver: () => Promise<void>;
   logout: () => void;
   saveUserSession: (user: InternalUserSession) => void;
 };
 
 export const UserContext = createContext<UserContextType>({
   userSession: null,
-  login: async () => {},
+  loginByGithub: async () => {},
+  loginByNaver: async () => {},
   logout: () => {},
   saveUserSession: () => {},
 });
@@ -26,13 +28,13 @@ const UserProvider = ({ children }: Props) => {
   const { push } = useInternalRouter();
   const [userSession, setUserSession] = useState<InternalUserSession | null>(null);
 
-  const saveUserSession = (newUserSession: InternalUserSession) => {
+  const saveUserSession = useCallback((newUserSession: InternalUserSession) => {
     setUserSession({
       ...newUserSession,
     });
     localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(newUserSession));
     cookies.set(COOKIE_USER_KEY, newUserSession.accessToken);
-  };
+  }, []);
 
   const clearUserSession = () => {
     setUserSession(null);
@@ -49,12 +51,23 @@ const UserProvider = ({ children }: Props) => {
     push('/');
   };
 
-  const login = async () => {
+  const loginByGithub = async () => {
     const githubClientId =
       process.env.NODE_ENV === 'production'
-        ? process.env.NEXT_PUBLIC_AUTH_CLIENT_ID
-        : process.env.NEXT_PUBLIC_AUTH_CLIENT_ID_DEV;
-    location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
+        ? process.env.NEXT_PUBLIC_GITHUB_AUTH_CLIENT_ID
+        : process.env.NEXT_PUBLIC_GITHUB_AUTH_CLIENT_ID_DEV;
+
+    location.href = `${process.env.NEXT_PUBLIC_GITHUB_AUTH_BASE_URL}?client_id=${githubClientId}`;
+  };
+
+  const loginByNaver = async () => {
+    const naverClientId = process.env.NEXT_PUBLIC_NAVER_AUTH_CLIENT_ID;
+    const redirectUri =
+      process.env.NODE_ENV === 'production'
+        ? 'https://funch.site/naver/callback'
+        : 'http://localhost:3000/naver/callback';
+
+    location.href = `${process.env.NEXT_PUBLIC_NAVER_AUTH_BASE_URL}?response_type=code&client_id=${naverClientId}&redirect_uri=${redirectUri}`;
   };
 
   useEffect(() => {
@@ -69,7 +82,8 @@ const UserProvider = ({ children }: Props) => {
     <UserContext.Provider
       value={{
         userSession,
-        login,
+        loginByGithub,
+        loginByNaver,
         logout,
         saveUserSession,
       }}
