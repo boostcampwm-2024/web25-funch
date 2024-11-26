@@ -7,7 +7,7 @@ type Props = {
   lives: Broadcast[];
 };
 
-const ContentCategory = ({ lives }: Props) => {
+const CategoryLives = ({ lives }: Props) => {
   return (
     <Lives lives={lives}>
       {({ visibleLives, isExpanded, toggle }) => (
@@ -24,4 +24,4 @@ const ContentCategory = ({ lives }: Props) => {
   );
 };
 
-export default ContentCategory;
+export default CategoryLives;

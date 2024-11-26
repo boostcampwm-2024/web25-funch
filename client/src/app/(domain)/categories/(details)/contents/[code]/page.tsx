@@ -1,10 +1,9 @@
 import { Suspense } from 'react';
-import ContentCategory from './features/ContentCategory';
 import type { Broadcast, ContentsCategoryKey } from '@libs/internalTypes';
 import { getBroadcastsByContentCategory } from '@mocks/broadcasts';
-import clsx from 'clsx';
 import { CONTENTS_CATEGORY } from '@libs/constants';
 import { unstable_noStore as noStore } from 'next/cache';
+import CategoryLives from '@app/(domain)/categories/(details)/features/CategoryLives';
 
 const fetchData = async (code: string): Promise<Broadcast[]> => {
   if (process.env.NODE_ENV !== 'production') return getBroadcastsByContentCategory(code);
@@ -37,8 +36,8 @@ const ContentCategoryPage = async ({ params }: Props) => {
 
   return (
     <section className="min-h-home w-full px-7">
-      <div className={clsx('mb-4 flex items-center')}>
-        <h2 className={clsx('text-content-neutral-primary funch-bold20')}>{cateogryName}</h2>
+      <div className="mb-4 flex items-center">
+        <h2 className="text-content-neutral-primary funch-bold20">{cateogryName}</h2>
       </div>
       <Suspense fallback={<p>라이브 목록을 불러우는 중...</p>}>
         <ContentCategoryFetcher code={code} />
@@ -58,7 +57,7 @@ const ContentCategoryFetcher = async ({ code }: FetcherProps) => {
     return <div>아직 방송 중인 스트리머가 없어요. 🥲</div>;
   }
 
-  return <ContentCategory lives={lives} />;
+  return <CategoryLives lives={lives} />;
 };
 
 export default ContentCategoryPage;
