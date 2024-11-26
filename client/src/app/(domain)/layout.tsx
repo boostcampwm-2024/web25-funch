@@ -3,6 +3,7 @@ import Cabinet from '@components/cabinet/Cabinet';
 import Header from '@components/layout/Header';
 import LiveProvider from '@providers/LiveProvider';
 import { type PropsWithChildren } from 'react';
+import { FollowingLivesProvider } from '@providers/FollowingLivesProvider';
 
 const DomainLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -12,7 +13,9 @@ const DomainLayout = ({ children }: PropsWithChildren) => {
       <Main>
         {children}
         <LiveProvider>
-          <LiveSection />
+          <FollowingLivesProvider>
+            <LiveSection />
+          </FollowingLivesProvider>
         </LiveProvider>
       </Main>
     </>

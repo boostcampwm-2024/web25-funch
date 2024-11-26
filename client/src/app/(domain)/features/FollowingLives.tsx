@@ -5,7 +5,7 @@ import { Broadcast, User2 } from '@libs/internalTypes';
 import useUser from '@hooks/useUser';
 import Lives from '@components/livesGrid/Lives';
 import clsx from 'clsx';
-import { useFollowingLives } from '@providers/FollowingLivesProvider';
+import useFollowingLives from '@hooks/useFollowingLives';
 
 export const FollowingLives = () => {
   const { isLoggedin } = useUser(); // 기존 useUser 훅
