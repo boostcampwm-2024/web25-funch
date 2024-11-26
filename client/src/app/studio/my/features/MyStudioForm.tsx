@@ -6,7 +6,7 @@ import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
 
 import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
-import { StudioDropdownRendererForTest } from '@components/studio/StudioDropdown';
+import { StudioDropdownRenderer } from '@components/studio/StudioDropdown';
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
 import StudioBadge from '@components/studio/StudioBadge';
@@ -72,24 +72,30 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-full space-y-8 p-[30px]">
+      <div className="w-full space-y-6 p-[30px]">
         <StudioRows labelName="방송 제목">
           <TextareaRendererForTest setText={(text) => setFormData((prev) => ({ ...prev, title: text }))} />
         </StudioRows>
         <StudioRows labelName="카테고리">
-          <StudioDropdownRendererForTest
+          <StudioDropdownRenderer
+            placeHolder="카테고리 검색"
+            componentType="category"
             setData={(category) => setFormData((prev) => ({ ...prev, contentCategory: category }))}
           />
         </StudioRows>
         <StudioRows labelName="분위기">
-          <StudioDropdownRendererForTest setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))} />
+          <StudioDropdownRenderer
+            placeHolder="분위기 검색"
+            componentType="mood"
+            setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))}
+          />
         </StudioRows>
         <StudioRows componentType="TAG" labelName="태그">
           <div className="flex-1">
             <StudioInput
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              placeholder="태그를 입력하세요"
+              placeholder="태그 입력 후 Enter 혹은 추가"
             />
           </div>
           <StudioAddButton
@@ -103,10 +109,8 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
         <StudioRows labelName="">
           {tags.length > 0 &&
             tags.map((tag, index) => (
-              <div className="mr-1 inline-flex">
-                <StudioBadge key={index} onClick={() => handleDeleteTag(index)}>
-                  {tag}
-                </StudioBadge>
+              <div className="mr-1 inline-flex" key={index}>
+                <StudioBadge onClick={() => handleDeleteTag(index)}>{tag}</StudioBadge>
               </div>
             ))}
         </StudioRows>
