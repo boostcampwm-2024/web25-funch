@@ -1,9 +1,12 @@
 'use client';
 
-import { type ComponentPropsWithoutRef } from 'react';
+import { type ButtonHTMLAttributes, type PropsWithChildren, type ComponentPropsWithoutRef } from 'react';
 import Modal from '@components/Modal';
 import useUser from '@hooks/useUser';
-import BrandButton from '@components/BrandButton';
+import GoogleSvg from '@components/svgs/GoogleSvg';
+import clsx from 'clsx';
+import NaverSvg from '@components/svgs/NaverSvg';
+import GithubSvg from '@components/svgs/GithubSvg';
 
 type Props = ComponentPropsWithoutRef<typeof Modal> & {};
 
@@ -25,14 +28,9 @@ const LoginModal = ({ children, close }: Props) => {
           loginByGithub();
         }}
       >
-        <BrandButton
-          type="submit"
-          style={{
-            backgroundColor: '#181717',
-          }}
-        >
+        <LoginButton type="submit" componentType={LOGIN_BUTTON_COMPONENT_TYPE.GITHUB}>
           깃허브로 로그인
-        </BrandButton>
+        </LoginButton>
       </form>
       <form
         className="mb-2"
@@ -41,14 +39,9 @@ const LoginModal = ({ children, close }: Props) => {
           loginByNaver();
         }}
       >
-        <BrandButton
-          type="submit"
-          style={{
-            backgroundColor: '#03C75A',
-          }}
-        >
+        <LoginButton type="submit" componentType={LOGIN_BUTTON_COMPONENT_TYPE.NAVER}>
           네이버로 로그인
-        </BrandButton>
+        </LoginButton>
       </form>
       <form
         onSubmit={(e) => {
@@ -56,17 +49,83 @@ const LoginModal = ({ children, close }: Props) => {
           loginByGoogle();
         }}
       >
-        <BrandButton
-          type="submit"
-          style={{
-            backgroundColor: '#4285F4',
-          }}
-        >
+        <LoginButton type="submit" componentType={LOGIN_BUTTON_COMPONENT_TYPE.GOOGLE}>
           구글로 로그인
-        </BrandButton>
+        </LoginButton>
       </form>
     </Modal>
   );
+};
+
+const LOGIN_BUTTON_COMPONENT_TYPE = {
+  GITHUB: 'GITHUB' as const,
+  NAVER: 'NAVER' as const,
+  GOOGLE: 'GOOGLE' as const,
+};
+
+type LoginButtonComponentType = keyof typeof LOGIN_BUTTON_COMPONENT_TYPE;
+
+const LOGIN_BUTTON_COMPONENT_COLOR: Record<LoginButtonComponentType, string> = {
+  GITHUB: '#181717',
+  NAVER: '#03C75A',
+  GOOGLE: '#4285F4',
+};
+
+type LoginButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  PropsWithChildren<{
+    componentType: LoginButtonComponentType;
+  }>;
+
+const LoginButton = ({ componentType, children, ...rest }: LoginButtonProps) => {
+  return (
+    <button
+      className={clsx(
+        'py-0.5, flex h-10 w-full items-center rounded-md pl-6',
+        'funch-bold14 text-content-static-white bg-surface-brand-base hover:bg-surface-brand-strong',
+        'opacity-100 disabled:opacity-35',
+      )}
+      style={{
+        backgroundColor: LOGIN_BUTTON_COMPONENT_COLOR[componentType],
+      }}
+      {...rest}
+    >
+      <LoginIconRenderer componentType={componentType} />
+      {children}
+    </button>
+  );
+};
+
+const LoginIconWrapper = ({ children }: PropsWithChildren) => {
+  return (
+    <span aria-hidden className="mr-3 flex h-4 w-4 items-center justify-center">
+      {children}
+    </span>
+  );
+};
+
+const LoginIconRenderer = ({ componentType }: { componentType: LoginButtonComponentType }) => {
+  switch (componentType) {
+    case LOGIN_BUTTON_COMPONENT_TYPE.GITHUB:
+      return (
+        <LoginIconWrapper>
+          <GithubSvg />
+        </LoginIconWrapper>
+      );
+    case LOGIN_BUTTON_COMPONENT_TYPE.NAVER:
+      return (
+        <LoginIconWrapper>
+          <NaverSvg />
+        </LoginIconWrapper>
+      );
+    case LOGIN_BUTTON_COMPONENT_TYPE.GOOGLE:
+      return (
+        <LoginIconWrapper>
+          <GoogleSvg />
+        </LoginIconWrapper>
+      );
+    default:
+      return null;
+  }
 };
 
 export default LoginModal;
