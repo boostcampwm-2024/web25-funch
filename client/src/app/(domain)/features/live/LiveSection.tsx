@@ -150,7 +150,7 @@ const Wrapper = ({ children }: PropsWithChildren) => {
     <section
       className={clsx({
         'h-live-section relative w-full': isLivePage,
-        'h-live-pip w-live-pip fixed bottom-20 right-20': !isLivePage,
+        'h-live-pip w-live-pip fixed bottom-20 right-20 z-[9999]': !isLivePage,
       })}
     >
       <div
