@@ -1,4 +1,4 @@
-'use client'; // Error boundaries must be Client Components
+'use client';
 
 import Button from '@components/Button';
 import useInternalRouter from '@hooks/useInternalRouter';
