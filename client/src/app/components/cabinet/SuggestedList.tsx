@@ -107,9 +107,9 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
                     <div className="text-surface-neutral-inverse funch-medium14">{suggest.userName}</div>
                     <div className="funch-bold12">{suggest.contentCategory}</div>
                   </section>
-                  <em className="text-content-red-base funch-bold16 flex items-center pr-2">
-                    {'· ' + suggest.viewerCount}
-                  </em>
+                  <p className="text-content-red-base funch-bold14 flex items-center pr-2">
+                    {'· ' + comma(suggest.viewerCount)}
+                  </p>
                 </section>
               </div>
             </div>
@@ -150,7 +150,7 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
                 </div>
               </div>
               <div className="funch-medium14 mt-2 flex-1">{suggest.title}</div>
-              <div className="text-content-red-base funch-bold16 h-1/4">{'· ' + suggest.viewerCount}</div>
+              <div className="text-content-red-base funch-bold14 h-1/4">{'· ' + comma(suggest.viewerCount)}</div>
             </div>
           )}
         </div>
