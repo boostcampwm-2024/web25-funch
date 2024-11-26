@@ -12,7 +12,7 @@ interface FollowingLivesContextType {
   fetchLives: () => Promise<void>;
 }
 
-const FollowingLivesContext = createContext<FollowingLivesContextType | undefined>(undefined);
+export const FollowingLivesContext = createContext<FollowingLivesContextType | undefined>(undefined);
 
 export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -56,14 +56,4 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
       {children}
     </FollowingLivesContext.Provider>
   );
-};
-
-export const useFollowingLives = () => {
-  const context = useContext(FollowingLivesContext);
-
-  if (context === undefined) {
-    throw new Error('useFollowingLives must be used within a FollowingLivesProvider');
-  }
-
-  return context;
 };

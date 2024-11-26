@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { User2 } from '@libs/internalTypes';
 import Image from 'next/image';
-import { useFollowingLives } from '@providers/FollowingLivesProvider';
+import useFollowingLives from '@hooks/useFollowingLives';
 
 const FollowingOffair = () => {
   const { isError, isLoading, offlines } = useFollowingLives();
