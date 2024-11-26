@@ -126,7 +126,7 @@ export class LiveService {
     const offAir = [];
     followList.forEach((member) => {
       if (this.live.data.has(member.broadcast_id)) {
-        onAir.push(this.live.data.get(member.broadcast_id));
+        onAir.push(this.responseLiveData(member.broadcast_id));
       } else {
         const { name, profile_image, broadcast_id, follower_count } = member;
 
