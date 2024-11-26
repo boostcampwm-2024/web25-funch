@@ -18,10 +18,9 @@ type Token = {
 
 type User = {
   name: string;
-  profileImageUrl: string;
-  broadcastId: string;
-  followerCount: number;
-  isLive: boolean;
+  profile_image: string;
+  broadcast_id: string;
+  follower_count: number;
 };
 
 export { Broadcast, Token, User };
