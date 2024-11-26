@@ -1,10 +1,11 @@
+import { CONTENTS_CATEGORY } from '@libs/constants';
 import type { Broadcast } from '@libs/internalTypes';
 
 export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'aaa',
     title: '[충격] 트럼프 당선',
-    contentCategory: 'POLITICS',
+    contentCategory: CONTENTS_CATEGORY.politics.CODE,
     moodCategory: 'INTERESTING',
     tags: ['politics', 'election'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -13,9 +14,20 @@ export const mockedBroadcasts: Broadcast[] = [
     profileImageUrl: 'https://via.placeholder.com/150',
   },
   {
+    broadcastId: 'aaagggggg',
+    title: '[충격] 해리스 낙선',
+    contentCategory: CONTENTS_CATEGORY.politics.CODE,
+    moodCategory: 'INTERESTING',
+    tags: ['politics', 'election'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1870,
+    userName: '슈카월드',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
     broadcastId: 'bbb',
     title: '[데모 공유] 팀 무지개 치즈 3주차 발표',
-    contentCategory: 'TECH',
+    contentCategory: CONTENTS_CATEGORY.develop.CODE,
     tags: ['funch', 'boostcamp'],
     moodCategory: 'FUN',
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -26,7 +38,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'ccc',
     title: '고양이 냥냥이 냥냥냥이',
-    contentCategory: 'ANIMAL',
+    contentCategory: CONTENTS_CATEGORY.dailylife.CODE,
     moodCategory: 'HAPPY',
     tags: ['cat', 'cute'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -37,7 +49,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'ddd',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.cook.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -48,7 +60,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'eee',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.game.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -59,7 +71,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'fff',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.economy.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -70,7 +82,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'ggg',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.fishing.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -81,7 +93,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'hhh',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.horror.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -92,7 +104,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'iii',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.house.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -103,7 +115,18 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'jjj',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.music.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 800,
+    userName: '물소',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'jjasdgj',
+    title: '방송 제목',
+    contentCategory: CONTENTS_CATEGORY.mukbang.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -114,7 +137,7 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'sss',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.news.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -125,7 +148,73 @@ export const mockedBroadcasts: Broadcast[] = [
   {
     broadcastId: 'tadg',
     title: '방송 제목',
-    contentCategory: 'CATEGORY',
+    contentCategory: CONTENTS_CATEGORY.outdoor.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tasdgdg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.outdoor.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tasdgs21245dg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.study.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tasdgs2125dg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.talk.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tdgs2125dg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.travel.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tbbbbbdgs2125dg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.virtual.CODE,
+    moodCategory: 'MOOD',
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
+  {
+    broadcastId: 'tdaaags2125dg',
+    title: '방송 제목sdg',
+    contentCategory: CONTENTS_CATEGORY.virtual.CODE,
     moodCategory: 'MOOD',
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
@@ -134,3 +223,7 @@ export const mockedBroadcasts: Broadcast[] = [
     profileImageUrl: 'https://via.placeholder.com/150',
   },
 ];
+
+export const getBroadcastsByContentCategory = (contentCategory: string) => {
+  return mockedBroadcasts.filter((broadcast) => broadcast.contentCategory === contentCategory);
+};
