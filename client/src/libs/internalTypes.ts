@@ -80,7 +80,7 @@ export type OnAirBroadcast = {
   broadCastData: Broadcast;
 };
 
-type User2 = {
+export type User2 = {
   name: string;
   profile_image: string;
   broadcast_id: string;
