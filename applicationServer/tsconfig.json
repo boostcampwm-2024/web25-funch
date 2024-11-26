@@ -21,7 +21,8 @@
       "@database/*": ["src/database/*"],
       "@member/*": ["src/member/*"],
       "@live/*": ["src/live/*"],
-      "@follow/*": ["src/follow/*"]
+      "@follow/*": ["src/follow/*"],
+      "@google/*": ["src/auth/google/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
