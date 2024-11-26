@@ -4,9 +4,14 @@ import { mockedUsers } from '@mocks/users';
 import { mockedUpdates } from '@mocks/updates';
 import { http, HttpResponse } from 'msw';
 import { mockedMydata } from '@mocks/mydata';
+import { mockedFollowingList } from '@mocks/follow';
 
 const getLiveList = () => {
   return HttpResponse.json(mockedBroadcasts);
+};
+
+const getFollowingList = () => {
+  return HttpResponse.json(mockedFollowingList);
 };
 
 const getPlaylist = ({ params }: { params: { broadcastId: string } }) => {
@@ -60,6 +65,7 @@ export const handlers = [
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
   http.get('/api/live/list/suggest', getSuggestedLiveList),
   http.get('/api/members/mydata', getMydata),
+  http.get('/api/live/follow', getFollowingList),
   http.post('/api/auth/github/callback', authenticate),
   http.post('/api/auth/naver/callback', authenticate),
   http.post('/api/auth/google/callback', authenticate),
