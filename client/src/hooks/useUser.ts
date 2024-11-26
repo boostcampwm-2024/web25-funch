@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useUserContext from '@hooks/useUserContext';
 
 const getIsLoggedin = (user: any) => user !== null;
@@ -13,8 +13,10 @@ const useUser = () => {
     setIsLoggedin(getIsLoggedin(userSession));
   }, [userSession]);
 
+  const loggedinUser = useMemo(() => userSession?.user || null, [userSession]);
+
   return {
-    loggedinUser: userSession?.user || null,
+    loggedinUser,
     isLoggedin,
     logout,
     loginByGithub,

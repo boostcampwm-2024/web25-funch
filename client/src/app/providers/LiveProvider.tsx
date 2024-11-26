@@ -42,6 +42,8 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
 
   const [liveUrl, setLiveUrl] = useState<Playlist['playlistUrl'] | null>(null);
 
+  const [broadcastId, setBroadcastId] = useState<string>('');
+
   const clear = () => {
     setLiveInfo(defaultLiveInfo);
     setLiveUrl(null);
@@ -95,6 +97,8 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         setIsError(true);
         setLiveUrl(null);
         setLiveInfo(defaultLiveInfo);
+      } finally {
+        setBroadcastId(id);
       }
     };
 
@@ -110,7 +114,7 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         isLivePage,
         liveInfo,
         liveUrl,
-        broadcastId: id,
+        broadcastId,
         clear,
         refreshLiveInfo,
       }}
