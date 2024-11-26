@@ -187,7 +187,7 @@ const VolumeController = () => {
 
   return (
     <div
-      className="flex items-center gap-2"
+      className="flex items-center gap-0.5"
       onMouseMove={() => {
         setIsHidden(false);
       }}
@@ -201,10 +201,12 @@ const VolumeController = () => {
       <div
         className={clsx('overflow-hidden transition-all duration-300', {
           'w-0': isHidden,
-          'w-20': !isHidden,
+          'w-24': !isHidden,
         })}
       >
-        <RangeInput min={0} max={100} step={1} value={volume} updateValue={updateVolume} />
+        <div className="px-4">
+          <RangeInput min={0} max={100} step={1} value={volume} updateValue={updateVolume} />
+        </div>
       </div>
     </div>
   );

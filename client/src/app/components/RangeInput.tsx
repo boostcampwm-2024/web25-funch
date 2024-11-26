@@ -74,6 +74,7 @@ const RangeInput = ({ value, updateValue, min = 0, max = 100, step = 10 }: Props
   };
 
   const percentage = ((internalValue - min) / (max - min)) * 100;
+  const handlerPosition = `calc(${percentage}% - 0.3rem)`;
 
   useEffect(() => {
     if (!isChangingRef.current) {
@@ -101,7 +102,7 @@ const RangeInput = ({ value, updateValue, min = 0, max = 100, step = 10 }: Props
       <button
         className="bg-surface-static-white absolute left-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 transform rounded-full transition-transform hover:scale-150"
         style={{
-          left: `${percentage}%`,
+          left: handlerPosition,
         }}
         aria-hidden="true"
         tabIndex={-1}
