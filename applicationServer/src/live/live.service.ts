@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Live } from '@live/entities/live.entity';
-import { Broadcast } from '@src/types';
+import { Broadcast, User } from '@src/types';
 import { MemberService } from '@src/member/member.service';
 import { Member } from '@src/member/member.entity';
 import { interval, map } from 'rxjs';
@@ -118,5 +118,30 @@ export class LiveService {
         live.contentCategory == (condition.content ?? 'unknown') || live.moodCategory == (condition.mood ?? 'unknown')
       );
     });
+  }
+
+  async filterWithFollow(memberId) {
+    const followList = await this.memberService.findMembersWithFollowTable(memberId);
+    const onAir = [];
+    const offAir = [];
+    followList.forEach((member) => {
+      if (this.live.data.has(member.broadcast_id)) {
+        onAir.push(this.live.data.get(member.broadcast_id));
+      } else {
+        const { name, profile_image, broadcast_id, follower_count } = member;
+
+        offAir.push({
+          name,
+          profile_image,
+          broadcast_id,
+          follower_count,
+        } as User);
+      }
+    });
+
+    return {
+      onAir,
+      offAir,
+    };
   }
 }
