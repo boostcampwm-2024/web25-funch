@@ -37,7 +37,7 @@ const Modal = ({ children, close }: Props) => {
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
           className={clsx(
-            'max-w-56 px-6 py-4',
+            'min-w-56 max-w-64 px-6 py-4',
             'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform',
             'bg-surface-neutral-primary shadow-modal rounded-lg',
             'border-border-neutral-base border border-solid',
