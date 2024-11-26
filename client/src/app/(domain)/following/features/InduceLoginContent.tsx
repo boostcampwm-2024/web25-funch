@@ -14,8 +14,4 @@ const InduceLoginContent = () => {
   );
 };
 
-const InduceLoginButton = () => {
-  return <div></div>;
-};
-
 export default InduceLoginContent;

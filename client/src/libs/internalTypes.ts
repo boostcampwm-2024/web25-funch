@@ -40,6 +40,11 @@ export type FetcherParams = {
   customOptions?: RequestInit;
 };
 
+export type ToggleFollow = {
+  follower: string;
+  following: string;
+};
+
 type UserSession = {
   name: string;
   profileImageUrl: string;

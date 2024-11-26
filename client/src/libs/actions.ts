@@ -6,6 +6,7 @@ import type {
   User,
   Update,
   MyData,
+  ToggleFollow,
 } from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
@@ -22,6 +23,32 @@ export const getFollowingLiveList = async (): Promise<FollowingList> => {
   const result = await fetcher<FollowingList>({
     method: 'GET',
     url: '/api/live/follow',
+  });
+
+  return result;
+};
+
+export const makeFollow = async ({ follower, following }: ToggleFollow): Promise<any> => {
+  const requestBody = { follower, following } as any;
+  const result = await fetcher({
+    method: 'POST',
+    url: '/api/follow',
+    customOptions: {
+      body: requestBody,
+    },
+  });
+
+  return result;
+};
+
+export const makeUnfollow = async ({ follower, following }: ToggleFollow): Promise<any> => {
+  const requestBody = { follower, following } as any;
+  const result = await fetcher({
+    method: 'DELETE',
+    url: '/api/follow',
+    customOptions: {
+      body: requestBody,
+    },
   });
 
   return result;
