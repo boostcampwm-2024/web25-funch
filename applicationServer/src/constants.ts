@@ -31,3 +31,7 @@ export const FOLLOW_REPOSITORY = 'FOLLOW_REPOSITORY';
 export const FOLLOWER = 'follower';
 export const FOLLOWERS = 'followers';
 export const FOLLOWING = 'following';
+// google.service.ts
+export const AUTHORIZATION_CODE = 'authorization_code';
+export const GOOGLE_ACCESS_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+export const GOOGLE_RESOURCE_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
