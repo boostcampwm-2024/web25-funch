@@ -62,5 +62,5 @@ export const handlers = [
   http.get('/api/members/mydata', getMydata),
   http.post('/api/auth/github/callback', authenticate),
   http.post('/api/login', login),
-  http.post('/api/live/update', update),
+  http.patch('/api/live/update', update),
 ];
