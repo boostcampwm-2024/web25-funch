@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -10,6 +10,7 @@
     "paths": {
       "@rtmp/*": ["core/rtmp/*"],
       "@media/*": ["core/media/*"],
+      "@hls/*": ["core/hls/*"],
       "@/*": ["*"]
     },
     "noImplicitAny": false
