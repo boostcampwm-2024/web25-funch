@@ -108,7 +108,7 @@ const DropdownList = ({ children }: PropsWithChildren) => {
   return (
     <ul
       className={clsx(
-        'shadow-dropdown bg-surface-neutral-primary absolute left-0 top-[3rem] z-[9999] w-full rounded-md py-1.5',
+        'shadow-dropdown bg-surface-neutral-primary funch-scrollable absolute left-0 top-[3rem] z-[9999] h-80 w-full rounded-md py-1.5',
       )}
     >
       {children}
@@ -137,12 +137,13 @@ const StudioDropdown = Object.assign(DropdownWrapper, {
 type CategoryTestProps = {
   setData: (data: string) => void;
   componentType: 'category' | 'mood';
+  placeHolder: string;
 };
 
 const categories = Object.values(CONTENTS_CATEGORY);
 const moods = Object.values(MOODS_CATEGORY);
 
-export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestProps) => {
+export const StudioDropdownRenderer = ({ setData, componentType, placeHolder }: CategoryTestProps) => {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [selectedCode, setSelectedCode] = useState<ContentsCategoryKey>('talk');
   const [selectedMoodCode, setSelectedMoodCode] = useState<MoodsCategoryKey>('unknown');
@@ -165,7 +166,7 @@ export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestP
             value={inputValue}
             onChange={handleChangeInput}
             onFocus={handleFocusInput}
-            placeholder="플레이스 홀더"
+            placeholder={placeHolder}
           />
           {isFocused && (
             <StudioDropdown.List>
@@ -207,7 +208,7 @@ export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestP
             </StudioDropdown.List>
           )}
           {selectedKey && (
-            <div className="mt-5">
+            <div className="mt-5 flex justify-center">
               {componentType === 'category' ? (
                 <div className="flex items-center justify-center">
                   <StudioCategoryCard code={selectedCode} title={selectedKey} />
@@ -215,7 +216,7 @@ export const StudioDropdownRenderer = ({ setData, componentType }: CategoryTestP
               ) : (
                 <div className="relative mt-2 h-10 w-full shadow-md">
                   {MoodsCategoryPalette({ code: selectedMoodCode })}
-                  <div className="text-content-neutral-inverse absolute left-1/2 top-1/2 -translate-x-9 -translate-y-3">
+                  <div className="text-content-neutral-inverse absolute left-[45%] top-[20%]">
                     {moods.find((m) => m.NAME === selectedKey)?.NAME}
                   </div>
                 </div>

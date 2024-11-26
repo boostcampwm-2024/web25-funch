@@ -78,12 +78,14 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
         </StudioRows>
         <StudioRows labelName="카테고리">
           <StudioDropdownRenderer
+            placeHolder="카테고리 검색"
             componentType="category"
             setData={(category) => setFormData((prev) => ({ ...prev, contentCategory: category }))}
           />
         </StudioRows>
         <StudioRows labelName="분위기">
           <StudioDropdownRenderer
+            placeHolder="분위기 검색"
             componentType="mood"
             setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))}
           />
@@ -93,7 +95,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
             <StudioInput
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              placeholder="태그를 입력하세요"
+              placeholder="태그 입력 후 Enter 혹은 추가"
             />
           </div>
           <StudioAddButton
