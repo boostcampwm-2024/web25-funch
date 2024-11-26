@@ -3,10 +3,24 @@
 import { type ButtonHTMLAttributes, type PropsWithChildren, type ComponentPropsWithoutRef } from 'react';
 import Modal from '@components/Modal';
 import useUser from '@hooks/useUser';
-import GoogleSvg from '@components/svgs/GoogleSvg';
 import clsx from 'clsx';
+import GoogleSvg from '@components/svgs/GoogleSvg';
 import NaverSvg from '@components/svgs/NaverSvg';
 import GithubSvg from '@components/svgs/GithubSvg';
+
+const LOGIN_BUTTON_COMPONENT_TYPE = {
+  GITHUB: 'GITHUB' as const,
+  NAVER: 'NAVER' as const,
+  GOOGLE: 'GOOGLE' as const,
+};
+
+type LoginButtonComponentType = keyof typeof LOGIN_BUTTON_COMPONENT_TYPE;
+
+const LOGIN_BUTTON_COMPONENT_COLOR: Record<LoginButtonComponentType, string> = {
+  GITHUB: '#181717',
+  NAVER: '#03C75A',
+  GOOGLE: '#4285F4',
+};
 
 type Props = ComponentPropsWithoutRef<typeof Modal> & {};
 
@@ -55,20 +69,6 @@ const LoginModal = ({ children, close }: Props) => {
       </form>
     </Modal>
   );
-};
-
-const LOGIN_BUTTON_COMPONENT_TYPE = {
-  GITHUB: 'GITHUB' as const,
-  NAVER: 'NAVER' as const,
-  GOOGLE: 'GOOGLE' as const,
-};
-
-type LoginButtonComponentType = keyof typeof LOGIN_BUTTON_COMPONENT_TYPE;
-
-const LOGIN_BUTTON_COMPONENT_COLOR: Record<LoginButtonComponentType, string> = {
-  GITHUB: '#181717',
-  NAVER: '#03C75A',
-  GOOGLE: '#4285F4',
 };
 
 type LoginButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
