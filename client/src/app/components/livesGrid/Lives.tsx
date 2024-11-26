@@ -57,7 +57,8 @@ const Live = ({ live, isPriority = false }: LiveProps) => {
         href={`/lives/${live.broadcastId}`}
         className={clsx(
           'pb-live-aspect-ratio relative block overflow-hidden',
-          'rounded-xl border-0 border-solid border-transparent',
+          'rounded-xl border-0 border-solid hover:m-[-0.1075rem]',
+          'hover:border-surface-brand-strong hover:border-2',
         )}
       >
         <div className="absolute left-0 top-0 h-full w-full">
