@@ -75,7 +75,7 @@ export type FollowingList = {
   offAir: User2[];
 };
 
-type OnAirBroadcast = {
+export type OnAirBroadcast = {
   playlistUrl: string;
   broadCastData: Broadcast;
 };

@@ -1,4 +1,12 @@
-import type { Broadcast, InternalUserSession, Playlist, Update } from '@libs/internalTypes';
+import type {
+  Broadcast,
+  FollowingList,
+  InternalUserSession,
+  Playlist,
+  User,
+  Update,
+  MyData,
+} from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
 export const getLiveList = async (): Promise<Broadcast[]> => {
@@ -10,13 +18,13 @@ export const getLiveList = async (): Promise<Broadcast[]> => {
   return result.sort((a, b) => b.viewerCount - a.viewerCount);
 };
 
-export const getFollowingLiveList = async (): Promise<Broadcast[]> => {
-  const result = await fetcher<Broadcast[]>({
+export const getFollowingLiveList = async (): Promise<FollowingList> => {
+  const result = await fetcher<FollowingList>({
     method: 'GET',
     url: '/api/live/follow',
   });
 
-  return result.sort((a, b) => b.viewerCount - a.viewerCount);
+  return result;
 };
 
 export const getPlaylist = async (broadcastId: string): Promise<Playlist> => {

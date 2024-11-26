@@ -61,11 +61,11 @@ const getMydata = () => {
 
 export const handlers = [
   http.get('/api/live/list', getLiveList),
+  http.get('/api/live/follow', getFollowingList),
   http.get('/api/live/:broadcastId', getPlaylist),
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
   http.get('/api/live/list/suggest', getSuggestedLiveList),
   http.get('/api/members/mydata', getMydata),
-  http.get('/api/live/follow', getFollowingList),
   http.post('/api/auth/github/callback', authenticate),
   http.post('/api/auth/naver/callback', authenticate),
   http.post('/api/auth/google/callback', authenticate),
