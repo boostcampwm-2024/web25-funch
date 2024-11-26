@@ -25,6 +25,15 @@ export class LiveController {
     return this.liveService.filterWithCategory(liveList, query);
   }
 
+  @UseGuards(NeedLoginGuard)
+  @Get('/follow')
+  getFollowLiveList(@Req() req: Request) {
+    const accessToken = req.headers['authorization']?.split(' ')[1];
+    const decodedPayload = this.authService.verifyToken(accessToken);
+
+    return this.liveService.filterWithFollow(decodedPayload.memberId);
+  }
+
   @Get(':broadcastId')
   getPlaylistUrl(@Param('broadcastId') broadcastId: string) {
     return this.liveService.responseLiveData(broadcastId);
