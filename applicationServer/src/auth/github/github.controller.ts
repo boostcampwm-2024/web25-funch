@@ -22,7 +22,7 @@ class GithubAuthController {
     const githubAccessToken = await this.githubAuthService.getAccessToken(code);
     const { id, avatar_url } = await this.githubAuthService.getUserInfo(githubAccessToken);
 
-    const member = await this.findOrRegisterMember(`Github@${id}`, avatar_url);
+    const member = await this.memberService.findOrRegisterMember(`Github@${id}`, avatar_url);
     const accessToken = this.authService.generateAccessToken(member.id);
     const refreshToken = this.authService.generateRefreshToken(member.id);
 
@@ -30,15 +30,6 @@ class GithubAuthController {
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
     return { accessToken, name: member.name, profile_image: member.profile_image, broadcast_id: member.broadcast_id };
-  }
-
-  private async findOrRegisterMember(memberId: string, avatar_url: string) {
-    const member = await this.memberService.findOneMemberWithCondition({ id: memberId });
-    if (!member) {
-      const newMember = await this.memberService.register(memberId, avatar_url);
-      return newMember;
-    }
-    return member;
   }
 }
 

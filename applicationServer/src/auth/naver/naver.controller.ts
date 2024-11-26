@@ -25,7 +25,7 @@ class NaverAuthController {
   ) {
     const naverAccessToken = await this.naverAuthService.getAccessToken(code, state);
     const { id } = await this.naverAuthService.getUserInfo(naverAccessToken);
-    const member = await this.findOrRegisterMember(`Naver@${id}`);
+    const member = await this.memberService.findOrRegisterMember(`Naver@${id}`);
     const accessToken = this.authService.generateAccessToken(member.id);
     const refreshToken = this.authService.generateRefreshToken(member.id);
 
@@ -33,15 +33,6 @@ class NaverAuthController {
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
     return { accessToken, name: member.name, profile_image: member.profile_image, broadcast_id: member.broadcast_id };
-  }
-
-  private async findOrRegisterMember(memberId: string) {
-    const member = await this.memberService.findOneMemberWithCondition({ id: memberId });
-    if (!member) {
-      const newMember = await this.memberService.register(memberId);
-      return newMember;
-    }
-    return member;
   }
 }
 
