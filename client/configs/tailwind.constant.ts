@@ -17,4 +17,4 @@ export const SEARCH_WIDTH_WIDE = 'calc(100% - 58.125rem)'; // 930px = 58.125rem
 
 export const CHAT_FORM_HEIGHT = '5rem';
 export const CHAT_HEADER_HEIGHT = '2.75rem';
-export const CAHT_HEIGHT = `calc(${LIVE_SECTION_DEFAULT_HEIGHT} - ${CHAT_HEADER_HEIGHT} - ${CHAT_FORM_HEIGHT})`;
+export const CAHT_HEIGHT = `calc(${LIVE_SECTION_DEFAULT_HEIGHT} - ${CHAT_HEADER_HEIGHT} - ${CHAT_FORM_HEIGHT} - 1.5rem)`;

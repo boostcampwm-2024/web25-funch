@@ -5,7 +5,16 @@ import useLiveContext from '@hooks/useLiveContext';
 import useUser from '@hooks/useUser';
 import { SOCKET_EVENT } from '@libs/constants';
 import clsx from 'clsx';
-import { memo, type MutableRefObject, type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  memo,
+  type MutableRefObject,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { io, type Socket } from 'socket.io-client';
 
 type ChatType = {
@@ -29,6 +38,7 @@ type Props = {
 };
 
 const ChatWrapper = ({ children }: Props) => {
+  const { isLivePage } = useLiveContext();
   const { broadcastId } = useLiveContext();
   const { loggedinUser } = useUser();
   const [chatList, setChatList] = useState<ChatType[]>([]);
@@ -103,7 +113,16 @@ const ChatWrapper = ({ children }: Props) => {
   );
 
   return (
-    <aside className={clsx('flex h-full w-[22rem] flex-col', 'border-border-neutral-weak border-x border-solid')}>
+    <aside
+      className={clsx(
+        {
+          'absolute h-0 w-0 overflow-hidden': !isLivePage,
+          'h-full w-[22rem]': isLivePage,
+        },
+        'flex flex-col',
+        'border-border-neutral-weak border-x border-solid',
+      )}
+    >
       <div
         className={clsx('h-chat-header flex w-full items-center justify-center border-y', 'border-border-neutral-weak')}
       >
@@ -125,29 +144,70 @@ type ChatListProps = {
 };
 
 const ChatList = ({ chatList }: ChatListProps) => {
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const chatListRef = useRef<HTMLDivElement | null>(null);
+  const chatBottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (chatBottomRef.current) {
+      if (!isUserScrolling) {
+        chatBottomRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [chatList]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (chatListRef.current) {
+        const { scrollHeight, scrollTop, clientHeight } = chatListRef.current;
+        const isScrolledToBottom = scrollHeight - scrollTop < clientHeight + 20;
+        setIsUserScrolling(!isScrolledToBottom);
+      }
+    };
+
+    if (chatListRef.current) {
+      chatListRef.current.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (chatListRef.current) {
+        chatListRef.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [chatListRef]);
+
   return (
-    <div className="flex h-full flex-1 flex-col px-2 py-1">
-      <div className="relative h-full w-full">
-        <div className={clsx('h-chat absolute bottom-0 left-0 flex w-full flex-col')}>
-          <div className="funch-scrollable absolute bottom-0 max-h-full w-full">
-            {chatList.map((chat, index) => (
-              <p key={index} className="funch-medium14">
-                <span
-                  style={{
-                    color: chat?.color || 'var(--content-neutral-primary)',
-                  }}
-                >
-                  {chat.name}
-                </span>
-                <span>{chat.content}</span>
-              </p>
-            ))}
-          </div>
+    <div className="flex h-full flex-1 flex-col px-2 pb-4 pt-2">
+      <div className="relative h-full w-full overflow-hidden">
+        <div className={clsx('h-chat funch-scrollable w-full')} ref={chatListRef}>
+          {chatList.map((chat, index) => (
+            <ChatItem key={index} name={chat.name} content={chat.content} color={chat.color} />
+          ))}
+          <div ref={chatBottomRef} className="h-1" />
         </div>
       </div>
     </div>
   );
 };
+
+const ChatItem = memo(
+  ({ name, color = 'var(--content-neutral-primary)', content }: { name: string; color?: string; content: string }) => {
+    console.log('🚀 RENDERING CHAT ITEM : ', name, content);
+    return (
+      <p>
+        <span
+          className="funch-bold14 mr-2 whitespace-nowrap"
+          style={{
+            color,
+          }}
+        >
+          {name}
+        </span>
+        <span className="funch-medium14 text-content-neutral-primary break-words">{content}</span>
+      </p>
+    );
+  },
+);
 
 type ChatFormProps = {
   socketRef: MutableRefObject<Socket | null>;
@@ -157,6 +217,13 @@ type ChatFormProps = {
 
 const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
   const [inputValue, setInputValue] = useState('');
+  const handleChage = (e: ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.trimStart().replace(/\s+/g, ' ');
+    if (value.length > 120) {
+      value = value.slice(0, 120);
+    }
+    setInputValue(value);
+  };
   return (
     <div className="h-chat-form flex flex-col px-2.5">
       <form
@@ -170,13 +237,20 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
           setInputValue('');
         }}
       >
-        <div className="h-10 w-full">
+        <div
+          className={clsx(
+            'h-10 w-full overflow-hidden',
+            'focus-within:border-border-brand-base rounded-md border border-solid border-transparent',
+          )}
+        >
           <input
             type="text"
-            className={clsx('h-full w-full resize-none rounded-md border-none px-2 py-2', 'bg-surface-neutral-weak')}
+            className={clsx('h-full w-full px-2 py-2', 'bg-surface-neutral-weak outline-none')}
             placeholder="채팅을 입력해주세요"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleChage}
+            maxLength={120}
+            minLength={1}
           />
         </div>
         <div className="flex justify-end py-1">
