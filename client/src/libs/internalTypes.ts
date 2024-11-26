@@ -70,6 +70,23 @@ export type Broadcast = {
   profileImageUrl: string;
 };
 
+export type FollowingList = {
+  onAir: OnAirBroadcast[];
+  offAir: User2[];
+};
+
+type OnAirBroadcast = {
+  playlistUrl: string;
+  broadCastData: Broadcast;
+};
+
+type User2 = {
+  name: string;
+  profile_image: string;
+  broadcast_id: string;
+  follower_count: number;
+};
+
 // 11.20 18:30
 export type Playlist = {
   playlistUrl: string;
@@ -101,13 +118,13 @@ export type Update = {
   thumbnail?: string | null;
 };
 
-export type Mydata = {
+export type MyData = {
   id: string;
   name: string;
   profile_image: string;
   stream_key: string;
   broadcast_id: string;
   follower_count: number;
-  createdAt: string;
-  deletedAt: string | null;
+  created_at: string;
+  deleted_at?: string;
 };
