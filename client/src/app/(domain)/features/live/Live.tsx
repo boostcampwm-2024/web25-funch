@@ -173,7 +173,6 @@ const Live = Object.assign(LiveController, {
   Wrapper: LiveWrapper,
   VideoWrapper,
   Video,
-  // Info: LiveInfo,
 });
 
 export default Live;
