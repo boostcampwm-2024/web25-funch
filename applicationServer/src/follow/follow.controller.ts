@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { NeedLoginGuard } from '@src/auth/core/auth.guard';
 import { FollowService } from '@follow/follow.service';
-import { FOLLOWERS, FOLLOWING } from '@src/constants';
+import { FOLLOWER, FOLLOWERS, FOLLOWING } from '@src/constants';
 
 @Controller('follow')
 @UseGuards(NeedLoginGuard)
@@ -47,15 +47,15 @@ export class FollowController {
     const results = await this.followService.findAllFollowWithCondition(condition);
     const data = results.map((result) => result[key]);
 
-    return { [key]: data };
+    return { [search]: data };
   }
 
   private getFollowConditions(search: string, memberId: string) {
     if (search === FOLLOWERS) {
-      return { condition: { following: memberId }, key: FOLLOWERS };
+      return { condition: { following: memberId }, key: FOLLOWER };
     } else if (search === FOLLOWING) {
       return { condition: { follower: memberId }, key: FOLLOWING };
     }
-    throw new HttpException('올바른 팔로워/팔로잉 정보 요청이 아닙니다.', HttpStatus.BAD_REQUEST);
+    throw new HttpException('올바른 팔로워/팔로잉 리스트 요청이 아닙니다.', HttpStatus.BAD_REQUEST);
   }
 }
