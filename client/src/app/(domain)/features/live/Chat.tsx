@@ -6,10 +6,10 @@ import useUser from '@hooks/useUser';
 import { SOCKET_EVENT } from '@libs/constants';
 import clsx from 'clsx';
 import {
-  ChangeEvent,
-  memo,
+  type ChangeEvent,
   type MutableRefObject,
   type ReactNode,
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -27,7 +27,8 @@ type SendChat = (args: { socketRef: MutableRefObject<Socket | null>; name: strin
 
 type ChildrenArgs = {
   chatList: ChatType[];
-  isSocketConnected: boolean;
+  isLoading: boolean;
+  isError: boolean;
   socketRef: MutableRefObject<Socket | null>;
   chatname: string;
   sendChat: SendChat;
@@ -42,52 +43,81 @@ const ChatWrapper = ({ children }: Props) => {
   const { broadcastId } = useLiveContext();
   const { loggedinUser } = useUser();
   const [chatList, setChatList] = useState<ChatType[]>([]);
-  const [isSocketConnected, setIsSocketConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const socketRef = useRef<Socket | null>(null);
   const [chatname, setChatname] = useState(loggedinUser?.name || '익명');
 
   useEffect(() => {
-    setIsSocketConnected(false);
-    setChatList([]);
-    const socketUrl =
-      process.env.NODE_ENV === 'production'
-        ? process.env.NEXT_PUBLIC_CHAT_SERVER_URL
-        : process.env.NEXT_PUBLIC_CHAT_SERVER_URL_DEV;
+    const connectSocket = () => {
+      setIsError(false);
+      setIsLoading(true);
+      setChatList([]);
 
-    const socketQuery = {
-      broadcastId,
-    } as any;
+      const socketUrl =
+        process.env.NODE_ENV === 'production'
+          ? process.env.NEXT_PUBLIC_CHAT_SERVER_URL
+          : process.env.NEXT_PUBLIC_CHAT_SERVER_URL_DEV;
 
-    if (loggedinUser) {
-      socketQuery.name = loggedinUser.name;
-    }
+      const socketQuery = {
+        broadcastId,
+      } as any;
 
-    const socket = io(socketUrl, {
-      path: '/live',
-      query: socketQuery,
-    });
+      if (loggedinUser) {
+        socketQuery.name = loggedinUser.name;
+      }
 
-    socketRef.current = socket;
+      const socket = io(socketUrl, {
+        path: '/live',
+        query: socketQuery,
+        reconnectionDelay: 1000 * 10,
+      });
 
-    socket.on(SOCKET_EVENT.CONNECT, () => {
-      console.log('✅ SOCKET CONNECTED');
-      setIsSocketConnected(true);
-    });
+      socketRef.current = socket;
 
-    socket.on(SOCKET_EVENT.CHAT, (receivedData: ChatType) => {
-      // 상태 업데이트
-      console.log('😇 RECEIVING : ', receivedData);
-      setChatList((prev) => [...prev, receivedData]);
-    });
+      socket.on('connect_error', () => {
+        console.log('❌ SOCKET CONNECT ERROR');
+        setIsError(true);
+      });
+      socket.on('connect_timeout', () => {
+        console.log('❌ SOCKET CONNECT TIMEOUT');
+        setIsError(true);
+      });
+      socket.on('disconnect', () => {
+        console.log('❌ SOCKET DISCONNECTED');
+      });
+      socket.on('reconnect_failed', () => {
+        console.log('❌ SOCKET RECONNECT FAILED');
+      });
+      socket.on('error', () => {
+        console.log('❌ SOCKET ERROR');
+        setIsError(true);
+      });
 
-    socket.on(SOCKET_EVENT.SET_ANONYMOUS_NAME, (data) => {
-      console.log('🚀 SETTING ANONYMOUS NAME : ', data);
-      setChatname(data.name);
-    });
+      socket.on(SOCKET_EVENT.CONNECT, () => {
+        console.log('✅ SOCKET CONNECTED');
+        setIsLoading(false);
+      });
+
+      socket.on(SOCKET_EVENT.CHAT, (receivedData: ChatType) => {
+        // 상태 업데이트
+        console.log('😇 RECEIVING : ', receivedData);
+        setChatList((prev) => [...prev, receivedData]);
+      });
+
+      socket.on(SOCKET_EVENT.SET_ANONYMOUS_NAME, (data) => {
+        console.log('🚀 SETTING ANONYMOUS NAME : ', data);
+        setChatname(data.name);
+      });
+    };
+
+    connectSocket();
 
     return () => {
-      socket.disconnect();
-      socketRef.current = null;
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
     };
   }, [broadcastId, loggedinUser]);
 
@@ -131,10 +161,11 @@ const ChatWrapper = ({ children }: Props) => {
       </div>
       {children({
         chatList,
-        isSocketConnected,
         socketRef,
         chatname,
         sendChat,
+        isLoading,
+        isError,
       })}
     </aside>
   );
@@ -262,9 +293,26 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
   );
 });
 
+const ChatError = () => {
+  return (
+    <p className="funch-bold16 text-content-neutral-strong flex h-full w-full items-center justify-center">
+      채팅 서버에 연결할 수 없어요.
+    </p>
+  );
+};
+const ChatLoading = () => {
+  return (
+    <p className="funch-bold16 text-content-neutral-strong flex h-full w-full items-center justify-center">
+      채팅 서버에 연결 중이에요.
+    </p>
+  );
+};
+
 const Chat = Object.assign(ChatWrapper, {
   List: ChatList,
   Form: ChatForm,
+  Error: ChatError,
+  Loading: ChatLoading,
 });
 
 export default Chat;
