@@ -8,7 +8,7 @@ type cardProps = {
 
 const StudioCategoryCard = ({ code, title }: cardProps) => {
   return (
-    <div className="relative flex h-40 w-40 flex-col items-center justify-center rounded-lg border shadow-lg">
+    <div className="border-surface-neutral-weak relative flex h-40 w-40 flex-col items-center justify-center rounded-lg border shadow-lg">
       <div className="absolute top-0 h-32 w-32">
         <ContentsCategoryImage code={code} />
       </div>

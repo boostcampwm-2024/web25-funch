@@ -5,7 +5,7 @@ import PrismSvg from '@components/svgs/PrismSvg';
 
 const StudioGuideContainer = () => {
   return (
-    <div className="flex h-[30rem] min-w-[23rem] flex-col p-6 shadow-xl">
+    <div className="bg-bg-strong flex h-[30rem] min-w-[23rem] flex-col rounded-lg p-6 shadow-xl">
       <label className="funch-bold20">
         <span className="text-content-brand-strong">방송</span> 시작하기
       </label>
@@ -17,14 +17,14 @@ const StudioGuideContainer = () => {
         <div className="mt-3 flex w-full items-center justify-center gap-4 text-center">
           <Link
             href="https://obsproject.com/"
-            className="funch-medium12 flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
+            className="funch-medium12 border-surface-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
           >
             <OBSSvg />
             <strong className="mt-3">Open Broadcaster Software</strong>
           </Link>
           <Link
             href="https://prismlive.com/ko_kr/"
-            className="funch-medium12 flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
+            className="funch-medium12 border-surface-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
           >
             <div className="h-[55px] w-[55px]">
               <PrismSvg />
