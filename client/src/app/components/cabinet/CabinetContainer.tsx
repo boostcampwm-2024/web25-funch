@@ -7,10 +7,12 @@ import AccordionButton from '@components/AccordionButton';
 import SuggestedList from './SuggestedList';
 import DesktopHeader from './DesktopHeader';
 
+
 const CabinetContainer = () => {
   return (
     <div className="funch-desktop:pt-16 flex h-full w-full flex-col pt-20">
       <CategoryNavigator />
+      <FollowNavigator />
       <SuggestedNavigator />
     </div>
   );
@@ -23,6 +25,12 @@ const CategoryNavigator = () => {
       <CabinetLink link="follow" />
     </div>
   );
+};
+
+const FollowNavigator = () => {
+  return (
+    
+  )
 };
 
 const SuggestedNavigator = () => {

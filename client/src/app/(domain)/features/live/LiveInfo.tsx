@@ -1,6 +1,7 @@
 'use client';
 
 import HeartSvg from '@components/svgs/HeartSvg';
+import FullHeart from '@components/svgs/FullHeart';
 import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -146,13 +147,13 @@ const LiveInfoFollowToggleButton = ({ Ids, broadcastId, myId }: LiveInfoFollowTo
           'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5',
           'text-content-neutral-inverse pr-4 hover:opacity-65',
           {
-            'bg-surface-neutral-strong': followed,
+            'bg-surface-static-warmgray': followed,
             'bg-surface-brand-strong': !followed,
           },
         )}
         onClick={fetchFollow}
       >
-        <HeartSvg />
+        {followed ? <FullHeart /> : <HeartSvg />}
         <span className="funch-meta14">{followed ? '팔로잉' : '팔로우'}</span>
       </button>
     </div>
