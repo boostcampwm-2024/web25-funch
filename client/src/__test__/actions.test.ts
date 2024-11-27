@@ -5,8 +5,6 @@ import { describe, expect, test } from 'vitest';
 describe('actions', () => {
   test('should return mocked broadcasts', async () => {
     const result = await getLiveList();
-    console.log(result);
-    console.log(mockedBroadcasts);
     expect(result).not.toBeNull();
     expect(result).toStrictEqual(mockedBroadcasts.sort((a, b) => b.viewerCount - a.viewerCount));
   });
