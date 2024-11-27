@@ -97,6 +97,7 @@ const ChatWrapper = ({ children }: Props) => {
       socket.on(SOCKET_EVENT.CONNECT, () => {
         console.log('✅ SOCKET CONNECTED');
         setIsLoading(false);
+        setIsError(false);
       });
 
       socket.on(SOCKET_EVENT.CHAT, (receivedData: ChatType) => {
