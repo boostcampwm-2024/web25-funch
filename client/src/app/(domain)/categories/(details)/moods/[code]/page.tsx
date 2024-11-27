@@ -8,7 +8,9 @@ import { Suspense } from 'react';
 const fetchData = async (code: string): Promise<Broadcast[]> => {
   if (process.env.NODE_ENV !== 'production') return getBroadcastsByMoodCategory(code);
 
-  const response = await fetch(`/api/live/category?mood=${code}`, {
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const response = await fetch(`${apiUrl}/live/category?mood=${code}`, {
     cache: 'no-cache',
   });
 

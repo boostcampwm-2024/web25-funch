@@ -8,7 +8,9 @@ import CategoryLives from '@app/(domain)/categories/(details)/features/CategoryL
 const fetchData = async (code: string): Promise<Broadcast[]> => {
   if (process.env.NODE_ENV !== 'production') return getBroadcastsByContentCategory(code);
 
-  const response = await fetch(`/api/live/category?content=${code}`, {
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const response = await fetch(`${apiUrl}/live/category?content=${code}`, {
     cache: 'no-cache',
   });
 

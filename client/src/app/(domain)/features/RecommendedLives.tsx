@@ -1,66 +1,50 @@
-'use client';
-
-// import DeemedLink from '@components/DeemedLink';
 import clsx from 'clsx';
-import Lives from '@components/livesGrid/Lives';
-import { useEffect, useState } from 'react';
-import type { Broadcast } from '@libs/internalTypes';
-import { getLiveList } from '@libs/actions';
+import { mockedBroadcasts } from '@mocks/broadcasts';
+import RecommendedLivesRenderer from './RecommendedLivesRenderer';
+import { Suspense } from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
+import ErrorBoundary from '@components/ErrorBoundary';
 
-const RecommendedLives = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [lives, setLives] = useState<Broadcast[]>([]);
+const fetchData = async () => {
+  if (process.env.NODE_ENV !== 'production') return mockedBroadcasts;
 
-  useEffect(() => {
-    let isValidEffect = true;
-    const fetchLives = async () => {
-      try {
-        const fetchedLives = await getLiveList();
-        setLives(fetchedLives);
-        setIsLoading(false);
-      } catch (err) {
-        if (!isValidEffect) return;
-        setLives([]);
-        setIsError(true);
-      }
-    };
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-    fetchLives();
+  const response = await fetch(`${apiUrl}/live/list`, {
+    cache: 'no-cache',
+  });
 
-    return () => {
-      isValidEffect = false;
-    };
-  }, []);
-
-  if (isError) {
-    return <div>에러가 발생했습니다.</div>;
+  if (!response.ok) {
+    throw new Error('라이브 목록을 불러오는데 실패했어요.');
   }
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
+  const data = await response.json();
 
+  return data;
+};
+
+const RecommendedLives = async () => {
+  noStore();
   return (
     <div>
       <div className={clsx('mb-4 flex items-center justify-between')}>
         <h2 className={clsx('text-content-neutral-primary funch-bold20')}>이 방송 어때요?</h2>
-        {/* <DeemedLink url="/" name="전체보기" /> */}
       </div>
-      <Lives lives={lives}>
-        {({ visibleLives, isExpanded, toggle }) => (
-          <>
-            <Lives.List>
-              {visibleLives.map((live, index) => (
-                <Lives.Live key={live.broadcastId} live={live} isPriority={index === 0} />
-              ))}
-            </Lives.List>
-            {lives.length > 3 && <Lives.Expand isExpanded={isExpanded} toggle={toggle} />}
-          </>
-        )}
-      </Lives>
+      <ErrorBoundary
+        fallback={<p className="funch-bold16 text-content-neutral-strong">추천 목록을 불러올 수 없어요.</p>}
+      >
+        <Suspense fallback={<p className="funch-bold16 text-content-neutral-strong">추천 목록을 불러오고 있어요.</p>}>
+          <RecommendedLivesFetcher />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
+};
+
+const RecommendedLivesFetcher = async () => {
+  const lives = await fetchData();
+
+  return <RecommendedLivesRenderer lives={lives} />;
 };
 
 export default RecommendedLives;
