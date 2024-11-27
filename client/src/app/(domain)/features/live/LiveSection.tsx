@@ -77,10 +77,13 @@ const LiveSection = () => {
           exitFullscreen,
           volume,
           updateVolume,
+          isBuffering,
+          isError,
+          isLoading,
         }) => (
           <Live.Wrapper>
             <Live.VideoWrapper ref={videoWrapperRef} isShowControls={isShowControls} isFullscreen={isFullscreen}>
-              <Live.Video ref={videoRef} />
+              <Live.Video ref={videoRef} isBuffering={isBuffering} isError={isError} isLoading={isLoading} />
               <VideoController
                 value={{
                   isFullscreen,
