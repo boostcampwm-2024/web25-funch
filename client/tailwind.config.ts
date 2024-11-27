@@ -67,6 +67,9 @@ const config: Config = {
       gap: {
         'live-x': LIVE_X_GAP,
       },
+      rotate: {
+        360: '360deg',
+      },
       colors: {
         // Neutral 색상
         neutral: {
