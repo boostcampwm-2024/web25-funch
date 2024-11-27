@@ -2,7 +2,6 @@
 
 import Live from './Live';
 import useLiveContext from '@hooks/useLiveContext';
-import NoLiveContent from './NoLiveContent';
 import clsx from 'clsx';
 import { type PropsWithChildren } from 'react';
 import VideoController from './VideoController';
