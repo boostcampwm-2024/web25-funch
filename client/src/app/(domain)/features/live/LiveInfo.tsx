@@ -134,9 +134,17 @@ type LiveInfoFollowToggleButtonProps = {
   ids: string[];
   broadcastId: string;
   myId: string;
+  isloggedin: boolean;
+  refetchLives: () => void;
 };
 
-const LiveInfoFollowToggleButton = ({ ids, broadcastId, myId }: LiveInfoFollowToggleButtonProps) => {
+const LiveInfoFollowToggleButton = ({
+  ids,
+  broadcastId,
+  myId,
+  isloggedin,
+  refetchLives,
+}: LiveInfoFollowToggleButtonProps) => {
   const [followed, setFollowed] = useState(false);
 
   const followInfo = {
@@ -156,11 +164,14 @@ const LiveInfoFollowToggleButton = ({ ids, broadcastId, myId }: LiveInfoFollowTo
       await makeUnfollow(followInfo);
       setFollowed(false);
     }
+
+    refetchLives();
   };
 
   return (
     <div className="pt-5">
       <button
+        disabled={!isloggedin}
         className={clsx(
           'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5',
           'text-content-neutral-inverse pr-4 hover:opacity-65',
