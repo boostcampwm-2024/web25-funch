@@ -137,13 +137,16 @@ type LiveInfoFollowToggleButtonProps = {
 };
 
 const LiveInfoFollowToggleButton = ({ ids, broadcastId, myId }: LiveInfoFollowToggleButtonProps) => {
-  const isFollowed = ids.includes(broadcastId);
-  const [followed, setFollowed] = useState(isFollowed);
+  const [followed, setFollowed] = useState(false);
 
   const followInfo = {
     follower: myId,
     following: broadcastId,
   };
+
+  useEffect(() => {
+    setFollowed(ids.includes(broadcastId));
+  }, [ids, broadcastId]);
 
   const fetchFollow = async () => {
     if (!followed) {

@@ -57,8 +57,8 @@ const FollowNavigator = () => {
           <NavHeader>팔로우</NavHeader>
         )}
         <CabinetItemList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} itemList={lives} />
-        {isDesktop && lives.length > 5 && (
-          <div className="flex justify-center">
+        {isDesktop && isExpanded && lives.length > 5 && (
+          <div className="mt-2 flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
           </div>
         )}
@@ -97,8 +97,8 @@ const SuggestedNavigator = () => {
           <NavHeader>추천</NavHeader>
         )}
         <CabinetItemList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} itemList={suggestedList} />
-        {isDesktop && suggestedList.length > 5 && (
-          <div className="flex justify-center">
+        {isDesktop && isExpanded && suggestedList.length > 5 && (
+          <div className="mt-2 flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
           </div>
         )}
