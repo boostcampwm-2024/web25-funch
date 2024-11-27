@@ -195,7 +195,12 @@ const VolumeController = () => {
         setIsHidden(true);
       }}
     >
-      <VideoIconButton componentType="DEFAULT" onClick={toggleMute}>
+      <VideoIconButton
+        componentType="DEFAULT"
+        onClick={toggleMute}
+        title={volume === 0 ? '음소거 해제' : '음소거'}
+        aria-label={volume === 0 ? '음소거 해제하기' : '음소거하기'}
+      >
         <VolumeSvg volume={volume} />
       </VideoIconButton>
       <div

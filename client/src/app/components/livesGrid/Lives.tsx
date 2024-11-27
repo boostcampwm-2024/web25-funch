@@ -84,7 +84,8 @@ const Live = ({ live, isPriority = false }: LiveProps) => {
           <h3 className="text-content-neutral-primary funch-bold16">{live.title}</h3>
           <p className="funch-bold14 text-content-neutral-strong inline-flex items-center">{live.userName}</p>
           <div className="mt-1.5 flex flex-wrap gap-1">
-            <Badge>{live.contentCategory}</Badge>
+            {live.contentCategory && <Badge>{live.contentCategory}</Badge>}
+            {live.moodCategory && <Badge>{live.moodCategory}</Badge>}
             {live.tags.map((tag, index) => (
               <Badge key={index}>{tag}</Badge>
             ))}
