@@ -6,7 +6,7 @@ import type { Broadcast, Live } from '@libs/internalTypes';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type ReactNode, type PropsWithChildren, useState, useEffect } from 'react';
+import { type ReactNode, type PropsWithChildren, useState } from 'react';
 import LiveBadge from './LiveBadge';
 
 type ChildrenArgs = {
@@ -57,8 +57,7 @@ const Live = ({ live, isPriority = false }: LiveProps) => {
         href={`/lives/${live.broadcastId}`}
         className={clsx(
           'pb-live-aspect-ratio relative block overflow-hidden',
-          'rounded-xl border-0 border-solid hover:m-[-0.1075rem]',
-          'hover:border-surface-brand-strong hover:border-2',
+          'hover:border-border-brand-strong rounded-xl border-2 border-solid border-transparent',
         )}
       >
         <div className="absolute left-0 top-0 h-full w-full">
