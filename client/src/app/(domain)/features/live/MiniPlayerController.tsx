@@ -19,7 +19,7 @@ const MiniPlayerController = () => {
       className={clsx(
         'absolute bottom-full right-0 px-2.5 py-1',
         'bg-surface-neutral-primary',
-        'rounded-tl-xl rounded-tr-xl',
+        'border-border-neutral-weak rounded-tl-xl rounded-tr-xl border-x border-t border-solid',
       )}
     >
       <div className={clsx('flex h-9 gap-2')}>
