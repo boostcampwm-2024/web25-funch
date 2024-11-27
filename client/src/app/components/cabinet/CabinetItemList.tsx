@@ -82,16 +82,18 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
               onMouseLeave={handleMouseLeave}
             >
               <div className="relative flex flex-1">
-                <Image
-                  src={item.profileImageUrl}
-                  alt={item.title}
-                  width={32}
-                  height={32}
-                  className="border-border-brand-strong mt-[3px] box-content rounded-full border-2"
-                />
+                <div className="h-8 w-8">
+                  <Image
+                    src={item.profileImageUrl}
+                    alt={item.title}
+                    width={32}
+                    height={32}
+                    className="border-border-brand-strong mt-[3px] box-content rounded-full border-2"
+                  />
+                </div>
                 <section className="flex w-full pl-[10px]">
                   <section className="flex w-2/3 flex-1 flex-col">
-                    <div className="text-surface-neutral-inverse funch-bold16">{item.userName}</div>
+                    <div className="text-surface-neutral-inverse funch-bold14">{item.userName}</div>
                     <div className="funch-bold10">{item.contentCategory}</div>
                   </section>
                   <p className="text-content-red-base funch-bold12 flex items-center pr-2">
