@@ -10,11 +10,13 @@ import Chat from './Chat';
 import LiveInfo from './LiveInfo';
 import useFollowingLives from '@hooks/useFollowingLives';
 import useUserContext from '@hooks/useUserContext';
+import useUser from '@hooks/useUser';
 
 const LiveSection = () => {
   const { isLivePage, liveUrl } = useLiveContext();
-  const { ids } = useFollowingLives();
+  const { ids, refetchLives } = useFollowingLives();
   const { userSession } = useUserContext();
+  const { isLoggedin } = useUser();
 
   const myId = userSession?.user?.broadcastId || '';
 
@@ -128,7 +130,13 @@ const LiveSection = () => {
                         />
                         <LiveInfo.ViewerCount viewerCount={liveInfo.viewerCount} />
                       </LiveInfo.Description>
-                      <LiveInfo.FollowButton ids={ids} broadcastId={liveInfo.broadcastId} myId={myId} />
+                      <LiveInfo.FollowButton
+                        ids={ids}
+                        broadcastId={liveInfo.broadcastId}
+                        myId={myId}
+                        isloggedin={isLoggedin}
+                        refetchLives={refetchLives}
+                      />
                     </LiveInfo.Wrapper>
                   </>
                 )}

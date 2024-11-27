@@ -43,11 +43,7 @@ const FollowNavigator = () => {
     }
   }, [isDesktop]);
 
-  const { lives, fetchLives } = useFollowingLives();
-
-  useEffect(() => {
-    fetchLives();
-  }, []);
+  const { lives } = useFollowingLives();
 
   return (
     <>
