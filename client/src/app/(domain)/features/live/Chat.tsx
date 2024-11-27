@@ -212,6 +212,11 @@ const ChatList = ({ chatList }: ChatListProps) => {
     <div className="flex h-full flex-1 flex-col px-2 pb-4 pt-2">
       <div className="relative h-full w-full overflow-hidden">
         <div className={clsx('h-chat funch-scrollable w-full')} ref={chatListRef}>
+          <div className="mb-1.5 flex h-10 w-full items-center justify-center">
+            <p className="bg-surface-neutral-base funch-medium14 text-content-neutral-strong rounded-lg px-4 py-2">
+              아름다운 채팅 문화를 만들어보아요.
+            </p>
+          </div>
           {chatList.map((chat, index) => (
             <ChatItem key={index} name={chat.name} content={chat.content} color={chat.color} />
           ))}
@@ -261,6 +266,7 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          if (!inputValue) return;
           sendChat({
             socketRef,
             name: chatname,
@@ -286,7 +292,9 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
           />
         </div>
         <div className="flex justify-end py-1">
-          <Button type="submit">채팅</Button>
+          <Button type="submit" disabled={!inputValue}>
+            채팅
+          </Button>
         </div>
       </form>
     </div>
