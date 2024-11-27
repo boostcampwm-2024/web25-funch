@@ -4,6 +4,7 @@ import useInternalRouter from '@hooks/useInternalRouter';
 import { authenticateByGithub, authenticateByNaver } from '@libs/actions';
 import { useEffect } from 'react';
 import useUser from '@hooks/useUser';
+import AuthLoading from '@app/(auth)/features/AuthLoading';
 
 type Props = {
   authCode: string;
@@ -37,7 +38,7 @@ const AuthNaver = ({ authCode, authState }: Props) => {
       isValidEffect = false;
     };
   }, [authCode, authState, replace, saveUserSession]);
-  return <div>인증 중...</div>;
+  return <AuthLoading />;
 };
 
 export default AuthNaver;
