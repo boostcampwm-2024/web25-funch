@@ -133,20 +133,22 @@ const LiveSection = () => {
           </Live.Wrapper>
         )}
       </Live>
-      {/* {isLivePage && ( */}
       <Chat>
-        {({ chatList, isSocketConnected, socketRef, chatname, sendChat }) => (
+        {({ chatList, socketRef, chatname, sendChat, isLoading, isError }) => (
           <>
-            {isSocketConnected ? (
+            {isError ? (
+              <Chat.Error />
+            ) : isLoading ? (
+              <Chat.Loading />
+            ) : (
               <>
                 <Chat.List chatList={chatList} />
                 <Chat.Form socketRef={socketRef} chatname={chatname} sendChat={sendChat} />
               </>
-            ) : null}
+            )}
           </>
         )}
       </Chat>
-      {/* )} */}
     </Wrapper>
   );
 };

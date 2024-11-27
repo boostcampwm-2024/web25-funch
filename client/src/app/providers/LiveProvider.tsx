@@ -39,16 +39,13 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
   const { id } = useParams() as { id: string };
 
   const [liveInfo, setLiveInfo] = useState<Broadcast>(defaultLiveInfo);
-
-  // const [savedId, setSavedId] = useState<string | null>(null);
-
   const [liveUrl, setLiveUrl] = useState<Playlist['playlistUrl'] | null>(null);
-
   const [broadcastId, setBroadcastId] = useState<string | null>(null);
 
   const clear = () => {
     setLiveInfo(defaultLiveInfo);
     setLiveUrl(null);
+    setBroadcastId(null);
   };
 
   const refreshLiveInfo = (updatedBroadcast: Broadcast) => {
