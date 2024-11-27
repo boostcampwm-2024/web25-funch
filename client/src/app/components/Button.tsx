@@ -11,6 +11,7 @@ const Button = ({ children, ...rest }: Props) => {
         'funch-bold12',
         'border-border-neutral-base rounded-lg border border-solid',
         'text-content-neutral-primary hover:bg-surface-neutral-base bg-transparent',
+        'disabled:opacity-35',
       )}
       {...rest}
     >
