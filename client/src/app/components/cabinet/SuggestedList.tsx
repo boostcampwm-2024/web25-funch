@@ -1,32 +1,19 @@
 import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
+import Image from 'next/image';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { comma } from '@libs/formats';
 
-const SuggestedList = ({
-  isDesktop,
-  isExpanded,
-  isFolded,
-}: {
+type SuggestedListProps = {
   isDesktop: boolean;
   isExpanded: boolean;
   isFolded: boolean;
-}) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [suggestedList, setSuggestedList] = useState<Broadcast[]>([]);
+  suggestedList: Broadcast[];
+};
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      const suggestions = await getSuggestedLiveList();
-      setSuggestedList(suggestions);
-      setIsLoading(false);
-    };
-
-    fetchSuggestions();
-  }, []);
-
+const SuggestedList = ({ isDesktop, isExpanded, isFolded, suggestedList }: SuggestedListProps) => {
   const foldedContent = suggestedList.slice(0, 5);
 
   return (
@@ -95,10 +82,12 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
               onMouseLeave={handleMouseLeave}
             >
               <div className="relative flex flex-1">
-                <img
+                <Image
                   src={suggest.profileImageUrl}
                   alt={suggest.title}
-                  className="border-border-brand-strong mt-[3px] box-content h-8 w-8 rounded-full border-2"
+                  width={32}
+                  height={32}
+                  className="border-border-brand-strong mt-[3px] box-content rounded-full border-2"
                 />
                 <section className="flex w-full pl-[10px]">
                   <section className="flex w-2/3 flex-1 flex-col">
@@ -129,10 +118,12 @@ const SuggestedListItem = ({ suggest, isDesktop }: { suggest: Broadcast; isDeskt
               onMouseEnter={handleNarrowMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <img
+              <Image
                 src={suggest.profileImageUrl}
                 alt={suggest.title}
-                className="border-border-brand-strong mx-[-1px] box-content h-8 w-8 rounded-full border-2 hover:m-[-2.2px] hover:border-4"
+                width={32}
+                height={32}
+                className="border-border-brand-strong mx-[-1px] box-content rounded-full border-2 hover:m-[-2.2px] hover:border-4"
               />
             </div>
           </Link>
