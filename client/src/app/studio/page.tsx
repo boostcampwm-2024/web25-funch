@@ -20,7 +20,7 @@ type Props = PropsWithChildren<{}>;
 
 const StudioSettingWrapper = ({ children, ...rest }: Props) => {
   return (
-    <div className="h-live-section flex w-full flex-col p-10" {...rest}>
+    <div className="min-h-home flex w-full flex-col p-10" {...rest}>
       {children}
     </div>
   );
