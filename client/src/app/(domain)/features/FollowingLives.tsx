@@ -23,7 +23,7 @@ export const FollowingLives = () => {
   return (
     <>
       {isLoggedin && (
-        <div className={clsx('w-full')}>
+        <div className={clsx('mb-4 w-full')}>
           <div className={clsx('mb-2 flex items-center justify-between')}>
             <h2 className={clsx('text-content-neutral-primary funch-bold20')}>팔로우 중인 방송</h2>
           </div>
