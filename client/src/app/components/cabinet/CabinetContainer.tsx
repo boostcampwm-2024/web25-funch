@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, PropsWithChildren } from 'react';
 import CabinetLink from './CabinetLink';
 import useDesktop from '@hooks/useDesktop';
 import AccordionButton from '@components/AccordionButton';
-import SuggestedList from './SuggestedList';
+import CabinetItemList from './CabinetItemList';
 import DesktopHeader from './DesktopHeader';
 import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
@@ -30,10 +30,15 @@ const CategoryNavigator = () => {
 };
 
 const FollowNavigator = () => {
-  const title = '팔로우';
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFolded, setIsFolded] = useState(false);
   const { isDesktop } = useDesktop();
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setIsExpanded(true);
+    }
+  }, [isDesktop]);
 
   const { lives, fetchLives } = useFollowingLives();
 
@@ -49,10 +54,10 @@ const FollowNavigator = () => {
         {isDesktop ? (
           <DesktopHeader isExpanded={isExpanded} componentType="FOLLOW" setIsExpanded={setIsExpanded} />
         ) : (
-          <NavHeader title={title} />
+          <NavHeader>팔로우</NavHeader>
         )}
-        <SuggestedList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} suggestedList={lives} />
-        {isDesktop && (
+        <CabinetItemList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} itemList={lives} />
+        {isDesktop && lives.length > 5 && (
           <div className="flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
           </div>
@@ -63,8 +68,6 @@ const FollowNavigator = () => {
 };
 
 const SuggestedNavigator = () => {
-  const title = '추천';
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFolded, setIsFolded] = useState(false);
   const [suggestedList, setSuggestedList] = useState<Broadcast[]>([]);
@@ -91,14 +94,9 @@ const SuggestedNavigator = () => {
         {isDesktop ? (
           <DesktopHeader isExpanded={isExpanded} componentType="SUGGEST" setIsExpanded={setIsExpanded} />
         ) : (
-          <NavHeader title={title} />
+          <NavHeader>추천</NavHeader>
         )}
-        <SuggestedList
-          isDesktop={isDesktop}
-          isFolded={isFolded}
-          isExpanded={isExpanded}
-          suggestedList={suggestedList}
-        />
+        <CabinetItemList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} itemList={suggestedList} />
         {isDesktop && suggestedList.length > 5 && (
           <div className="flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
@@ -109,14 +107,10 @@ const SuggestedNavigator = () => {
   );
 };
 
-type HeaderProps = {
-  title: string;
-};
-
-const NavHeader = ({ title }: HeaderProps) => {
+const NavHeader = ({ children }: PropsWithChildren) => {
   return (
     <div className="text-content-neutral-strong w-full text-center">
-      <h2 className="funch-bold12">{title}</h2>
+      <h2 className="funch-bold12">{children}</h2>
     </div>
   );
 };
