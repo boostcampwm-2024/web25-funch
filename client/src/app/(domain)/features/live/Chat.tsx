@@ -48,6 +48,7 @@ const ChatWrapper = ({ children }: Props) => {
 
   useEffect(() => {
     setIsSocketConnected(false);
+    setChatList([]);
     const socketUrl =
       process.env.NODE_ENV === 'production'
         ? process.env.NEXT_PUBLIC_CHAT_SERVER_URL
