@@ -13,7 +13,7 @@ import useUserContext from '@hooks/useUserContext';
 
 const LiveSection = () => {
   const { isLivePage, liveUrl } = useLiveContext();
-  const { Ids } = useFollowingLives();
+  const { ids } = useFollowingLives();
   const { userSession } = useUserContext();
 
   const myId = userSession?.user?.broadcastId || '';
@@ -128,7 +128,7 @@ const LiveSection = () => {
                         />
                         <LiveInfo.ViewerCount viewerCount={liveInfo.viewerCount} />
                       </LiveInfo.Description>
-                      <LiveInfo.FollowButton Ids={Ids} broadcastId={liveInfo.broadcastId} myId={myId} />
+                      <LiveInfo.FollowButton ids={ids} broadcastId={liveInfo.broadcastId} myId={myId} />
                     </LiveInfo.Wrapper>
                   </>
                 )}
