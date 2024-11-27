@@ -33,15 +33,23 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
       if (!videoRef.current) return;
       if (Hls.isSupported()) {
         hlsRef.current = new Hls({
-          startLevel: -1,
-          backBufferLength: 0,
-          liveSyncDuration: 1,
-          liveMaxLatencyDuration: 2,
+          lowLatencyMode: true,
+          maxLiveSyncPlaybackRate: 1.5,
+          liveSyncDuration: 2,
+          liveMaxLatencyDuration: 3,
           liveDurationInfinity: true,
-          maxBufferHole: 1,
         });
         hlsRef.current.loadSource(liveUrl);
         hlsRef.current.attachMedia(videoRef.current);
+
+        hlsRef.current.on(Hls.Events.ERROR, (_, data) => {
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            if (data.details === Hls.ErrorDetails.FRAG_LOAD_ERROR) {
+              // HLS.js가 다음 파일을 요청하도록 에러를 무시
+              hlsRef.current!.startLoad();
+            }
+          }
+        });
 
         hlsRef.current.on(Hls.Events.MANIFEST_PARSED, () => {
           videoRef.current!.play();
