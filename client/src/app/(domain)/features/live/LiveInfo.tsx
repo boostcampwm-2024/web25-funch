@@ -131,13 +131,13 @@ const LiveInfoViewerCount = memo(({ viewerCount }: { viewerCount: number }) => {
 });
 
 type LiveInfoFollowToggleButtonProps = {
-  Ids: string[];
+  ids: string[];
   broadcastId: string;
   myId: string;
 };
 
-const LiveInfoFollowToggleButton = ({ Ids, broadcastId, myId }: LiveInfoFollowToggleButtonProps) => {
-  const isFollowed = Ids.includes(broadcastId);
+const LiveInfoFollowToggleButton = ({ ids, broadcastId, myId }: LiveInfoFollowToggleButtonProps) => {
+  const isFollowed = ids.includes(broadcastId);
   const [followed, setFollowed] = useState(isFollowed);
 
   const followInfo = {
