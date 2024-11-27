@@ -12,7 +12,7 @@ export const mockedFollowingList = {
         tags: ['tag1', 'tag2'],
         thumbnailUrl: 'https://via.placeholder.com/150',
         viewerCount: 900,
-        userName: '말',
+        userName: '말이 아홉마리지요 그러니까 10마리는 아닌거지요',
         profileImageUrl: 'https://via.placeholder.com/150',
       },
     },
