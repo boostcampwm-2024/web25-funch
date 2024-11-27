@@ -35,6 +35,9 @@ type ChildrenArgs = {
   toggleMute: () => void;
   handleChangeVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   updateVolume: (value: number) => void;
+  isBuffering: boolean;
+  isError: boolean;
+  isLoading: boolean;
 };
 
 type Props = {
@@ -43,7 +46,7 @@ type Props = {
 };
 
 const LiveController = ({ children, liveUrl }: Props) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(0);
   const [savedVolume, setSavedVolume] = useState(1);
@@ -80,7 +83,7 @@ const LiveController = ({ children, liveUrl }: Props) => {
     if (!nextVolume) setSavedVolume(nextVolume);
   };
 
-  useHls({ videoRef, liveUrl });
+  const { isBuffering, isError, isLoading } = useHls({ videoRef, liveUrl });
 
   useEffect(() => {
     const playVideo = async () => {
@@ -126,6 +129,9 @@ const LiveController = ({ children, liveUrl }: Props) => {
     togglePip,
     handleChangeVolume,
     updateVolume,
+    isBuffering,
+    isError,
+    isLoading,
   });
 };
 
@@ -156,7 +162,13 @@ const VideoWrapper = forwardRef(
   },
 );
 
-const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
+type VideoProps = {
+  isBuffering: boolean;
+  isError: boolean;
+  isLoading: boolean;
+};
+
+const Video = forwardRef(({ isBuffering, isError, isLoading }: VideoProps, ref: ForwardedRef<HTMLVideoElement>) => {
   return (
     <div className="absolute left-0 top-0 h-full w-full">
       <video
@@ -165,9 +177,34 @@ const Video = forwardRef(({}: {}, ref: ForwardedRef<HTMLVideoElement>) => {
         controlsList="nodownload"
         playsInline
       />
+      {isError ? <Error /> : isBuffering ? <Buffering /> : isLoading ? <Loading /> : null}
     </div>
   );
 });
+
+const Buffering = () => {
+  return (
+    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-neutral-primary">비디오 청크를 정성들여 만드는 중...</p>
+    </div>
+  );
+};
+
+const Loading = () => {
+  return (
+    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-neutral-primary">로딩 중...</p>
+    </div>
+  );
+};
+
+const Error = () => {
+  return (
+    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-neutral-primary">비디오를 불러오는 중에 에러가 발생했어요.</p>
+    </div>
+  );
+};
 
 const Live = Object.assign(LiveController, {
   Wrapper: LiveWrapper,
