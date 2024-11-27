@@ -1,9 +1,13 @@
 'use client';
 
+import NoLiveContent from '@app/(domain)/features/live/NoLiveContent';
+import ErrorBoundary from '@components/ErrorBoundary';
+import useLiveContext from '@hooks/useLiveContext';
 import { getPlaylist } from '@libs/actions';
 import type { Broadcast, Playlist } from '@libs/internalTypes';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams, usePathname } from 'next/navigation';
-import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { createContext, Suspense, useEffect, useState, type PropsWithChildren } from 'react';
 
 type LiveContextType = {
   isLivePage: boolean;
@@ -12,6 +16,7 @@ type LiveContextType = {
   broadcastId: string;
   clear: () => void;
   refreshLiveInfo: (updatedBroadcast: Broadcast) => void;
+  injectPlaylistData: (playlist: Playlist) => void;
 };
 
 const defaultLiveInfo: Broadcast = {
@@ -31,18 +36,15 @@ export const LiveContext = createContext<LiveContextType | null>(null);
 const LiveProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isLivePage = pathname.split('/')[1] === 'lives';
+  const { id } = useParams() as { id: string };
 
   const [liveInfo, setLiveInfo] = useState<Broadcast>(defaultLiveInfo);
 
-  const { id } = useParams() as { id: string };
-  const [savedId, setSavedId] = useState<string | null>(null);
-
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [savedId, setSavedId] = useState<string | null>(null);
 
   const [liveUrl, setLiveUrl] = useState<Playlist['playlistUrl'] | null>(null);
 
-  const [broadcastId, setBroadcastId] = useState<string>('');
+  const [broadcastId, setBroadcastId] = useState<string | null>(null);
 
   const clear = () => {
     setLiveInfo(defaultLiveInfo);
@@ -53,60 +55,16 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
     setLiveInfo(updatedBroadcast);
   };
 
-  /*
-  isLivePage <- 이거 확인할 수 있어야 함.
-  [id] -> 뭔가 패칭? id 값으로 streaming중인지 아닌지? <- 이때 방송 정보들도 불러와야 하나...?
-  같이 주는것도 있고? streaming 중인지만 주는 api도 있으면 좋을거같다
-  -> live infromation도 여기서 관리?
-
-  ** 스트리밍 중이면?
-
-  /lives <- 홈으로 rewrite ✅
-
-  isLivePage <- usePathname + 이것저것 split, index로 접근해서, 어쩌고 저쩌고
-
-  !isLivePage && liveId === nulll
-  => nothing
-
-  isLivePage && liveId === null
-  => useParam으로 fetch 해봤는데 !isStreaming ======> NoLiveContent 렌더링
-
-  isLivePage && liveId !== null
-  => 확장된 live 섹션을 보여줘요.
-
-  !isLivePage && liveId !== null
-  => 앱 내 pip 모드로 전환해서 방송 계속 보여줘요.
-  
-  */
+  const injectPlaylistData = (playlist: Playlist) => {
+    setLiveUrl(playlist.playlistUrl);
+    setLiveInfo(playlist.broadcastData);
+  };
 
   useEffect(() => {
-    const fetchLive = async (id: string) => {
-      try {
-        if (!id) return;
-        if (id === savedId) return;
-
-        setIsLoading(true);
-
-        const fetchedPlaylist = await getPlaylist(id);
-
-        setLiveUrl(fetchedPlaylist.playlistUrl);
-        setLiveInfo(fetchedPlaylist.broadcastData);
-        setSavedId(id);
-        setIsLoading(false);
-      } catch (err) {
-        setIsError(true);
-        setLiveUrl(null);
-        setLiveInfo(defaultLiveInfo);
-      } finally {
-        setBroadcastId(id);
-      }
-    };
-
-    if (isLivePage) {
-      // id로 스트리밍 중인 방송이 있는지 확인
-      fetchLive(id);
+    if (id) {
+      setBroadcastId(id);
     }
-  }, [id, isLivePage, savedId]);
+  }, [id]);
 
   return (
     <LiveContext.Provider
@@ -114,14 +72,37 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
         isLivePage,
         liveInfo,
         liveUrl,
-        broadcastId,
+        broadcastId: broadcastId || '',
         clear,
         refreshLiveInfo,
+        injectPlaylistData,
       }}
     >
-      {isError ? <p>에러 아님</p> : isLivePage && isLoading ? <p>방송을 불러오는 중</p> : children}
+      {broadcastId !== null && (
+        <ErrorBoundary fallback={<NoLiveContent />}>
+          <Suspense fallback={<p>로딩 중</p>}>
+            <PlaylistFetcher broadcastId={broadcastId}>{children}</PlaylistFetcher>
+          </Suspense>
+        </ErrorBoundary>
+      )}
     </LiveContext.Provider>
   );
+};
+
+const PlaylistFetcher = ({ broadcastId, children }: PropsWithChildren<{ broadcastId: string }>) => {
+  const { injectPlaylistData } = useLiveContext();
+  const { data } = useSuspenseQuery({
+    queryKey: ['live', broadcastId],
+    queryFn: () => getPlaylist(broadcastId),
+  });
+
+  useEffect(() => {
+    if (data) {
+      injectPlaylistData(data);
+    }
+  }, [data]);
+
+  return children;
 };
 
 export default LiveProvider;

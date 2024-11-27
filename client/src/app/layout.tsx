@@ -5,6 +5,7 @@ import './globals.css';
 import MswInitializer from './MswInitializer';
 import GlobalProvider from './GlobalProvider';
 import GlobalPortal from './GlobalPortal';
+import TanstackInitializer from './TanstackInitializer';
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['300', '500', '700'],
@@ -32,9 +33,11 @@ const RootLayout = ({
       <body suppressHydrationWarning={true} className={`${notoSansKR.className} antialiased`}>
         <Layout>
           <MswInitializer>
-            <GlobalPortal>
-              <GlobalProvider>{children}</GlobalProvider>
-            </GlobalPortal>
+            <TanstackInitializer>
+              <GlobalPortal>
+                <GlobalProvider>{children}</GlobalProvider>
+              </GlobalPortal>
+            </TanstackInitializer>
           </MswInitializer>
         </Layout>
       </body>
