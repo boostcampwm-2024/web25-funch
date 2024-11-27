@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useContext, useEffect, PropsWithChildren } from 'react';
+import React, { createContext, useState, useEffect, PropsWithChildren, useCallback } from 'react';
 import { getFollowingLiveList } from '@libs/actions';
 import { Broadcast, User2 } from '@libs/internalTypes';
 
@@ -10,7 +10,7 @@ interface FollowingLivesContextType {
   offlines: User2[];
   isLoading: boolean;
   isError: boolean;
-  fetchLives: () => Promise<void>;
+  refetchLives: () => Promise<void>;
 }
 
 export const FollowingLivesContext = createContext<FollowingLivesContextType | undefined>(undefined);
@@ -44,6 +44,10 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const refetchLives = useCallback(async () => {
+    await fetchLives();
+  }, []);
+
   useEffect(() => {
     fetchLives();
   }, []);
@@ -56,7 +60,7 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
         offlines,
         isLoading,
         isError,
-        fetchLives,
+        refetchLives,
       }}
     >
       {children}
