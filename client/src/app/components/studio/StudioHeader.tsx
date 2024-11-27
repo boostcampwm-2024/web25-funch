@@ -4,7 +4,7 @@ import StudioRouter from './StudioRouter';
 
 const StudioHeader = () => {
   return (
-    <header className="h-header min-w-layout border-border-neutral-strong bg-bg-base fixed left-0 top-0 z-[9999] w-full border-b">
+    <header className="h-header min-w-layout border-border-neutral-weak bg-bg-base fixed left-0 top-0 z-[9999] w-full border-b">
       <div className="flex h-full items-center justify-between px-8">
         <HeaderLeft />
         <HeaderRight />
