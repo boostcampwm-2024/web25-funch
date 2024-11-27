@@ -50,10 +50,12 @@ const LiveSection = () => {
   // if liveId === null
   // 3.1 아무것도 보여주지 않기
 
-  if (liveUrl === null) {
-    if (!isLivePage) return null;
-    else return <NoLiveContent />;
-  }
+  // if (liveUrl === null) {
+  //   if (!isLivePage) return null;
+  //   else return <NoLiveContent />;
+  // }
+
+  if (liveUrl === null) return null;
 
   return (
     <Wrapper>

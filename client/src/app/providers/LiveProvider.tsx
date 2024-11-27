@@ -76,14 +76,45 @@ const LiveProvider = ({ children }: PropsWithChildren) => {
       }}
     >
       {broadcastId !== null && (
-        <ErrorBoundary fallback={<NoLiveContent />}>
-          <Suspense fallback={<p>로딩 중</p>}>
-            <PlaylistFetcher broadcastId={broadcastId}>{children}</PlaylistFetcher>
-          </Suspense>
-        </ErrorBoundary>
+        <LiveFunnel
+          key={broadcastId} // 오류가 발생하고 다른 방송에 접근했을 때 이전에 fallback된 에러 컴포넌트가 계속 렌더링되는 문제 관련
+          broadcastId={broadcastId}
+          isLivePage={isLivePage}
+        >
+          {children}
+        </LiveFunnel>
       )}
     </LiveContext.Provider>
   );
+};
+
+const LiveFunnel = ({
+  children,
+  broadcastId,
+  isLivePage,
+}: PropsWithChildren<{
+  broadcastId: string;
+  isLivePage: boolean;
+}>) => {
+  return (
+    <ErrorBoundary fallback={<ErrorFallback isLivePage={isLivePage} />}>
+      <Suspense
+        fallback={
+          <div className="h-live-section flex w-full items-center justify-center">
+            <p className="funch-bold20 text-content-neutral-strong">방송을 불러오는 중...</p>
+          </div>
+        }
+      >
+        <PlaylistFetcher broadcastId={broadcastId}>{children}</PlaylistFetcher>
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
+const ErrorFallback = ({ isLivePage }: { isLivePage: boolean }) => {
+  if (!isLivePage) return null;
+
+  return <NoLiveContent />;
 };
 
 const PlaylistFetcher = ({ broadcastId, children }: PropsWithChildren<{ broadcastId: string }>) => {
