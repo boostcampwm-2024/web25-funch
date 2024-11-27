@@ -26,6 +26,11 @@ export const SOCKET_EVENT = {
   CONNECT: 'connect' as const,
   CHAT: 'chat' as const,
   SET_ANONYMOUS_NAME: 'setAnonymousName' as const,
+  CONNECT_ERROR: 'connect_error' as const,
+  CONNECT_TIMEOUT: 'connect_timeout' as const,
+  DISCONNECT: 'disconnect' as const,
+  RECONNECT_FAILED: 'reconnect_failed' as const,
+  ERROR: 'error' as const,
 };
 
 export const MOODS_CATEGORY = {

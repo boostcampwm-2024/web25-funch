@@ -75,21 +75,21 @@ const ChatWrapper = ({ children }: Props) => {
 
       socketRef.current = socket;
 
-      socket.on('connect_error', () => {
+      socket.on(SOCKET_EVENT.CONNECT_ERROR, () => {
         console.log('❌ SOCKET CONNECT ERROR');
         setIsError(true);
       });
-      socket.on('connect_timeout', () => {
+      socket.on(SOCKET_EVENT.CONNECT_TIMEOUT, () => {
         console.log('❌ SOCKET CONNECT TIMEOUT');
         setIsError(true);
       });
-      socket.on('disconnect', () => {
+      socket.on(SOCKET_EVENT.DISCONNECT, () => {
         console.log('❌ SOCKET DISCONNECTED');
       });
-      socket.on('reconnect_failed', () => {
+      socket.on(SOCKET_EVENT.RECONNECT_FAILED, () => {
         console.log('❌ SOCKET RECONNECT FAILED');
       });
-      socket.on('error', () => {
+      socket.on(SOCKET_EVENT.ERROR, () => {
         console.log('❌ SOCKET ERROR');
         setIsError(true);
       });
