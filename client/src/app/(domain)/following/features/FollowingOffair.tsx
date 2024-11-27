@@ -30,7 +30,7 @@ const OfflineItems = ({ offlines }: { offlines: User2[] }) => {
         return (
           <div className="flex" key={idx}>
             <div className="flex w-full flex-col items-center">
-              <div className="border-surface-neutral-base rounded-full border-[.1875rem] hover:m-[-0.1375rem] hover:border-[.3125rem]">
+              <div className="border-border-neutral-base rounded-full border-[.1875rem] hover:m-[-0.1375rem] hover:border-[.3125rem]">
                 <Image src={item.profile_image} width={80} height={80} className="rounded-full" alt="profile" />
               </div>
               <p className="funch-bold14">{item.name}</p>

@@ -17,14 +17,14 @@ const StudioGuideContainer = () => {
         <div className="mt-3 flex w-full items-center justify-center gap-4 text-center">
           <Link
             href="https://obsproject.com/"
-            className="funch-medium12 border-surface-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
+            className="funch-medium12 border-border-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
           >
             <OBSSvg />
             <strong className="mt-3">Open Broadcaster Software</strong>
           </Link>
           <Link
             href="https://prismlive.com/ko_kr/"
-            className="funch-medium12 border-surface-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
+            className="funch-medium12 border-border-neutral-weak flex h-[7.2rem] w-[40%] flex-col items-center justify-center rounded-md border p-2 shadow-md hover:opacity-65"
           >
             <div className="h-[55px] w-[55px]">
               <PrismSvg />
