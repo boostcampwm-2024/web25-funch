@@ -9,12 +9,15 @@ import DesktopHeader from './DesktopHeader';
 import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
 import useFollowingLives from '@hooks/useFollowingLives';
+import useUser from '@hooks/useUser';
 
 const CabinetContainer = () => {
+  const { isLoggedin } = useUser();
+
   return (
     <div className="funch-desktop:pt-16 flex h-full w-full flex-col pt-20">
       <CategoryNavigator />
-      <FollowNavigator />
+      {isLoggedin && <FollowNavigator />}
       <SuggestedNavigator />
     </div>
   );
@@ -44,8 +47,6 @@ const FollowNavigator = () => {
 
   useEffect(() => {
     fetchLives();
-
-    console.log(lives);
   }, []);
 
   return (
