@@ -20,7 +20,6 @@ const StreamSettingContainer = () => {
   const [streamKey, setStreamKey] = useState<string>('');
 
   const getStreamKey = async () => {
-    console.log(isLoggedin);
     if (isLoggedin) {
       const streamInfo = await getStreamInfo();
       setStreamKey(streamInfo.stream_key);
@@ -34,7 +33,7 @@ const StreamSettingContainer = () => {
   return (
     <StreamKeyWrapper>
       <div className="mb-2 w-full justify-start">
-        <label className="funch-bold20 ml-2">스트림 설정</label>
+        <label className="funch-bold20 text-content-neutral-strong ml-2">스트림 설정</label>
       </div>
       <div className="bg-surface-neutral-primary flex h-40 w-full flex-col items-center rounded-lg p-6">
         <StreamURLContainer />
