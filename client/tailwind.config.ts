@@ -142,6 +142,7 @@ const config: Config = {
           base: 'var(--bg-base)',
           strong: 'var(--bg-strong)',
           modal: 'rgba(0, 0, 0, .5)',
+          'video-buffer': 'rgba(0, 0, 0, .7)',
         },
 
         // Surface 색상

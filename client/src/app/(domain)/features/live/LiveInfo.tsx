@@ -5,7 +5,7 @@ import FullHeart from '@components/svgs/FullHeart';
 import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { memo, type PropsWithChildren, type ReactNode, useEffect, useRef, useState } from 'react';
+import { memo, type PropsWithChildren, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import Badge from '@app/(domain)/features/Badge';
 import { comma } from '@libs/formats';
 import type { Broadcast } from '@libs/internalTypes';
@@ -97,19 +97,34 @@ const LiveInfoUserName = memo(({ userName }: { userName: string }) => {
 
 const LiveInfoTags = memo(
   ({ contentCategory, moodCategory, tags }: { contentCategory: string; moodCategory: string; tags: string[] }) => {
-    const allTags = [contentCategory, moodCategory, ...tags];
-
+    const memoizedTags = useMemo(() => tags, [tags]);
     return (
       <ul className="mt-1.5 flex flex-wrap gap-1">
-        {allTags.map((tag, idx) => (
-          <li key={idx}>
-            <Badge componentType="OUTLINE">{tag}</Badge>
-          </li>
-        ))}
+        {contentCategory && <Tag>{contentCategory}</Tag>}
+        {moodCategory && <Tag>{moodCategory}</Tag>}
+        {memoizedTags.length > 0 && <Tags tags={memoizedTags} />}
       </ul>
     );
   },
 );
+
+const Tags = memo(({ tags }: { tags: string[] }) => {
+  return (
+    <>
+      {tags.map((tag, idx) => (
+        <Tag key={idx}>{tag}</Tag>
+      ))}
+    </>
+  );
+});
+
+const Tag = memo(({ children }: PropsWithChildren) => {
+  return (
+    <li>
+      <Badge componentType="OUTLINE">{children}</Badge>
+    </li>
+  );
+});
 
 const LiveInfoViewerCount = memo(({ viewerCount }: { viewerCount: number }) => {
   return <span className="funch-medium12 text-content-neutral-base">{comma(viewerCount)}명 시청 중</span>;

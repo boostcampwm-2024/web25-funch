@@ -184,24 +184,24 @@ const Video = forwardRef(({ isBuffering, isError, isLoading }: VideoProps, ref: 
 
 const Buffering = () => {
   return (
-    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
-      <p className="funch-bold20 text-content-neutral-primary">비디오 청크를 정성들여 만드는 중...</p>
+    <div className="bg-bg-video-buffer z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-static-coolgray">비디오 청크를 정성들여 만드는 중...</p>
     </div>
   );
 };
 
 const Loading = () => {
   return (
-    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
-      <p className="funch-bold20 text-content-neutral-primary">로딩 중...</p>
+    <div className="bg-bg-video-buffer z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-static-coolgray">로딩 중...</p>
     </div>
   );
 };
 
 const Error = () => {
   return (
-    <div className="bg-bg-modal z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
-      <p className="funch-bold20 text-content-neutral-primary">비디오를 불러오는 중에 에러가 발생했어요.</p>
+    <div className="bg-bg-video-buffer z-1 absolute left-0 top-0 flex h-full w-full items-center justify-center">
+      <p className="funch-bold20 text-content-static-coolgray">비디오를 불러오는 중에 에러가 발생했어요.</p>
     </div>
   );
 };
