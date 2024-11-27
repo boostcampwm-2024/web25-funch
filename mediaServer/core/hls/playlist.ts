@@ -33,22 +33,21 @@ function generatePlaylistHeader(mediaSquenceNumber) {
 
 function generatePlaylistSegment(quality, sequence) {
   return `
-#EXT-X-PART:DURATION=1.000000,URI="chunkList_${quality}p_part_${sequence * 2}.mp4",INDEPENDENT=YES
-#EXT-X-PART:DURATION=1.000000,URI="chunkList_${quality}p_part_${sequence * 2 + 1}.mp4",INDEPENDENT=YES
+#EXT-X-PART:DURATION=1.000000,URI="chunklist_${quality}p_part_${sequence * 2}.ts",INDEPENDENT=YES
+#EXT-X-PART:DURATION=1.000000,URI="chunklist_${quality}p_part_${sequence * 2 + 1}.ts",INDEPENDENT=YES
 #EXTINF:2.000000,
-chunkList_${quality}p_${sequence}.mp4
+chunklist_${quality}p_${sequence}.ts
 `.trim();
 }
 
 function generatePlaylistPreloadHint(quality, sequence) {
   return `
-#EXT-X-PART:DURATION=1.000000,URI="chunkList_${quality}p_part_${sequence * 2 + 2}.mp4",INDEPENDENT=YES
-#EXT-X-PRELOAD-HINT:TYPE=PART,URI="chunkList_${quality}p_part_${sequence * 2 + 3}.mp4"
+#EXT-X-PRELOAD-HINT:TYPE=PART,URI="chunklist_${quality}p_part_${sequence * 2 + 2}.ts"
 `.trim();
 }
 
 function splitMediaSegment(data) {
-  const SEGMENT_REGEX = /^chunkList.*\.mp4/;
+  const SEGMENT_REGEX = /^chunklist.*\.ts/;
   const [, segments] = data.split(DOUBLE_LF);
   if (!segments) return [];
 

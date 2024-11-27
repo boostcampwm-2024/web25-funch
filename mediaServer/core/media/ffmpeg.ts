@@ -16,29 +16,45 @@ function initializeFFMpeg(ffmpegInputStream: PassThrough, storagePath: string) {
     .inputOptions(['-re'])
     .inputFormat('flv')
 
-    .output(`${storagePath}/chunkList_1080p_%d.mp4`)
+    .output(`${storagePath}/chunklist_1080p_%d.ts`)
     .videoCodec('libx264')
     .audioCodec('aac')
     .size('1920x1080')
     .videoBitrate('8000k')
     .audioBitrate('192k')
-    .outputOptions(['-map 0:v', '-map 0:a', '-preset ultrafast', '-segment_time 2', '-g 30', '-f segment'])
+    .outputOptions([
+      '-map 0:v',
+      '-map 0:a',
+      '-preset ultrafast',
+      '-f segment',
+      '-segment_time 2',
+      '-g 30',
+      '-reset_timestamps 1',
+    ])
 
-    .output(`${storagePath}/chunkList_1080p_part_%d.mp4`)
-    .outputOptions(['-map 0:v', '-map 0:a', '-preset ultrafast', '-segment_time 1', '-g 30', '-f segment'])
+    .output(`${storagePath}/chunklist_1080p_part_%d.ts`)
+    .outputOptions([
+      '-map 0:v',
+      '-map 0:a',
+      '-preset ultrafast',
+      '-f segment',
+      '-segment_time 1',
+      '-g 30',
+      '-reset_timestamps 1',
+    ])
 
     .output(`${storagePath}/dynamic_thumbnail.jpg`)
     .outputOptions(['-vf', 'fps=1/30', '-update', '1', '-s', '426x240'])
 
     .on('stderr', async (stderrLine) => {
       if (stderrLine.includes('Opening')) {
-        const match = stderrLine.match(/(chunkList_(.+)p_(\d+)\.mp4)/);
+        const match = stderrLine.match(/(chunklist_(.+)p_(\d+)\.ts)/);
         if (match) {
           const [, , quality, sequence] = match;
 
           let mediaSquenceNumber = sequence - 2;
           if (mediaSquenceNumber < 0) mediaSquenceNumber = 0;
-          const m3u8FilePath = path.join(__dirname, '../../', storagePath, `chunkList_${quality}p.m3u8`);
+          const m3u8FilePath = path.join(__dirname, '../../', storagePath, `chunklist_${quality}p.m3u8`);
           writeMediaPlaylist(mediaSquenceNumber, quality, sequence, m3u8FilePath);
         }
       }
