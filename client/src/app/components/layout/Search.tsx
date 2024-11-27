@@ -9,7 +9,7 @@ const Search = () => {
   const resetInput = () => setInput('');
   const handleSubmit = () => {
     resetInput();
-    alert('검색어: ' + input);
+    alert('안녕하세요, FUNCH입니다. ^o^\n검색 기능은 준비 중이에요.');
   };
   return (
     <SearchView onSubmit={handleSubmit}>
