@@ -41,7 +41,7 @@ export class FollowController {
   }
 
   @Delete()
-  @HttpCode(204)
+  @HttpCode(200)
   async unfollowMember(@Body('follower') follower: string, @Body('following') following: string) {
     if (follower === following) throw new HttpException('본인을 언팔로우할 수 없습니다.', HttpStatus.BAD_REQUEST);
     const followerId = (await this.memberService.findOneMemberWithCondition({ broadcast_id: follower })).id;
