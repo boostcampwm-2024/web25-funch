@@ -84,7 +84,7 @@ export class LiveService {
 
   async updateLiveData(tokenPayload, requestBody) {
     const member = await this.memberService.findOneMemberWithCondition({ id: tokenPayload.memberId });
-    if (this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
     if (requestBody.thumbnail) {
       const imageData = Buffer.from(requestBody.thumbnail, 'base64');
