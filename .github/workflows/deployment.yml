@@ -10,33 +10,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: funch server deploy
-	env: 
-	  SSH_PRIVATE_KEY: ${{ secrets.FUNCH_SSH_KEY }}
-	  SERVER_HOST: ${{ secrets.FUNCH_HOST }}
-	  SERVER_USER: ${{ secrets.FUNCH_USER }}
-	run: |
-	  echo "${FUNCH_SSH_KEY}" > deploy_key
-	  chmod 600 deploy_key
-	  ssh -i deploy_key ${{ secrets.FUNCH_USER }}@${{ secrets.FUNCH_HOST}}
-	  cd /root/web25-funch
-	  git switch main
-	  git pull origin main
-	  pm2 reload
+	  env: 
+	    SSH_PRIVATE_KEY: ${{ secrets.FUNCH_SSH_KEY }}
+	    SERVER_HOST: ${{ secrets.FUNCH_HOST }}
+	    SERVER_USER: ${{ secrets.FUNCH_USER }}
+	  run: |
+	    echo "${FUNCH_SSH_KEY}" > deploy_key
+	    chmod 600 deploy_key
+	    ssh -i deploy_key ${{ secrets.FUNCH_USER }}@${{ secrets.FUNCH_HOST}}
+	    cd /root/web25-funch
+	    git switch main
+	    git pull origin main
+	    pm2 reload
 		  
   media-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: funch server deploy
+      - name: media server deploy
         env: 
-	  SSH_PRIVATE_KEY: ${{ secrets.MEDIA_SSH_KEY }}
-	  SERVER_HOST: ${{ secrets.MEDIA_HOST }}
-	  SERVER_USER: ${{ secrets.MEDIA_USER }}
-	run: |
-	  echo "${MEDIA_SSH_KEY}" > deploy_key
-	  chmod 600 deploy_key
-	  ssh -i deploy_key ${{ secrets.MEDIA_USER }}@${{ secrets.MEDIA_HOST}}
-	  git switch main
-	  cd /service/web25-funch
-	  git pull origin main
-	  cd mediaServer
-	  pm2 reload
+	        SSH_PRIVATE_KEY: ${{ secrets.MEDIA_SSH_KEY }}
+	        SERVER_HOST: ${{ secrets.MEDIA_HOST }}
+	        SERVER_USER: ${{ secrets.MEDIA_USER }}
+	      run: |
+	        echo "${MEDIA_SSH_KEY}" > deploy_key
+	        chmod 600 deploy_key
+	        ssh -i deploy_key ${{ secrets.MEDIA_USER }}@${{ secrets.MEDIA_HOST}}
+	        git switch main
+	        cd /service/web25-funch
+	        git pull origin main
+	        cd mediaServer
+	        pm2 reload
