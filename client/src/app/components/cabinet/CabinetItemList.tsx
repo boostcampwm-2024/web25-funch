@@ -96,7 +96,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
                     <div className="text-surface-neutral-inverse funch-bold14">{item.userName}</div>
                     <div className="funch-bold10">{item.contentCategory}</div>
                   </section>
-                  <p className="text-content-red-base funch-bold12 flex items-center pr-2">
+                  <p className="text-content-red-strong funch-bold12 flex items-center pr-2">
                     {'· ' + comma(item.viewerCount)}
                   </p>
                 </section>
