@@ -22,13 +22,13 @@ const CabinetItemList = ({ isDesktop, isExpanded, isFolded, itemList }: ItemList
         <>
           {isFolded ? (
             <>
-              {itemList.map((item: Broadcast, key) => (
+              {itemList.map((item: Broadcast) => (
                 <CabinetListItem key={item.broadcastId} isDesktop={isDesktop} item={item} />
               ))}
             </>
           ) : (
             <>
-              {foldedContent.map((item: Broadcast, key) => (
+              {foldedContent.map((item: Broadcast) => (
                 <CabinetListItem key={item.broadcastId} isDesktop={isDesktop} item={item} />
               ))}
             </>
