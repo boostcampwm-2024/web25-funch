@@ -11,6 +11,7 @@ class NoNeedLoginGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const accessToken = request.headers['authorization']?.split(' ')[1];
 
+    if (accessToken == 'null') return true;
     if (accessToken && this.authService.verifyToken(accessToken)) {
       throw new HttpException('이미 로그인이 되어있습니다.', HttpStatus.BAD_REQUEST);
     }
