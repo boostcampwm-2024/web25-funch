@@ -13,6 +13,7 @@ type UserContextType = {
   loginByGoogle: () => void;
   logout: () => void;
   saveUserSession: (user: InternalUserSession) => void;
+  updateBroadcastId: (broadcastId: string) => void;
 };
 
 export const UserContext = createContext<UserContextType>({
@@ -22,6 +23,7 @@ export const UserContext = createContext<UserContextType>({
   loginByGoogle: () => {},
   logout: () => {},
   saveUserSession: () => {},
+  updateBroadcastId: () => {},
 });
 
 type Props = PropsWithChildren;
@@ -43,6 +45,24 @@ const UserProvider = ({ children }: Props) => {
     localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
     cookies.remove(COOKIE_USER_KEY);
   };
+
+  const updateBroadcastId = useCallback((broadcastId: string) => {
+    if (!broadcastId) {
+      return;
+    }
+    setUserSession((prev) => {
+      if (!prev) {
+        return null;
+      }
+      return {
+        ...prev,
+        user: {
+          ...prev.user,
+          broadcastId,
+        },
+      };
+    });
+  }, []);
 
   const logout = () => {
     const ok = confirm('로그아웃하시겠어요?');
@@ -104,6 +124,7 @@ const UserProvider = ({ children }: Props) => {
         loginByGoogle,
         logout,
         saveUserSession,
+        updateBroadcastId,
       }}
     >
       {children}
