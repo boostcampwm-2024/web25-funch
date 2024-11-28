@@ -43,8 +43,7 @@
 <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732798743094?alt=media&token=d5b7a4d0-af68-4e54-bc3a-ba25d35a1af1)](https://github.com/msdio/stackticon" alt="" />
 
 ### BE
-
-<img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786568059?alt=media&token=0e044167-be87-4b1e-b328-4be2f9dde2d6" alt="" />
+<img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732804776477?alt=media&token=24f661e1-d9b7-4441-bb1a-640cb838c7b0" alt="" />
 
 <br><br>
 
