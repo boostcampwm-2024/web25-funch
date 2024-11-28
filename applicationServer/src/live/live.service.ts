@@ -87,9 +87,13 @@ export class LiveService {
     if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     const memberLiveData = this.live.data.get(member.broadcast_id);
 
+    let fileEXT = '.jpg';
     if (requestBody.thumbnail) {
-      const imageData = Buffer.from(requestBody.thumbnail, 'base64');
-      uploadData(`${memberLiveData.broadcastPath}/static_thumbnail.jpg`, imageData);
+      const [imageHeader, imageString] = requestBody.thumbnail.split(',');
+      const dataType = imageHeader.split(':')[1];
+      fileEXT = dataType.match(/^image\/([a-z0-9\-+]+);base64$/)[0];
+      const imageData = Buffer.from(imageString, 'base64');
+      uploadData(`${memberLiveData.broadcastPath}/static_thumbnail.${fileEXT}`, imageData);
     }
 
     memberLiveData.title = requestBody.title;
@@ -97,7 +101,7 @@ export class LiveService {
     memberLiveData.moodCategory = requestBody.moodCategory;
     memberLiveData.tags = requestBody.tags;
     memberLiveData.thumbnailUrl = requestBody.thumbnail
-      ? `https://kr.object.ncloudstorage.com/media-storage/${memberLiveData.broadcastPath}/static_thumbnail.jpg`
+      ? `https://kr.object.ncloudstorage.com/media-storage/${memberLiveData.broadcastPath}/static_thumbnail.${fileEXT}`
       : `https://kr.object.ncloudstorage.com/media-storage/${memberLiveData.broadcastPath}/dynamic_thumbnail.jpg`;
   }
 
@@ -106,7 +110,8 @@ export class LiveService {
     this.live.data.get(broadcastId).viewerCount++;
 
     req.on('close', () => {
-      this.live.data.get(broadcastId).viewerCount--;
+      const liveData = this.live.data.get(broadcastId);
+      if (liveData) liveData.viewerCount--;
     });
 
     return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(map(() => ({ data: this.live.data.get(broadcastId) })));
