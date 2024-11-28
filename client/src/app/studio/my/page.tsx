@@ -11,7 +11,8 @@ const StudioMyPage = () => {
   return (
     <div
       className={clsx(
-        'h-live-section border-border-neutral-weak mx-auto grid w-full max-w-[calc(48rem+20rem+4rem)] grid-cols-[1fr,20rem] border-x',
+        'h-live-section mx-auto grid w-full max-w-[calc(48rem+20rem+4rem)] grid-cols-[1fr,20rem]',
+        //'border-border-neutral-weak border-x',
       )}
     >
       <MyStudioController />
