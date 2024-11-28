@@ -158,9 +158,14 @@ export const authenticateByNaver = async ({
 };
 
 export const updateInfo = async (formData: Update): Promise<Update> => {
+  const requestBody = formData as any;
+
   const result = await fetcher<Update>({
     method: 'PATCH',
     url: '/api/live/update',
+    customOptions: {
+      body: requestBody,
+    },
   });
 
   return result;
