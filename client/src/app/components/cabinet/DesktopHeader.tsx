@@ -6,6 +6,7 @@ import UpArrowSvg from '@components/svgs/UpArrowSvg';
 
 import clsx from 'clsx';
 import { useState } from 'react';
+import Button from '@components/Button';
 
 const COMPONENT_TYPE = {
   FOLLOW: 'FOLLOW' as const,
@@ -44,11 +45,34 @@ const DesktopHeader = ({ isExpanded, setIsExpanded, componentType }: ExpandedPro
         >
           <RefreshSvg />
         </button>
-        <button aria-label="팔로우 채널 접기/펼치기" title="접기/펼치기" onClick={() => setIsExpanded((prev) => !prev)}>
-          {isExpanded ? <UpArrowSvg /> : <DownArrowSvg />}
-        </button>
+        {isExpanded ? (
+          <ArrowButton componentType="UP" setIsExpanded={setIsExpanded} />
+        ) : (
+          <ArrowButton componentType="DOWN" setIsExpanded={setIsExpanded} />
+        )}
       </div>
     </div>
+  );
+};
+
+type ArrowButtonProps = {
+  componentType: 'UP' | 'DOWN';
+  setIsExpanded: (value: React.SetStateAction<boolean>) => void;
+};
+
+const ArrowButton = ({ componentType, setIsExpanded }: ArrowButtonProps) => {
+  return (
+    <>
+      {componentType === 'UP' ? (
+        <button aria-label="팔로우 채널 접기" title="접기" onClick={() => setIsExpanded((prev) => !prev)}>
+          <UpArrowSvg />
+        </button>
+      ) : (
+        <button aria-label="팔로우 채널 펼치기" title="펼치기" onClick={() => setIsExpanded((prev) => !prev)}>
+          <DownArrowSvg />
+        </button>
+      )}
+    </>
   );
 };
 
