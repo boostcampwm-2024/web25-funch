@@ -39,7 +39,6 @@ const LiveInfoWrapper = ({ children }: Props) => {
 
       eventSource.onerror = () => {
         eventSource.close();
-        fetchLiveInfo();
       };
     };
 
