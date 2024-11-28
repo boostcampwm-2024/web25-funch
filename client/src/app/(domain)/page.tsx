@@ -1,5 +1,5 @@
 import RecommendedLives from './features/RecommendedLives';
-import { FollowingLives } from './features/FollowingLives';
+import FollowingLives from './features/FollowingLives';
 
 const HomePage = () => {
   return (

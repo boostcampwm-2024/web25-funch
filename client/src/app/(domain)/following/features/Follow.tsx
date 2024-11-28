@@ -1,6 +1,6 @@
 'use client';
 
-import { FollowingLives } from '@app/(domain)/features/FollowingLives';
+import FollowingLives from '@app/(domain)/features/FollowingLives';
 import useUser from '@hooks/useUser';
 import FollowingOffair from './FollowingOffair';
 import InduceLoginContent from './InduceLoginContent';
