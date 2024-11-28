@@ -21,7 +21,7 @@ jobs:
           cd /root/web25-funch
           git switch main
           git pull origin main
-          pm2 reload
+          pm2 reload ecosystem.config.js
 
   media-deploy:
     runs-on: ubuntu-latest
@@ -39,4 +39,4 @@ jobs:
           cd /service/web25-funch
           git pull origin main
           cd mediaServer
-          pm2 reload
+          pm2 reload ecosystem.config.js
