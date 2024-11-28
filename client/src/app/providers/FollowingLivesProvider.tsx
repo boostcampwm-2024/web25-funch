@@ -28,15 +28,11 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
       setIsError(false);
 
       const fetchedLives = await getFollowingLiveList();
-      console.log('fetchedLives:', fetchedLives);
-      const fetchedFollowingLives = fetchedLives.onAir.map((live) => live.broadCastData);
+      const fetchedFollowingLives = fetchedLives.onAir.map((live) => live.broadcastData);
 
-      console.log('fetchedFollowingLives:', fetchedFollowingLives);
       const fetchedFollowingOfflines = fetchedLives.offAir;
 
-      console.log('fetchedFollowingOfflines:', fetchedFollowingOfflines);
-
-      setIds(fetchedLives.onAir.map((live) => live.broadCastData.broadcastId));
+      setIds(fetchedLives.onAir.map((live) => live.broadcastData.broadcastId));
       setLives(fetchedFollowingLives);
       setOfflines(fetchedFollowingOfflines);
 

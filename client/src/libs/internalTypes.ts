@@ -82,7 +82,7 @@ export type FollowingList = {
 
 export type OnAirBroadcast = {
   playlistUrl: string;
-  broadCastData: Broadcast;
+  broadcastData: Broadcast;
 };
 
 export type User2 = {
