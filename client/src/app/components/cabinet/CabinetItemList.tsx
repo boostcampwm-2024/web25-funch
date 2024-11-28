@@ -131,7 +131,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
           </Link>
           {isTooltipVisible && (
             <div
-              className="bg-surface-neutral-base fixed flex h-32 w-52 flex-col rounded-md p-3"
+              className="bg-surface-neutral-base fixed flex h-32 min-w-52 flex-col rounded-md p-3"
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
             >
               <div className="flex h-1/4 w-full items-center gap-2 truncate">
