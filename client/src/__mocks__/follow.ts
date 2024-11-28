@@ -60,7 +60,7 @@ export const mockedFollowingList = {
     },
     {
       name: '피트니스트레이너',
-      profile_image: 'hhttps://via.placeholder.com/150',
+      profile_image: 'https://via.placeholder.com/150',
       broadcast_id: 'h2j4-5k6l-7m8n-9p0q',
       follower_count: 512,
     },
