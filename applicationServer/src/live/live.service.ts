@@ -91,7 +91,7 @@ export class LiveService {
     if (requestBody.thumbnail) {
       const [imageHeader, imageString] = requestBody.thumbnail.split(',');
       const dataType = imageHeader.split(':')[1];
-      fileEXT = dataType.match(/^image\/([a-z0-9\-+]+);base64$/)[0];
+      fileEXT = dataType.match(/^image\/([a-z0-9\-+]+);base64$/)[1];
       const imageData = Buffer.from(imageString, 'base64');
       uploadData(`${memberLiveData.broadcastPath}/static_thumbnail.${fileEXT}`, imageData);
     }
