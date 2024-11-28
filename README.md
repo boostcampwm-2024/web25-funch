@@ -30,3 +30,21 @@
 </div>
 
 <br><br>
+
+## 👩🏻‍💻🧑🏻‍💻 기술 스택
+
+<br>
+
+
+### 공통
+<img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786637665?alt=media&token=d070c4d4-5a58-4e23-af1d-a7e678d4035b" alt="" />
+
+### FE
+
+<img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786576951?alt=media&token=35ec2f26-95f9-48c7-a8c4-a7a3a703ce6f" alt="" />
+
+### BE
+
+<img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786568059?alt=media&token=0e044167-be87-4b1e-b328-4be2f9dde2d6" alt="" />
+
+<br><br>
