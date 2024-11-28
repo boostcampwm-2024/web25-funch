@@ -34,10 +34,13 @@ const LiveInfoWrapper = ({ children }: Props) => {
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log('🚀 SSE DATA HAVE BEEN SERVED', data);
+        if (!data) return;
+        console.log('🥳 LIVE INFO DATA ARE BEING HANDLED', data);
         refreshLiveInfo(data);
       };
 
       eventSource.onerror = () => {
+        console.log('❌ EVENT SOURCE ERROR');
         eventSource.close();
       };
     };
