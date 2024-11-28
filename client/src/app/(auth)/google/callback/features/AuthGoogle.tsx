@@ -22,7 +22,8 @@ const AuthGoogle = ({ authCode }: Props) => {
         saveUserSession(fetchResult);
       } catch (err) {
         if (!isValidEffect) return;
-        alert('로그인에 실패했어요.');
+        console.log('로그인에 실패했어요.');
+        // alert('로그인에 실패했어요.');
       } finally {
         if (!isValidEffect) return;
         replace('/');
