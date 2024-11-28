@@ -28,12 +28,14 @@ const DesktopHeader = ({ isExpanded, setIsExpanded, componentType }: ExpandedPro
   };
 
   return (
-    <div className="text-content-neutral-strong flex justify-between">
+    <div className="text-content-neutral-primary flex justify-between">
       <h2 className="funch-bold14 funch-desktop:funch-bold16">
         {componentType === COMPONENT_TYPE.SUGGEST ? '추천 채널' : '팔로우 채널'}
       </h2>
       <div className="flex">
         <button
+          aria-label={componentType === COMPONENT_TYPE.SUGGEST ? '추천 채널 새로고침' : '팔로우 채널 새로고침'}
+          title="새로고침"
           className={`transform ${rotationCount > 0 ? 'rotate-360' : ''} transition duration-1000 ease-in-out`}
           style={{
             transform: `rotate(${360 * rotationCount}deg)`,
@@ -42,7 +44,9 @@ const DesktopHeader = ({ isExpanded, setIsExpanded, componentType }: ExpandedPro
         >
           <RefreshSvg />
         </button>
-        <button onClick={() => setIsExpanded((prev) => !prev)}>{isExpanded ? <UpArrowSvg /> : <DownArrowSvg />}</button>
+        <button aria-label="팔로우 채널 접기/펼치기" title="접기/펼치기" onClick={() => setIsExpanded((prev) => !prev)}>
+          {isExpanded ? <UpArrowSvg /> : <DownArrowSvg />}
+        </button>
       </div>
     </div>
   );

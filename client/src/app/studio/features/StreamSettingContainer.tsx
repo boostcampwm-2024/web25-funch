@@ -7,13 +7,7 @@ import StudioReissueButton from './StudioReIssueButton';
 import useUser from '@hooks/useUser';
 import { getStreamInfo } from '@libs/actions';
 
-const handleCopy = async (streamURL: string) => {
-  if (typeof streamURL === 'string') {
-    await navigator.clipboard.writeText(streamURL);
-  }
-};
-
-const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL;
+const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL ?? '';
 
 const StreamSettingContainer = () => {
   const { isLoggedin } = useUser();
@@ -57,7 +51,7 @@ const StreamURLContainer = () => {
       <div className="funch-bold16 col-span-1 flex items-center">스트림 URL</div>
       <div className="col-span-4 flex items-center gap-2">
         {apiUrl}
-        <StudioCopyButton onClick={() => handleCopy(apiUrl ?? '')}>복사</StudioCopyButton>
+        <StudioCopyButton text={apiUrl}>복사</StudioCopyButton>
       </div>
     </div>
   );
@@ -70,7 +64,7 @@ const StreamKeyContainer = ({ streamKey }: { streamKey: string }) => {
       <div className="col-span-4 flex items-center gap-4">
         {streamKey}
         <div className="flex gap-2">
-          <StudioCopyButton onClick={() => handleCopy(streamKey)}>복사</StudioCopyButton>
+          <StudioCopyButton text={streamKey}>복사</StudioCopyButton>
           <StudioReissueButton>재발급</StudioReissueButton>
         </div>
       </div>
