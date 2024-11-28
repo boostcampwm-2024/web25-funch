@@ -16,6 +16,7 @@ class AuthService {
   }
 
   verifyToken(token: string) {
+    if (!token) return false;
     try {
       return this.jwtService.verify(token);
     } catch (error) {
