@@ -8,7 +8,6 @@ on:
 jobs:
   funch-deploy:
 	  runs-on: ubuntu-latest
-	
 	  steps:
 	    - name: funch server deploy
 		    env: 
@@ -24,10 +23,8 @@ jobs:
 		      git pull origin main
 		      pm2 reload
 		  
-
   media-deploy:
 	  runs-on: ubuntu-latest
-
 	  steps:
 	    - name: funch server deploy
 		    env: 
