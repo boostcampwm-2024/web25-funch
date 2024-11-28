@@ -222,6 +222,17 @@ export const mockedBroadcasts: Broadcast[] = [
     userName: '사자',
     profileImageUrl: 'https://via.placeholder.com/150',
   },
+  {
+    broadcastId: 'cccccccccccccccccccccccc',
+    title: '레이디 가가의 방송',
+    contentCategory: CONTENTS_CATEGORY.virtual.CODE,
+    moodCategory: MOODS_CATEGORY.getking.CODE,
+    tags: ['tag1', 'tag2'],
+    thumbnailUrl: 'https://via.placeholder.com/150',
+    viewerCount: 1000,
+    userName: '사자',
+    profileImageUrl: 'https://via.placeholder.com/150',
+  },
 ];
 
 export const getBroadcastsByContentCategory = (contentCategory: string) => {

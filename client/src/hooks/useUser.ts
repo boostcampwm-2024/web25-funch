@@ -6,7 +6,8 @@ import useUserContext from '@hooks/useUserContext';
 const getIsLoggedin = (user: any) => user !== null;
 
 const useUser = () => {
-  const { userSession, logout, loginByGithub, loginByNaver, loginByGoogle, saveUserSession } = useUserContext();
+  const { userSession, logout, loginByGithub, loginByNaver, loginByGoogle, saveUserSession, updateBroadcastId } =
+    useUserContext();
   const [isLoggedin, setIsLoggedin] = useState(getIsLoggedin(userSession));
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const useUser = () => {
     loginByNaver,
     loginByGoogle,
     saveUserSession,
+    updateBroadcastId,
   };
 };
 
