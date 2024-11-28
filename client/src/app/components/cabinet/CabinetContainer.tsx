@@ -106,7 +106,7 @@ const SuggestedNavigator = () => {
 
 const NavHeader = ({ children }: PropsWithChildren) => {
   return (
-    <div className="text-content-neutral-strong w-full text-center">
+    <div className="text-content-neutral-primary w-full text-center">
       <h2 className="funch-bold12">{children}</h2>
     </div>
   );

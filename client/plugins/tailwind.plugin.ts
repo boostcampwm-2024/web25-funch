@@ -85,6 +85,7 @@ const appBoxes = plugin(function ({ addUtilities }) {
       overflowY: 'auto',
       overscrollBehavior: 'contain',
       scrollbarWidth: 'none',
+      overflowX: 'hidden',
       '-ms-overflow-style': 'none',
       '&::-webkit-scrollbar': {
         display: 'none',
