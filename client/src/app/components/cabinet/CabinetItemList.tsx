@@ -105,7 +105,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
           </Link>
           {isTooltipVisible && (
             <div
-              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong funch-medium12 fixed flex h-20 w-60 items-center rounded-md p-4"
+              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong funch-medium12 fixed z-50 flex h-20 w-60 items-center rounded-md p-4"
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
             >
               {item.title}
