@@ -53,7 +53,6 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
   };
 
   const handleDeleteTag = (index: number) => {
-    console.log(index);
     const newTags = tags.filter((_, i) => i !== index);
     setTags(newTags);
     setFormData({
