@@ -37,6 +37,7 @@ export class FollowController {
     if (isAlreadyFollowing) throw new HttpException('이미 팔로우 중입니다.', HttpStatus.BAD_REQUEST);
 
     await this.followService.followMember(followerId, followingId);
+    return { response: 'OK' };
   }
 
   @Delete()
@@ -50,6 +51,7 @@ export class FollowController {
     if (result.affected === 0) {
       throw new HttpException('팔로우 중이지 않습니다.', HttpStatus.BAD_REQUEST);
     }
+    return { response: 'OK' };
   }
 
   @Get(':memberId')
