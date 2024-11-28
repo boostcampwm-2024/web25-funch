@@ -2,6 +2,7 @@ node_modules/
 .env
 .gitmessage.txt
 logs/
+.github/
 
 # client
 .env*
