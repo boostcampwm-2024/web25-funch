@@ -15,13 +15,14 @@ jobs:
           SERVER_HOST: ${{ secrets.FUNCH_HOST }}
           SERVER_USER: ${{ secrets.FUNCH_USER }}
         run: |
-          echo "${FUNCH_SSH_KEY}" > deploy_key
+          echo "${SSH_PRIVATE_KEY}" > deploy_key
           chmod 600 deploy_key
-          ssh -i deploy_key ${{ secrets.FUNCH_USER }}@${{ secrets.FUNCH_HOST}}
-          cd /root/web25-funch
-          git switch main
-          git pull origin main
-          pm2 reload ecosystem.config.js
+          ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
+            cd /root/web25-funch
+            git switch main
+            git pull origin main
+            pm2 reload ecosystem.config.js
+          EOF
 
   media-deploy:
     runs-on: ubuntu-latest
@@ -32,11 +33,12 @@ jobs:
           SERVER_HOST: ${{ secrets.MEDIA_HOST }}
           SERVER_USER: ${{ secrets.MEDIA_USER }}
         run: |
-          echo "${MEDIA_SSH_KEY}" > deploy_key
+          echo "${SSH_PRIVATE_KEY}" > deploy_key
           chmod 600 deploy_key
-          ssh -i deploy_key ${{ secrets.MEDIA_USER }}@${{ secrets.MEDIA_HOST}}
-          git switch main
-          cd /service/web25-funch
-          git pull origin main
-          cd mediaServer
-          pm2 reload ecosystem.config.js
+          ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
+            cd /service/web25-funch
+            git switch main
+            git pull origin main
+            cd mediaServer
+            pm2 reload ecosystem.config.js
+          EOF
