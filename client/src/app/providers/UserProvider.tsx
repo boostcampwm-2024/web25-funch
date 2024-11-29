@@ -5,6 +5,7 @@ import type { InternalUserSession } from '@libs/internalTypes';
 import { COOKIE_USER_KEY, LOCAL_STORAGE_USER_KEY } from '@libs/constants';
 import useInternalRouter from '@hooks/useInternalRouter';
 import cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 type UserContextType = {
   userSession: InternalUserSession | null;
@@ -70,7 +71,8 @@ const UserProvider = ({ children }: Props) => {
       return;
     }
     clearUserSession();
-    push('/');
+    Cookies.remove('refreshToken');
+    location.href = '/';
   };
 
   const loginByGithub = async () => {
@@ -93,8 +95,6 @@ const UserProvider = ({ children }: Props) => {
   };
 
   const loginByGoogle = () => {
-    // new URLSearchParams()
-    // https://accounts.google.com/o/oauth2/v2/auth?client_id={CLIENT_ID}&redirect_uri=https://funch.site/google/callback&response_type=code&scope=profile email
     const clientId = `800585509743-8j219mpv4uuclvbo4f1397ocj2ei8tdh.apps.googleusercontent.com`;
     const redirectUri = 'https://funch.site/google/callback';
     const searchParams = new URLSearchParams({
