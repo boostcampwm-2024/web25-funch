@@ -9,6 +9,8 @@ type Props = {
   authCode: string;
 };
 
+let isValidCall = true;
+
 const Auth = ({ authCode }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
@@ -16,7 +18,9 @@ const Auth = ({ authCode }: Props) => {
     let isValidEffect = true;
     const fetchUser = async (code: string) => {
       try {
+        if (!isValidCall) return;
         const fetchResult = await authenticateByGithub(code);
+        isValidCall = false;
         if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
