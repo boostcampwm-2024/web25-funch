@@ -11,6 +11,8 @@ type Props = {
   authState: string;
 };
 
+let isValidCall = true;
+
 const AuthNaver = ({ authCode, authState }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
@@ -18,10 +20,12 @@ const AuthNaver = ({ authCode, authState }: Props) => {
     let isValidEffect = true;
     const fetchUser = async (code: string, state: string) => {
       try {
+        if (!isValidCall) return;
         const fetchResult = await authenticateByNaver({
           code,
           state,
         });
+        isValidCall = false;
         if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
