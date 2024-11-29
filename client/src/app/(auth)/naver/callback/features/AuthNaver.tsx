@@ -1,7 +1,7 @@
 'use client';
 
 import useInternalRouter from '@hooks/useInternalRouter';
-import { authenticateByGithub, authenticateByNaver } from '@libs/actions';
+import { authenticateByNaver } from '@libs/actions';
 import { useEffect } from 'react';
 import useUser from '@hooks/useUser';
 import AuthLoading from '@app/(auth)/features/AuthLoading';
