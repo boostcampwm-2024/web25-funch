@@ -16,11 +16,14 @@ const fetcher = async <T>({ method, url, customOptions }: FetcherParams): Promis
     }
   }
 
-  const headers: HeadersInit = {
+  const headers = {
     ...defaultHeaders,
     ...customOptions?.headers,
-    Authorization: `Bearer ${savedAccessToken}`,
-  };
+  } as any;
+
+  if (savedAccessToken) {
+    headers['Authorization'] = `Bearer ${savedAccessToken}`;
+  }
 
   const options: RequestInit = {
     method,
@@ -31,6 +34,10 @@ const fetcher = async <T>({ method, url, customOptions }: FetcherParams): Promis
   const response = await fetch(url, options);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      // refresh token 패치 로직 추가하기
+    }
+
     throw new Error('에러 아님');
   }
 
