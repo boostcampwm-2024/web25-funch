@@ -10,6 +10,8 @@ type Props = {
   authCode: string;
 };
 
+let isValidCall = true;
+
 const AuthGoogle = ({ authCode }: Props) => {
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
@@ -17,7 +19,9 @@ const AuthGoogle = ({ authCode }: Props) => {
     let isValidEffect = true;
     const fetchUser = async (code: string) => {
       try {
+        if (!isValidCall) return;
         const fetchResult = await authenticateByGoogle(code);
+        isValidCall = false;
         if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
