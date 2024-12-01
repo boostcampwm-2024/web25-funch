@@ -2,7 +2,7 @@
 
 import useInternalRouter from '@hooks/useInternalRouter';
 import { authenticateByNaver } from '@libs/actions';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useUser from '@hooks/useUser';
 import AuthLoading from '@app/(auth)/features/AuthLoading';
 
@@ -11,21 +11,20 @@ type Props = {
   authState: string;
 };
 
-let isValidCall = true;
-
 const AuthNaver = ({ authCode, authState }: Props) => {
+  const isValidCallRef = useRef(true);
   const { saveUserSession } = useUser();
   const { replace } = useInternalRouter();
   useEffect(() => {
     let isValidEffect = true;
     const fetchUser = async (code: string, state: string) => {
       try {
-        if (!isValidCall) return;
+        if (!isValidCallRef.current) return;
         const fetchResult = await authenticateByNaver({
           code,
           state,
         });
-        isValidCall = false;
+        isValidCallRef.current = false;
         if (!isValidEffect) return;
         saveUserSession(fetchResult);
       } catch (err) {
