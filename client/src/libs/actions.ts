@@ -179,3 +179,12 @@ export const getStreamInfo = async (): Promise<MyData> => {
 
   return result;
 };
+
+export const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
+  const result = await fetcher<{ accessToken: string }>({
+    method: 'GET',
+    url: '/api/auth/refresh',
+  });
+
+  return result;
+};
