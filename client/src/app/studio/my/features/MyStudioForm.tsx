@@ -1,6 +1,4 @@
-import clsx from 'clsx';
-
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import StudioAddButton from '@components/studio/StudioAddButton';
 import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
@@ -10,7 +8,8 @@ import { StudioDropdownRenderer } from '@components/studio/StudioDropdown';
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
 import StudioBadge from '@components/studio/StudioBadge';
-import { updateInfo } from '@libs/actions';
+import { getPlaylist, updateInfo } from '@libs/actions';
+import useUserContext from '@hooks/useUserContext';
 
 interface MyStudioFormProps {
   onSubmit: (FormData: MyStudioFormData) => void;
@@ -25,6 +24,16 @@ interface MyStudioFormData {
 }
 
 const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
+  const { userSession } = useUserContext();
+  const myId = userSession?.user?.broadcastId;
+
+  useEffect(() => {
+    if (myId) {
+      console.log(myId);
+      getMyStudioFormData(myId);
+    }
+  }, [myId]);
+
   const [formData, setFormData] = useState<MyStudioFormData>({
     title: '',
     contentCategory: '',
@@ -35,7 +44,6 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
 
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
-  const [istagInputValid, setTagInputValid] = useState(true);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -76,16 +84,36 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
     }
   };
 
+  const getMyStudioFormData = async (data: string) => {
+    try {
+      const myStudioData = await getPlaylist(data);
+      setFormData({
+        title: myStudioData.broadcastData.title,
+        contentCategory: myStudioData.broadcastData.contentCategory,
+        moodCategory: myStudioData.broadcastData.moodCategory,
+        tags: myStudioData.broadcastData.tags,
+        thumbnail: myStudioData.broadcastData.thumbnailUrl,
+      });
+      setTags(myStudioData.broadcastData.tags);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="w-full p-[30px]">
         <StudioRows labelName="방송 제목">
-          <TextareaRendererForTest setText={(text) => setFormData((prev) => ({ ...prev, title: text }))} />
+          <TextareaRendererForTest
+            text={formData.title}
+            setText={(text) => setFormData((prev) => ({ ...prev, title: text }))}
+          />
         </StudioRows>
         <StudioRows labelName="카테고리">
           <StudioDropdownRenderer
             placeHolder="카테고리 검색"
             componentType="category"
+            data={formData.contentCategory}
             setData={(category) => setFormData((prev) => ({ ...prev, contentCategory: category }))}
           />
         </StudioRows>
@@ -93,6 +121,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
           <StudioDropdownRenderer
             placeHolder="분위기 검색"
             componentType="mood"
+            data={formData.moodCategory}
             setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))}
           />
         </StudioRows>
