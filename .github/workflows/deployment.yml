@@ -19,9 +19,7 @@ jobs:
           chmod 600 deploy_key
           ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
             cd /root/web25-funch
-            git switch main
-            git pull origin main
-            pm2 reload ecosystem.config.js
+            sh deploy.sh
           EOF
 
   media-deploy:
@@ -37,8 +35,5 @@ jobs:
           chmod 600 deploy_key
           ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
             cd /service/web25-funch
-            git switch main
-            git pull origin main
-            cd mediaServer
-            pm2 reload ecosystem.config.js
+            sh deploy.sh
           EOF
