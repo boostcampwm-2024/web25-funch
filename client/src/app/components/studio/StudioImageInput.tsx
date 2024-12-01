@@ -36,6 +36,16 @@ const StudioImageInput = ({ children, className, setImage }: RootProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (!file.type.includes('image')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    if (file.size > 1024 * 1024 * 2) {
+      alert('이미지 파일은 2MB 이하만 업로드 가능합니다.');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       if (imageRef.current && e.target?.result) {
