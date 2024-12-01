@@ -6,7 +6,7 @@ const server = net.createServer((socket) => {
   rtmpStream.run();
 });
 
-const PORT = 1935;
+const PORT = Number(process.env.PORT) || 1935;
 
 server.listen(PORT, () => {
   console.log(`Media server running on port ${PORT}`);
