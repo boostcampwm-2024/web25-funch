@@ -3,7 +3,7 @@ import validate from 'utf-8-validate';
 import EventEmitter from 'events';
 import { Name } from './utils/name';
 
-const PORT = 7990;
+const PORT = Number(process.env.PORT) || 7990;
 const io = new Server(PORT, {
   path: '/live',
   cors: {
