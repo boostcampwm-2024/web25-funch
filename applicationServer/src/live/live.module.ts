@@ -8,5 +8,6 @@ import { AuthModule } from '@src/auth/core/auth.module';
   imports: [MemberModule, AuthModule],
   controllers: [LiveController],
   providers: [LiveService],
+  exports: [LiveService],
 })
 export class LiveModule {}

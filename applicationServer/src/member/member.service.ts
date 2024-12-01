@@ -12,11 +12,17 @@ class MemberService {
     private memberRepository: Repository<Member>,
   ) {}
 
-  async findMembers() {
+  findMembers() {
     return this.memberRepository.find();
   }
 
-  async findMembersWithFollowTable(id) {
+  findMembersWithCondition(condition) {
+    return this.memberRepository.find({
+      where: condition,
+    });
+  }
+
+  findMembersWithFollowTable(id) {
     return this.memberRepository
       .createQueryBuilder('member')
       .innerJoin('follow', 'f', 'f.following = member.id')
@@ -24,7 +30,7 @@ class MemberService {
       .getMany();
   }
 
-  async findOneMemberWithCondition(condition: { [key: string]: string }) {
+  findOneMemberWithCondition(condition: { [key: string]: string }) {
     return this.memberRepository.findOne({ where: condition });
   }
 
@@ -37,7 +43,7 @@ class MemberService {
     return member;
   }
 
-  async register(id: string, image_url?: string): Promise<Member> {
+  register(id: string, image_url?: string): Promise<Member> {
     const name = this.generateUniqueName();
     const user = {
       id,
@@ -59,7 +65,7 @@ class MemberService {
     return name;
   }
 
-  async refreshStreamKey(id) {
+  refreshStreamKey(id) {
     const newStreamKey = crypto.randomUUID();
     this.memberRepository.update(id, { stream_key: newStreamKey });
 
