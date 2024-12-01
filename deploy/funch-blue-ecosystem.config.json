@@ -1,0 +1,33 @@
+{
+  "apps": [
+    {
+      "name": "chat-server-blue",
+      "script": "npm",
+      "args": "run start",
+      "cwd": "/root/web25-funch/chatServer",
+      "env": {
+        "PORT": "7990"
+      }
+    },
+    {
+      "name": "next-client-blue",
+      "script": "npm",
+      "args": "run start",
+      "cwd": "/root/web25-funch/client",
+      "env_file": "/root/web25-funch/client/.env",
+      "env": {
+        "PORT": "3000"
+      }
+    },
+    {
+      "name": "api-server-blue",
+      "script": "npm",
+      "args": "run start",
+      "cwd": "/root/web25-funch/applicationServer",
+      "env_file": "/root/web25-funch/applicationServer/.env",
+      "env": {
+        "PORT": "8080"
+      }
+    }
+  ]
+}
