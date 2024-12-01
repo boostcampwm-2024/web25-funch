@@ -22,7 +22,8 @@
       "@member/*": ["src/member/*"],
       "@live/*": ["src/live/*"],
       "@follow/*": ["src/follow/*"],
-      "@google/*": ["src/auth/google/*"]
+      "@google/*": ["src/auth/google/*"],
+      "@search/*": ["src/search/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
