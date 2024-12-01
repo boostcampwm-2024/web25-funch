@@ -4,7 +4,7 @@ export const mockedFollowingList = {
   onAir: [
     {
       playlistUrl: 'https://via.placeholder.com/150',
-      broadCastData: {
+      broadcastData: {
         broadcastId: 'sss',
         title: '방송 제목',
         contentCategory: CONTENTS_CATEGORY.news.CODE,
@@ -18,7 +18,7 @@ export const mockedFollowingList = {
     },
     {
       playlistUrl: 'https://via.placeholder.com/150',
-      broadCastData: {
+      broadcastData: {
         broadcastId: 'tadg',
         title: '방송 제목',
         contentCategory: CONTENTS_CATEGORY.outdoor.CODE,
@@ -32,7 +32,7 @@ export const mockedFollowingList = {
     },
     {
       playlistUrl: 'https://via.placeholder.com/150',
-      broadCastData: {
+      broadcastData: {
         broadcastId: 'tasdgdg',
         title: '방송 제목sdg',
         contentCategory: CONTENTS_CATEGORY.outdoor.CODE,

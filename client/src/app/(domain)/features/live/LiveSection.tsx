@@ -15,8 +15,8 @@ import useUser from '@hooks/useUser';
 const LiveSection = () => {
   const { isLivePage, liveUrl } = useLiveContext();
   const { ids, refetchLives } = useFollowingLives();
-  const { userSession } = useUserContext();
   const { isLoggedin } = useUser();
+  const { userSession } = useUserContext();
 
   const myId = userSession?.user?.broadcastId || '';
 
