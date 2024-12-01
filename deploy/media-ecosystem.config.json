@@ -1,0 +1,9 @@
+{
+  "name": "media-server",
+  "script": "npm",
+  "args": "run start",
+  "cwd": "/service/web25-funch/mediaServer",
+  "env": {
+    "PORT": "1935"
+  }
+}
