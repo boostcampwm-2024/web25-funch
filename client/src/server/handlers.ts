@@ -71,6 +71,12 @@ const getMydata = () => {
   return HttpResponse.json(mockedMydata);
 };
 
+const refreshAccessToken = () => {
+  return HttpResponse.json({
+    accessToken: 'funch-access-access',
+  });
+};
+
 export const handlers = [
   http.get('/api/live/list', getLiveList),
   http.get('/api/live/follow', getFollowingList),
@@ -85,4 +91,5 @@ export const handlers = [
   http.post('/api/follow', makeFollow),
   http.delete('/api/follow', makeUnfollow),
   http.patch('/api/live/update', update),
+  http.get('/api/auth/refresh', refreshAccessToken),
 ];
