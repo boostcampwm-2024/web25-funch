@@ -35,14 +35,21 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
 
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
+  const [istagInputValid, setTagInputValid] = useState(true);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
 
-  const handleAddTag = () => {
-    if (tagInput && tags.length < 5) {
+  const trimmingInputBlank = (input: string) => {
+    const trimmedInput = input.trim().replace(/\s+/g, ' ');
+
+    return trimmedInput;
+  };
+
+  const handleAddTag = (trimmedInput: string) => {
+    if (trimmedInput && tags.length < 5) {
       setFormData({
         ...formData,
         tags: [...formData.tags, tagInput.trim()],
@@ -71,7 +78,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-full space-y-6 p-[30px]">
+      <div className="w-full p-[30px]">
         <StudioRows labelName="방송 제목">
           <TextareaRendererForTest setText={(text) => setFormData((prev) => ({ ...prev, title: text }))} />
         </StudioRows>
@@ -95,23 +102,35 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               placeholder="태그 입력 후 Enter 혹은 추가"
+              maxLength={15}
             />
           </div>
           <StudioAddButton
             onClick={() => {
-              handleAddTag();
+              handleAddTag(trimmingInputBlank(tagInput));
             }}
           >
             추가
           </StudioAddButton>
         </StudioRows>
-        <StudioRows labelName="">
-          {tags.length > 0 &&
-            tags.map((tag, index) => (
+        {tags.length > 0 && (
+          <StudioRows labelName="" componentType="TAG_WRAPPER">
+            {tags.map((tag, index) => (
               <div className="mr-1 inline-flex" key={index}>
                 <StudioBadge onClick={() => handleDeleteTag(index)}>{tag}</StudioBadge>
               </div>
             ))}
+          </StudioRows>
+        )}
+        <StudioRows labelName="" componentType="TAG">
+          <div className="flex flex-col">
+            <p className="text-content-neutral-weak funch-medium12">
+              {'· ' + '공백 없이 15자까지 입력할 수 있습니다.'}
+            </p>
+            <p className="text-content-neutral-weak funch-medium12">
+              {'· ' + '등록한 순서대로 방송 정보에 노출됩니다.'}
+            </p>
+          </div>
         </StudioRows>
         <StudioRows labelName="미리보기 이미지">
           <StudioImageInput setImage={(file) => setFormData((prev) => ({ ...prev, thumbnail: file }))}>

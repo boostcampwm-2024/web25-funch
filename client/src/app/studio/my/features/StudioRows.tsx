@@ -4,6 +4,7 @@ import { type PropsWithChildren } from 'react';
 const ROWS_COMPONENT_TYPE = {
   DEFAULT: 'DEFAULT' as const,
   TAG: 'TAG' as const,
+  TAG_WRAPPER: 'TAG_WRAPPER' as const,
 };
 
 type RowsComponentType = keyof typeof ROWS_COMPONENT_TYPE;
@@ -16,7 +17,12 @@ type Props = {
 
 const StudioRows = ({ children, labelName, componentType = 'DEFAULT' }: Props) => {
   return (
-    <div className="grid grid-cols-11">
+    <div
+      className={clsx('grid grid-cols-11', {
+        'my-6': componentType === ROWS_COMPONENT_TYPE.DEFAULT,
+        'my-1': componentType === ROWS_COMPONENT_TYPE.TAG || componentType === ROWS_COMPONENT_TYPE.TAG_WRAPPER,
+      })}
+    >
       <div className="col-span-3">
         <label className="funch-bold16">{labelName}</label>
       </div>
