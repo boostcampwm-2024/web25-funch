@@ -3,8 +3,6 @@
 import { createContext, useCallback, useEffect, useState, type PropsWithChildren } from 'react';
 import type { InternalUserSession } from '@libs/internalTypes';
 import { COOKIE_USER_KEY, LOCAL_STORAGE_USER_KEY } from '@libs/constants';
-import useInternalRouter from '@hooks/useInternalRouter';
-import cookies from 'js-cookie';
 import Cookies from 'js-cookie';
 
 type UserContextType = {
@@ -30,7 +28,6 @@ export const UserContext = createContext<UserContextType>({
 type Props = PropsWithChildren;
 
 const UserProvider = ({ children }: Props) => {
-  const { push } = useInternalRouter();
   const [userSession, setUserSession] = useState<InternalUserSession | null>(null);
 
   const saveUserSession = useCallback((newUserSession: InternalUserSession) => {
@@ -38,13 +35,13 @@ const UserProvider = ({ children }: Props) => {
       ...newUserSession,
     });
     localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(newUserSession));
-    cookies.set(COOKIE_USER_KEY, newUserSession.accessToken);
+    Cookies.set(COOKIE_USER_KEY, newUserSession.accessToken);
   }, []);
 
   const clearUserSession = () => {
     setUserSession(null);
     localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
-    cookies.remove(COOKIE_USER_KEY);
+    Cookies.remove(COOKIE_USER_KEY);
   };
 
   const updateBroadcastId = useCallback((broadcastId: string) => {
