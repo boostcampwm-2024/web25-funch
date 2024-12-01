@@ -226,7 +226,7 @@ export const mockedBroadcasts: Broadcast[] = [
     broadcastId: 'cccccccccccccccccccccccc',
     title: '레이디 가가의 방송',
     contentCategory: CONTENTS_CATEGORY.virtual.CODE,
-    moodCategory: MOODS_CATEGORY.getking.CODE,
+    moodCategory: MOODS_CATEGORY.getking.NAME,
     tags: ['tag1', 'tag2'],
     thumbnailUrl: 'https://via.placeholder.com/150',
     viewerCount: 1000,

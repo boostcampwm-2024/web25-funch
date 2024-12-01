@@ -71,19 +71,18 @@ const StudioTextarea = Object.assign(TextareaWrapper, {
 
 type TextareaTestProps = {
   setText: (text: string) => void;
+  text: string;
 };
 
 /**
  * @method TextareaRendererForTest
  * @description page.tsx에서 Textarea UI를 확인하기 위한 테스트용 렌더러 컴포넌트입니다. 추후 삭제 예정입니다.
  */
-export const TextareaRendererForTest = ({ setText }: TextareaTestProps) => {
-  const [value, setValue] = useState('');
+export const TextareaRendererForTest = ({ setText, text }: TextareaTestProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const maxLength = 100;
-  const currentLength = value.length;
+  const currentLength = text.length;
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
     handleChangeTextareaSize(textareaRef);
     setText(e.target.value);
   };
@@ -91,7 +90,7 @@ export const TextareaRendererForTest = ({ setText }: TextareaTestProps) => {
     <StudioTextarea>
       <StudioTextarea.Textarea
         ref={textareaRef}
-        value={value}
+        value={text}
         onChange={onChange}
         maxLength={100}
         minLength={0}
