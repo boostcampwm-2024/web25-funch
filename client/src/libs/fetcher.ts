@@ -34,11 +34,12 @@ const fetcher = async <T>({ method, url, customOptions }: FetcherParams): Promis
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    if (response.status === 401) {
+    if (response.status === 401 && !url.startsWith('/api/auth')) {
       // refresh token 패치 로직 추가하기
+      location.href = '/auth/refresh';
+    } else {
+      throw new Error('에러 아님');
     }
-
-    throw new Error('에러 아님');
   }
 
   const fetchResult = await response.json();
