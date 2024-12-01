@@ -19,6 +19,8 @@ jobs:
           chmod 600 deploy_key
           ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
             cd /root/web25-funch
+            git switch main
+            git pull origin main
             sh deploy.sh
           EOF
 
@@ -35,5 +37,8 @@ jobs:
           chmod 600 deploy_key
           ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
             cd /service/web25-funch
+            git switch main
+            git pull origin main
+            cd mediaServer
             sh deploy.sh
           EOF
