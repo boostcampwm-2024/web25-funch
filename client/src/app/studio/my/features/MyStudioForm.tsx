@@ -4,18 +4,19 @@ import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
 
 import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
-import { StudioDropdownRenderer } from '@components/studio/StudioDropdown';
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
 import StudioBadge from '@components/studio/StudioBadge';
 import { getPlaylist, updateInfo } from '@libs/actions';
 import useUserContext from '@hooks/useUserContext';
+import StudioCategoryDropdown from '@components/studio/StudioCategoryDropdown';
+import StudioMoodDropdown from '@components/studio/StudioMoodDropdown';
 
 interface MyStudioFormProps {
   onSubmit: (FormData: MyStudioFormData) => void;
 }
 
-interface MyStudioFormData {
+export interface MyStudioFormData {
   title: string;
   contentCategory: string;
   moodCategory: string;
@@ -29,7 +30,6 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
 
   useEffect(() => {
     if (myId) {
-      console.log(myId);
       getMyStudioFormData(myId);
     }
   }, [myId]);
@@ -87,14 +87,14 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
   const getMyStudioFormData = async (data: string) => {
     try {
       const myStudioData = await getPlaylist(data);
-      setFormData({
+      await setFormData({
         title: myStudioData.broadcastData.title,
         contentCategory: myStudioData.broadcastData.contentCategory,
         moodCategory: myStudioData.broadcastData.moodCategory,
         tags: myStudioData.broadcastData.tags,
-        thumbnail: myStudioData.broadcastData.thumbnailUrl,
+        thumbnail: myStudioData.broadcastData.thumbnailUrl || '',
       });
-      setTags(myStudioData.broadcastData.tags);
+      await setTags(myStudioData.broadcastData.tags);
     } catch (err) {
       console.log(err);
     }
@@ -110,17 +110,15 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
           />
         </StudioRows>
         <StudioRows labelName="카테고리">
-          <StudioDropdownRenderer
+          <StudioCategoryDropdown
             placeHolder="카테고리 검색"
-            componentType="category"
             data={formData.contentCategory}
             setData={(category) => setFormData((prev) => ({ ...prev, contentCategory: category }))}
           />
         </StudioRows>
         <StudioRows labelName="분위기">
-          <StudioDropdownRenderer
+          <StudioMoodDropdown
             placeHolder="분위기 검색"
-            componentType="mood"
             data={formData.moodCategory}
             setData={(mood) => setFormData((prev) => ({ ...prev, moodCategory: mood }))}
           />
@@ -161,14 +159,21 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
             </p>
           </div>
         </StudioRows>
-        <StudioRows labelName="미리보기 이미지">
+        <StudioRows labelName="미리보기 이미지" componentType="IMAGE_INPUT">
           <StudioImageInput setImage={(file) => setFormData((prev) => ({ ...prev, thumbnail: file }))}>
             <StudioImageInput.Upload />
             <StudioImageInput.Preview />
             <StudioImageInput.Controls />
           </StudioImageInput>
         </StudioRows>
-        <StudioUpdateButton type="submit" onClick={UpdateInfo}>
+        <StudioRows labelName="" componentType="TAG">
+          <div className="flex flex-col">
+            <p className="text-content-neutral-weak funch-medium12">
+              {'· ' + '이미지는 최대 2MB까지 업로드 가능합니다.'}
+            </p>
+          </div>
+        </StudioRows>
+        <StudioUpdateButton type="submit" onClick={UpdateInfo} data={formData}>
           업데이트
         </StudioUpdateButton>
       </div>
