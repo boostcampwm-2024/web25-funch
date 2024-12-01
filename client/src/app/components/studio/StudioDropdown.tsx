@@ -138,13 +138,14 @@ type CategoryTestProps = {
   setData: (data: string) => void;
   componentType: 'category' | 'mood';
   placeHolder: string;
+  data: string;
 };
 
 const categories = Object.values(CONTENTS_CATEGORY);
 const moods = Object.values(MOODS_CATEGORY);
 
-export const StudioDropdownRenderer = ({ setData, componentType, placeHolder }: CategoryTestProps) => {
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+export const StudioDropdownRenderer = ({ setData, data, componentType, placeHolder }: CategoryTestProps) => {
+  const [selectedKey, setSelectedKey] = useState<string | null>('');
   const [selectedCode, setSelectedCode] = useState<ContentsCategoryKey>('talk');
   const [selectedMoodCode, setSelectedMoodCode] = useState<MoodsCategoryKey>('unknown');
 
@@ -154,8 +155,14 @@ export const StudioDropdownRenderer = ({ setData, componentType, placeHolder }: 
   };
 
   useEffect(() => {
-    console.log(selectedKey);
-  }, [selectedKey]);
+    console.log(data);
+    setSelectedKey(data);
+    if (componentType === 'category') {
+      setSelectedCode(categories.find((c) => c.NAME === data)?.CODE || 'talk');
+    } else {
+      setSelectedMoodCode(moods.find((m) => m.NAME === data)?.CODE || 'unknown');
+    }
+  }, [data]);
 
   return (
     <StudioDropdown>

@@ -11,6 +11,10 @@ const FollowingLives = () => {
 
   if (!isLoggedin) return null;
 
+  if (lives.length === 0) {
+    return null;
+  }
+
   if (isError) {
     return <div>에러가 발생했습니다.</div>;
   }
