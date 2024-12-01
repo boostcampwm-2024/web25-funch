@@ -5,6 +5,7 @@ const ROWS_COMPONENT_TYPE = {
   DEFAULT: 'DEFAULT' as const,
   TAG: 'TAG' as const,
   TAG_WRAPPER: 'TAG_WRAPPER' as const,
+  IMAGE_INPUT: 'IMAGE_INPUT' as const,
 };
 
 type RowsComponentType = keyof typeof ROWS_COMPONENT_TYPE;
@@ -21,6 +22,7 @@ const StudioRows = ({ children, labelName, componentType = 'DEFAULT' }: Props) =
       className={clsx('grid grid-cols-11', {
         'my-6': componentType === ROWS_COMPONENT_TYPE.DEFAULT,
         'my-1': componentType === ROWS_COMPONENT_TYPE.TAG || componentType === ROWS_COMPONENT_TYPE.TAG_WRAPPER,
+        'mt-4': componentType === ROWS_COMPONENT_TYPE.IMAGE_INPUT,
       })}
     >
       <div className="col-span-3">
