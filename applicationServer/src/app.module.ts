@@ -6,13 +6,23 @@ import { LiveModule } from '@live/live.module';
 import { GithubAuthModule } from '@github/github.module';
 import { AuthModule } from '@auth/auth.module';
 import { FollowModule } from '@follow/follow.module';
+import { SearchModule } from './search/search.module';
 import { NaverAuthModule } from '@naver/naver.module';
 import { GoogleAuthModule } from '@google/google.module';
 
 dotenv.config();
 
 @Module({
-  imports: [MemberModule, GithubAuthModule, AuthModule, LiveModule, FollowModule, NaverAuthModule, GoogleAuthModule],
+  imports: [
+    MemberModule,
+    GithubAuthModule,
+    AuthModule,
+    LiveModule,
+    SearchModule,
+    FollowModule,
+    NaverAuthModule,
+    GoogleAuthModule,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
