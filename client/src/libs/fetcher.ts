@@ -1,5 +1,5 @@
 import type { FetcherParams } from '@libs/internalTypes';
-import { COOKIE_USER_KEY } from './constants';
+import { COOKIE_USER_KEY, STATUS_CODE } from './constants';
 import Cookies from 'js-cookie';
 
 const defaultHeaders = {
@@ -34,8 +34,7 @@ const fetcher = async <T>({ method, url, customOptions }: FetcherParams): Promis
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    if (response.status === 401 && !url.startsWith('/api/auth')) {
-      // refresh token 패치 로직 추가하기
+    if (response.status === STATUS_CODE.UNAUTHORIZED && !url.startsWith('/api/auth')) {
       location.href = '/auth/refresh';
     } else {
       throw new Error('에러 아님');

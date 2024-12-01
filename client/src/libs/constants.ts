@@ -150,3 +150,7 @@ export const CONTENTS_CATEGORY = {
     NAME: '여행',
   } as const,
 };
+
+export const STATUS_CODE = {
+  UNAUTHORIZED: 401 as const,
+};
