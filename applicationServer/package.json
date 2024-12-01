@@ -72,7 +72,8 @@
       "^@naver/(.*)$": "<rootDir>/src/auth/naver/$1",
       "^@cookie/(.*)$": "<rootDir>/src/auth/cookie/$1",
       "^@authUtil/(.*)$": "<rootDir>/src/auth/util/$1",
-      "^@follow/(.*)$": "<rootDir>/src/follow/$1"
+      "^@follow/(.*)$": "<rootDir>/src/follow/$1",
+      "^@search/(.*)$": "<rootDir>/src/search/$1"
     }
   }
 }
