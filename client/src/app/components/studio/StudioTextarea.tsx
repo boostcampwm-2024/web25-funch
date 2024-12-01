@@ -95,7 +95,7 @@ export const TextareaRendererForTest = ({ setText }: TextareaTestProps) => {
         onChange={onChange}
         maxLength={100}
         minLength={0}
-        placeholder="플레이스 홀더"
+        placeholder="방송 제목을 입력해주세요."
       />
       <StudioTextarea.TextareaCount currentLength={currentLength} maxLength={maxLength} />
     </StudioTextarea>
