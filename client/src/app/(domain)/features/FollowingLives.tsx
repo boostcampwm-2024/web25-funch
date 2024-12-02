@@ -15,9 +15,9 @@ const FollowingLives = () => {
   if (!isLoggedin) return null;
 
   if (lives.length === 0 && offlines.length === 0) {
-    return <NoFollowingLives pathname={pathname} componentType="noFollow" />;
+    return <NoFollowingLives pathname={pathname} componentType="NOFOLLOW" />;
   } else if (lives.length === 0 && offlines.length > 0) {
-    return <NoFollowingLives pathname={pathname} componentType="noLive" />;
+    return <NoFollowingLives pathname={pathname} componentType="NOLIVE" />;
   }
 
   if (isError) {
