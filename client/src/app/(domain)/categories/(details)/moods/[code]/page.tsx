@@ -4,6 +4,7 @@ import { getBroadcastsByMoodCategory } from '@mocks/broadcasts';
 import { unstable_noStore as noStore } from 'next/cache';
 import CategoryLives from '@app/(domain)/categories/(details)/features/CategoryLives';
 import { Suspense } from 'react';
+import { type Metadata } from 'next';
 
 const fetchData = async (code: string): Promise<Broadcast[]> => {
   if (process.env.NODE_ENV !== 'production') return getBroadcastsByMoodCategory(code);
@@ -28,6 +29,15 @@ type Props = {
     code: MoodsCategoryKey;
   }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const code = (await params).code;
+  const categoryName = MOODS_CATEGORY[code].NAME;
+
+  return {
+    title: `${categoryName} 카테고리`,
+  };
+}
 
 const MoodCategoryPage = async ({ params }: Props) => {
   noStore();
