@@ -3,6 +3,7 @@
 import React, { createContext, useState, useEffect, PropsWithChildren, useCallback } from 'react';
 import { getFollowingLiveList } from '@libs/actions';
 import { Broadcast, User2 } from '@libs/internalTypes';
+import useUser from '@hooks/useUser';
 
 interface FollowingLivesContextType {
   lives: Broadcast[];
@@ -21,6 +22,8 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
   const [ids, setIds] = useState<string[]>([]);
   const [lives, setLives] = useState<Broadcast[]>([]);
   const [offlines, setOfflines] = useState<User2[]>([]);
+
+  const { isLoggedin } = useUser();
 
   const fetchLives = async () => {
     try {
@@ -50,14 +53,14 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   useEffect(() => {
-    fetchLives();
-
-    return () => {
+    if (isLoggedin) {
+      fetchLives();
+    } else {
       setLives([]);
       setIds([]);
       setOfflines([]);
-    };
-  }, []);
+    }
+  }, [isLoggedin]);
 
   return (
     <FollowingLivesContext.Provider
