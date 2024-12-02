@@ -19,9 +19,6 @@ const StudioUpdateButton = ({ children, data, ...rest }: Props) => {
     if (!originalData && data.title !== '') {
       setOriginalData(data);
     }
-
-    console.log(data);
-    console.log(originalData);
   }, [data]);
 
   const isDataChanged = useMemo(() => {
