@@ -1,26 +1,14 @@
+'use client';
+
 import clsx from 'clsx';
-import { mockedBroadcasts } from '@mocks/broadcasts';
 import RecommendedLivesRenderer from './RecommendedLivesRenderer';
 import { Suspense } from 'react';
 import ErrorBoundary from '@components/ErrorBoundary';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getLiveList } from '@libs/actions';
+import { TANSTACK_QUERY_KEY } from '@libs/constants';
 
-const fetchData = async () => {
-  if (process.env.NODE_ENV !== 'production') return mockedBroadcasts;
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-  const response = await fetch(`${apiUrl}/live/list`);
-
-  if (!response.ok) {
-    throw new Error('라이브 목록을 불러오는데 실패했어요.');
-  }
-
-  const data = await response.json();
-
-  return data;
-};
-
-const RecommendedLives = async () => {
+const RecommendedLives = () => {
   return (
     <div>
       <div className={clsx('mb-4 flex items-center justify-between')}>
@@ -37,8 +25,12 @@ const RecommendedLives = async () => {
   );
 };
 
-const RecommendedLivesFetcher = async () => {
-  const lives = await fetchData();
+const RecommendedLivesFetcher = () => {
+  const { data: lives } = useSuspenseQuery({
+    queryKey: [TANSTACK_QUERY_KEY.LIVE_LIST],
+    queryFn: async () => await getLiveList(),
+    refetchOnMount: true,
+  });
 
   return <RecommendedLivesRenderer lives={lives} />;
 };
