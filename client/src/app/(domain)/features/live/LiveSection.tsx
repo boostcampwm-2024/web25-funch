@@ -114,34 +114,32 @@ const LiveSection = () => {
                 </VideoController.Wrapper>
               </VideoController>
             </Live.VideoWrapper>
-            {isLivePage && (
-              <LiveInfo>
-                {({ liveInfo }) => (
-                  <>
-                    <LiveInfo.Title title={liveInfo.title} />
-                    <LiveInfo.Wrapper>
-                      <LiveInfo.ProfileImage profileImageUrl={liveInfo.profileImageUrl} userName={liveInfo.userName} />
-                      <LiveInfo.Description>
-                        <LiveInfo.UserName userName={liveInfo.userName} />
-                        <LiveInfo.Tags
-                          tags={liveInfo.tags}
-                          contentCategory={liveInfo.contentCategory}
-                          moodCategory={liveInfo.moodCategory}
-                        />
-                        <LiveInfo.ViewerCount viewerCount={liveInfo.viewerCount} />
-                      </LiveInfo.Description>
-                      <LiveInfo.FollowButton
-                        ids={ids}
-                        broadcastId={liveInfo.broadcastId}
-                        myId={myId}
-                        isloggedin={isLoggedin}
-                        refetchLives={refetchLives}
+            <LiveInfo>
+              {({ liveInfo }) => (
+                <>
+                  <LiveInfo.Title title={liveInfo.title} />
+                  <LiveInfo.Wrapper>
+                    <LiveInfo.ProfileImage profileImageUrl={liveInfo.profileImageUrl} userName={liveInfo.userName} />
+                    <LiveInfo.Description>
+                      <LiveInfo.UserName userName={liveInfo.userName} />
+                      <LiveInfo.Tags
+                        tags={liveInfo.tags}
+                        contentCategory={liveInfo.contentCategory}
+                        moodCategory={liveInfo.moodCategory}
                       />
-                    </LiveInfo.Wrapper>
-                  </>
-                )}
-              </LiveInfo>
-            )}
+                      <LiveInfo.ViewerCount viewerCount={liveInfo.viewerCount} />
+                    </LiveInfo.Description>
+                    <LiveInfo.FollowButton
+                      ids={ids}
+                      broadcastId={liveInfo.broadcastId}
+                      myId={myId}
+                      isloggedin={isLoggedin}
+                      refetchLives={refetchLives}
+                    />
+                  </LiveInfo.Wrapper>
+                </>
+              )}
+            </LiveInfo>
           </Live.Wrapper>
         )}
       </Live>
