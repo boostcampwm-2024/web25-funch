@@ -16,7 +16,6 @@ export const getLiveList = async (): Promise<Broadcast[]> => {
     method: 'GET',
     url: '/api/live/list',
   });
-
   return result.sort((a, b) => b.viewerCount - a.viewerCount);
 };
 

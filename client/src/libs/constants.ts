@@ -3,6 +3,10 @@ export const APP_THEME = {
   DARK: 'DARK' as const,
 };
 
+export const TANSTACK_QUERY_KEY = {
+  LIVE_LIST: 'LIVE_LIST' as const,
+};
+
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
 export const LOCAL_STORAGE_USER_KEY = 'funch-user';
 export const LOCAL_STORAGE_PREV_SEARCHES_KEY = 'funch-prev-searches';
