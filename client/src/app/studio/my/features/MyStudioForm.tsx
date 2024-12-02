@@ -151,10 +151,10 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
         )}
         <StudioRows labelName="" componentType="TAG">
           <div className="flex flex-col">
-            <p className="text-content-neutral-weak funch-medium12">
+            <p className="text-content-neutral-primary funch-medium12">
               {'· ' + '공백 없이 15자까지 입력할 수 있습니다.'}
             </p>
-            <p className="text-content-neutral-weak funch-medium12">
+            <p className="text-content-neutral-primary funch-medium12">
               {'· ' + '등록한 순서대로 방송 정보에 노출됩니다.'}
             </p>
           </div>
@@ -171,7 +171,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
         </StudioRows>
         <StudioRows labelName="" componentType="TAG">
           <div className="flex flex-col">
-            <p className="text-content-neutral-weak funch-medium12">
+            <p className="text-content-neutral-primary funch-medium12">
               {'· ' + '이미지는 최대 2MB까지 업로드 가능합니다.'}
             </p>
           </div>
