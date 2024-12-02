@@ -3,13 +3,11 @@
 import DeleteSvg from '@components/svgs/DeleteSvg';
 import ReadingGlassSvg from '@components/svgs/ReadingGlassSvg';
 import clsx from 'clsx';
-import { type AllHTMLAttributes, type PropsWithChildren } from 'react';
+import { FormHTMLAttributes, type AllHTMLAttributes, type PropsWithChildren } from 'react';
 
-type SearchWrapperProps = PropsWithChildren<{
-  onSubmit: () => void;
-}>;
+type SearchWrapperProps = FormHTMLAttributes<HTMLFormElement> & PropsWithChildren;
 
-const SearchWrapper = ({ children, onSubmit }: SearchWrapperProps) => {
+const SearchWrapper = ({ children, ...rest }: SearchWrapperProps) => {
   return (
     <div
       className={clsx(
@@ -17,13 +15,7 @@ const SearchWrapper = ({ children, onSubmit }: SearchWrapperProps) => {
         'border-border-neutral-base focus-within:border-border-brand-weak rounded-full border border-solid',
       )}
     >
-      <form
-        className="w-full"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
+      <form className="w-full" {...rest}>
         <div className={clsx('flex h-9 w-full items-center', 'pl-3.5 pr-2')}>{children}</div>
       </form>
     </div>
