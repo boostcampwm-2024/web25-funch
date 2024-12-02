@@ -63,10 +63,6 @@ const UserProvider = ({ children }: Props) => {
   }, []);
 
   const logout = () => {
-    const ok = confirm('로그아웃하시겠어요?');
-    if (!ok) {
-      return;
-    }
     clearUserSession();
     Cookies.remove('refreshToken');
     location.href = '/';
