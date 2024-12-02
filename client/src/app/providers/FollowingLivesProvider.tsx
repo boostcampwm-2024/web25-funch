@@ -51,6 +51,12 @@ export const FollowingLivesProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     fetchLives();
+
+    return () => {
+      setLives([]);
+      setIds([]);
+      setOfflines([]);
+    };
   }, []);
 
   return (

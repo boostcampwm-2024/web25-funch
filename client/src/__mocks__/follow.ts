@@ -19,6 +19,34 @@ export const mockedFollowingList = {
     {
       playlistUrl: 'https://via.placeholder.com/150',
       broadcastData: {
+        broadcastId: 'bbb',
+        title: '[데모 공유] 팀 무지개 치즈 3주차 발표',
+        contentCategory: CONTENTS_CATEGORY.develop.CODE,
+        moodCategory: MOODS_CATEGORY.energetic.CODE,
+        tags: ['funch', 'boostcamp'],
+        thumbnailUrl: 'https://via.placeholder.com/150',
+        viewerCount: 100,
+        userName: '짜왕',
+        profileImageUrl: 'https://via.placeholder.com/150',
+      },
+    },
+    {
+      playlistUrl: 'https://via.placeholder.com/150',
+      broadcastData: {
+        broadcastId: 'aaa',
+        title: '[충격] 트럼프 당선',
+        contentCategory: CONTENTS_CATEGORY.politics.CODE,
+        moodCategory: MOODS_CATEGORY.calm.CODE,
+        tags: ['politics', 'election', 'trump', 'usa', 'president'],
+        thumbnailUrl: 'https://via.placeholder.com/150',
+        viewerCount: 10870,
+        userName: '슈카월드',
+        profileImageUrl: 'https://via.placeholder.com/150',
+      },
+    },
+    {
+      playlistUrl: 'https://via.placeholder.com/150',
+      broadcastData: {
         broadcastId: 'tadg',
         title: '방송 제목',
         contentCategory: CONTENTS_CATEGORY.outdoor.CODE,
