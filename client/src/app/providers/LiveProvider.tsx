@@ -118,17 +118,24 @@ const ErrorFallback = ({ isLivePage }: { isLivePage: boolean }) => {
 };
 
 const PlaylistFetcher = ({ broadcastId, children }: PropsWithChildren<{ broadcastId: string }>) => {
-  const { injectPlaylistData } = useLiveContext();
   const { data } = useSuspenseQuery({
     queryKey: ['live', broadcastId],
     queryFn: () => getPlaylist(broadcastId),
   });
 
+  return <Injector playlist={data}>{children}</Injector>;
+};
+
+const Injector = ({
+  children,
+  playlist,
+}: PropsWithChildren<{
+  playlist: Playlist;
+}>) => {
+  const { injectPlaylistData } = useLiveContext();
   useEffect(() => {
-    if (data) {
-      injectPlaylistData(data);
-    }
-  }, [data]);
+    injectPlaylistData(playlist);
+  }, [playlist]);
 
   return children;
 };
