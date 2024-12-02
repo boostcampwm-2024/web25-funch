@@ -26,9 +26,10 @@ type RootProps = {
   children: React.ReactNode;
   className?: string;
   setImage: (image: string | null) => void;
+  data: string;
 };
 
-const StudioImageInput = ({ children, className, setImage }: RootProps) => {
+const StudioImageInput = ({ data, children, className, setImage }: RootProps) => {
   const imageRef = useRef<HTMLImageElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -59,6 +60,13 @@ const StudioImageInput = ({ children, className, setImage }: RootProps) => {
     reader.readAsDataURL(file);
     e.target.value = '';
   };
+
+  useEffect(() => {
+    if (data) {
+      imageRef.current?.setAttribute('src', data);
+      setIsLoaded(true);
+    }
+  }, [data]);
 
   return (
     <StudioImageInputContext.Provider
