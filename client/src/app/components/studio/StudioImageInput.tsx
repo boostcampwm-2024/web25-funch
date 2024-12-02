@@ -145,7 +145,9 @@ const Controls = () => {
   return (
     <div className="funch-bold12 mt-2 flex w-[247px] items-center gap-4">
       <button onClick={handleEditClick}>
-        <div className="border-border-neutral-weak hover:bg-bg-weak rounded-md border px-4 py-2">수정</div>
+        <div className="border-border-neutral-weak text-content-neutral-primary hover:bg-bg-weak rounded-md border px-4 py-2">
+          수정
+        </div>
         <input
           type="file"
           ref={editFileInputRef}
@@ -155,7 +157,7 @@ const Controls = () => {
         />
       </button>
       <button
-        className="border-border-neutral-weak hover:bg-bg-weak rounded-md border px-4 py-2"
+        className="border-border-neutral-weak text-content-neutral-primary hover:bg-bg-weak rounded-md border px-4 py-2"
         onClick={handleDelete}
       >
         삭제
