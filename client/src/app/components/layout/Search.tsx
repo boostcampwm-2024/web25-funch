@@ -63,12 +63,6 @@ const Search = () => {
         e.preventDefault();
         handleSubmit(input, prevSearches);
       }}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          handleSubmit(input, prevSearches);
-        }
-      }}
     >
       <SearchView.Input onFocus={() => setIsFocused(true)} value={input} onChange={handleChangeInput} />
       {input.length > 0 && <SearchView.Cancel onClick={resetInput} />}
