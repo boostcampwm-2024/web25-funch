@@ -39,7 +39,7 @@ const SearchInput = (props: AllHTMLAttributes<HTMLInputElement>) => {
 
 const SearchCancelButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <button title="검색어 지우기" aria-label="입력한 검색어 지우기" className="px-2" onClick={onClick}>
+    <button type="reset" title="검색어 지우기" aria-label="입력한 검색어 지우기" className="px-2" onClick={onClick}>
       <DeleteSvg />
     </button>
   );
