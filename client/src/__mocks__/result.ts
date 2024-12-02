@@ -27,16 +27,28 @@ export const mockedSearchResults = {
   ],
   members: [
     {
-      name: 'name1',
-      profile_image: 'profile_image1',
-      broadcast_id: 'broadcast_id1',
-      follower_count: 1,
+      name: '여행의달인',
+      profile_image: 'https://via.placeholder.com/150',
+      broadcast_id: '9f3a-4b2c-8d1e-6f5g',
+      follower_count: 1205,
     },
     {
-      name: 'name2',
-      profile_image: 'profile_image2',
-      broadcast_id: 'broadcast_id2',
-      follower_count: 2,
+      name: '재테크전문가',
+      profile_image: 'https://via.placeholder.com/150',
+      broadcast_id: 'a7b9-2c3d-4e5f-6g7h',
+      follower_count: 754,
+    },
+    {
+      name: '피트니스트레이너',
+      profile_image: 'https://via.placeholder.com/150',
+      broadcast_id: 'h2j4-5k6l-7m8n-9p0q',
+      follower_count: 512,
+    },
+    {
+      name: '뷰티인플루언서',
+      profile_image: 'https://via.placeholder.com/150',
+      broadcast_id: 'r3s5-6t7u-8v9w-0x1y',
+      follower_count: 987,
     },
   ],
 };

@@ -4,6 +4,9 @@ import { getSearchResult } from '@libs/actions';
 import { Broadcast, User2 } from '@libs/internalTypes';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, useContext, createContext, PropsWithChildren, use } from 'react';
+import Lives from '@components/livesGrid/Lives';
+import clsx from 'clsx';
+import { OfflineItems } from '@app/(domain)/following/features/FollowingOffair';
 
 type SearchContextType = {
   searchLives: Broadcast[];
@@ -22,19 +25,17 @@ const useSearchContext = () => {
 };
 
 const SearchController = ({ children }: PropsWithChildren) => {
-  const params = useSearchParams().get('params');
+  const query = useSearchParams().get('query');
   const [isLoading, setIsLoading] = useState(true);
   const [searchLives, setSearchLives] = useState<Broadcast[]>([]);
   const [searchUsers, setSearchUsers] = useState<User2[]>([]);
 
   const getSearchResults = async () => {
-    if (params) {
-      const res = await getSearchResult(params as string);
-
-      console.log(res);
+    if (query) {
+      const res = await getSearchResult(query as string);
 
       setSearchLives(res.lives);
-      setSearchUsers(res.users);
+      setSearchUsers(res.members);
       setIsLoading(false);
     }
   };
@@ -50,7 +51,7 @@ const SearchController = ({ children }: PropsWithChildren) => {
   );
 };
 
-const Lives = () => {
+const SearchLives = () => {
   const { isLoading, searchLives } = useSearchContext();
 
   if (isLoading) {
@@ -58,20 +59,28 @@ const Lives = () => {
   }
 
   return (
-    <div className="h-20 w-full">
-      {searchLives.map((live) => (
-        <div key={live.broadcastId}>{live.title}</div>
-      ))}
+    <div className={clsx('mb-4 w-full')}>
+      <div className={clsx('mb-2 flex items-center justify-between')}>
+        <h2 className={clsx('text-content-neutral-primary funch-bold20')}>라이브 중인 방송</h2>
+      </div>
+      <Lives lives={searchLives}>
+        {({ visibleLives, isExpanded, toggle }) => (
+          <>
+            <Lives.List>
+              {visibleLives.map((live, index) => (
+                <Lives.Live key={live.broadcastId} live={live} isPriority={index === 0} />
+              ))}
+            </Lives.List>
+            {searchLives.length > 3 && <Lives.Expand isExpanded={isExpanded} toggle={toggle} />}
+          </>
+        )}
+      </Lives>
     </div>
   );
 };
 
 const Users = () => {
-  const { isLoading, searchUsers } = useSearchContext();
-
-  if (isLoading) {
-    return null;
-  }
+  const { isLoading, searchLives, searchUsers } = useSearchContext();
 
   useEffect(() => {
     if (!isLoading) {
@@ -79,17 +88,24 @@ const Users = () => {
     }
   }, [isLoading]);
 
-  return (
-    <div>
-      {searchUsers.map((user) => (
-        <div key={user.broadcast_id}>{user.name}</div>
-      ))}
-    </div>
-  );
+  if (isLoading) {
+    return null;
+  }
+
+  if (searchLives.length === 0) {
+    return (
+      <div className={clsx('w-full')}>
+        <div className={clsx('mb-2 flex items-center justify-between')}>
+          <h2 className={clsx('text-content-neutral-primary funch-bold20')}>오프라인</h2>
+        </div>
+        <OfflineItems offlines={searchUsers} />
+      </div>
+    );
+  }
 };
 
 const SearchContainer = Object.assign(SearchController, {
-  Live: Lives,
+  Live: SearchLives,
   User: Users,
 });
 
