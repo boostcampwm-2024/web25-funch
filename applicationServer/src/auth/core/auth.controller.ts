@@ -21,7 +21,7 @@ class AuthController {
     const accessToken = this.authService.generateAccessToken(payload.memberId);
     const refreshToken = this.authService.generateRefreshToken(payload.memberId);
 
-    this.authService.saveRefreshToken(payload.memberId, refreshToken);
+    await this.authService.saveRefreshToken(payload.memberId, refreshToken);
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
     return { accessToken };
