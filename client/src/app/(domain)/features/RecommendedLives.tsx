@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { mockedBroadcasts } from '@mocks/broadcasts';
 import RecommendedLivesRenderer from './RecommendedLivesRenderer';
 import { Suspense } from 'react';
-import { unstable_noStore as noStore } from 'next/cache';
 import ErrorBoundary from '@components/ErrorBoundary';
 
 const fetchData = async () => {
@@ -10,9 +9,7 @@ const fetchData = async () => {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const response = await fetch(`${apiUrl}/live/list`, {
-    cache: 'no-cache',
-  });
+  const response = await fetch(`${apiUrl}/live/list`);
 
   if (!response.ok) {
     throw new Error('라이브 목록을 불러오는데 실패했어요.');
@@ -24,7 +21,6 @@ const fetchData = async () => {
 };
 
 const RecommendedLives = async () => {
-  noStore();
   return (
     <div>
       <div className={clsx('mb-4 flex items-center justify-between')}>
