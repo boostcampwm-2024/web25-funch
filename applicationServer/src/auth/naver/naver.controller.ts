@@ -29,7 +29,7 @@ class NaverAuthController {
     const accessToken = this.authService.generateAccessToken(member.id);
     const refreshToken = this.authService.generateRefreshToken(member.id);
 
-    this.authService.saveRefreshToken(member.id, refreshToken);
+    await this.authService.saveRefreshToken(member.id, refreshToken);
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
     return { accessToken, name: member.name, profile_image: member.profile_image, broadcast_id: member.broadcast_id };
