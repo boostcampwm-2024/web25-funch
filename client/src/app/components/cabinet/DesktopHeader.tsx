@@ -3,10 +3,8 @@
 import RefreshSvg from '@components/svgs/RefreshSvg';
 import DownArrowSvg from '@components/svgs/DownArrowSvg';
 import UpArrowSvg from '@components/svgs/UpArrowSvg';
-
 import clsx from 'clsx';
 import { useState } from 'react';
-import Button from '@components/Button';
 
 const COMPONENT_TYPE = {
   FOLLOW: 'FOLLOW' as const,
@@ -33,11 +31,17 @@ const DesktopHeader = ({ isExpanded, setIsExpanded, componentType }: ExpandedPro
       <h2 className="funch-bold14 funch-desktop:funch-bold16">
         {componentType === COMPONENT_TYPE.SUGGEST ? '추천 채널' : '팔로우 채널'}
       </h2>
-      <div className="flex">
+      <div className="flex gap-0.5">
         <button
           aria-label={componentType === COMPONENT_TYPE.SUGGEST ? '추천 채널 새로고침' : '팔로우 채널 새로고침'}
           title="새로고침"
-          className={`transform ${rotationCount > 0 ? 'rotate-360' : ''} transition duration-1000 ease-in-out`}
+          className={clsx(
+            'flex h-7 w-7 items-center justify-center',
+            `transform transition duration-1000 ease-in-out`,
+            {
+              'rotate-360': rotationCount > 0,
+            },
+          )}
           style={{
             transform: `rotate(${360 * rotationCount}deg)`,
           }}
@@ -64,11 +68,21 @@ const ArrowButton = ({ componentType, setIsExpanded }: ArrowButtonProps) => {
   return (
     <>
       {componentType === 'UP' ? (
-        <button aria-label="팔로우 채널 접기" title="접기" onClick={() => setIsExpanded((prev) => !prev)}>
+        <button
+          className="flex h-7 w-7 items-center justify-center"
+          aria-label="팔로우 채널 접기"
+          title="접기"
+          onClick={() => setIsExpanded((prev) => !prev)}
+        >
           <UpArrowSvg />
         </button>
       ) : (
-        <button aria-label="팔로우 채널 펼치기" title="펼치기" onClick={() => setIsExpanded((prev) => !prev)}>
+        <button
+          className="flex h-7 w-7 items-center justify-center"
+          aria-label="팔로우 채널 펼치기"
+          title="펼치기"
+          onClick={() => setIsExpanded((prev) => !prev)}
+        >
           <DownArrowSvg />
         </button>
       )}
