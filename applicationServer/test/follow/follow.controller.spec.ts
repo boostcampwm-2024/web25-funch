@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { MemberModule } from '@member/member.module';
+import { MemberService } from '@member/member.service';
 import { FollowController } from '@follow/follow.controller';
 import { FollowService } from '@follow/follow.service';
 import { NeedLoginGuard } from '@src/auth/core/auth.guard';
@@ -10,6 +12,7 @@ describe('FollowController 테스트', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [MemberModule],
       controllers: [FollowController],
       providers: [
         {
@@ -19,6 +22,12 @@ describe('FollowController 테스트', () => {
             findAllFollowWithCondition: jest.fn(),
             followMember: jest.fn(),
             unfollowMember: jest.fn(),
+          },
+        },
+        {
+          provide: MemberService,
+          useValue: {
+            findOneMemberWithCondition: jest.fn().mockResolvedValue({ id: 'id1', broadcast_id: 'user1' }),
           },
         },
       ],
