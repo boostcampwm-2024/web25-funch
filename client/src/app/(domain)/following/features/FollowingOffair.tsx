@@ -6,6 +6,10 @@ import useFollowingLives from '@hooks/useFollowingLives';
 const FollowingOffair = () => {
   const { isError, isLoading, offlines } = useFollowingLives();
 
+  if (offlines.length === 0) {
+    return null;
+  }
+
   if (isError) {
     return <div>에러가 발생했습니다.</div>;
   }
