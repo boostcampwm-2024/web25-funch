@@ -1,5 +1,5 @@
 import StudioDropdown from './StudioDropdown';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ContentsCategoryKey } from '@libs/internalTypes';
 import { CONTENTS_CATEGORY } from '@libs/constants';
 import StudioCategoryCard from './StudioCategoryCard';
@@ -21,9 +21,12 @@ const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) =
   };
 
   useEffect(() => {
-    console.log(data);
     setSelectedKey(data);
-    setSelectedCode(categories.find((c) => c.NAME === data)?.CODE || 'talk');
+    setSelectedCode(categories.find((c) => c.CODE === data)?.CODE || 'talk');
+  }, [data]);
+
+  const categoryName = useMemo(() => {
+    return categories.find((c) => c.CODE === data)?.NAME;
   }, [data]);
 
   return (
@@ -45,7 +48,7 @@ const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) =
                   <StudioDropdown.Item
                     key={idx}
                     onClick={() => {
-                      selectCategory(c.NAME);
+                      selectCategory(c.CODE);
                       blurDropdown();
                       setSelectedCode(c.CODE);
                     }}
@@ -58,7 +61,7 @@ const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) =
           {selectedKey && (
             <div className="mt-5 flex justify-center">
               <div className="flex items-center justify-center">
-                <StudioCategoryCard code={selectedCode} title={selectedKey} />
+                <StudioCategoryCard code={selectedCode} title={categoryName as string} />
               </div>
             </div>
           )}
