@@ -80,28 +80,20 @@ const SearchLives = () => {
 };
 
 const Users = () => {
-  const { isLoading, searchLives, searchUsers } = useSearchContext();
-
-  useEffect(() => {
-    if (!isLoading) {
-      console.log(searchUsers);
-    }
-  }, [isLoading]);
+  const { isLoading, searchUsers } = useSearchContext();
 
   if (isLoading) {
     return null;
   }
 
-  if (searchLives.length === 0) {
-    return (
-      <div className={clsx('w-full')}>
-        <div className={clsx('mb-2 flex items-center justify-between')}>
-          <h2 className={clsx('text-content-neutral-primary funch-bold20')}>오프라인</h2>
-        </div>
-        <OfflineItems offlines={searchUsers} />
+  return (
+    <div className={clsx('w-full')}>
+      <div className={clsx('mb-2 flex items-center justify-between')}>
+        <h2 className={clsx('text-content-neutral-primary funch-bold20')}>오프라인</h2>
       </div>
-    );
-  }
+      <OfflineItems offlines={searchUsers} />
+    </div>
+  );
 };
 
 const SearchContainer = Object.assign(SearchController, {
