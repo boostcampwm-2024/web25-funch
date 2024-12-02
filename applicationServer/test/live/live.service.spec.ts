@@ -3,7 +3,7 @@ import { LiveService } from '@live/live.service';
 import { Live } from '@live/entities/live.entity';
 import { Broadcast } from '@src/types';
 import { Member } from '@src/member/member.entity';
-import { MemberModule } from '@src/member/member.module';
+import { MemberService } from '@src/member/member.service';
 
 function getMockLiveDataList(count) {
   const dummy = new Array(count).fill(0);
@@ -47,9 +47,13 @@ describe('LiveService 테스트', () => {
   let service: LiveService;
 
   beforeEach(async () => {
+    const mockMemberService = {
+      findOneMemberWithCondition: jest.fn(),
+      findMembersWithFollowTable: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MemberModule],
-      providers: [LiveService],
+      providers: [LiveService, { provide: MemberService, useValue: mockMemberService }],
     }).compile();
     service = module.get<LiveService>(LiveService);
   });
