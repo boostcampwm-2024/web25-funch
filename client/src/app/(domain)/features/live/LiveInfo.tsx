@@ -54,9 +54,14 @@ const LiveInfoWrapper = ({ children }: Props) => {
 
   return (
     <div
-      className={clsx('px-7 pb-6 pt-4', {
-        'absolute h-0 w-0 overflow-hidden': !isLivePage,
-      })}
+      className={clsx(
+        {
+          'absolute h-0 w-0 overflow-hidden p-0': !isLivePage,
+        },
+        {
+          'px-7 pb-6 pt-4': isLivePage,
+        },
+      )}
     >
       {children({ liveInfo })}
     </div>
