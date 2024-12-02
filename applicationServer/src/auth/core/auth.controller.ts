@@ -14,14 +14,14 @@ class AuthController {
 
   @Get('/refresh')
   @UseGuards(NeedRefreshTokenGuard)
-  async refreshAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  refreshAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN];
     const payload = this.authService.verifyToken(oldRefreshToken);
 
     const accessToken = this.authService.generateAccessToken(payload.memberId);
     const refreshToken = this.authService.generateRefreshToken(payload.memberId);
 
-    await this.authService.saveRefreshToken(payload.memberId, refreshToken);
+    this.authService.saveRefreshToken(payload.memberId, refreshToken);
     this.cookieService.setCookie(res, REFRESH_TOKEN, refreshToken);
 
     return { accessToken };
