@@ -45,6 +45,7 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
                   <StudioDropdown.Item
                     key={idx}
                     onClick={() => {
+                      selectMood(m.NAME);
                       blurDropdown();
                       setSelectedMoodCode(m.CODE);
                     }}
