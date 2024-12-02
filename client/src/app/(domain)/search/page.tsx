@@ -1,9 +1,9 @@
-import SearchContainer from './feature/SearchContainer';
+import SearchWrapper from './feature/SearchWrapper';
 
 const SearchPage = () => {
   return (
     <section className="min-h-home w-full px-7">
-      <SearchContainer />
+      <SearchWrapper />
     </section>
   );
 };
