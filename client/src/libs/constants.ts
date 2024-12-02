@@ -5,6 +5,7 @@ export const APP_THEME = {
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
 export const LOCAL_STORAGE_USER_KEY = 'funch-user';
+export const LOCAL_STORAGE_PREV_SEARCHES_KEY = 'funch-prev-searches';
 
 export const COOKIE_USER_KEY = 'funch-user';
 
