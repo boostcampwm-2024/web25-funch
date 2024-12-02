@@ -65,6 +65,7 @@ export type Chat = {
 // 11.20 17:40
 export type Broadcast = {
   broadcastId: string;
+  broadcastPath?: string;
   title: string;
   contentCategory: string;
   moodCategory: string;
@@ -132,4 +133,9 @@ export type MyData = {
   follower_count: number;
   created_at: string;
   deleted_at?: string;
+};
+
+export type SearchResult = {
+  lives: Broadcast[];
+  members: User2[];
 };
