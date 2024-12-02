@@ -23,7 +23,7 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
   useEffect(() => {
     console.log(data);
     setSelectedKey(data);
-    setSelectedMoodCode(moods.find((m) => m.NAME === data)?.CODE || 'unknown');
+    setSelectedMoodCode(moods.find((m) => m.CODE === data)?.CODE || 'unknown');
   }, [data]);
 
   return (
@@ -45,7 +45,7 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
                   <StudioDropdown.Item
                     key={idx}
                     onClick={() => {
-                      selectMood(m.NAME);
+                      selectMood(m.CODE);
                       blurDropdown();
                       setSelectedMoodCode(m.CODE);
                     }}
@@ -59,7 +59,7 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
             <div className="relative mt-2 h-10 w-full shadow-md">
               {MoodsCategoryPalette({ code: selectedMoodCode })}
               <div className="text-content-neutral-inverse absolute left-[45%] top-[20%]">
-                {moods.find((m) => m.NAME === selectedKey)?.NAME}
+                {moods.find((m) => m.CODE === selectedKey)?.NAME}
               </div>
             </div>
           )}
