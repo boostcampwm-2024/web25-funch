@@ -8,17 +8,9 @@ import VideoController from './VideoController';
 import MiniPlayerController from './MiniPlayerController';
 import Chat from './Chat';
 import LiveInfo from './LiveInfo';
-import useFollowingLives from '@hooks/useFollowingLives';
-import useUserContext from '@hooks/useUserContext';
-import useUser from '@hooks/useUser';
 
 const LiveSection = () => {
   const { isLivePage, liveUrl } = useLiveContext();
-  const { ids, refetchLives } = useFollowingLives();
-  const { isLoggedin } = useUser();
-  const { userSession } = useUserContext();
-
-  const myId = userSession?.user?.broadcastId || '';
 
   // ** lives 페이지라면 [id]에 해당하는 스트리밍 중인 방송이 있는지 확인하여
   // 없으면 NoLiveContent를 보여주고,(liveId를 null로)
@@ -129,13 +121,7 @@ const LiveSection = () => {
                       />
                       <LiveInfo.ViewerCount viewerCount={liveInfo.viewerCount} />
                     </LiveInfo.Description>
-                    <LiveInfo.FollowButton
-                      ids={ids}
-                      broadcastId={liveInfo.broadcastId}
-                      myId={myId}
-                      isloggedin={isLoggedin}
-                      refetchLives={refetchLives}
-                    />
+                    <LiveInfo.FollowButton broadcastId={liveInfo.broadcastId} />
                   </LiveInfo.Wrapper>
                 </>
               )}
