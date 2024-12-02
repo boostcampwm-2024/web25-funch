@@ -21,12 +21,12 @@ const NoFollowingLives = ({ pathname, componentType }: Props) => {
         <p className={clsx('text-content-neutral-primary funch-bold16 mt-4')}>
           {componentType === 'NOFOLLOW' ? '팔로우 중인 방송이 없습니다.' : '라이브 중인 방송이 없습니다.'}
         </p>
-        {componentType === 'NOLIVE' && pathname === '/following' && (
+        {componentType === 'NOFOLLOW' && pathname === '/following' && (
           <Link href="/">
             <button
               className={clsx(
                 'bg-surface-brand-base funch-bold14',
-                'text-content-neutral-inverse mt-4 w-40 rounded-lg p-3',
+                'text-content-static-white mt-4 w-40 rounded-lg p-3',
                 'hover:opacity-75',
               )}
             >
