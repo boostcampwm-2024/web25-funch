@@ -60,16 +60,6 @@ const UserProvider = ({ children }: Props) => {
         },
       };
     });
-    localStorage.setItem(
-      LOCAL_STORAGE_USER_KEY,
-      JSON.stringify({
-        ...userSession,
-        user: {
-          ...userSession?.user,
-          broadcastId,
-        },
-      }),
-    );
   }, []);
 
   const logout = () => {
@@ -121,6 +111,12 @@ const UserProvider = ({ children }: Props) => {
       setUserSession(JSON.parse(user));
     }
   }, []);
+
+  useEffect(() => {
+    if (userSession) {
+      localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userSession));
+    }
+  }, [userSession]);
 
   return (
     <UserContext.Provider
