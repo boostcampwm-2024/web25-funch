@@ -5,11 +5,15 @@ import FullHeart from '@components/svgs/FullHeart';
 import useLiveContext from '@hooks/useLiveContext';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { memo, type PropsWithChildren, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, type PropsWithChildren, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Badge from '@app/(domain)/features/Badge';
 import { comma } from '@libs/formats';
 import type { Broadcast } from '@libs/internalTypes';
 import { makeFollow, makeUnfollow } from '@libs/actions';
+import useUser from '@hooks/useUser';
+import useUserContext from '@hooks/useUserContext';
+import useFollowingLives from '@hooks/useFollowingLives';
+import LoginModal from '@components/layout/LoginModal';
 
 type Props = {
   children: (args: { liveInfo: Broadcast }) => ReactNode;
@@ -145,64 +149,80 @@ const LiveInfoViewerCount = memo(({ viewerCount }: { viewerCount: number }) => {
   return <span className="funch-medium12 text-content-neutral-base">{comma(viewerCount)}명 시청 중</span>;
 });
 
-type LiveInfoFollowToggleButtonProps = {
-  ids: string[];
+type LiveInfoFollowButtonProps = {
   broadcastId: string;
-  myId: string;
-  isloggedin: boolean;
-  refetchLives: () => void;
 };
 
-const LiveInfoFollowToggleButton = ({
-  ids,
-  broadcastId,
-  myId,
-  isloggedin,
-  refetchLives,
-}: LiveInfoFollowToggleButtonProps) => {
-  const [followed, setFollowed] = useState(false);
-
-  const followInfo = {
-    follower: myId,
-    following: broadcastId,
+const LiveInfoFollowButton = memo(({ broadcastId }: LiveInfoFollowButtonProps) => {
+  const [isShowModal, setIsShowModal] = useState(false);
+  const closeModal = () => {
+    setIsShowModal(false);
   };
+  const { ids, refetchLives } = useFollowingLives();
+  const { isLoggedin } = useUser();
+  const { userSession } = useUserContext();
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  const myId = userSession?.user?.broadcastId || '';
 
   useEffect(() => {
-    setFollowed(ids.includes(broadcastId));
+    setIsFollowed(ids.includes(broadcastId));
   }, [ids, broadcastId]);
 
-  const fetchFollow = async () => {
-    if (!followed) {
-      await makeFollow(followInfo);
-      setFollowed(true);
-    } else {
-      await makeUnfollow(followInfo);
-      setFollowed(false);
-    }
+  const handleClickFollow = useCallback(
+    async ({
+      isLoggedin,
+      isFollowed,
+      myId,
+      broadcastId,
+    }: {
+      isLoggedin: boolean;
+      isFollowed: boolean;
+      myId: string;
+      broadcastId: string;
+    }) => {
+      if (!isLoggedin) {
+        setIsShowModal(true);
+        return;
+      }
 
-    refetchLives();
-  };
+      if (!isFollowed) {
+        await makeFollow({ follower: myId, following: broadcastId });
+        setIsFollowed(true);
+      } else {
+        await makeUnfollow({ follower: myId, following: broadcastId });
+        setIsFollowed(false);
+      }
+
+      refetchLives();
+    },
+    [refetchLives],
+  );
 
   return (
-    <div className="pt-5">
-      <button
-        disabled={!isloggedin}
-        className={clsx(
-          'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5',
-          'text-content-neutral-inverse pr-4 hover:opacity-65',
-          {
-            'bg-surface-static-warmgray': followed,
-            'bg-surface-brand-strong': !followed,
-          },
-        )}
-        onClick={fetchFollow}
-      >
-        {followed ? <FullHeart /> : <HeartSvg />}
-        <span className="funch-meta14">{followed ? '팔로잉' : '팔로우'}</span>
-      </button>
-    </div>
+    <>
+      <div className="pt-5">
+        <button
+          className={clsx(
+            'inline-flex h-8 items-center gap-0.5 rounded-full pl-3.5',
+            'text-content-neutral-inverse pr-4 hover:opacity-65',
+            {
+              'bg-surface-static-warmgray': isFollowed,
+              'bg-surface-brand-strong': !isFollowed,
+            },
+          )}
+          onClick={() => {
+            handleClickFollow({ isLoggedin, isFollowed, myId, broadcastId });
+          }}
+        >
+          {isFollowed ? <FullHeart /> : <HeartSvg />}
+          <span className="funch-meta14">{isFollowed ? '팔로잉' : '팔로우'}</span>
+        </button>
+      </div>
+      {isShowModal && <LoginModal close={closeModal}>로그인 후 이용할 수 있어요.</LoginModal>}
+    </>
   );
-};
+});
 
 const LiveInfo = Object.assign(LiveInfoWrapper, {
   Title: LiveInfoTitle,
@@ -212,7 +232,7 @@ const LiveInfo = Object.assign(LiveInfoWrapper, {
   UserName: LiveInfoUserName,
   Tags: LiveInfoTags,
   ViewerCount: LiveInfoViewerCount,
-  FollowButton: LiveInfoFollowToggleButton,
+  FollowButton: LiveInfoFollowButton,
 });
 
 export default LiveInfo;
