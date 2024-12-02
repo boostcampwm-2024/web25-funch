@@ -53,7 +53,7 @@ class NeedRefreshTokenGuard implements CanActivate {
 
     const payload = this.authService.verifyToken(refreshToken);
     const savedRefreshToken = this.authService.getRefreshToken(payload.memberId);
-    if (savedRefreshToken !== refreshToken) {
+    if (!savedRefreshToken || savedRefreshToken !== refreshToken) {
       this.cookieService.clearCookie(response, REFRESH_TOKEN);
       throw new HttpException('만료된 Refresh Token 입니다.', HttpStatus.UNAUTHORIZED);
     }
