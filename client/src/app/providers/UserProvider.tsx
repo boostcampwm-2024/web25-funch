@@ -60,6 +60,16 @@ const UserProvider = ({ children }: Props) => {
         },
       };
     });
+    localStorage.setItem(
+      LOCAL_STORAGE_USER_KEY,
+      JSON.stringify({
+        ...userSession,
+        user: {
+          ...userSession?.user,
+          broadcastId,
+        },
+      }),
+    );
   }, []);
 
   const logout = () => {
