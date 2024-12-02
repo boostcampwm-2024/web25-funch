@@ -40,10 +40,10 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
       if (!videoRef.current) return;
       if (Hls.isSupported()) {
         hlsRef.current = new Hls({
-          lowLatencyMode: true,
+          lowLatencyMode: false,
           maxLiveSyncPlaybackRate: 1.5,
-          liveSyncDuration: 2,
-          liveMaxLatencyDuration: 3,
+          liveSyncDuration: 4,
+          liveMaxLatencyDuration: 8,
           liveDurationInfinity: true,
         });
         hlsRef.current.loadSource(liveUrl);
