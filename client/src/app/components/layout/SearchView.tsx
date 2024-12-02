@@ -3,13 +3,14 @@
 import DeleteSvg from '@components/svgs/DeleteSvg';
 import ReadingGlassSvg from '@components/svgs/ReadingGlassSvg';
 import clsx from 'clsx';
-import { FormHTMLAttributes, type AllHTMLAttributes, type PropsWithChildren } from 'react';
+import { FormHTMLAttributes, ForwardedRef, forwardRef, type AllHTMLAttributes, type PropsWithChildren } from 'react';
 
 type SearchWrapperProps = FormHTMLAttributes<HTMLFormElement> & PropsWithChildren;
 
-const SearchWrapper = ({ children, ...rest }: SearchWrapperProps) => {
+const SearchWrapper = forwardRef(({ children, ...rest }: SearchWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <div
+      ref={ref}
       className={clsx(
         'w-search funch-desktop:w-search-wide absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
         'border-border-neutral-base focus-within:border-border-brand-weak rounded-full border border-solid',
@@ -20,7 +21,7 @@ const SearchWrapper = ({ children, ...rest }: SearchWrapperProps) => {
       </form>
     </div>
   );
-};
+});
 
 const SearchInput = (props: AllHTMLAttributes<HTMLInputElement>) => {
   return (
@@ -29,6 +30,8 @@ const SearchInput = (props: AllHTMLAttributes<HTMLInputElement>) => {
         'funch-medium14 text-content-neutral-primary caret-content-brand-weak placeholder:text-content-neutral-base inline-block w-full bg-transparent outline-none',
       )}
       placeholder="오늘의 FUNCH 검색"
+      maxLength={100}
+      minLength={1}
       {...props}
     />
   );
