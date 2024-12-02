@@ -74,6 +74,12 @@ const appFonts = plugin(function ({ addUtilities }) {
       fontWeight: '700',
       lineHeight: '1',
     },
+    '.funch-meta12': {
+      fontFamily: FONT_FAMILY,
+      fontSize: '0.75rem',
+      fontWeight: '700',
+      lineHeight: '1',
+    },
   };
 
   addUtilities(newUtilities);
