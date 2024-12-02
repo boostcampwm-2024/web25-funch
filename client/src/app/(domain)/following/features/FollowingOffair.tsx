@@ -23,7 +23,7 @@ const FollowingOffair = () => {
   );
 };
 
-const OfflineItems = ({ offlines }: { offlines: User2[] }) => {
+export const OfflineItems = ({ offlines }: { offlines: User2[] }) => {
   return (
     <div className="mb-4 flex w-full gap-4">
       {offlines.map((item, idx) => {
