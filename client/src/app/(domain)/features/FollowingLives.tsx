@@ -4,15 +4,20 @@ import useUser from '@hooks/useUser';
 import Lives from '@components/livesGrid/Lives';
 import clsx from 'clsx';
 import useFollowingLives from '@hooks/useFollowingLives';
+import NoFollowingLives from '../following/features/NoFollowingLives';
+import { usePathname } from 'next/navigation';
 
 const FollowingLives = () => {
   const { isLoggedin } = useUser();
-  const { isError, isLoading, lives } = useFollowingLives();
+  const { isError, isLoading, lives, offlines } = useFollowingLives();
+  const pathname = usePathname();
 
   if (!isLoggedin) return null;
 
-  if (lives.length === 0) {
-    return null;
+  if (lives.length === 0 && offlines.length === 0) {
+    return <NoFollowingLives pathname={pathname} componentType="noFollow" />;
+  } else if (lives.length === 0 && offlines.length > 0) {
+    return <NoFollowingLives pathname={pathname} componentType="noLive" />;
   }
 
   if (isError) {
