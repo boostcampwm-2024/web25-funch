@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, PropsWithChildren } from 'react';
+import { useState, useEffect, PropsWithChildren, useMemo } from 'react';
 import CabinetLink from './CabinetLink';
 import useDesktop from '@hooks/useDesktop';
 import AccordionButton from '@components/AccordionButton';
@@ -69,6 +69,7 @@ const SuggestedNavigator = () => {
   const [isFolded, setIsFolded] = useState(false);
   const [suggestedList, setSuggestedList] = useState<Broadcast[]>([]);
   const { isDesktop } = useDesktop();
+  const { ids } = useFollowingLives();
 
   useEffect(() => {
     if (!isDesktop) {
@@ -79,11 +80,16 @@ const SuggestedNavigator = () => {
   useEffect(() => {
     const fetchSuggestions = async () => {
       const suggestions = await getSuggestedLiveList();
+
       setSuggestedList(suggestions);
     };
 
     fetchSuggestions();
   }, []);
+
+  const filteredSuggestedList = useMemo(() => {
+    return suggestedList.filter((suggested) => !ids.includes(suggested.broadcastId));
+  }, [suggestedList, ids]);
 
   return (
     <>
@@ -93,7 +99,12 @@ const SuggestedNavigator = () => {
         ) : (
           <NavHeader>추천</NavHeader>
         )}
-        <CabinetItemList isDesktop={isDesktop} isFolded={isFolded} isExpanded={isExpanded} itemList={suggestedList} />
+        <CabinetItemList
+          isDesktop={isDesktop}
+          isFolded={isFolded}
+          isExpanded={isExpanded}
+          itemList={filteredSuggestedList}
+        />
         {isDesktop && isExpanded && suggestedList.length > 5 && (
           <div className="mt-2 flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
