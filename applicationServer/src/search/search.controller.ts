@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { SearchService } from './search.service';
+import { SearchService } from '@search/search.service';
 import { LiveService } from '@src/live/live.service';
 
 @Controller('search')
