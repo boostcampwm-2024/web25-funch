@@ -9,9 +9,10 @@ import { MyStudioFormData } from '@app/studio/my/features/MyStudioForm';
 type Props = ButtonHTMLAttributes<HTMLButtonElement> &
   PropsWithChildren<{
     data: MyStudioFormData;
+    update: (data: MyStudioFormData) => void;
   }>;
 
-const StudioUpdateButton = ({ children, data, ...rest }: Props) => {
+const StudioUpdateButton = ({ children, update, data }: Props) => {
   const [isshowToast, setIsShowToast] = useState<boolean>(false);
   const [originalData, setOriginalData] = useState<MyStudioFormData | null>(null);
 
@@ -34,8 +35,9 @@ const StudioUpdateButton = ({ children, data, ...rest }: Props) => {
     );
   }, [data, originalData]);
 
-  const openToast = () => {
+  const fetchData = () => {
     setIsShowToast(true);
+    update(data);
   };
 
   const closeToast = () => {
@@ -49,8 +51,7 @@ const StudioUpdateButton = ({ children, data, ...rest }: Props) => {
         'funch-bold14 text-content-static-white bg-surface-brand-base hover:bg-surface-brand-strong',
         'mt-4 opacity-100 disabled:opacity-35',
       )}
-      {...rest}
-      onClick={openToast}
+      onClick={fetchData}
       disabled={!isDataChanged}
     >
       {isshowToast && (

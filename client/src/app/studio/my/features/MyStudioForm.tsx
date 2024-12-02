@@ -76,9 +76,9 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
     });
   };
 
-  const UpdateInfo = async () => {
+  const updateFormData = async (data: MyStudioFormData) => {
     try {
-      await updateInfo(formData);
+      await updateInfo(data);
     } catch (err) {
       console.log(err);
     }
@@ -176,7 +176,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
             </p>
           </div>
         </StudioRows>
-        <StudioUpdateButton type="submit" onClick={UpdateInfo} data={formData}>
+        <StudioUpdateButton type="submit" update={(data) => updateFormData(data)} data={formData}>
           업데이트
         </StudioUpdateButton>
       </div>
