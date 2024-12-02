@@ -1,29 +1,15 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
-import { useState, useEffect } from 'react';
+import { type PropsWithChildren } from 'react';
 import StudioCopyButton from './StudioCopyButton';
 import StudioReissueButton from './StudioReIssueButton';
-import useUser from '@hooks/useUser';
 import { getStreamInfo } from '@libs/actions';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import ErrorBoundary from '@components/ErrorBoundary';
 
 const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL ?? '';
 
 const StreamSettingContainer = () => {
-  const { isLoggedin } = useUser();
-  const [streamKey, setStreamKey] = useState<string>('');
-
-  const getStreamKey = async () => {
-    if (isLoggedin) {
-      const streamInfo = await getStreamInfo();
-      setStreamKey(streamInfo.stream_key);
-    }
-  };
-
-  useEffect(() => {
-    getStreamKey();
-  }, []);
-
   return (
     <StreamKeyWrapper>
       <div className="mb-2 w-full justify-start">
@@ -31,10 +17,20 @@ const StreamSettingContainer = () => {
       </div>
       <div className="bg-surface-neutral-primary flex h-40 w-full flex-col items-center rounded-lg p-6">
         <StreamURLContainer />
-        <StreamKeyContainer streamKey={streamKey} />
+        <ErrorBoundary fallback={<p>에러 발생!</p>}>
+          <StreamInfoFetcher />
+        </ErrorBoundary>
       </div>
     </StreamKeyWrapper>
   );
+};
+
+const StreamInfoFetcher = () => {
+  const { data } = useSuspenseQuery({
+    queryKey: ['STUDIO_STREAM_INFO'],
+    queryFn: async () => await getStreamInfo(),
+  });
+  return <StreamKeyContainer streamKey={data.stream_key} />;
 };
 
 const StreamKeyWrapper = ({ children }: PropsWithChildren) => {
