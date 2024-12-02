@@ -7,6 +7,7 @@ import type {
   Update,
   MyData,
   ToggleFollow,
+  SearchResult,
 } from '@libs/internalTypes';
 import fetcher from '@libs/fetcher';
 
@@ -184,6 +185,15 @@ export const refreshAccessToken = async (): Promise<{ accessToken: string }> => 
   const result = await fetcher<{ accessToken: string }>({
     method: 'GET',
     url: '/api/auth/refresh',
+  });
+
+  return result;
+};
+
+export const getSearchResult = async (searchQuery: string): Promise<any> => {
+  const result = await fetcher<SearchResult[]>({
+    method: 'GET',
+    url: `/api/search?query=${searchQuery}`,
   });
 
   return result;

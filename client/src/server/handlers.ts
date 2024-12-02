@@ -5,6 +5,7 @@ import { mockedUpdates } from '@mocks/updates';
 import { http, HttpResponse } from 'msw';
 import { mockedMydata } from '@mocks/mydata';
 import { mockedFollowingList } from '@mocks/follow';
+import { mockedSearchResults } from '@mocks/result';
 
 const getLiveList = () => {
   return HttpResponse.json(mockedBroadcasts);
@@ -77,6 +78,10 @@ const refreshAccessToken = () => {
   });
 };
 
+const searchResult = () => {
+  return HttpResponse.json(mockedSearchResults);
+};
+
 export const handlers = [
   http.get('/api/live/list', getLiveList),
   http.get('/api/live/follow', getFollowingList),
@@ -84,6 +89,7 @@ export const handlers = [
   http.get('/api/users/:broadcastId', getUserByBroadcastId),
   http.get('/api/live/list/suggest', getSuggestedLiveList),
   http.get('/api/members/mydata', getMydata),
+  http.get('/api/search?query=aaa', searchResult),
   http.post('/api/auth/github/callback', authenticate),
   http.post('/api/auth/naver/callback', authenticate),
   http.post('/api/auth/google/callback', authenticate),

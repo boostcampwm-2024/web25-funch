@@ -16,11 +16,6 @@ import {
   type ButtonHTMLAttributes,
 } from 'react';
 
-import { CONTENTS_CATEGORY, MOODS_CATEGORY } from '@libs/constants';
-import MoodsCategoryPalette from '@app/(domain)/categories/features/MoodsCategoryPalette';
-import { MoodsCategoryKey, ContentsCategoryKey } from '@libs/internalTypes';
-import StudioCategoryCard from './StudioCategoryCard';
-
 type ChildrenArgs = {
   inputRef: RefObject<HTMLInputElement>;
   inputValue: string;
