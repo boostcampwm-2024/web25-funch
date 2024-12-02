@@ -27,7 +27,7 @@ class NeedLoginGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const accessToken = request.headers['authorization']?.split(' ')[1];
 
-    if (!accessToken) {
+    if (accessToken == 'null') {
       throw new HttpException('로그인이 필요합니다.', HttpStatus.UNAUTHORIZED);
     }
     this.authService.verifyToken(accessToken);
@@ -42,7 +42,7 @@ class NeedRefreshTokenGuard implements CanActivate {
     private readonly cookieService: CookieService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
     const refreshToken = request.cookies?.['refreshToken'];
@@ -52,7 +52,7 @@ class NeedRefreshTokenGuard implements CanActivate {
     }
 
     const payload = this.authService.verifyToken(refreshToken);
-    const savedRefreshToken = this.authService.getRefreshToken(payload.memberId);
+    const savedRefreshToken = await this.authService.getRefreshToken(payload.memberId);
     if (!savedRefreshToken || savedRefreshToken !== refreshToken) {
       this.cookieService.clearCookie(response, REFRESH_TOKEN);
       throw new HttpException('만료된 Refresh Token 입니다.', HttpStatus.UNAUTHORIZED);

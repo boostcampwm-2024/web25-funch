@@ -4,12 +4,12 @@ import { Redis } from 'ioredis';
 
 @Injectable()
 class AuthService {
-  private readonly redisClient: Redis;
+  private readonly redis: Redis;
 
   constructor(private readonly jwtService: JwtService) {
-    this.redisClient = new Redis({
-      host: process.env.REDIS_HOST,
-      port: parseInt(process.env.REDIS_PORT),
+    this.redis = new Redis({
+      host: process.env.REDIS_HOST || 'localhost',
+      port: parseInt(process.env.REDIS_PORT) || 6379,
     });
   }
 
@@ -31,15 +31,11 @@ class AuthService {
   }
 
   async saveRefreshToken(memberId: string, token: string) {
-    await this.redisClient.set(memberId, token, 'EX', 604800);
+    await this.redis.set(memberId, token, 'EX', 604800);
   }
 
   async getRefreshToken(memberId: string) {
-    return await this.redisClient.get(memberId);
-  }
-
-  async removeRefreshToken(memberId: string) {
-    await this.redisClient.del(memberId);
+    return await this.redis.get(memberId);
   }
 }
 
