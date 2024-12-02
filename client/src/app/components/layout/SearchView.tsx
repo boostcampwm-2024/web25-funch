@@ -3,7 +3,13 @@
 import DeleteSvg from '@components/svgs/DeleteSvg';
 import ReadingGlassSvg from '@components/svgs/ReadingGlassSvg';
 import clsx from 'clsx';
-import { FormHTMLAttributes, ForwardedRef, forwardRef, type AllHTMLAttributes, type PropsWithChildren } from 'react';
+import {
+  type FormHTMLAttributes,
+  type ForwardedRef,
+  type AllHTMLAttributes,
+  type PropsWithChildren,
+  forwardRef,
+} from 'react';
 
 type SearchWrapperProps = FormHTMLAttributes<HTMLFormElement> & PropsWithChildren;
 
