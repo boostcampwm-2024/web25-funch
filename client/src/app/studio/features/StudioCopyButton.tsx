@@ -22,7 +22,7 @@ const StudioCopyButton = ({ children, text }: Props) => {
 
   return (
     <button
-      className="bg-surface-brand-weak text-content-brand-base funch-bold14 h-[2.4rem] w-[4.5rem] rounded-md hover:opacity-90"
+      className="bg-surface-brand-weak text-content-brand-strong funch-bold14 h-[2.4rem] w-[4.5rem] rounded-md hover:opacity-90"
       onClick={openToast}
     >
       {isShowToast && (
