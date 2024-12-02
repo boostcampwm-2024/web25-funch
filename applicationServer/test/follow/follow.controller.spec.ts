@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MemberModule } from '@member/member.module';
 import { MemberService } from '@member/member.service';
 import { FollowController } from '@follow/follow.controller';
 import { FollowService } from '@follow/follow.service';
@@ -12,7 +11,6 @@ describe('FollowController 테스트', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MemberModule],
       controllers: [FollowController],
       providers: [
         {
