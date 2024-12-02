@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | FUNCH',
     default: 'FUNCH',
   },
-  description: '뻔한 일상에 웃음 한 방 FUNCH!',
+  description: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
   keywords: ['FUNCH', '펀치', '스트리밍', '라이브', '콘텐츠'],
 };
 

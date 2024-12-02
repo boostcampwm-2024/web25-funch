@@ -4,6 +4,7 @@ import { getBroadcastsByContentCategory } from '@mocks/broadcasts';
 import { CONTENTS_CATEGORY } from '@libs/constants';
 import { unstable_noStore as noStore } from 'next/cache';
 import CategoryLives from '@app/(domain)/categories/(details)/features/CategoryLives';
+import { type Metadata } from 'next';
 
 const fetchData = async (code: string): Promise<Broadcast[]> => {
   if (process.env.NODE_ENV !== 'production') return getBroadcastsByContentCategory(code);
@@ -28,6 +29,15 @@ type Props = {
     code: ContentsCategoryKey;
   }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const code = (await params).code;
+  const categoryName = CONTENTS_CATEGORY[code].NAME;
+
+  return {
+    title: `${categoryName} 카테고리`,
+  };
+}
 
 const ContentCategoryPage = async ({ params }: Props) => {
   noStore();
