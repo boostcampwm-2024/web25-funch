@@ -7,12 +7,10 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
   const [isError, setIsError] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
   const bufferingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isCurrentlyWaitingRef = useRef(false);
 
   useEffect(() => {
     const handleWaiting = () => {
-      if (isCurrentlyWaitingRef.current) return;
-      isCurrentlyWaitingRef.current = true;
+      if (bufferingTimeoutRef.current !== null) return;
       bufferingTimeoutRef.current = setTimeout(() => {
         setIsBuffering(true);
       }, 2500);
@@ -22,7 +20,7 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
         clearTimeout(bufferingTimeoutRef.current);
       }
       setIsBuffering(false);
-      isCurrentlyWaitingRef.current = false;
+      bufferingTimeoutRef.current = null;
     };
 
     const addEventListeners = () => {
@@ -91,7 +89,7 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
       }
       removeEventListeners();
     };
-  }, [liveUrl, videoRef]);
+  }, [liveUrl, videoRef, bufferingTimeoutRef]);
 
   return { isBuffering, isError, isLoading };
 };
