@@ -16,7 +16,7 @@ type Props = {
 };
 
 const LiveInfoWrapper = ({ children }: Props) => {
-  const { liveInfo, refreshLiveInfo, broadcastId } = useLiveContext();
+  const { liveInfo, refreshLiveInfo, broadcastId, isLivePage } = useLiveContext();
   const eventSourceRef = useRef<EventSource | null>(null);
 
   useEffect(() => {
@@ -52,7 +52,15 @@ const LiveInfoWrapper = ({ children }: Props) => {
     };
   }, [broadcastId]);
 
-  return <div className="px-7 pb-6 pt-4">{children({ liveInfo })}</div>;
+  return (
+    <div
+      className={clsx('px-7 pb-6 pt-4', {
+        'absolute h-0 w-0 overflow-hidden': !isLivePage,
+      })}
+    >
+      {children({ liveInfo })}
+    </div>
+  );
 };
 
 const LiveInfoTitle = memo(({ title }: { title: string }) => {
