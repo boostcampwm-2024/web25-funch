@@ -6,12 +6,19 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
   const [isBuffering, setIsBuffering] = useState(false);
   const [isError, setIsError] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
+  const bufferingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleWaiting = () => {
-      setIsBuffering(true);
+      bufferingTimeoutRef.current = setTimeout(() => {
+        setIsBuffering(true);
+        // 3초는 생각보다 길다... ㅎㅎ;;
+      }, 2000);
     };
     const handlePlaying = () => {
+      if (bufferingTimeoutRef.current) {
+        clearTimeout(bufferingTimeoutRef.current);
+      }
       setIsBuffering(false);
     };
 
@@ -73,6 +80,9 @@ const useHls = ({ videoRef, liveUrl }: { videoRef: MutableRefObject<HTMLVideoEle
     init();
 
     return () => {
+      if (bufferingTimeoutRef.current) {
+        clearTimeout(bufferingTimeoutRef.current);
+      }
       if (hlsRef.current) {
         hlsRef.current.destroy();
       }
