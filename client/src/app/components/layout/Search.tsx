@@ -38,13 +38,25 @@ const Search = () => {
       {input.length > 0 && <SearchView.Cancel onClick={resetInput} />}
       <SearchView.Button />
       {isFocused && (
-        <div
-          className={clsx('bg-surface-neutral-weak absolute left-0 top-full w-full translate-y-1 rounded-lg shadow-md')}
-        >
-          hi
+        <div className={clsx('bg-bg-strong absolute left-0 top-full w-full translate-y-1 rounded-lg px-4 shadow-md')}>
+          <NoPrevSearch />
         </div>
       )}
     </SearchView>
+  );
+};
+
+const NoPrevSearch = () => {
+  return (
+    <div className="relative h-32">
+      <p
+        className={clsx(
+          'funch-medium14 text-content-neutral-strong absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+        )}
+      >
+        최근 검색이 없어요.
+      </p>
+    </div>
   );
 };
 
