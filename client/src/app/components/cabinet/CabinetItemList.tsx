@@ -1,8 +1,6 @@
 import { Broadcast } from '@libs/internalTypes';
-import { getSuggestedLiveList } from '@libs/actions';
 import Image from 'next/image';
-
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { comma } from '@libs/formats';
 
@@ -94,7 +92,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
                 <section className="flex w-full pl-[10px]">
                   <section className="flex w-2/3 flex-1 flex-col">
                     <div className="text-surface-neutral-inverse funch-bold14">{item.userName}</div>
-                    <div className="funch-bold10">{item.contentCategory}</div>
+                    <div className="funch-bold10 text-content-neutral-strong">{item.contentCategory}</div>
                   </section>
                   <p className="text-content-red-strong funch-bold12 flex items-center pr-2">
                     {'· ' + comma(item.viewerCount)}
