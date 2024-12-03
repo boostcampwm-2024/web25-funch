@@ -7,6 +7,7 @@ const SearchWrapper = () => {
     <SearchContainer>
       <SearchContainer.Live />
       <SearchContainer.User />
+      <SearchContainer.NoResults />
     </SearchContainer>
   );
 };

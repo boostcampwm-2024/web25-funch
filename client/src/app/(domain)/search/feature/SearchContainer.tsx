@@ -6,6 +6,8 @@ import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, useContext, createContext, PropsWithChildren, use } from 'react';
 import Lives from '@components/livesGrid/Lives';
 import clsx from 'clsx';
+import no_result from '@assets/no_result.png';
+import Image from 'next/image';
 import { OfflineItems } from '@app/(domain)/following/features/FollowingOffair';
 
 type SearchContextType = {
@@ -46,7 +48,7 @@ const SearchController = ({ children }: PropsWithChildren) => {
 
   return (
     <SearchContext.Provider value={{ searchLives, searchUsers, isLoading }}>
-      <div className="flex w-full flex-col">{children}</div>
+      <div className="flex w-full flex-col items-center">{children}</div>
     </SearchContext.Provider>
   );
 };
@@ -55,6 +57,10 @@ const SearchLives = () => {
   const { isLoading, searchLives } = useSearchContext();
 
   if (isLoading) {
+    return <p>로딩중...</p>;
+  }
+
+  if (searchLives.length === 0) {
     return null;
   }
 
@@ -83,12 +89,16 @@ const Users = () => {
   const { isLoading, searchUsers } = useSearchContext();
 
   if (isLoading) {
+    return <p>로딩중...</p>;
+  }
+
+  if (searchUsers.length === 0) {
     return null;
   }
 
   return (
     <div className={clsx('w-full')}>
-      <div className={clsx('mb-2 flex items-center justify-between')}>
+      <div className={clsx('mb-2 flex items-center')}>
         <h2 className={clsx('text-content-neutral-primary funch-bold20')}>오프라인</h2>
       </div>
       <OfflineItems offlines={searchUsers} />
@@ -96,9 +106,27 @@ const Users = () => {
   );
 };
 
+const NoSearchResults = () => {
+  const { isLoading, searchLives, searchUsers } = useSearchContext();
+
+  if (isLoading) return null;
+
+  if (searchLives.length == 0 && searchUsers.length == 0) {
+    return (
+      <div className="min-h-home flex w-full items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <Image src={no_result} alt="no_result" width={250} height={250} />
+          <p className="text-content-neutral-primary funch-bold16">일치하는 결과가 없습니다.</p>
+        </div>
+      </div>
+    );
+  }
+};
+
 const SearchContainer = Object.assign(SearchController, {
   Live: SearchLives,
   User: Users,
+  NoResults: NoSearchResults,
 });
 
 export default SearchContainer;
