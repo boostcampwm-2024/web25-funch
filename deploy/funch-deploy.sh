@@ -40,6 +40,3 @@ sudo nginx -s reload
 pm2 delete chat-server-${NOW_SUFFIX}
 pm2 delete next-client-${NOW_SUFFIX}
 pm2 delete api-server-${NOW_SUFFIX}
-
-pm2 save
-pm2 clean
