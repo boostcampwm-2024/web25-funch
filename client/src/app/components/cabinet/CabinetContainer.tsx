@@ -105,7 +105,7 @@ const SuggestedNavigator = () => {
           isExpanded={isExpanded}
           itemList={filteredSuggestedList}
         />
-        {isDesktop && isExpanded && suggestedList.length > 5 && (
+        {isDesktop && isExpanded && filteredSuggestedList.length > 5 && (
           <div className="mt-2 flex justify-center">
             <AccordionButton isExpanded={isFolded} toggle={() => setIsFolded((prev) => !prev)} />
           </div>
