@@ -160,10 +160,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
           </div>
         </StudioRows>
         <StudioRows labelName="미리보기 이미지" componentType="IMAGE_INPUT">
-          <StudioImageInput
-            data={formData.thumbnail as string}
-            setImage={(file) => setFormData((prev) => ({ ...prev, thumbnail: file }))}
-          >
+          <StudioImageInput setImage={(file) => setFormData((prev) => ({ ...prev, thumbnail: file }))}>
             <StudioImageInput.Upload />
             <StudioImageInput.Preview />
             <StudioImageInput.Controls />
