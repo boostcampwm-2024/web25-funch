@@ -21,7 +21,7 @@ const RecommendedLivesRenderer = ({ lives }: { lives: Broadcast[] }) => {
               <Lives.Live key={live.broadcastId} live={live} isPriority={index === 0} />
             ))}
           </Lives.List>
-          {lives.length > 3 && <Lives.Expand isExpanded={isExpanded} toggle={toggle} />}
+          {filteredLives.length > 3 && <Lives.Expand isExpanded={isExpanded} toggle={toggle} />}
         </>
       )}
     </Lives>
