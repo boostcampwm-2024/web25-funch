@@ -21,6 +21,9 @@ jobs:
             cd /root/web25-funch
             git switch main
             git pull origin main
+            cd client
+            npm run build
+            cd ..
             sh deploy.sh
           EOF
 
