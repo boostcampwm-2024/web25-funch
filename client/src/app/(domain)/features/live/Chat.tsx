@@ -293,6 +293,8 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
           />
         </div>
         <div className="flex justify-end py-1">
+          <span>번역 모드</span>
+          <div>드롭다운</div>
           <Button type="submit" disabled={!inputValue}>
             채팅
           </Button>
