@@ -82,6 +82,12 @@ const searchResult = () => {
   return HttpResponse.json(mockedSearchResults);
 };
 
+const refreshStreamkey = () => {
+  return HttpResponse.json({
+    stream_key: 'new_stream_key',
+  });
+};
+
 export const handlers = [
   http.get('/api/live/list', getLiveList),
   http.get('/api/live/follow', getFollowingList),
@@ -97,5 +103,6 @@ export const handlers = [
   http.post('/api/follow', makeFollow),
   http.delete('/api/follow', makeUnfollow),
   http.patch('/api/live/update', update),
+  http.patch('/api/members/refresh/streamkey', refreshStreamkey),
   http.get('/api/auth/refresh', refreshAccessToken),
 ];
