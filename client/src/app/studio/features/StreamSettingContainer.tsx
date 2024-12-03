@@ -6,6 +6,8 @@ import StudioReissueButton from './StudioReIssueButton';
 import { getStreamInfo } from '@libs/actions';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import ErrorBoundary from '@components/ErrorBoundary';
+import { useState } from 'react';
+import { refreshStreamKey } from '@libs/actions';
 
 const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL ?? '';
 
@@ -54,14 +56,23 @@ const StreamURLContainer = () => {
 };
 
 const StreamKeyContainer = ({ streamKey }: { streamKey: string }) => {
+  const [myStreamKey, setMyStreamKey] = useState(streamKey);
+
+  const reissueStreamKey = async () => {
+    const { stream_key } = await refreshStreamKey();
+    setMyStreamKey(stream_key);
+
+    alert('스트림 키가 재발급되었습니다.');
+  };
+
   return (
     <div className="grid h-1/2 w-full grid-cols-5">
       <div className="funch-bold16 text-content-neutral-primary col-span-1 flex items-center">스트림 키</div>
       <div className="text-content-neutral-primary col-span-4 flex items-center gap-4">
-        {streamKey}
+        {myStreamKey}
         <div className="flex gap-2">
-          <StudioCopyButton text={streamKey}>복사</StudioCopyButton>
-          <StudioReissueButton>재발급</StudioReissueButton>
+          <StudioCopyButton text={myStreamKey}>복사</StudioCopyButton>
+          <StudioReissueButton onClick={reissueStreamKey}>재발급</StudioReissueButton>
         </div>
       </div>
     </div>
