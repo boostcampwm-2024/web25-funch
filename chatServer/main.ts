@@ -2,6 +2,7 @@ import { Server } from 'socket.io';
 import validate from 'utf-8-validate';
 import EventEmitter from 'events';
 import { Name } from './utils/name';
+import { translate } from './utils/translation';
 
 const PORT = Number(process.env.PORT) || 7990;
 const io = new Server(PORT, {
@@ -38,11 +39,14 @@ io.on('connection', (socket) => {
   };
   eventEmitter.on(broadcastId, chatEvent);
 
-  socket.on('chat', (data: Buffer) => {
+  socket.on('chat', async (data: Buffer) => {
     try {
       const isValidUtf8 = validate(data);
       const chatData = JSON.parse(data.toString('utf8'));
-      if (isValidUtf8) eventEmitter.emit(broadcastId, chatData);
+      if (isValidUtf8) {
+        chatData.content = await translate(chatData.content, chatData.translation);
+        eventEmitter.emit(broadcastId, chatData);
+      }
     } catch (e) {
       console.log(e);
     }
