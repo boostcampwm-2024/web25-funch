@@ -2,13 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '@auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { RedisService } from '@database/redis.service';
+import { REDIS_REFRESH_TOKEN_EXPIRE } from '@src/constants';
 
 describe('AuthService', () => {
   let authService: AuthService;
 
-  const mockJwtService = {
+  const jwtService = {
     sign: jest.fn(),
     verify: jest.fn(),
+  };
+
+  const redisService = {
+    set: jest.fn(),
+    get: jest.fn(),
+    delete: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -17,7 +25,11 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: JwtService,
-          useValue: mockJwtService,
+          useValue: jwtService,
+        },
+        {
+          provide: RedisService,
+          useValue: redisService,
         },
       ],
     }).compile();
@@ -31,12 +43,12 @@ describe('AuthService', () => {
       const accessToken = 'accessToken';
       process.env.ACCESS_TOKEN_EXPIRE = '1h';
 
-      mockJwtService.sign.mockReturnValue(accessToken);
+      jwtService.sign.mockReturnValue(accessToken);
 
       const result = authService.generateAccessToken(memberId);
 
       expect(result).toBe(accessToken);
-      expect(mockJwtService.sign).toHaveBeenCalledWith({ memberId }, { expiresIn: '1h' });
+      expect(jwtService.sign).toHaveBeenCalledWith({ memberId }, { expiresIn: '1h' });
     });
   });
 
@@ -46,12 +58,12 @@ describe('AuthService', () => {
       const refreshToken = 'refreshToken';
       process.env.REFRESH_TOKEN_EXPIRE = '7d';
 
-      mockJwtService.sign.mockReturnValue(refreshToken);
+      jwtService.sign.mockReturnValue(refreshToken);
 
       const result = authService.generateRefreshToken(memberId);
 
       expect(result).toBe(refreshToken);
-      expect(mockJwtService.sign).toHaveBeenCalledWith({ memberId }, { expiresIn: '7d' });
+      expect(jwtService.sign).toHaveBeenCalledWith({ memberId }, { expiresIn: '7d' });
     });
   });
 
@@ -60,19 +72,19 @@ describe('AuthService', () => {
       const token = 'token';
       const payload = { memberId: '123' };
 
-      mockJwtService.verify.mockReturnValue(payload);
+      jwtService.verify.mockReturnValue(payload);
 
       const result = authService.verifyToken(token);
 
       expect(result).toBe(payload);
-      expect(mockJwtService.verify).toHaveBeenCalledWith(token);
+      expect(jwtService.verify).toHaveBeenCalledWith(token);
     });
 
     it('유효하지 않은 토큰에 대해 예외를 발생시켜야 한다.', () => {
       const token = 'token';
       const error = new Error('Invalid token Error');
 
-      mockJwtService.verify.mockImplementation(() => {
+      jwtService.verify.mockImplementation(() => {
         throw error;
       });
 
@@ -83,38 +95,27 @@ describe('AuthService', () => {
   });
 
   describe('saveRefreshToken', () => {
-    it('Refresh Token을 저장해야 한다.', () => {
+    it('Refresh Token을 저장해야 한다.', async () => {
       const memberId = '123';
       const token = 'refreshToken';
 
-      authService.saveRefreshToken(memberId, token);
+      await authService.saveRefreshToken(memberId, token);
 
-      expect(authService.getRefreshToken(memberId)).toBe(token);
+      expect(redisService.set).toHaveBeenCalledWith(memberId, token, REDIS_REFRESH_TOKEN_EXPIRE);
     });
   });
 
   describe('getRefreshToken', () => {
-    it('저장된 Refresh Token을 반환해야 한다.', () => {
+    it('저장된 Refresh Token을 반환해야 한다.', async () => {
       const memberId = '123';
       const token = 'refreshToken';
 
-      authService.saveRefreshToken(memberId, token);
+      redisService.get.mockResolvedValue(token);
 
-      const result = authService.getRefreshToken(memberId);
+      const result = await authService.getRefreshToken(memberId);
 
       expect(result).toBe(token);
-    });
-  });
-
-  describe('removeRefreshToken', () => {
-    it('Refresh Token을 삭제해야 한다.', () => {
-      const memberId = '123';
-      const token = 'refreshToken';
-
-      authService.saveRefreshToken(memberId, token);
-      authService.removeRefreshToken(memberId);
-
-      expect(authService.getRefreshToken(memberId)).toBeUndefined();
+      expect(redisService.get).toHaveBeenCalledWith(memberId);
     });
   });
 });
