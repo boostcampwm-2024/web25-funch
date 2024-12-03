@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import clsx from 'clsx';
-import noContents from '@assets/noContents.png';
+import noContents from '@assets/no_result.png';
 import Link from 'next/link';
 
 const COMPONENT_TYPE = {
@@ -21,7 +21,7 @@ const NoFollowingLives = ({ pathname, componentType }: Props) => {
       </div>
       <div className={clsx('flex flex-col items-center')}>
         <Image src={noContents} alt="no-following-lives" width={200} height={200} />
-        <p className={clsx('text-content-neutral-primary funch-bold16 mt-4')}>
+        <p className={clsx('text-content-neutral-primary funch-medium16 mt-4')}>
           {componentType === 'NOFOLLOW' ? '팔로우 중인 방송이 없습니다.' : '라이브 중인 방송이 없습니다.'}
         </p>
         {componentType === 'NOFOLLOW' && pathname === '/following' && (
