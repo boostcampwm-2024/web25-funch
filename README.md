@@ -85,7 +85,7 @@ https://github.com/user-attachments/assets/856232e7-00db-40a6-a432-b23f030bb04b
 
 # 🍎 기술 스택
 
-| 분야 &nbsp;  | 기술 | 선택 이유 | 
+| &nbsp; 분야 &nbsp;  | 기술 | 선택 이유 | 
 |----------|----------|----------|
 | 공통   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786637665?alt=media&token=d070c4d4-5a58-4e23-af1d-a7e678d4035b" alt="" />   | [TypeScript](https://zzawang.notion.site/TypeScript-01006d67d482438b84df88797fa58e45?pvs=4) <br> [Socket.io](https://zzawang.notion.site/Socket-io-794861dea4544b4093bc030667eaa371?pvs=4)|
 | FE   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732798743094?alt=media&token=d5b7a4d0-af68-4e54-bc3a-ba25d35a1af1)](https://github.com/msdio/stackticon" alt="" /> | [Next.js](https://zzawang.notion.site/Next-fffb31410bc74af18d34d1e1b2f17e36?pvs=4) <br> [React](https://zzawang.notion.site/React-e1ed1687898e4c69ae6c2aa63245dc35?pvs=4)<br> [Tanstack-query](https://zzawang.notion.site/Tanstack-query-3613c9add85e4fc2b1537241cad0c533?pvs=4)|
