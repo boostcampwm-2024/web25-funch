@@ -4,6 +4,7 @@ import NoLiveContent from '@app/(domain)/features/live/NoLiveContent';
 import ErrorBoundary from '@components/ErrorBoundary';
 import useLiveContext from '@hooks/useLiveContext';
 import { getPlaylist } from '@libs/actions';
+import { TANSTACK_QUERY_KEY } from '@libs/constants';
 import type { Broadcast, Playlist } from '@libs/internalTypes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams, usePathname } from 'next/navigation';
@@ -119,7 +120,7 @@ const ErrorFallback = ({ isLivePage }: { isLivePage: boolean }) => {
 
 const PlaylistFetcher = ({ broadcastId, children }: PropsWithChildren<{ broadcastId: string }>) => {
   const { data } = useSuspenseQuery({
-    queryKey: ['live', broadcastId],
+    queryKey: [TANSTACK_QUERY_KEY.LIVE, broadcastId],
     queryFn: () => getPlaylist(broadcastId),
   });
 
