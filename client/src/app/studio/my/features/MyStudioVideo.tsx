@@ -4,6 +4,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import useHls from '@hooks/useHls';
 import useUser from '@hooks/useUser';
 import { getPlaylist, getStreamInfo } from '@libs/actions';
+import { TANSTACK_QUERY_KEY } from '@libs/constants';
 import type { Broadcast, Playlist } from '@libs/internalTypes';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -58,7 +59,7 @@ const FallbackWrapper = ({ children }: PropsWithChildren) => {
 const BroadcastIdRefresher = ({ children }: PropsWithChildren) => {
   const { updateBroadcastId } = useUser();
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['my-studio-stream-info'],
+    queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_INFO],
     queryFn: () => getStreamInfo(),
   });
 

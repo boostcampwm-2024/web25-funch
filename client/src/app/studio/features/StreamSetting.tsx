@@ -36,7 +36,7 @@ const StreamUrl = () => {
 
 const StreamInfoFetcher = () => {
   const { data } = useSuspenseQuery({
-    queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_KEY],
+    queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_INFO],
     queryFn: async () => await getStreamInfo(),
   });
   return <StreamKey streamKey={data.stream_key} />;
@@ -51,7 +51,7 @@ const StreamKey = ({ streamKey }: { streamKey: string }) => {
     onSuccess: ({ stream_key }) => {
       setMyStreamKey(stream_key);
       queryClient.invalidateQueries({
-        queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_KEY],
+        queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_INFO],
       });
       alert('새로운 스트림 키가 발급되었어요.');
     },

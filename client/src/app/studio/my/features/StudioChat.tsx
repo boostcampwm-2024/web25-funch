@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@components/Button';
-// import useLiveContext from '@hooks/useLiveContext';
 import useUser from '@hooks/useUser';
 import { SOCKET_EVENT } from '@libs/constants';
 import clsx from 'clsx';
@@ -315,11 +314,11 @@ const ChatLoading = () => {
   );
 };
 
-const StudioChatDemo = Object.assign(ChatWrapper, {
+const StudioChat = Object.assign(ChatWrapper, {
   List: ChatList,
   Form: ChatForm,
   Error: ChatError,
   Loading: ChatLoading,
 });
 
-export default StudioChatDemo;
+export default StudioChat;
