@@ -1,8 +1,8 @@
 'use client';
 import { Update } from '@libs/internalTypes';
-
-import MyStudioVideo from './MyStudioVideo';
 import MyStudioForm from './MyStudioForm';
+import StudioVideo, { FallbackWrapper, StudioVideoWrapper } from './StudioVideo';
+import { Suspense } from 'react';
 
 const MyStudioController = () => {
   const handleFormSubmit = (formData: Update) => {
@@ -11,7 +11,11 @@ const MyStudioController = () => {
 
   return (
     <section className="funch-scrollable w-full">
-      <MyStudioVideo />
+      <StudioVideoWrapper>
+        <Suspense fallback={<FallbackWrapper>스트리머 정보 갱신 중...</FallbackWrapper>}>
+          <StudioVideo />
+        </Suspense>
+      </StudioVideoWrapper>
       <MyStudioForm onSubmit={handleFormSubmit} />
     </section>
   );
