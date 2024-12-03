@@ -5,7 +5,7 @@ export const APP_THEME = {
 
 export const TANSTACK_QUERY_KEY = {
   LIVE_LIST: 'LIVE_LIST' as const,
-  STUDIO_STREAM_KEY: 'STUDIO_STREAM_KEY' as const,
+  STUDIO_STREAM_INFO: 'STUDIO_STREAM_INFO' as const,
 };
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme';
