@@ -131,8 +131,8 @@
   --content-brand-base: var(--violet-40);
   --content-brand-strong: var(--violet-50);
 
-  --content-red-base: var(--red-30);
-  --content-red-strong: var(--red-50);
+  --content-red-base: var(--red-40);
+  --content-red-strong: var(--red-55);
   --content-static-white: var(--neutral-0);
   --content-static-coolgray: var(--coolgray-10);
   --content-static-warmgray: var(--neutral-30);

@@ -2,6 +2,7 @@ import { type PropsWithChildren } from 'react';
 import Link from 'next/link';
 import OBSSvg from '@components/svgs/ObsSvg';
 import PrismSvg from '@components/svgs/PrismSvg';
+import clsx from 'clsx';
 
 const StudioGuideContainer = () => {
   return (
@@ -46,7 +47,7 @@ const StudioGuideContainer = () => {
         </div>
         <p className="funch-medium14 my-1 ml-7">방송 시작과 종료를 스트리밍 소프트웨어에서 진행해주세요.</p>
         <div className="funch-desktop:mt-8 mt-4 flex justify-center">
-          <StudioBroadCastButton>방송 시작하기</StudioBroadCastButton>
+          <StudioBroadCastButton />
         </div>
       </div>
     </div>
@@ -61,11 +62,18 @@ const StudioNumberIcon = ({ children }: PropsWithChildren) => {
   );
 };
 
-const StudioBroadCastButton = ({ children }: PropsWithChildren) => {
+const StudioBroadCastButton = () => {
   return (
-    <button className="bg-surface-brand-strong text-content-static-white funch-bold16 h-[3rem] w-[10rem] rounded-md hover:opacity-90">
-      <Link href="/studio/my">{children}</Link>
-    </button>
+    <Link
+      className={clsx(
+        'inline-flex items-center justify-center',
+        'text-content-static-white funch-bold16 h-12 w-36 rounded-md',
+        'bg-surface-brand-strong hover:opacity-65',
+      )}
+      href="/studio/my"
+    >
+      방송 시작하기
+    </Link>
   );
 };
 
