@@ -11,11 +11,12 @@ ffmpeg.setFfprobePath(ffprobePath.path);
 const defaultOutputOptions = [
   '-map 0:v',
   '-map 0:a',
-  '-hls_time 2',
+  '-hls_time 1',
   '-hls_list_size 3',
   '-hls_segment_type fmp4',
   '-hls_flags split_by_time+independent_segments+omit_endlist',
   '-preset ultrafast',
+  '-threads 2',
 ];
 
 function initializeFFMpeg(ffmpegInputStream: PassThrough, storagePath: string) {
