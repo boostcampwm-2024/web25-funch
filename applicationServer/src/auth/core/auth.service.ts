@@ -1,18 +1,14 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { REDIS_HOST, REDIS_PORT, REDIS_EXPIRE, REDIS_REFRESH_TOKEN_EXPIRE } from '@src/constants';
-import { Redis } from 'ioredis';
+import { REDIS_REFRESH_TOKEN_EXPIRE } from '@src/constants';
+import { RedisService } from '@database/redis.service';
 
 @Injectable()
 class AuthService {
-  private readonly redis: Redis;
-
-  constructor(private readonly jwtService: JwtService) {
-    this.redis = new Redis({
-      host: REDIS_HOST,
-      port: REDIS_PORT,
-    });
-  }
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
+  ) {}
 
   generateAccessToken(memberId: string) {
     return this.jwtService.sign({ memberId }, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE });
@@ -32,11 +28,11 @@ class AuthService {
   }
 
   async saveRefreshToken(memberId: string, token: string) {
-    await this.redis.set(memberId, token, REDIS_EXPIRE, REDIS_REFRESH_TOKEN_EXPIRE);
+    await this.redisService.set(memberId, token, REDIS_REFRESH_TOKEN_EXPIRE);
   }
 
   async getRefreshToken(memberId: string) {
-    return await this.redis.get(memberId);
+    return await this.redisService.get(memberId);
   }
 }
 
