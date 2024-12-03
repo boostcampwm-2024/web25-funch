@@ -3,30 +3,24 @@
 import { getSearchResult } from '@libs/actions';
 import { Broadcast, User2 } from '@libs/internalTypes';
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, useContext, createContext, PropsWithChildren, use } from 'react';
+import React, { useState, useEffect, useContext, createContext, PropsWithChildren, use } from 'react';
 import Lives from '@components/livesGrid/Lives';
 import clsx from 'clsx';
 import no_result from '@assets/no_result.png';
 import Image from 'next/image';
 import { OfflineItems } from '@app/(domain)/following/features/FollowingOffair';
 
-type SearchContextType = {
+type childrenArgs = {
   searchLives: Broadcast[];
   searchUsers: User2[];
   isLoading: boolean;
 };
 
-const SearchContext = createContext<SearchContextType | null>(null);
-
-const useSearchContext = () => {
-  const context = useContext(SearchContext);
-  if (!context) {
-    throw new Error('SearchContext must be used within SearchProvider');
-  }
-  return context;
+type Props = {
+  children: (args: childrenArgs) => React.ReactNode;
 };
 
-const SearchController = ({ children }: PropsWithChildren) => {
+const SearchController = ({ children }: Props) => {
   const query = useSearchParams().get('query');
   const [isLoading, setIsLoading] = useState(true);
   const [searchLives, setSearchLives] = useState<Broadcast[]>([]);
@@ -47,15 +41,22 @@ const SearchController = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <SearchContext.Provider value={{ searchLives, searchUsers, isLoading }}>
-      <div className="flex w-full flex-col items-center">{children}</div>
-    </SearchContext.Provider>
+    <div className="flex w-full flex-col items-center">
+      {children({
+        searchLives,
+        searchUsers,
+        isLoading,
+      })}
+    </div>
   );
 };
 
-const SearchLives = () => {
-  const { isLoading, searchLives } = useSearchContext();
+type SearchLivesProps = {
+  searchLives: Broadcast[];
+  isLoading: boolean;
+};
 
+const SearchLives = ({ isLoading, searchLives }: SearchLivesProps) => {
   if (isLoading) {
     return <p>로딩중...</p>;
   }
@@ -85,9 +86,12 @@ const SearchLives = () => {
   );
 };
 
-const Users = () => {
-  const { isLoading, searchUsers } = useSearchContext();
+type UsersProps = {
+  searchUsers: User2[];
+  isLoading: boolean;
+};
 
+const Users = ({ searchUsers, isLoading }: UsersProps) => {
   if (isLoading) {
     return <p>로딩중...</p>;
   }
@@ -106,9 +110,13 @@ const Users = () => {
   );
 };
 
-const NoSearchResults = () => {
-  const { isLoading, searchLives, searchUsers } = useSearchContext();
+type NoSearchResultsProps = {
+  isLoading: boolean;
+  searchLives: Broadcast[];
+  searchUsers: User2[];
+};
 
+const NoSearchResults = ({ isLoading, searchLives, searchUsers }: NoSearchResultsProps) => {
   if (isLoading) return null;
 
   if (searchLives.length == 0 && searchUsers.length == 0) {
