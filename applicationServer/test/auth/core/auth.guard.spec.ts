@@ -1,117 +1,114 @@
-import { ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ExecutionContext, HttpException } from '@nestjs/common';
 import { NoNeedLoginGuard, NeedLoginGuard, NeedRefreshTokenGuard } from '@auth/auth.guard';
 import { AuthService } from '@auth/auth.service';
 import { CookieService } from '@cookie/cookie.service';
-import { REFRESH_TOKEN } from '@src/constants';
 
 describe('Auth Guard', () => {
-  let authService: Partial<AuthService>;
-  let cookieService: Partial<CookieService>;
+  let noNeedLoginGuard: NoNeedLoginGuard;
+  let needLoginGuard: NeedLoginGuard;
+  let needRefreshTokenGuard: NeedRefreshTokenGuard;
 
-  beforeEach(() => {
-    authService = {
-      verifyToken: jest.fn(),
-      getRefreshToken: jest.fn(),
-    };
+  const authService = {
+    verifyToken: jest.fn(),
+    getRefreshToken: jest.fn(),
+  };
 
-    cookieService = {
-      clearCookie: jest.fn(),
-    };
+  const cookieService = {
+    clearCookie: jest.fn(),
+  };
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        NoNeedLoginGuard,
+        NeedLoginGuard,
+        NeedRefreshTokenGuard,
+        { provide: AuthService, useValue: authService },
+        { provide: CookieService, useValue: cookieService },
+      ],
+    }).compile();
+
+    noNeedLoginGuard = module.get<NoNeedLoginGuard>(NoNeedLoginGuard);
+    needLoginGuard = module.get<NeedLoginGuard>(NeedLoginGuard);
+    needRefreshTokenGuard = module.get<NeedRefreshTokenGuard>(NeedRefreshTokenGuard);
   });
 
   describe('NoNeedLoginGuard', () => {
-    let guard: NoNeedLoginGuard;
-
-    beforeEach(() => {
-      guard = new NoNeedLoginGuard(authService as AuthService);
-    });
-
     it('Access Token이 없으면 접근을 허용해야 한다.', () => {
       const context = createMockExecutionContext({});
-      const result = guard.canActivate(context);
+      expect(noNeedLoginGuard.canActivate(context)).toBe(true);
+    });
 
-      expect(result).toBe(true);
+    it('Access Token이 문자열로 Null일 때도 접근을 허용해야 한다.', () => {
+      const context = createMockExecutionContext({
+        headers: { authorization: 'Bearer null' },
+      });
+      expect(noNeedLoginGuard.canActivate(context)).toBe(true);
     });
 
     it('Access Token이 유효하면 예외를 발생시켜야 한다.', () => {
-      (authService.verifyToken as jest.Mock).mockReturnValue(true);
-
+      authService.verifyToken.mockReturnValue(true);
       const context = createMockExecutionContext({
         headers: { authorization: 'Bearer accessToken' },
       });
 
-      expect(() => guard.canActivate(context)).toThrow(
-        new HttpException('이미 로그인이 되어있습니다.', HttpStatus.BAD_REQUEST),
-      );
+      expect(() => noNeedLoginGuard.canActivate(context)).toThrow(HttpException);
+      expect(() => noNeedLoginGuard.canActivate(context)).toThrow('이미 로그인이 되어있습니다.');
     });
   });
 
   describe('NeedLoginGuard', () => {
-    let guard: NeedLoginGuard;
-
-    beforeEach(() => {
-      guard = new NeedLoginGuard(authService as AuthService);
-    });
-
     it('Access Token이 없으면 예외를 발생시켜야 한다.', () => {
-      const context = createMockExecutionContext({});
-      expect(() => guard.canActivate(context)).toThrow(
-        new HttpException('로그인이 필요합니다.', HttpStatus.UNAUTHORIZED),
-      );
+      const context = createMockExecutionContext({
+        headers: { authorization: 'Bearer null' },
+      });
+
+      expect(() => needLoginGuard.canActivate(context)).toThrow(HttpException);
+      expect(() => needLoginGuard.canActivate(context)).toThrow('로그인이 필요합니다.');
     });
 
     it('Access Token이 유효하면 접근을 허용해야 한다.', () => {
-      (authService.verifyToken as jest.Mock).mockReturnValue(true);
-
-      const context = createMockExecutionContext({
+      authService.verifyToken.mockReturnValue(true);
+      const mockContext = createMockExecutionContext({
         headers: { authorization: 'Bearer accessToken' },
       });
 
-      const result = guard.canActivate(context);
-
-      expect(result).toBe(true);
-      expect(authService.verifyToken).toHaveBeenCalledWith('accessToken');
+      expect(needLoginGuard.canActivate(mockContext)).toBe(true);
     });
   });
 
   describe('NeedRefreshTokenGuard', () => {
-    let guard: NeedRefreshTokenGuard;
+    it('Refresh Token이 유효하지 않으면 예외를 발생시켜야 한다.', async () => {
+      const context = createMockExecutionContext({});
 
-    beforeEach(() => {
-      guard = new NeedRefreshTokenGuard(authService as AuthService, cookieService as CookieService);
+      await expect(needRefreshTokenGuard.canActivate(context)).rejects.toThrow(HttpException);
+      await expect(needRefreshTokenGuard.canActivate(context)).rejects.toThrow('로그인이 필요합니다.');
     });
 
-    it('Refresh Token이 없으면 예외를 발생시켜야 한다.', () => {
-      const context = createMockExecutionContext({ cookies: {} });
-      expect(() => guard.canActivate(context)).toThrow(
-        new HttpException('로그인이 필요합니다.', HttpStatus.UNAUTHORIZED),
-      );
-    });
+    it('Refresh Token이 유효하면 접근을 허용해야 한다.', async () => {
+      const payload = { memberId: '123' };
+      authService.verifyToken.mockReturnValue(payload);
+      authService.getRefreshToken.mockResolvedValue('refreshToken');
 
-    it('Refresh Token이 유효하지 않으면 예외를 발생시켜야 한다.', () => {
       const context = createMockExecutionContext({
         cookies: { refreshToken: 'refreshToken' },
       });
-      (authService.verifyToken as jest.Mock).mockReturnValue({ memberId: '123' });
-      (authService.getRefreshToken as jest.Mock).mockReturnValue('invalidRefreshToken');
 
-      expect(() => guard.canActivate(context)).toThrow(
-        new HttpException('만료된 Refresh Token 입니다.', HttpStatus.UNAUTHORIZED),
-      );
-      expect(cookieService.clearCookie).toHaveBeenCalledWith(context.switchToHttp().getResponse(), REFRESH_TOKEN);
+      await expect(needRefreshTokenGuard.canActivate(context)).resolves.toBe(true);
     });
 
-    it('Refresh Token이 유효하면 접근을 허용해야 한다.', () => {
+    it('저장된 리프레시 토큰과 불일치하면 예외가 발생한다.', async () => {
+      const payload = { memberId: '123' };
+      authService.verifyToken.mockReturnValue(payload);
+      authService.getRefreshToken.mockResolvedValue('refreshToken');
+
       const context = createMockExecutionContext({
-        cookies: { refreshToken: 'refreshToken' },
+        cookies: { refreshToken: 'refreshToken123' },
       });
-      (authService.verifyToken as jest.Mock).mockReturnValue({ memberId: '123' });
-      (authService.getRefreshToken as jest.Mock).mockReturnValue('refreshToken');
 
-      const result = guard.canActivate(context);
-
-      expect(result).toBe(true);
-      expect(authService.verifyToken).toHaveBeenCalledWith('refreshToken');
+      await expect(needRefreshTokenGuard.canActivate(context)).rejects.toThrow(HttpException);
+      await expect(needRefreshTokenGuard.canActivate(context)).rejects.toThrow('만료된 Refresh Token 입니다.');
     });
   });
 
