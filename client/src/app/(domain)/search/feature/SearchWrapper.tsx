@@ -5,9 +5,13 @@ import SearchContainer from './SearchContainer';
 const SearchWrapper = () => {
   return (
     <SearchContainer>
-      <SearchContainer.Live />
-      <SearchContainer.User />
-      <SearchContainer.NoResults />
+      {({ searchLives, isLoading, searchUsers }) => (
+        <>
+          <SearchContainer.Live searchLives={searchLives} isLoading={isLoading} />
+          <SearchContainer.User searchUsers={searchUsers} isLoading={isLoading} />
+          <SearchContainer.NoResults searchLives={searchLives} searchUsers={searchUsers} isLoading={isLoading} />
+        </>
+      )}
     </SearchContainer>
   );
 };
