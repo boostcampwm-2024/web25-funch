@@ -197,3 +197,12 @@ export const getSearchResult = async (searchQuery: string): Promise<any> => {
 
   return result;
 };
+
+export const refreshStreamKey = async (): Promise<{ stream_key: string }> => {
+  const result = await fetcher<{ stream_key: string }>({
+    method: 'PATCH',
+    url: '/api/members/refresh/streamkey',
+  });
+
+  return result;
+};
