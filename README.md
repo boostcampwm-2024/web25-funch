@@ -5,77 +5,91 @@
 
 <br><br>
 
-# 🍭 Funch는 취향을 반영해!
+# 👊🏻 기분따라 자유롭게 즐기는 FUNCH
 
-**홈페이지에서 추천 방송 목록과 내가 팔로우한 스트리머들의 방송 목록을 확인해요.**
+### Funch는 취향을 반영해!
 
-**콘텐츠/분위기 카테고리 별로 방송 목록을 확인하고, 마음에 드는 방송은 팔로우해요.**
+✔️ 스트리머는 기분이나 방송의 전반적인 분위기를 `분위기 카테고리`로 표현할 수 있어요. <br>
+✔️ 내 방송 페이지에서 송출되는 화면을 확인하고, 시청자들과 **채팅으로 소통**할 수 있어요. <br>
+✔️ 마음에 든 **스트리머를 팔로우**하여 해당 방송을 쉽게 찾아볼 수 있어요. <br>
+<br>
 
-https://github.com/user-attachments/assets/09885858-fb1e-4e55-94ca-8f8dfee33ec8
+### 누구나 시청과 채팅을 자유롭게!
 
+✔️ **로그인 하지 않더라도 방송을 시청**하거나 다른 시청자들과 **익명으로 소통**할 수 있어요. <br>
+✔️ 익명 유저의 닉네임과 표시 색상을 웹소켓 서버에서 랜덤하게 생성하면, 클라이언트에서 채팅 UI로 표현해줘요. <br>
 
-<br><br>
+<br>
 
-# 🗣️ 자유로운 시청 & 채팅
-
-**원하는 방송을 시청하며, 스트리머 및 다른 시청자들과 채팅으로 소통해요.**
-
-**로그인을 하지 않아도 방송 시청과 채팅이 가능해요.**
-
-
-https://github.com/user-attachments/assets/bc5a5fdb-50bf-4716-ba49-aba1490f0792
-
-<br><br>
-
-# 🌊 중단 없는 경험
-
-**화면 간 이동 중에도 미니 플레이어를 통해 보던 방송을 계속 시청해요.**
-
-**왼쪽 채널에서 자유롭게 이동하며 원하는 스트리머의 방송을 시청할 수 있어요.**
-
-https://github.com/user-attachments/assets/433ed8d3-475e-4f20-af06-820210bc9c6c
+https://github.com/user-attachments/assets/24751648-131e-4de5-aa9a-b9ed195f7280
 
 
-<br><br>
-
-# 😎 이젠 나도 스트리머?
-
-**방송 설정 가이드에 따라 방송을 키고, 내 방송 페이지에서 방송 세팅 및 시청자들과 소통해요.**
-
-<img width="1920" alt="스트리머" src="https://github.com/user-attachments/assets/9c5f0467-d6f8-4b18-a6cb-072be08b9957">
 
 
 <br><br><br><br>
 
+# 🌊 빠르고 중단 없는 경험
 
-# ✍🏻 무지개 치즈 팀은 이렇게 개발했어요. 
+### 적은 레이턴시
 
-## 1️⃣ 꾸준한 문서화
-### ✔️ 6주라는 시간동안 <a href="https://zzawang.notion.site/133f2d1fd66d80b8b139f4a522f95df8?pvs=4" target="_blank">개발 일지</a> `64`개, <a href="https://zzawang.notion.site/127f2d1fd66d80b9975ddd21a4ad3723?pvs=4" target="_blank">트러블 슈팅 일지</a> `14`개를 작성했어요. 
+- Object Storage에 API를 통해 업로드하지 않고, mount하여 속도를 `500ms`이상 단축시켰어요.
+- 더 적은 레이턴시를 위해서 다양한 시도를 했어요.
+    - [🌜 ObjectStorage에 저장할 때 기존 로직(fs.watch)과 Mount 도구를 사용했을 때의 속도 및 성능 비교](https://www.notion.so/ObjectStorage-fs-watch-Mount-141f2d1fd66d80428868c81e60225362?pvs=21)
+    - [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
+    - [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
 
-### ✔️ 회의에서 나온 내용을 놓치지 않기 위해 <a href="" target="_blank">회의록</a>에 항상 기록했어요.
+<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="800">
 
-<br>
 
-<a href="https://www.notion.so/zzawang/Funch-127f2d1fd66d801dbf95ebb851c5763f" target="_blank">🧀 Funch 노션</a>과 <a href="https://github.com/boostcampwm-2024/web25-funch/wiki" target="_blank">🫕 Funch Wiki</a>에서 규칙 및 컨벤션, 프로젝트 기획과 더 자세한 협업 과정을 보실 수 있어요.
+<br><br>
 
-<br>
+### 방송 시청 중 화면을 전환하더라도 미니 플레이어로 중단 없이 방송을 볼 수 있어요.
 
-## 2️⃣ 함께하는 프로젝트 일정 관리
-### ✔️ Sprint마다의 Task를 Issue로 등록하고 <a href="https://github.com/orgs/boostcampwm-2024/projects/106" target="_blank">Github Project</a>에서 다같이 일정을 관리했어요.
+- 라이브 섹션을 하나의 페이지가 아니라, 레이아웃에 존재하는 컴포넌트로 구현했어요.
+- 라이브 컨텍스트 프로바이더를 통해 라이브 정보 및 화면 경로 정보 등을 관리하고, 이에 따라 UI를 변경해요.
+    - [🎊 미니 플레이어 사용 경험 개선 1](https://www.notion.so/1-03891c5ee9ec4b1cbf4a2ead610e4548?pvs=21)
+    - [⛽️ 미니 플레이어 사용 경험 개선 2](https://www.notion.so/2-8d5c7e775edc4013a742d1f9b045bc66?pvs=21)
+    - [🌑 라이브 프로바이더 및 라이브 섹션 개선](https://www.notion.so/2ab92075bacc4a44b37c5d534483d4d0?pvs=21)
+- 🚨 미니 플레이어로 전환되더라도 SSE 및 채팅 웹 소켓 통신이 끊기면 안돼요.
+    - 각 컴포넌트가 화면 상에 노출되지는 않되, DOM에는 상존하도록!
+    - [🌄 라이브 섹션에서 SSE 통신](https://www.notion.so/SSE-399bac29508f4a1496632a0588c597f1?pvs=21)
+    - [🌟 채팅 1](https://www.notion.so/1-7f68808d2d5245d08fbb7ad9542aac4d?pvs=21)
+    - [💺 소켓 에러 미쳐버릴 거](https://www.notion.so/14ff2d1fd66d80d4a2afd9aa729120b8?pvs=21)
 
+
+https://github.com/user-attachments/assets/856232e7-00db-40a6-a432-b23f030bb04b
+
+
+<br><br><br><br>
+
+# 🛠️ 불필요한 라이브러리는 NO, 뚝딱뚝딱 가내수공업
+
+1. **컨텍스트로 모든 상태를 관리할 수 있겠다고 판단하여 전역 상태 관리 라이브러리는 사용하지 않아요.**
+2. **미디어 서버를 우리 상황에 맞게 직접 구현했어요.**
+    - 다양한 프로토콜을 지원하는 미디어 서버가 불필요하여 RTMP 프로토콜만을 지원하는 미디어 서버를 구현하고 싶었어요.
+    - 구현 과정에서 많은 트러블 슈팅 경험을 겪었고 이 과정을 모두 문서화 했어요.
+    - [🪄 RTMP Handshake 구현](https://www.notion.so/RTMP-Handshake-133f2d1fd66d800782dbda1efd0a92cf?pvs=21),[⛄️ RTMP Connect 구현](https://www.notion.so/RTMP-Connect-133f2d1fd66d8044bf8ec649669cd967?pvs=21),[🚦 RTMP createStream, Publish 구현](https://www.notion.so/RTMP-createStream-Publish-001f693dad0e403a827485a07dc0bea3?pvs=21),[🏓 RTMP Packet 파싱 처리 및 생성](https://www.notion.so/RTMP-Packet-134f2d1fd66d80808facfe549620b152?pvs=21)
+    - [🎾 RTMP Handshake 이후 연결이 되지 않았던 문제](https://www.notion.so/RTMP-Handshake-12ff2d1fd66d80a49211ebc27c1cd14b?pvs=21), [☃️ RTMP 미디어 데이터 수신 중 Timestamp의 부호가 음수였던 문제](https://www.notion.so/RTMP-Timestamp-12ff2d1fd66d804a90dacb276f8ea96b?pvs=21), [🌚 RTMP Chunk가 잘못 파싱되어 발생한 문제](https://www.notion.so/RTMP-Chunk-e83b537a688040c6890f4db488fcc280?pvs=21)
+
+<br><br><br><br>
+
+# 👷🏻 지속적인 (서비스/코드) 품질 점검
+
+- 개발과 리팩토링의 주기를 반복하며 코드 가독성과 안정성을 높여요.
+- 라이트하우스와 GPT에게 주기적으로 서비스 및 코드에 대한 피드백을 요청하고, 이를 반영해요.
+
+
+<img width="634" alt="refactor" src="https://github.com/user-attachments/assets/d277e082-0e25-458d-a5ea-b312d78d9f37">
 
 <br><br><br><br>
 
 # 🍎 기술 스택
 
-기술 선택 근거가 궁금하다면 ? 👉🏻 [클릭](https://zzawang.notion.site/127f2d1fd66d801da166d1ca122caec2?pvs=4)
-
-| 분야 | 기술 | 
-|----------|----------|
-| 공통   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786637665?alt=media&token=d070c4d4-5a58-4e23-af1d-a7e678d4035b" alt="" />   |
-| FE   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732798743094?alt=media&token=d5b7a4d0-af68-4e54-bc3a-ba25d35a1af1)](https://github.com/msdio/stackticon" alt="" /> |
-| BE   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732804776477?alt=media&token=24f661e1-d9b7-4441-bb1a-640cb838c7b0" alt="" />  |
+| 분야 | 기술 | 선택 이유 | 
+|----------|----------|----------|
+| 공통   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732786637665?alt=media&token=d070c4d4-5a58-4e23-af1d-a7e678d4035b" alt="" />   | [TypeScript](https://zzawang.notion.site/TypeScript-01006d67d482438b84df88797fa58e45?pvs=4) <br> [Socket.io](https://zzawang.notion.site/Socket-io-794861dea4544b4093bc030667eaa371?pvs=4)|
+| FE   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1732798743094?alt=media&token=d5b7a4d0-af68-4e54-bc3a-ba25d35a1af1)](https://github.com/msdio/stackticon" alt="" /> | [Next.js](https://zzawang.notion.site/Next-fffb31410bc74af18d34d1e1b2f17e36?pvs=4) <br> [React](https://zzawang.notion.site/React-e1ed1687898e4c69ae6c2aa63245dc35?pvs=4)<br> [Tanstack-query](https://zzawang.notion.site/Tanstack-query-3613c9add85e4fc2b1537241cad0c533?pvs=4)|
+| BE   | <img src="https://firebasestorage.googleapis.com/v0/b/stackticon-81399.appspot.com/o/images%2F1733215718530?alt=media&token=713a1986-9d12-4e4f-b0fa-66ab9fbab496" alt="" />  | [Nginx](https://zzawang.notion.site/Nginx-3dcaaea9689e4fde89a135df7c17e3ff?pvs=4) <br> [NestJS](https://zzawang.notion.site/NestJS-c9dbca4b3a19439dba190d2e4dd9df9f?pvs=4) <br> [MySQL](https://zzawang.notion.site/MySQL-e519462950f64859867a5f1c79f82eab?pvs=4) <br> [Redis](https://zzawang.notion.site/Redis-151f2d1fd66d80e28ec2f04e5b53bf1e?pvs=4)|
 
 <br><br>
 
