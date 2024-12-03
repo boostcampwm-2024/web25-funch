@@ -4,10 +4,11 @@ import { type PropsWithChildren } from 'react';
 import StudioCopyButton from './StudioCopyButton';
 import StudioReissueButton from './StudioReIssueButton';
 import { getStreamInfo } from '@libs/actions';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { useState } from 'react';
 import { refreshStreamKey } from '@libs/actions';
+import { TANSTACK_QUERY_KEY } from '@libs/constants';
 
 const apiUrl = process.env.NEXT_PUBLIC_MEDIA_SERVER_URL ?? '';
 
@@ -29,7 +30,7 @@ const StreamSettingContainer = () => {
 
 const StreamInfoFetcher = () => {
   const { data } = useSuspenseQuery({
-    queryKey: ['STUDIO_STREAM_INFO'],
+    queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_KEY],
     queryFn: async () => await getStreamInfo(),
   });
   return <StreamKeyContainer streamKey={data.stream_key} />;
@@ -57,13 +58,21 @@ const StreamURLContainer = () => {
 
 const StreamKeyContainer = ({ streamKey }: { streamKey: string }) => {
   const [myStreamKey, setMyStreamKey] = useState(streamKey);
+  const queryClient = useQueryClient();
 
-  const reissueStreamKey = async () => {
-    const { stream_key } = await refreshStreamKey();
-    setMyStreamKey(stream_key);
-
-    alert('스트림 키가 재발급되었습니다.');
-  };
+  const { mutate } = useMutation({
+    mutationFn: async () => await refreshStreamKey(),
+    onSuccess: ({ stream_key }) => {
+      setMyStreamKey(stream_key);
+      queryClient.invalidateQueries({
+        queryKey: [TANSTACK_QUERY_KEY.STUDIO_STREAM_KEY],
+      });
+      alert('새로운 스트림 키가 발급되었어요.');
+    },
+    onError: () => {
+      alert('스트림 키 재발급에 실패했어요.');
+    },
+  });
 
   return (
     <div className="grid h-1/2 w-full grid-cols-5">
@@ -72,7 +81,7 @@ const StreamKeyContainer = ({ streamKey }: { streamKey: string }) => {
         {myStreamKey}
         <div className="flex gap-2">
           <StudioCopyButton text={myStreamKey}>복사</StudioCopyButton>
-          <StudioReissueButton onClick={reissueStreamKey}>재발급</StudioReissueButton>
+          <StudioReissueButton onClick={() => mutate()}>재발급</StudioReissueButton>
         </div>
       </div>
     </div>
