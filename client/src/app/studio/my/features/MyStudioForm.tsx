@@ -92,7 +92,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
         contentCategory: myStudioData.broadcastData.contentCategory,
         moodCategory: myStudioData.broadcastData.moodCategory,
         tags: myStudioData.broadcastData.tags,
-        thumbnail: myStudioData.broadcastData.thumbnailUrl || '',
+        thumbnail: null,
       });
       await setTags(myStudioData.broadcastData.tags);
     } catch (err) {
