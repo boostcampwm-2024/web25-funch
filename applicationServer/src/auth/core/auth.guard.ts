@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from '@auth/auth.service';
-import { CookieService } from '../cookie/cookie.service';
+import { CookieService } from '@cookie/cookie.service';
 import { REFRESH_TOKEN } from '@src/constants';
 
 @Injectable()

@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from '@auth/auth.controller';
 import { AuthService } from '@auth/auth.service';
 import { CookieModule } from '@cookie/cookie.module';
+import { RedisService } from '@database/redis.service';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ dotenv.config();
     CookieModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, RedisService],
   exports: [AuthService],
 })
 export class AuthModule {}
