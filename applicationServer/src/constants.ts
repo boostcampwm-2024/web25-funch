@@ -35,3 +35,8 @@ export const FOLLOWING = 'following';
 export const AUTHORIZATION_CODE = 'authorization_code';
 export const GOOGLE_ACCESS_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 export const GOOGLE_RESOURCE_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
+// auth.service.ts
+export const REDIS_HOST = 'localhost';
+export const REDIS_PORT = 6379;
+export const REDIS_EXPIRE = 'EX';
+export const REDIS_REFRESH_TOKEN_EXPIRE = 604800;
