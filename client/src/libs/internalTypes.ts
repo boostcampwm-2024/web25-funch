@@ -21,6 +21,8 @@ export type Live = {
   };
 };
 
+export type TranslationCode = 'english' | 'korean' | 'japanese' | 'chinese' | null;
+
 export type MoodsCategoryKey = keyof typeof MOODS_CATEGORY;
 export type ContentsCategoryKey = keyof typeof CONTENTS_CATEGORY;
 

@@ -1,5 +1,5 @@
 import { CONTENTS_CATEGORY, MOODS_CATEGORY } from '@libs/constants';
-import type { ContentsCategoryKey, MoodsCategoryKey } from '@libs/internalTypes';
+import type { ContentsCategoryKey, MoodsCategoryKey, TranslationCode } from '@libs/internalTypes';
 
 export const contentsCategories = Object.keys(CONTENTS_CATEGORY).map((categoryKey) => {
   const key = categoryKey as ContentsCategoryKey;
@@ -16,3 +16,14 @@ export const moodsCategories = Object.keys(MOODS_CATEGORY).map((categoryKey) => 
     name: MOODS_CATEGORY[key].NAME,
   };
 });
+
+export const translationList: { code: TranslationCode; name: string }[] = [
+  { code: null, name: '선택 안 함' },
+  { code: 'korean', name: '한국어' },
+  {
+    code: 'english',
+    name: '영어',
+  },
+  { code: 'japanese', name: '일본어' },
+  { code: 'chinese', name: '중국어' },
+];
