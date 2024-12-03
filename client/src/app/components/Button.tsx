@@ -7,10 +7,10 @@ const Button = ({ children, ...rest }: Props) => {
   return (
     <button
       className={clsx(
-        'inline-flex h-8 items-center px-3',
+        'inline-flex h-8 items-center px-3 outline-none',
         'funch-bold12',
         'border-border-neutral-base rounded-lg border border-solid',
-        'text-content-neutral-primary hover:bg-surface-neutral-base bg-transparent',
+        'text-content-neutral-primary hover:bg-surface-neutral-base focus:bg-surface-neutral-base bg-transparent',
         'disabled:opacity-35',
       )}
       {...rest}
