@@ -16,8 +16,11 @@ type Props = {
 const NoFollowingLives = ({ pathname, componentType }: Props) => {
   return (
     <div className={clsx('flex w-full flex-col p-4')}>
+      <div className={clsx('mb-2 flex items-center justify-between')}>
+        <h2 className={clsx('text-content-neutral-primary funch-bold20')}>팔로우 중인 방송</h2>
+      </div>
       <div className={clsx('flex flex-col items-center')}>
-        <Image src={noContents} alt="no-following-lives" width={250} height={250} />
+        <Image src={noContents} alt="no-following-lives" width={200} height={200} />
         <p className={clsx('text-content-neutral-primary funch-bold16 mt-4')}>
           {componentType === 'NOFOLLOW' ? '팔로우 중인 방송이 없습니다.' : '라이브 중인 방송이 없습니다.'}
         </p>
