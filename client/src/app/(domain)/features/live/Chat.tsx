@@ -6,6 +6,8 @@ import useClickOutside from '@hooks/useClickOutside';
 import useLiveContext from '@hooks/useLiveContext';
 import useUser from '@hooks/useUser';
 import { SOCKET_EVENT } from '@libs/constants';
+import { translationList } from '@libs/data';
+import type { TranslationCode } from '@libs/internalTypes';
 import clsx from 'clsx';
 import {
   type ChangeEvent,
@@ -14,7 +16,6 @@ import {
   memo,
   useCallback,
   useEffect,
-  useId,
   useRef,
   useState,
 } from 'react';
@@ -25,8 +26,6 @@ type ChatType = {
   content: string;
   color?: string;
 };
-
-type TranslationCode = 'english' | 'korean' | 'japanese' | 'chinese' | null;
 
 type SendChat = (args: {
   socketRef: MutableRefObject<Socket | null>;
@@ -275,17 +274,6 @@ type ChatFormProps = {
   sendChat: SendChat;
 };
 
-const translationList: { code: TranslationCode; name: string }[] = [
-  { code: null, name: '선택 안 함' },
-  { code: 'korean', name: '한국어' },
-  {
-    code: 'english',
-    name: '영어',
-  },
-  { code: 'japanese', name: '일본어' },
-  { code: 'chinese', name: '중국어' },
-];
-
 const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
   const [inputValue, setInputValue] = useState('');
   const [selectedTranslation, setSelectedTranslation] = useState<TranslationCode>(null);
@@ -367,6 +355,7 @@ const TranslationDropdown = ({
       <p className={clsx('funch-medium12 text-content-neutral-base')}>번역 모드</p>
       <div ref={dropdownWrapperRef} className={clsx('relative flex w-[6rem] items-center')}>
         <button
+          type="button"
           onClick={toggleDropdown}
           aria-label={`번역 모드 선택 드롭다운 ${isOpen ? '닫기' : '열기'}. 현재 '${selectedTranslationName}'이 선택됨.`}
           className={clsx(
@@ -393,6 +382,7 @@ const TranslationDropdown = ({
             {translationList.map((translationItem, index) => (
               <li key={index} className="px-0.5">
                 <button
+                  type="button"
                   onClick={() => {
                     handleClickTranslation(translationItem.code);
                     setIsOpen(false);

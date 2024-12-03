@@ -1,8 +1,12 @@
 'use client';
 
 import Button from '@components/Button';
+import UpArrowSvg from '@components/svgs/UpArrowSvg';
+import useClickOutside from '@hooks/useClickOutside';
 import useUser from '@hooks/useUser';
 import { SOCKET_EVENT } from '@libs/constants';
+import { translationList } from '@libs/data';
+import type { TranslationCode } from '@libs/internalTypes';
 import clsx from 'clsx';
 import {
   type ChangeEvent,
@@ -22,7 +26,12 @@ type ChatType = {
   color?: string;
 };
 
-type SendChat = (args: { socketRef: MutableRefObject<Socket | null>; name: string; content: string }) => void;
+type SendChat = (args: {
+  socketRef: MutableRefObject<Socket | null>;
+  name: string;
+  content: string;
+  translation: TranslationCode;
+}) => void;
 
 type ChildrenArgs = {
   chatList: ChatType[];
@@ -129,12 +138,23 @@ const ChatWrapper = ({ children }: Props) => {
   }, [broadcastId, loggedinUser]);
 
   const sendChat = useCallback(
-    ({ socketRef, name, content }: { socketRef: MutableRefObject<Socket | null>; name: string; content: string }) => {
+    ({
+      socketRef,
+      name,
+      content,
+      translation,
+    }: {
+      socketRef: MutableRefObject<Socket | null>;
+      name: string;
+      content: string;
+      translation: TranslationCode;
+    }) => {
       if (!socketRef.current) return;
 
       console.log('🚀 EMITING TO SERVER : ', {
         name,
         content,
+        translation,
       });
 
       socketRef.current.emit(
@@ -143,6 +163,7 @@ const ChatWrapper = ({ children }: Props) => {
           JSON.stringify({
             name,
             content,
+            translation,
           }),
         ),
       );
@@ -252,12 +273,16 @@ type ChatFormProps = {
 
 const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [selectedTranslation, setSelectedTranslation] = useState<TranslationCode>(null);
   const handleChage = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.trimStart().replace(/\s+/g, ' ');
     if (value.length > 120) {
       value = value.slice(0, 120);
     }
     setInputValue(value);
+  };
+  const handleClickTranslation = (code: TranslationCode) => {
+    setSelectedTranslation(code);
   };
   return (
     <div className="h-chat-form flex flex-col px-2.5">
@@ -269,6 +294,7 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
             socketRef,
             name: chatname,
             content: inputValue,
+            translation: selectedTranslation,
           });
           setInputValue('');
         }}
@@ -290,6 +316,10 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
           />
         </div>
         <div className="flex justify-end py-1">
+          <TranslationDropdown
+            handleClickTranslation={handleClickTranslation}
+            selectedTranslation={selectedTranslation}
+          />
           <Button type="submit" disabled={!inputValue}>
             채팅
           </Button>
@@ -298,6 +328,74 @@ const ChatForm = memo(({ socketRef, chatname, sendChat }: ChatFormProps) => {
     </div>
   );
 });
+
+const TranslationDropdown = ({
+  selectedTranslation,
+  handleClickTranslation,
+}: {
+  selectedTranslation: TranslationCode;
+  handleClickTranslation: (code: TranslationCode) => void;
+}) => {
+  const dropdownWrapperRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+  useClickOutside(dropdownWrapperRef, closeDropdown);
+  const selectedTranslationName =
+    translationList.find((item) => item.code === selectedTranslation)?.name || '선택 안 함';
+  return (
+    <div className={clsx('flex items-center gap-1')}>
+      <p className={clsx('funch-medium12 text-content-neutral-base')}>번역 모드</p>
+      <div ref={dropdownWrapperRef} className={clsx('relative flex w-[6rem] items-center')}>
+        <button
+          type="button"
+          onClick={toggleDropdown}
+          aria-label={`번역 모드 선택 드롭다운 ${isOpen ? '닫기' : '열기'}. 현재 '${selectedTranslationName}'이 선택됨.`}
+          className={clsx(
+            'hover:bg-surface-neutral-weak focus:bg-surface-neutral-weak inline-flex w-full items-center gap-0.5 rounded-md bg-transparent outline-none',
+          )}
+        >
+          <span
+            className={clsx('inline-flex h-6 w-6 items-center justify-center', {
+              'rotate-180': isOpen,
+            })}
+          >
+            <UpArrowSvg />
+          </span>
+          <span aria-hidden className={clsx('funch-meta12')}>
+            {selectedTranslationName}
+          </span>
+        </button>
+        {isOpen && (
+          <ul
+            className={clsx(
+              'bg-surface-neutral-primary absolute bottom-full left-0 w-full -translate-y-1 rounded-md py-2',
+            )}
+          >
+            {translationList.map((translationItem, index) => (
+              <li key={index} className="px-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClickTranslation(translationItem.code);
+                    setIsOpen(false);
+                  }}
+                  className="funch-medium12 hover:bg-surface-neutral-weak focus:bg-surface-neutral-base w-full items-center justify-center rounded-sm py-0.5 outline-none"
+                >
+                  {translationItem.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ChatError = () => {
   return (
