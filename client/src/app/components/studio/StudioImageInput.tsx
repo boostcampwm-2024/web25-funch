@@ -90,7 +90,7 @@ const Upload = () => {
         )}
       >
         <input
-          className="hidden"
+          className="opacity-0"
           type="file"
           onChange={handleChangeFile}
           accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp"

@@ -1,26 +1,31 @@
 'use client';
 
 import clsx from 'clsx';
-import {
-  forwardRef,
-  RefObject,
-  useRef,
-  useState,
-  type ChangeEvent,
-  type ForwardedRef,
-  type PropsWithChildren,
-  type TextareaHTMLAttributes,
-} from 'react';
+import { forwardRef, RefObject, type ForwardedRef, type PropsWithChildren, type TextareaHTMLAttributes } from 'react';
 
-const TextareaWrapper = ({ children }: PropsWithChildren) => {
+type TextareaWrapperProps = PropsWithChildren<{
+  children: React.ReactNode;
+  text: string;
+  maxLength: number;
+}>;
+
+const TextareaWrapper = ({ children, text, maxLength }: TextareaWrapperProps) => {
+  const currentLength = text.length;
+
   return (
     <div
       className={clsx(
         'flex w-full flex-col gap-1 px-3.5 pb-2 pt-2.5',
-        'border-border-neutral-weak focus-within:border-border-brand-base rounded-md border border-solid',
+        'border-border-neutral-weak focus-within:border-border-brand-base relative rounded-md border border-solid',
+        {
+          'focus-within:border-border-red-strong': currentLength >= maxLength,
+        },
       )}
     >
       {children}
+      {currentLength >= maxLength && (
+        <div className="funch-medium12 text-content-red-strong absolute bottom-2">{`최대 ${maxLength}자까지 입력 가능합니다.`}</div>
+      )}
     </div>
   );
 };
@@ -68,37 +73,5 @@ const StudioTextarea = Object.assign(TextareaWrapper, {
   Textarea,
   TextareaCount,
 });
-
-type TextareaTestProps = {
-  setText: (text: string) => void;
-  text: string;
-};
-
-/**
- * @method TextareaRendererForTest
- * @description page.tsx에서 Textarea UI를 확인하기 위한 테스트용 렌더러 컴포넌트입니다. 추후 삭제 예정입니다.
- */
-export const TextareaRendererForTest = ({ setText, text }: TextareaTestProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const maxLength = 100;
-  const currentLength = text.length;
-  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    handleChangeTextareaSize(textareaRef);
-    setText(e.target.value);
-  };
-  return (
-    <StudioTextarea>
-      <StudioTextarea.Textarea
-        ref={textareaRef}
-        value={text}
-        onChange={onChange}
-        maxLength={100}
-        minLength={0}
-        placeholder="방송 제목을 입력해주세요."
-      />
-      <StudioTextarea.TextareaCount currentLength={currentLength} maxLength={maxLength} />
-    </StudioTextarea>
-  );
-};
 
 export default StudioTextarea;
