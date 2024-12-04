@@ -35,7 +35,7 @@
 - [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
 - [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
 
-<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="600">
+<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="500">
 
 <br><br>
 
@@ -83,7 +83,7 @@
 ✔️ 개발과 리팩토링의 주기를 반복하며 코드 가독성과 안정성을 높여요. <br>
 ✔️ 라이트하우스와 GPT에게 주기적으로 서비스 및 코드에 대한 피드백을 요청하고, 이를 반영해요.
 
-<img width="600" alt="refactor" src="https://github.com/user-attachments/assets/d277e082-0e25-458d-a5ea-b312d78d9f37">
+<img width="500" alt="refactor" src="https://github.com/user-attachments/assets/d277e082-0e25-458d-a5ea-b312d78d9f37">
 
 <br><br><br><br>
 
