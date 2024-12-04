@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, useRef } from 'react';
 import StudioAddButton from '@components/studio/StudioAddButton';
 import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';

@@ -36,9 +36,11 @@ const StudioUpdateButton = ({ children, update, data }: Props) => {
   }, [data, originalData]);
 
   const fetchData = () => {
-    setIsShowToast(true);
-    update(data);
-    setOriginalData(data);
+    if (data.title.length >= 1) {
+      setIsShowToast(true);
+      update(data);
+      setOriginalData(data);
+    }
   };
 
   const closeToast = () => {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ChangeEvent, type FocusEvent } from 'react';
+import { useEffect, useState, useRef, type ChangeEvent, type FocusEvent, forwardRef } from 'react';
 import StudioTextarea from './StudioTextarea';
 import { handleChangeTextareaSize } from './StudioTextarea';
 
@@ -9,6 +9,7 @@ type TextareaProps = {
 
 const TextareaRenderer = ({ setText, text }: TextareaProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
   const maxLength = 100;
   const currentLength = text.length;
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,17 +28,23 @@ const TextareaRenderer = ({ setText, text }: TextareaProps) => {
     const finalText = cleanedText.slice(0, maxLength);
 
     setText(finalText);
+    setIsFocused(false);
+  };
+
+  const onFocus = () => {
+    setIsFocused(true);
   };
 
   return (
-    <StudioTextarea text={text} maxLength={maxLength}>
+    <StudioTextarea text={text} maxLength={maxLength} isFocused={isFocused}>
       <StudioTextarea.Textarea
         ref={textareaRef}
         value={text}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
         maxLength={100}
-        minLength={0}
+        minLength={5}
         placeholder="방송 제목을 입력해주세요."
       />
       <StudioTextarea.TextareaCount currentLength={currentLength} maxLength={maxLength} />
