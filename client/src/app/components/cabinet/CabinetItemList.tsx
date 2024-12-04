@@ -103,7 +103,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
           </Link>
           {isTooltipVisible && (
             <div
-              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong funch-medium12 fixed z-50 flex h-20 w-60 items-center rounded-md p-4"
+              className="text-content-neutral-primary border-neutral-weak bg-surface-neutral-strong funch-medium12 fixed z-50 flex w-60 items-center rounded-md p-4"
               style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
             >
               {item.title}
@@ -138,7 +138,7 @@ const CabinetListItem = ({ item, isDesktop }: { item: Broadcast; isDesktop: bool
                   {item.tags[0]}
                 </div>
               </div>
-              <div className="funch-medium14 mt-2 flex-1">{item.title}</div>
+              <div className="funch-medium14 text-content-neutral-primary mt-2 flex-1">{item.title}</div>
               <div className="text-content-red-base funch-bold14 h-1/4">{'· ' + comma(item.viewerCount)}</div>
             </div>
           )}

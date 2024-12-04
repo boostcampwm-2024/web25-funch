@@ -60,6 +60,7 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
           )}
           {data && (
             <div
+              role="region"
               aria-label={`무드 카테도리로 '${selectedMood?.NAME}'이 선택되어 있어요.`}
               className="relative mt-2 h-10 w-full shadow-md"
             >
