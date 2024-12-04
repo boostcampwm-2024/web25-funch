@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/de35cd17-417f-4b0e-9aa4-ae779d4eec1c" alt="제목">
+    <img src="https://github.com/user-attachments/assets/4db77323-3693-4651-84da-be2d3fd1a3c3" alt="제목">
 </div>
 
 <br><br><br>
