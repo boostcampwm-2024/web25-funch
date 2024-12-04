@@ -1,30 +1,25 @@
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/d071d136-3c7b-4e5e-861c-33bb5533dc59" alt="제목">
-  
+    <img src="https://github.com/user-attachments/assets/1037f288-d13a-4f71-8530-a1365efd4eaf" alt="제목">
 </div>
 
-<br><br>
+<br><br><br><br><br>
 
-# 👊🏻 기분따라 자유롭게 즐기는 FUNCH
+# 😝 기분따라 자유롭게 즐기는 FUNCH
 
 ### Funch는 취향을 반영해!
 
 ✔️ 스트리머는 기분이나 방송의 전반적인 분위기를 `분위기 카테고리`로 표현할 수 있어요. <br>
-✔️ 내 방송 페이지에서 송출되는 화면을 확인하고, 시청자들과 **채팅으로 소통**할 수 있어요. <br>
 ✔️ 마음에 든 **스트리머를 팔로우**하여 해당 방송을 쉽게 찾아볼 수 있어요. <br>
-<br>
+
 
 ### 누구나 시청과 채팅을 자유롭게!
 
 ✔️ **로그인 하지 않더라도 방송을 시청**하거나 다른 시청자들과 **익명으로 소통**할 수 있어요. <br>
-✔️ 익명 유저의 닉네임과 표시 색상을 웹소켓 서버에서 랜덤하게 생성하면, 클라이언트에서 채팅 UI로 표현해줘요. <br>
+✔️ 익명 유저의 닉네임과 표시 색상을 웹소켓 서버에서 **랜덤하게 생성**하면, 클라이언트에서 채팅 UI로 표현해줘요. <br>
 
 <br>
 
-https://github.com/user-attachments/assets/24751648-131e-4de5-aa9a-b9ed195f7280
-
-
-
+![최종_1](https://github.com/user-attachments/assets/304d8b08-a2d0-40b0-971d-ad59d169c588)
 
 <br><br><br><br>
 
@@ -32,54 +27,61 @@ https://github.com/user-attachments/assets/24751648-131e-4de5-aa9a-b9ed195f7280
 
 ### 적은 레이턴시
 
-- Object Storage에 API를 통해 업로드하지 않고, mount하여 속도를 `500ms`이상 단축시켰어요.
-- 더 적은 레이턴시를 위해서 다양한 시도를 했어요.
-    - [🌜 ObjectStorage에 저장할 때 기존 로직(fs.watch)과 Mount 도구를 사용했을 때의 속도 및 성능 비교](https://www.notion.so/ObjectStorage-fs-watch-Mount-141f2d1fd66d80428868c81e60225362?pvs=21)
-    - [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
-    - [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
+✔️ Object Storage에 API를 통해 업로드하지 않고, mount하여 속도를 `500ms`이상 단축시켰어요. <br>
+✔️ **더 적은 레이턴시**를 위해서 다양한 시도를 했어요. 그 결과 최소 
+- [🌜 ObjectStorage에 저장할 때 기존 로직(fs.watch)과 Mount 도구를 사용했을 때의 속도 및 성능 비교](https://www.notion.so/ObjectStorage-fs-watch-Mount-141f2d1fd66d80428868c81e60225362?pvs=21)
+- [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
+- [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
 
-<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="800">
-
+<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="600">
 
 <br><br>
 
 ### 방송 시청 중 화면을 전환하더라도 미니 플레이어로 중단 없이 방송을 볼 수 있어요.
 
-- 라이브 섹션을 하나의 페이지가 아니라, 레이아웃에 존재하는 컴포넌트로 구현했어요.
-- 라이브 컨텍스트 프로바이더를 통해 라이브 정보 및 화면 경로 정보 등을 관리하고, 이에 따라 UI를 변경해요.
-    - [🎊 미니 플레이어 사용 경험 개선 1](https://www.notion.so/1-03891c5ee9ec4b1cbf4a2ead610e4548?pvs=21)
-    - [⛽️ 미니 플레이어 사용 경험 개선 2](https://www.notion.so/2-8d5c7e775edc4013a742d1f9b045bc66?pvs=21)
-    - [🌑 라이브 프로바이더 및 라이브 섹션 개선](https://www.notion.so/2ab92075bacc4a44b37c5d534483d4d0?pvs=21)
-- 🚨 미니 플레이어로 전환되더라도 SSE 및 채팅 웹 소켓 통신이 끊기면 안돼요.
-    - 각 컴포넌트가 화면 상에 노출되지는 않되, DOM에는 상존하도록!
-    - [🌄 라이브 섹션에서 SSE 통신](https://www.notion.so/SSE-399bac29508f4a1496632a0588c597f1?pvs=21)
-    - [🌟 채팅 1](https://www.notion.so/1-7f68808d2d5245d08fbb7ad9542aac4d?pvs=21)
-    - [💺 소켓 에러 미쳐버릴 거](https://www.notion.so/14ff2d1fd66d80d4a2afd9aa729120b8?pvs=21)
+✔️ 라이브 섹션을 하나의 페이지가 아니라, **레이아웃에 존재하는 컴포넌트**로 구현했어요. <br>
+✔️ 라이브 컨텍스트 프로바이더를 통해 라이브 정보 및 화면 경로 정보 등을 관리하고, 이에 따라 UI를 변경해요. <br>
+- [🎊 미니 플레이어 사용 경험 개선 1](https://www.notion.so/1-03891c5ee9ec4b1cbf4a2ead610e4548?pvs=21)
+- [⛽️ 미니 플레이어 사용 경험 개선 2](https://www.notion.so/2-8d5c7e775edc4013a742d1f9b045bc66?pvs=21)
+- [🌑 라이브 프로바이더 및 라이브 섹션 개선](https://www.notion.so/2ab92075bacc4a44b37c5d534483d4d0?pvs=21)
 
+**🚨 미니 플레이어로 전환되더라도 SSE 및 채팅 웹 소켓 통신이 끊기면 안돼요.** <br>
+- 각 컴포넌트가 화면 상에 노출되지는 않되, DOM에는 상존하도록!
+- [🌄 라이브 섹션에서 SSE 통신](https://www.notion.so/SSE-399bac29508f4a1496632a0588c597f1?pvs=21)
+- [🌟 채팅 1](https://www.notion.so/1-7f68808d2d5245d08fbb7ad9542aac4d?pvs=21)
+- [💺 소켓 에러 미쳐버릴 거](https://www.notion.so/14ff2d1fd66d80d4a2afd9aa729120b8?pvs=21)
 
-https://github.com/user-attachments/assets/856232e7-00db-40a6-a432-b23f030bb04b
+![최종_2](https://github.com/user-attachments/assets/03254ca6-976a-4c70-a487-9fceb13e73da)
+
+<br><br><br><br>
+
+# 👊🏻 Funch는 언어의 장벽을 뿌셔 !
+
+✔️ 사용자는 자신의 채팅을 한국어, 영어, 일본어, 중국어로 번역할 수 있어요. <br>
+✔️ 글로벌 스트리머 & 사용자들과 언어의 장벽 없이 소통할 수 있어요.
+
+![최종_3](https://github.com/user-attachments/assets/312ca85d-95b5-4784-9c74-90b4abb50e55)
 
 
 <br><br><br><br>
 
 # 🛠️ 불필요한 라이브러리는 NO, 뚝딱뚝딱 가내수공업
 
-1. **컨텍스트로 모든 상태를 관리할 수 있겠다고 판단하여 전역 상태 관리 라이브러리는 사용하지 않아요.**
-2. **미디어 서버를 우리 상황에 맞게 직접 구현했어요.**
-    - 다양한 프로토콜을 지원하는 미디어 서버가 불필요하여 RTMP 프로토콜만을 지원하는 미디어 서버를 구현하고 싶었어요.
-    - 구현 과정에서 많은 트러블 슈팅 경험을 겪었고 이 과정을 모두 문서화 했어요.
-    - [🪄 RTMP Handshake 구현](https://www.notion.so/RTMP-Handshake-133f2d1fd66d800782dbda1efd0a92cf?pvs=21),[⛄️ RTMP Connect 구현](https://www.notion.so/RTMP-Connect-133f2d1fd66d8044bf8ec649669cd967?pvs=21),[🚦 RTMP createStream, Publish 구현](https://www.notion.so/RTMP-createStream-Publish-001f693dad0e403a827485a07dc0bea3?pvs=21),[🏓 RTMP Packet 파싱 처리 및 생성](https://www.notion.so/RTMP-Packet-134f2d1fd66d80808facfe549620b152?pvs=21)
-    - [🎾 RTMP Handshake 이후 연결이 되지 않았던 문제](https://www.notion.so/RTMP-Handshake-12ff2d1fd66d80a49211ebc27c1cd14b?pvs=21), [☃️ RTMP 미디어 데이터 수신 중 Timestamp의 부호가 음수였던 문제](https://www.notion.so/RTMP-Timestamp-12ff2d1fd66d804a90dacb276f8ea96b?pvs=21), [🌚 RTMP Chunk가 잘못 파싱되어 발생한 문제](https://www.notion.so/RTMP-Chunk-e83b537a688040c6890f4db488fcc280?pvs=21)
+✔️ **컨텍스트로 모든 상태를 관리할 수 있겠다고 판단하여 전역 상태 관리 라이브러리는 사용하지 않아요.** <br>
+✔️ **미디어 서버를 우리 상황에 맞게 직접 구현했어요.**
+- 다양한 프로토콜을 지원하는 미디어 서버가 불필요하여 RTMP 프로토콜만을 지원하는 **미디어 서버를 구현**하고 싶었어요.
+- 구현 과정에서 많은 **트러블 슈팅 경험**을 겪었고 이 과정을 모두 **문서화** 했어요.
+  - [🪄 RTMP Handshake 구현](https://www.notion.so/RTMP-Handshake-133f2d1fd66d800782dbda1efd0a92cf?pvs=21),[⛄️ RTMP Connect 구현](https://www.notion.so/RTMP-Connect-133f2d1fd66d8044bf8ec649669cd967?pvs=21),[🚦 RTMP createStream, Publish 구현](https://www.notion.so/RTMP-createStream-Publish-001f693dad0e403a827485a07dc0bea3?pvs=21),[🏓 RTMP Packet 파싱 처리 및 생성](https://www.notion.so/RTMP-Packet-134f2d1fd66d80808facfe549620b152?pvs=21)
+  - [🎾 RTMP Handshake 이후 연결이 되지 않았던 문제](https://www.notion.so/RTMP-Handshake-12ff2d1fd66d80a49211ebc27c1cd14b?pvs=21), [☃️ RTMP 미디어 데이터 수신 중 Timestamp의 부호가 음수였던 문제](https://www.notion.so/RTMP-Timestamp-12ff2d1fd66d804a90dacb276f8ea96b?pvs=21), [🌚 RTMP Chunk가 잘못 파싱되어 발생한 문제](https://www.notion.so/RTMP-Chunk-e83b537a688040c6890f4db488fcc280?pvs=21)
 
 <br><br><br><br>
 
 # 👷🏻 지속적인 (서비스/코드) 품질 점검
 
-- 개발과 리팩토링의 주기를 반복하며 코드 가독성과 안정성을 높여요.
-- 라이트하우스와 GPT에게 주기적으로 서비스 및 코드에 대한 피드백을 요청하고, 이를 반영해요.
+✔️ 개발과 리팩토링의 주기를 반복하며 코드 가독성과 안정성을 높여요. <br>
+✔️ 라이트하우스와 GPT에게 주기적으로 서비스 및 코드에 대한 피드백을 요청하고, 이를 반영해요.
 
-
-<img width="634" alt="refactor" src="https://github.com/user-attachments/assets/d277e082-0e25-458d-a5ea-b312d78d9f37">
+<img width="600" alt="refactor" src="https://github.com/user-attachments/assets/d277e082-0e25-458d-a5ea-b312d78d9f37">
 
 <br><br><br><br>
 
