@@ -2,7 +2,7 @@
     <img src="https://github.com/user-attachments/assets/de35cd17-417f-4b0e-9aa4-ae779d4eec1c" alt="제목">
 </div>
 
-<br><br><br><br><br>
+<br><br><br>
 
 # 😝 기분따라 자유롭게 즐기는 FUNCH
 
