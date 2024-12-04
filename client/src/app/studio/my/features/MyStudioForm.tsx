@@ -3,7 +3,7 @@ import StudioAddButton from '@components/studio/StudioAddButton';
 import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
 
-import { TextareaRendererForTest } from '@components/studio/StudioTextarea';
+import TextareaRenderer from '@components/studio/TextareaRenderer';
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
 import StudioBadge from '@components/studio/StudioBadge';
@@ -57,13 +57,24 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
   };
 
   const handleAddTag = (trimmedInput: string) => {
-    if (trimmedInput && tags.length < 5) {
+    if (trimmedInput && tags.length < 5 && !getridofDuplicate(trimmedInput)) {
       setFormData({
         ...formData,
         tags: [...formData.tags, tagInput.trim()],
       });
       setTags([...tags, tagInput.trim()]);
       setTagInput('');
+    }
+  };
+
+  const getridofDuplicate = (tag: string) => {
+    const isDuplicate = tags.some((t) => t === tag);
+    if (isDuplicate) {
+      alert('중복된 태그입니다.');
+      setTagInput('');
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -104,7 +115,7 @@ const MyStudioForm = ({ onSubmit }: MyStudioFormProps) => {
     <form onSubmit={handleSubmit}>
       <div className="w-full p-[30px]">
         <StudioRows labelName="방송 제목">
-          <TextareaRendererForTest
+          <TextareaRenderer
             text={formData.title}
             setText={(text) => setFormData((prev) => ({ ...prev, title: text }))}
           />
