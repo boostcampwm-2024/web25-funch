@@ -161,9 +161,9 @@ export class LiveService {
     const followList = await this.memberService.findMembersWithFollowTable(memberId);
     const onAir = [];
     const offAir = [];
-    followList.forEach((member) => {
+    followList.forEach(async (member) => {
       if (live.has(member.broadcast_id)) {
-        onAir.push(this.responseLiveData(member.broadcast_id));
+        onAir.push(await this.responseLiveData(member.broadcast_id));
       } else {
         const { name, profile_image, broadcast_id, follower_count } = member;
 
