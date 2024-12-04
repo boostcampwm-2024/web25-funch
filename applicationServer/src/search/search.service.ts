@@ -11,8 +11,8 @@ export class SearchService {
     private readonly liveService: LiveService,
   ) {}
 
-  getLiveListWithKeyword(keyword) {
-    const currentLiveList = this.liveService.getLiveList(0);
+  async getLiveListWithKeyword(keyword) {
+    const currentLiveList = await this.liveService.getLiveList(0);
     const filteredLiveList = currentLiveList.reduce((list, live) => {
       const metadata = [...live.tags, live.contentCategory, live.moodCategory, live.title, live.userName]
         .join('')
