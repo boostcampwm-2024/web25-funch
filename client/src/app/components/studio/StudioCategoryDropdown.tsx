@@ -12,22 +12,9 @@ type CategoryProps = {
 
 const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) => {
   const categories = Object.values(CONTENTS_CATEGORY);
-  const [selectedKey, setSelectedKey] = useState<string | null>('');
-  const [selectedCode, setSelectedCode] = useState<ContentsCategoryKey>('talk');
 
-  const selectCategory = (key: string) => {
-    setSelectedKey(key);
-    setData(key);
-  };
-
-  useEffect(() => {
-    setSelectedKey(data);
-    setSelectedCode(categories.find((c) => c.CODE === data)?.CODE || 'talk');
-  }, [data]);
-
-  const categoryName = useMemo(() => {
-    return categories.find((c) => c.CODE === data)?.NAME;
-  }, [data]);
+  const selectedCategory = useMemo(() => categories.find((c) => c.CODE === data), [data]);
+  const categoryName = selectedCategory?.NAME;
 
   return (
     <StudioDropdown>
@@ -48,9 +35,8 @@ const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) =
                   <StudioDropdown.Item
                     key={idx}
                     onClick={() => {
-                      selectCategory(c.CODE);
+                      setData(c.CODE);
                       blurDropdown();
-                      setSelectedCode(c.CODE);
                     }}
                   >
                     <span>{c.NAME}</span>
@@ -58,10 +44,10 @@ const StudioCategoryDropdown = ({ setData, data, placeHolder }: CategoryProps) =
                 ))}
             </StudioDropdown.List>
           )}
-          {selectedKey && (
+          {data && (
             <div className="mt-5 flex justify-center">
               <div className="flex items-center justify-center">
-                <StudioCategoryCard code={selectedCode} title={categoryName as string} />
+                <StudioCategoryCard code={selectedCategory?.CODE as any} title={categoryName as string} />
               </div>
             </div>
           )}
