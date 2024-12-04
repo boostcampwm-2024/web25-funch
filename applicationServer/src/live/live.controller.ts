@@ -40,8 +40,8 @@ export class LiveController {
   }
 
   @Get('/list/suggest')
-  getSuggestLiveList() {
-    return { suggest: this.liveService.getRandomLiveList(SUGGEST_LIVE_COUNT) };
+  async getSuggestLiveList() {
+    return { suggest: await this.liveService.getRandomLiveList(SUGGEST_LIVE_COUNT) };
   }
 
   @Post('/start')
