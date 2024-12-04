@@ -57,16 +57,6 @@
 
 <br><br><br><br>
 
-# 👊🏻 Funch는 언어의 장벽을 뿌셔 !
-
-✔️ 사용자는 자신의 채팅을 한국어, 영어, 일본어, 중국어로 번역할 수 있어요. <br>
-✔️ 글로벌 스트리머 & 사용자들과 언어의 장벽 없이 소통할 수 있어요.
-
-![최종_3](https://github.com/user-attachments/assets/312ca85d-95b5-4784-9c74-90b4abb50e55)
-
-
-<br><br><br><br>
-
 # 🛠️ 불필요한 라이브러리는 NO, 뚝딱뚝딱 가내수공업
 
 ✔️ **컨텍스트로 모든 상태를 관리할 수 있겠다고 판단하여 전역 상태 관리 라이브러리는 사용하지 않아요.** <br>
@@ -75,6 +65,15 @@
 - 구현 과정에서 많은 **트러블 슈팅 경험**을 겪었고 이 과정을 모두 **문서화** 했어요.
   - [🪄 RTMP Handshake 구현](https://www.notion.so/RTMP-Handshake-133f2d1fd66d800782dbda1efd0a92cf?pvs=21),[⛄️ RTMP Connect 구현](https://www.notion.so/RTMP-Connect-133f2d1fd66d8044bf8ec649669cd967?pvs=21),[🚦 RTMP createStream, Publish 구현](https://www.notion.so/RTMP-createStream-Publish-001f693dad0e403a827485a07dc0bea3?pvs=21),[🏓 RTMP Packet 파싱 처리 및 생성](https://www.notion.so/RTMP-Packet-134f2d1fd66d80808facfe549620b152?pvs=21)
   - [🎾 RTMP Handshake 이후 연결이 되지 않았던 문제](https://www.notion.so/RTMP-Handshake-12ff2d1fd66d80a49211ebc27c1cd14b?pvs=21), [☃️ RTMP 미디어 데이터 수신 중 Timestamp의 부호가 음수였던 문제](https://www.notion.so/RTMP-Timestamp-12ff2d1fd66d804a90dacb276f8ea96b?pvs=21), [🌚 RTMP Chunk가 잘못 파싱되어 발생한 문제](https://www.notion.so/RTMP-Chunk-e83b537a688040c6890f4db488fcc280?pvs=21)
+
+<br><br><br><br>
+
+# 👊🏻 Funch는 언어의 장벽을 뿌셔 !
+
+✔️ 사용자는 자신의 채팅을 한국어, 영어, 일본어, 중국어로 번역할 수 있어요. <br>
+✔️ 글로벌 스트리머 & 사용자들과 언어의 장벽 없이 소통할 수 있어요.
+
+![최종_3](https://github.com/user-attachments/assets/312ca85d-95b5-4784-9c74-90b4abb50e55)
 
 <br><br><br><br>
 
