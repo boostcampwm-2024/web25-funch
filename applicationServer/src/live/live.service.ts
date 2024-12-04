@@ -161,7 +161,8 @@ export class LiveService {
     const followList = await this.memberService.findMembersWithFollowTable(memberId);
     const onAir = [];
     const offAir = [];
-    followList.forEach(async (member) => {
+
+    for (const member of followList) {
       if (live.has(member.broadcast_id)) {
         onAir.push(await this.responseLiveData(member.broadcast_id));
       } else {
@@ -174,7 +175,7 @@ export class LiveService {
           follower_count,
         } as User);
       }
-    });
+    }
 
     return {
       onAir,
