@@ -8,9 +8,6 @@ import { Request } from 'express';
 import { uploadData } from '@src/storage/storage.repository';
 import { RedisService } from '@database/redis.service';
 
-// import { registerMockLive } from './mock/register-mock.util';
-// registerMockLive(this.live);
-
 @Injectable()
 export class LiveService {
   constructor(
