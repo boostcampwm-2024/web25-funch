@@ -1,9 +1,6 @@
-import { RedisService } from '@database/redis.service';
 import { REDIS_LIVE_KEY, REDIS_LIVE_LIST_KEY } from '@src/constants';
 
-function registerMockLive() {
-  const redisService = new RedisService();
-
+function registerMockLive(redisService) {
   const mockBroadcastIdList = [
     '872bc363-0d0c-4bde-a867-7b0edd076ad6',
     '9b534e89-a596-436a-b314-65cbe0ff9fab',
@@ -42,4 +39,4 @@ function registerMockLive() {
   });
 }
 
-registerMockLive();
+export { registerMockLive };
