@@ -20,8 +20,8 @@ export class LiveController {
   }
 
   @Get('/category')
-  getCategoryLiveList(@Query() query) {
-    const liveList = this.liveService.getLiveList(0);
+  async getCategoryLiveList(@Query() query) {
+    const liveList = await this.liveService.getLiveList(0);
     return this.liveService.filterWithCategory(liveList, query);
   }
 
@@ -70,7 +70,10 @@ export class LiveController {
   }
 
   @Sse('/sse/:broadcastId')
-  intervalNotifyBroadcastData(@Param('broadcastId') broadcastId, @Req() req: Request): Observable<{ data: Broadcast }> {
-    return this.liveService.notifyLiveDataInterval(broadcastId, req);
+  async intervalNotifyBroadcastData(
+    @Param('broadcastId') broadcastId,
+    @Req() req: Request,
+  ): Promise<Observable<Promise<{ data: Broadcast }>>> {
+    return await this.liveService.notifyLiveDataInterval(broadcastId, req);
   }
 }

@@ -1,41 +1,48 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Live } from '@live/entities/live.entity';
 import { Broadcast, User } from '@src/types';
 import { MemberService } from '@src/member/member.service';
 import { Member } from '@src/member/member.entity';
 import { interval, map } from 'rxjs';
-import { NOTIFY_LIVE_DATA_INTERVAL_TIME } from '@src/constants';
+import { NOTIFY_LIVE_DATA_INTERVAL_TIME, REDIS_LIVE_KEY, REDIS_LIVE_LIST_KEY } from '@src/constants';
 import { Request } from 'express';
 import { uploadData } from '@src/storage/storage.repository';
-import { registerMockLive } from './mock/register-mock.util';
+import { RedisService } from '@database/redis.service';
+
+// import { registerMockLive } from './mock/register-mock.util';
+// registerMockLive(this.live);
 
 @Injectable()
 export class LiveService {
-  live: Live;
-  constructor(private readonly memberService: MemberService) {
-    this.live = Live.getInstance();
-    registerMockLive(this.live);
-  }
+  constructor(
+    private readonly memberService: MemberService,
+    private readonly redisService: RedisService,
+  ) {}
 
-  getLiveList(start, end?) {
-    const alignLiveList = Array.from(this.live.data.values()).sort((a, b) => b.viewerCount - a.viewerCount);
+  async getLiveList(start, end?) {
+    const liveBroadcastIdList = await this.redisService.getSetType(REDIS_LIVE_LIST_KEY);
+    const liveList = await this.redisService.getMany(liveBroadcastIdList.map((e) => `${REDIS_LIVE_KEY}${e}`));
+    const alignLiveList = Array.from(liveList.map((data) => JSON.parse(data)) as Broadcast[]).sort(
+      (a, b) => b.viewerCount - a.viewerCount,
+    );
+
     return alignLiveList.slice(start, end ?? alignLiveList.length);
   }
 
-  responseLiveData(broadcastId) {
-    if (!this.live.data.has(broadcastId)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+  async responseLiveData(broadcastId) {
+    if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)))
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
     const createMultivariantPlaylistUrl = (path) =>
       `https://kr.object.ncloudstorage.com/media-storage/${path}/master_playlist.m3u8`;
 
-    const broadcastData = this.live.data.get(broadcastId);
+    const broadcastData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
     const playlistUrl = createMultivariantPlaylistUrl(broadcastData.broadcastPath);
 
     return { playlistUrl, broadcastData };
   }
 
-  getRandomLiveList(count) {
-    const allLives = Array.from(this.live.data.values());
+  async getRandomLiveList(count) {
+    const allLives = await this.getLiveList(0);
     if (allLives.length <= count) return allLives;
 
     const result: Broadcast[] = [];
@@ -60,10 +67,11 @@ export class LiveService {
     return member;
   }
 
-  addLiveData(member: Member, internalPath: string) {
-    if (this.live.data.has(member.broadcast_id)) throw new HttpException('Conflict', HttpStatus.CONFLICT);
+  async addLiveData(member: Member, internalPath: string) {
+    if (await this.redisService.exists(`${REDIS_LIVE_KEY}${member.broadcast_id}`))
+      throw new HttpException('Conflict', HttpStatus.CONFLICT);
 
-    this.live.data.set(member.broadcast_id, {
+    const newBroadcastData: Broadcast = {
       broadcastId: member.broadcast_id,
       broadcastPath: `${member.broadcast_id}/${internalPath}`,
       title: `${member.name}의 라이브 방송`,
@@ -74,18 +82,27 @@ export class LiveService {
       viewerCount: 0,
       userName: member.name,
       profileImageUrl: member.profile_image,
-    });
+    };
+
+    await this.redisService.set(`${REDIS_LIVE_KEY}${member.broadcast_id}`, JSON.stringify(newBroadcastData));
+    this.redisService.addSetType(REDIS_LIVE_LIST_KEY, member.broadcast_id);
   }
 
-  removeLiveData(member: Member) {
-    if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    this.live.data.delete(member.broadcast_id);
+  async removeLiveData(member: Member) {
+    if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${member.broadcast_id}`)))
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
+    await this.redisService.removeSetType(REDIS_LIVE_LIST_KEY, member.broadcast_id);
+    this.redisService.delete(`${REDIS_LIVE_KEY}${member.broadcast_id}`);
   }
 
   async updateLiveData(tokenPayload, requestBody) {
     const member = await this.memberService.findOneMemberWithCondition({ id: tokenPayload.memberId });
-    if (!this.live.data.has(member.broadcast_id)) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    const memberLiveData = this.live.data.get(member.broadcast_id);
+    if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${member.broadcast_id}`)))
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    const memberLiveData: Broadcast = JSON.parse(
+      await this.redisService.get(`${REDIS_LIVE_KEY}${member.broadcast_id}`),
+    );
 
     let fileEXT = '.jpg';
     if (requestBody.thumbnail) {
@@ -103,18 +120,33 @@ export class LiveService {
     memberLiveData.thumbnailUrl = requestBody.thumbnail
       ? `https://kr.object.ncloudstorage.com/media-storage/${memberLiveData.broadcastPath}/static_thumbnail.${fileEXT}`
       : `https://kr.object.ncloudstorage.com/media-storage/${memberLiveData.broadcastPath}/dynamic_thumbnail.jpg`;
+
+    this.redisService.set(`${REDIS_LIVE_KEY}${member.broadcast_id}`, JSON.stringify(memberLiveData));
   }
 
-  notifyLiveDataInterval(broadcastId: string, req: Request) {
-    if (!this.live.data.has(broadcastId)) throw new HttpException('No Content', HttpStatus.NO_CONTENT);
-    this.live.data.get(broadcastId).viewerCount++;
+  //
+  async notifyLiveDataInterval(broadcastId: string, req: Request) {
+    if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)))
+      throw new HttpException('No Content', HttpStatus.NO_CONTENT);
 
-    req.on('close', () => {
-      const liveData = this.live.data.get(broadcastId);
-      if (liveData) liveData.viewerCount--;
+    const thisLiveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
+    thisLiveData.viewerCount++;
+    this.redisService.set(`${REDIS_LIVE_KEY}${broadcastId}`, JSON.stringify(thisLiveData));
+
+    req.on('close', async () => {
+      if (await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)) {
+        const thisLiveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
+        thisLiveData.viewerCount--;
+        this.redisService.set(`${REDIS_LIVE_KEY}${broadcastId}`, JSON.stringify(thisLiveData));
+      }
     });
 
-    return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(map(() => ({ data: this.live.data.get(broadcastId) })));
+    return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(
+      map(async () => {
+        const liveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
+        return { data: liveData };
+      }),
+    );
   }
 
   filterWithCategory(liveList: Array<Broadcast>, condition) {
@@ -126,11 +158,15 @@ export class LiveService {
   }
 
   async filterWithFollow(memberId) {
+    const live = (await this.getLiveList(0)).reduce((liveObj, thisLive) => {
+      liveObj[thisLive.broadcastId] = thisLive;
+      return liveObj;
+    }, {}) as Map<string, Broadcast>;
     const followList = await this.memberService.findMembersWithFollowTable(memberId);
     const onAir = [];
     const offAir = [];
     followList.forEach((member) => {
-      if (this.live.data.has(member.broadcast_id)) {
+      if (live.has(member.broadcast_id)) {
         onAir.push(this.responseLiveData(member.broadcast_id));
       } else {
         const { name, profile_image, broadcast_id, follower_count } = member;

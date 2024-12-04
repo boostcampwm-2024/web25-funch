@@ -25,8 +25,28 @@ class RedisService {
     return await this.redis.get(key);
   }
 
+  async getMany(keys: string[]) {
+    return await this.redis.mget(keys);
+  }
+
+  async getSetType(key) {
+    return await this.redis.smembers(key);
+  }
+
+  async addSetType(key, value) {
+    return await this.redis.sadd(key, value);
+  }
+
+  async removeSetType(key, values) {
+    return await this.redis.srem(key, values);
+  }
+
   async delete(key: string) {
     await this.redis.del(key);
+  }
+
+  async exists(key) {
+    return await this.redis.exists(key);
   }
 }
 

@@ -1,12 +1,15 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from '@search/search.service';
 import { LiveService } from '@src/live/live.service';
+import { RedisService } from '@database/redis.service';
+import { REDIS_LIVE_KEY } from '@src/constants';
 
 @Controller('search')
 export class SearchController {
   constructor(
     private readonly searchService: SearchService,
     private readonly liveService: LiveService,
+    private readonly redisService: RedisService,
   ) {}
 
   @Get('/')
@@ -16,15 +19,13 @@ export class SearchController {
       lives: [],
       members: [],
     };
+
     await Promise.all([
-      (searchResult.lives = this.searchService.getLiveListWithKeyword(keyword)),
-      (searchResult.members = (await this.searchService.getMemberListWithKeyword(keyword)).reduce(
-        (offline, thisUser) => {
-          if (!this.liveService.live.data.has(thisUser.broadcast_id)) offline.push(thisUser);
-          return offline;
-        },
-        [],
-      )),
+      (searchResult.lives = await this.searchService.getLiveListWithKeyword(keyword)),
+      (await this.searchService.getMemberListWithKeyword(keyword)).forEach(async (thisUser) => {
+        if (await this.redisService.exists(`${REDIS_LIVE_KEY}${thisUser.broadcast_id}`))
+          searchResult.members.push(thisUser);
+      }),
     ]);
 
     return searchResult;
