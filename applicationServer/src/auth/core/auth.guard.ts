@@ -11,7 +11,7 @@ class NoNeedLoginGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const accessToken = request.headers['authorization']?.split(' ')[1];
 
-    if (accessToken == 'null') return true;
+    if (!accessToken || accessToken == 'null') return true;
     if (accessToken && this.authService.verifyToken(accessToken)) {
       throw new HttpException('이미 로그인이 되어있습니다.', HttpStatus.BAD_REQUEST);
     }
@@ -27,7 +27,7 @@ class NeedLoginGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const accessToken = request.headers['authorization']?.split(' ')[1];
 
-    if (accessToken == 'null') {
+    if (!accessToken || accessToken == 'null') {
       throw new HttpException('로그인이 필요합니다.', HttpStatus.UNAUTHORIZED);
     }
     this.authService.verifyToken(accessToken);
@@ -47,7 +47,7 @@ class NeedRefreshTokenGuard implements CanActivate {
     const response = context.switchToHttp().getResponse();
     const refreshToken = request.cookies?.['refreshToken'];
 
-    if (!refreshToken) {
+    if (!refreshToken || refreshToken == 'null') {
       throw new HttpException('로그인이 필요합니다.', HttpStatus.UNAUTHORIZED);
     }
 
