@@ -8,7 +8,7 @@
 
 # 😝 기분따라 자유롭게 즐기는 FUNCH
 
-### Funch는 취향을 반영해!
+### Funch는 취향을 반영해
 
 ✔️ 스트리머는 기분이나 방송의 전반적인 분위기를 `분위기 카테고리`로 표현할 수 있어요. <br>
 ✔️ 마음에 든 **스트리머를 팔로우**하여 해당 방송을 쉽게 찾아볼 수 있어요. <br>
@@ -35,7 +35,7 @@
 - [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
 - [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
 
-<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="800">
+<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="600">
 
 <br><br>
 
