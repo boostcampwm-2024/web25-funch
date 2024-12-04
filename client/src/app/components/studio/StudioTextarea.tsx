@@ -7,9 +7,10 @@ type TextareaWrapperProps = PropsWithChildren<{
   children: React.ReactNode;
   text: string;
   maxLength: number;
+  isFocused: boolean;
 }>;
 
-const TextareaWrapper = ({ children, text, maxLength }: TextareaWrapperProps) => {
+const TextareaWrapper = ({ children, text, isFocused }: TextareaWrapperProps) => {
   const currentLength = text.length;
 
   return (
@@ -18,13 +19,13 @@ const TextareaWrapper = ({ children, text, maxLength }: TextareaWrapperProps) =>
         'flex w-full flex-col gap-1 px-3.5 pb-2 pt-2.5',
         'border-border-neutral-weak focus-within:border-border-brand-base relative rounded-md border border-solid',
         {
-          'focus-within:border-border-red-strong': currentLength >= maxLength,
+          'focus-within:border-border-red-strong': currentLength < 1,
         },
       )}
     >
       {children}
-      {currentLength >= maxLength && (
-        <div className="funch-medium12 text-content-red-strong absolute bottom-2">{`최대 ${maxLength}자까지 입력 가능합니다.`}</div>
+      {currentLength < 1 && isFocused && (
+        <div className="funch-medium12 text-content-red-strong absolute bottom-[.375rem]">{`방송 제목은 최소 한글자 이상입니다.`}</div>
       )}
     </div>
   );
