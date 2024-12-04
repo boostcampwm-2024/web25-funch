@@ -21,9 +21,14 @@ jobs:
             cd /root/web25-funch
             git switch main
             git pull origin main
-            cd client
+            cd /root/web25-funch/client
+            npm install
             npm run build
-            cd ..
+            cd /root/web25-funch/chatServer
+            npm install
+            cd /root/web25-funch/applicationServer
+            npm install
+            cd /root/web25-funch
             sh deploy.sh
           EOF
 
@@ -43,5 +48,6 @@ jobs:
             git switch main
             git pull origin main
             cd mediaServer
+            npm install
             sh deploy.sh
           EOF
