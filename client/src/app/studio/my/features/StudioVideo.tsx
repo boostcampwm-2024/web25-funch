@@ -103,7 +103,7 @@ export const FallbackWrapper = ({ children }: PropsWithChildren) => {
 
 const NoPlaylist = () => {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
       <p className="funch-medium16 text-content-static-white">방송 정보를 불러올 수 없어요.</p>
       <Link
         className="funch-bold14 text-content-static-warmgray hover:text-content-static-coolgray rounded-md px-1.5 py-0.5"
