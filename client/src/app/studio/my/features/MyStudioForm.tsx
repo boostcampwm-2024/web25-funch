@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useState } from 'react';
 import StudioAddButton from '@components/studio/StudioAddButton';
 import StudioUpdateButton from '@components/studio/StudioUpdateButton';
 import StudioRows from './StudioRows';
-
 import TextareaRenderer from '@components/studio/TextareaRenderer';
 import StudioImageInput from '@components/studio/StudioImageInput';
 import StudioInput from '@components/studio/StudioInput';
