@@ -1,6 +1,8 @@
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/4db77323-3693-4651-84da-be2d3fd1a3c3" alt="제목">
+    <img src="https://github.com/user-attachments/assets/614f342c-f43c-41ac-b721-6ce85801b8d6" alt="제목">
 </div>
+
+
 
 <br><br><br>
 
