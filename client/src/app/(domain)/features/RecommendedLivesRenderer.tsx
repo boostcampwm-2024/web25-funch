@@ -3,14 +3,11 @@
 import Lives from '@components/livesGrid/Lives';
 import type { Broadcast } from '@libs/internalTypes';
 import useFollowingLives from '@hooks/useFollowingLives';
-import { useMemo } from 'react';
 
 const RecommendedLivesRenderer = ({ lives }: { lives: Broadcast[] }) => {
   const { ids } = useFollowingLives();
 
-  const filteredLives = useMemo(() => {
-    return lives.filter((live) => !ids.includes(live.broadcastId));
-  }, [ids, lives]);
+  const filteredLives = lives?.filter((live) => !ids.includes(live.broadcastId)) || [];
 
   return (
     <Lives lives={filteredLives}>
