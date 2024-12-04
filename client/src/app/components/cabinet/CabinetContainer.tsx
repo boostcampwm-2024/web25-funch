@@ -10,6 +10,7 @@ import { Broadcast } from '@libs/internalTypes';
 import { getSuggestedLiveList } from '@libs/actions';
 import useFollowingLives from '@hooks/useFollowingLives';
 import useUser from '@hooks/useUser';
+import ErrorBoundary from '@components/ErrorBoundary';
 
 const CabinetContainer = () => {
   const { isLoggedin } = useUser();
@@ -18,7 +19,9 @@ const CabinetContainer = () => {
     <div className="funch-desktop:pt-16 flex h-full w-full flex-col pt-20">
       <CategoryNavigator />
       {isLoggedin && <FollowNavigator />}
-      <SuggestedNavigator />
+      <ErrorBoundary fallback={null}>
+        <SuggestedNavigator />
+      </ErrorBoundary>
     </div>
   );
 };
@@ -88,7 +91,7 @@ const SuggestedNavigator = () => {
   }, []);
 
   const filteredSuggestedList = useMemo(() => {
-    return suggestedList.filter((suggested) => !ids.includes(suggested.broadcastId));
+    return suggestedList?.filter((suggested) => !ids.includes(suggested.broadcastId)) || [];
   }, [suggestedList, ids]);
 
   return (
