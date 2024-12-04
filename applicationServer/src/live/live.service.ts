@@ -121,7 +121,6 @@ export class LiveService {
     this.redisService.set(`${REDIS_LIVE_KEY}${member.broadcast_id}`, JSON.stringify(memberLiveData));
   }
 
-  //
   async notifyLiveDataInterval(broadcastId: string, req: Request) {
     if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)))
       throw new HttpException('No Content', HttpStatus.NO_CONTENT);
@@ -156,9 +155,9 @@ export class LiveService {
 
   async filterWithFollow(memberId) {
     const live = (await this.getLiveList(0)).reduce((liveObj, thisLive) => {
-      liveObj[thisLive.broadcastId] = thisLive;
+      liveObj.set(thisLive.broadcastId, thisLive);
       return liveObj;
-    }, {}) as Map<string, Broadcast>;
+    }, new Map()) as Map<string, Broadcast>;
     const followList = await this.memberService.findMembersWithFollowTable(memberId);
     const onAir = [];
     const offAir = [];
