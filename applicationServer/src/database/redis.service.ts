@@ -26,6 +26,7 @@ class RedisService {
   }
 
   async getMany(keys: string[]) {
+    if (keys.length === 0) return keys;
     return await this.redis.mget(keys);
   }
 
