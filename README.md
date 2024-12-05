@@ -18,40 +18,66 @@
 
 <br>
 
-![최종_1](https://github.com/user-attachments/assets/304d8b08-a2d0-40b0-971d-ad59d169c588)
+<img src="https://github.com/user-attachments/assets/304d8b08-a2d0-40b0-971d-ad59d169c588" alt="최종_1" width="1000">
 
 
 <details>
-<summary>## 🎞 서비스 기능 전체 보기</summary>
+<summary><h2>🎞 서비스 기능 전체 보기</h1></summary>
 <div markdown="1">
 
 ### 라이트/다크 모드
 
+![라이트다크모드](https://github.com/user-attachments/assets/49c01d9c-a545-4bef-94f2-4e5271cb38c4)
+
+<br><br>
 
 ### 로그인/로그아웃
 
+![로그인](https://github.com/user-attachments/assets/e876b33f-e591-4145-b4c2-5133bb2debd9)
+
+![로그아웃](https://github.com/user-attachments/assets/401c616b-1a5f-4cde-9f45-d6374af8709a)
+
+<br><br>
 
 ### 방송 시청
 
+<img src="https://github.com/user-attachments/assets/f8786caf-199f-453d-ac43-14b4822b85ba" alt="방송시청" width="1000">
+
+<br><br>
 
 ### 미니 플레이어
 
+![미니플레이어](https://github.com/user-attachments/assets/1fadc4fa-27d7-4df7-85cc-cd19cabd1195)
+
+<br><br>
 
 ### 채팅 및 번역
 
+![채팅](https://github.com/user-attachments/assets/8d38642c-1e9e-4df3-bf57-f7d45bfa6084)
+
+<br><br>
 
 ### 팔로우
 
+![팔로우](https://github.com/user-attachments/assets/60a8e515-6cee-49d8-bcb3-901a997fba9b)
+
+<br><br>
 
 ### 방송 송출/설정
 
+![방송송출설정](https://github.com/user-attachments/assets/33c176b5-b9fa-4236-b065-15e58383c7c0)
+
+<br><br>
 
 ### 검색
 
+![검색](https://github.com/user-attachments/assets/41ef0b82-2ada-45cf-b6c5-48c6dd8ce6ce)
+
+<br><br>
 
 ### 카테고리 탐색
 
-
+![카테고리](https://github.com/user-attachments/assets/d6e84396-9ca6-4295-ba37-bf594f8f266e)
 
 </div>
 </details>
