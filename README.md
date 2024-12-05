@@ -30,12 +30,12 @@
 ### 적은 레이턴시
 
 ✔️ Object Storage에 API를 통해 업로드하지 않고, mount하여 속도를 `500ms`이상 단축시켰어요. <br>
-✔️ **더 적은 레이턴시**를 위해서 다양한 시도를 했어요. 그 결과 최소 
+✔️ **더 적은 레이턴시**를 위해서 다양한 시도를 했어요. 그 결과 최소 레이턴시를 `3초`로 줄일 수 있었어요.
 - [🌜 ObjectStorage에 저장할 때 기존 로직(fs.watch)과 Mount 도구를 사용했을 때의 속도 및 성능 비교](https://www.notion.so/ObjectStorage-fs-watch-Mount-141f2d1fd66d80428868c81e60225362?pvs=21)
 - [🔩 LLHLS 삽질기](https://www.notion.so/LLHLS-14af2d1fd66d8012a11cc1d6683ac9db?pvs=21)
 - [🏸 미디어 서버의 CPU 과부하로 인한 성능 저하](https://www.notion.so/CPU-eadb881d638546eabe87b75b91222c7e?pvs=21)
 
-<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="600">
+<img src="https://github.com/user-attachments/assets/dad73daa-5fac-4bd4-9b90-0c34c3c268a1" alt="latency" width="800">
 
 <br><br>
 
