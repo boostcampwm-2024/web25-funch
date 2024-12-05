@@ -59,7 +59,7 @@ async function translate(text, lang?) {
 
       const translates = content.split('\n').reduce((obj, cur) => {
         const [key, value] = cur.split(':');
-        if (!translationMap.has(key)) return obj;
+        if (!Array.from(translationMap.values()).includes(key)) return obj;
         obj[key.trim()] = value.trim();
         return obj;
       }, {});
