@@ -1,10 +1,9 @@
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/614f342c-f43c-41ac-b721-6ce85801b8d6" alt="제목">
+    <img src="https://github.com/user-attachments/assets/8ab0ed90-5e09-46a4-a941-fcec8565ddf1" alt="제목">
 </div>
 
 
-
-<br>
+<br><br><br>
 
 # 😝 기분따라 자유롭게 즐기는 FUNCH
 
