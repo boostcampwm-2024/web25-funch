@@ -44,7 +44,7 @@ const TextareaRenderer = ({ setText, text }: TextareaProps) => {
         onBlur={onBlur}
         onFocus={onFocus}
         maxLength={100}
-        minLength={5}
+        minLength={1}
         placeholder="방송 제목을 입력해주세요."
       />
       <StudioTextarea.TextareaCount currentLength={currentLength} maxLength={maxLength} />
