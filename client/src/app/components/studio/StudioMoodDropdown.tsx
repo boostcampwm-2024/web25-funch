@@ -12,21 +12,8 @@ type MoodProps = {
 
 const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
   const moods = Object.values(MOODS_CATEGORY);
-  // const [selectedKey, setSelectedKey] = useState<string | null>(''); // <-
-  // const [selectedMoodCode, setSelectedMoodCode] = useState<MoodsCategoryKey>('unknown');
-
-  // const selectMood = (key: string) => {
-  //   setSelectedKey(key);
-  //   setData(key);
-  // };
 
   const selectedMood = moods.find((m) => m.CODE === data);
-
-  // useEffect(() => {
-  //   console.log(data);
-  //   setSelectedKey(data);
-  //   setSelectedMoodCode(moods.find((m) => m.CODE === data)?.CODE || 'unknown');
-  // }, [data]);
 
   return (
     <StudioDropdown>
@@ -47,10 +34,8 @@ const StudioMoodDropdown = ({ setData, data, placeHolder }: MoodProps) => {
                   <StudioDropdown.Item
                     key={idx}
                     onClick={() => {
-                      // selectMood(m.CODE);
                       setData(m.CODE);
                       blurDropdown();
-                      // setSelectedMoodCode(m.CODE);
                     }}
                   >
                     <span>{m.NAME}</span>

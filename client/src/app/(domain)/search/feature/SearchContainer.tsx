@@ -3,7 +3,7 @@
 import { getSearchResult } from '@libs/actions';
 import { Broadcast, User2 } from '@libs/internalTypes';
 import { useSearchParams } from 'next/navigation';
-import React, { useState, useEffect, useContext, createContext, PropsWithChildren, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import Lives from '@components/livesGrid/Lives';
 import clsx from 'clsx';
 import no_result from '@assets/no_result.png';
@@ -38,7 +38,7 @@ const SearchController = ({ children }: Props) => {
 
   useEffect(() => {
     getSearchResults();
-  }, []);
+  }, [query]);
 
   return (
     <div className="flex w-full flex-col items-center">
