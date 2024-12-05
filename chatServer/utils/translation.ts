@@ -55,13 +55,16 @@ async function translate(text, lang?) {
     if (results[idx].match(/event:result/)) {
       const result = results[idx].match(/data:(.+)/);
       const data = JSON.parse(result[1]);
-      const translates = data.message.content.split('\n').reduce((obj, cur) => {
+      const content = data.message.content;
+
+      const translates = content.split('\n').reduce((obj, cur) => {
         const [key, value] = cur.split(':');
+        if (!translationMap.has(key)) return obj;
         obj[key.trim()] = value.trim();
         return obj;
       }, {});
 
-      return translates[translationMap.get(lang)];
+      return translates[translationMap.get(lang)] ?? text;
     }
   }
 
