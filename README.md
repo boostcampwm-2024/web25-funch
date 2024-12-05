@@ -3,7 +3,7 @@
 </div>
 
 
-<br><br><br>
+<br><br>
 
 # 😝 기분따라 자유롭게 즐기는 FUNCH
 
