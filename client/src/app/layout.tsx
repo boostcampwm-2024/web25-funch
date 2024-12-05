@@ -22,6 +22,32 @@ export const metadata: Metadata = {
   },
   description: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
   keywords: ['FUNCH', '펀치', '스트리밍', '라이브', '콘텐츠'],
+  openGraph: {
+    title: 'FUNCH',
+    description: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
+    images: [
+      {
+        url: 'https://funch.site/opengraph-image.jpg',
+        width: 1252,
+        height: 563,
+        alt: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
+        type: 'image/jpeg',
+      },
+    ],
+  },
+  twitter: {
+    title: 'FUNCH',
+    description: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
+    images: [
+      {
+        url: 'https://funch.site/twitter-image.jpg',
+        width: 1252,
+        height: 563,
+        alt: '취향대로 골라보는 실시간 스트리밍 서비스, 뻔한 일상에 웃음 한 방 FUNCH!',
+        type: 'image/jpeg',
+      },
+    ],
+  },
 };
 
 const RootLayout = ({
