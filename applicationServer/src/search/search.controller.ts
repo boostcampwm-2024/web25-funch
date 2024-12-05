@@ -22,9 +22,11 @@ export class SearchController {
 
     await Promise.all([
       (searchResult.lives = await this.searchService.getLiveListWithKeyword(keyword)),
-      (await this.searchService.getMemberListWithKeyword(keyword)).forEach(async (thisUser) => {
-        if (await this.redisService.exists(`${REDIS_LIVE_KEY}${thisUser.broadcast_id}`))
-          searchResult.members.push(thisUser);
+      this.searchService.getMemberListWithKeyword(keyword).then(async (result) => {
+        for (const thisUser of result) {
+          if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${thisUser.broadcast_id}`)))
+            searchResult.members.push(thisUser);
+        }
       }),
     ]);
 
