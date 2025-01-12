@@ -35,11 +35,11 @@ class RedisService {
   }
 
   async addSetType(key, value) {
-    return await this.redis.sadd(key, value);
+    await this.redis.sadd(key, value);
   }
 
-  async removeSetType(key, values) {
-    return await this.redis.srem(key, values);
+  async removeSetType(key, value) {
+    return await this.redis.srem(key, value);
   }
 
   async delete(key: string) {
