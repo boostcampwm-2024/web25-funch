@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Broadcast, User } from '@src/types';
 import { MemberService } from '@src/member/member.service';
 import { Member } from '@src/member/member.entity';
-import { interval, map } from 'rxjs';
+import { interval, switchMap } from 'rxjs';
 import { NOTIFY_LIVE_DATA_INTERVAL_TIME, REDIS_LIVE_KEY, REDIS_LIVE_LIST_KEY } from '@src/constants';
 import { Request } from 'express';
 import { uploadData } from '@src/storage/storage.repository';
@@ -121,13 +121,17 @@ export class LiveService {
     this.redisService.set(`${REDIS_LIVE_KEY}${member.broadcast_id}`, JSON.stringify(memberLiveData));
   }
 
-  async notifyLiveDataInterval(broadcastId: string, req: Request) {
-    if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)))
-      throw new HttpException('No Content', HttpStatus.NO_CONTENT);
+  notifyLiveDataInterval(broadcastId: string, req: Request) {
+    const joinLive = async () => {
+      if (!(await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)))
+        throw new HttpException('No Content', HttpStatus.NO_CONTENT);
 
-    const thisLiveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
-    thisLiveData.viewerCount++;
-    this.redisService.set(`${REDIS_LIVE_KEY}${broadcastId}`, JSON.stringify(thisLiveData));
+      const thisLiveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
+      thisLiveData.viewerCount++;
+      this.redisService.set(`${REDIS_LIVE_KEY}${broadcastId}`, JSON.stringify(thisLiveData));
+    };
+
+    joinLive();
 
     req.on('close', async () => {
       if (await this.redisService.exists(`${REDIS_LIVE_KEY}${broadcastId}`)) {
@@ -138,7 +142,7 @@ export class LiveService {
     });
 
     return interval(NOTIFY_LIVE_DATA_INTERVAL_TIME).pipe(
-      map(async () => {
+      switchMap(async () => {
         const liveData: Broadcast = JSON.parse(await this.redisService.get(`${REDIS_LIVE_KEY}${broadcastId}`));
         return { data: liveData };
       }),

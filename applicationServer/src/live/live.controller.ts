@@ -70,10 +70,7 @@ export class LiveController {
   }
 
   @Sse('/sse/:broadcastId')
-  async intervalNotifyBroadcastData(
-    @Param('broadcastId') broadcastId,
-    @Req() req: Request,
-  ): Promise<Observable<Promise<{ data: Broadcast }>>> {
-    return await this.liveService.notifyLiveDataInterval(broadcastId, req);
+  intervalNotifyBroadcastData(@Param('broadcastId') broadcastId, @Req() req: Request): Observable<{ data: Broadcast }> {
+    return this.liveService.notifyLiveDataInterval(broadcastId, req);
   }
 }
