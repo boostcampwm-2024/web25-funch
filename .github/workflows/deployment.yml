@@ -10,14 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: funch server deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.FUNCH_SSH_KEY }}
-          SERVER_HOST: ${{ secrets.FUNCH_HOST }}
-          SERVER_USER: ${{ secrets.FUNCH_USER }}
-        run: |
-          echo "${SSH_PRIVATE_KEY}" > deploy_key
-          chmod 600 deploy_key
-          ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.FUNCH_HOST }}
+          username: ${{ secrets.FUNCH_USER }}
+          key: ${{ secrets.FUNCH_SSH_KEY }}
+          script: |
             cd /root/web25-funch
             git switch main
             git pull origin main
@@ -30,24 +28,20 @@ jobs:
             npm install
             cd /root/web25-funch
             sh deploy.sh
-          EOF
 
   media-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: media server deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.MEDIA_SSH_KEY }}
-          SERVER_HOST: ${{ secrets.MEDIA_HOST }}
-          SERVER_USER: ${{ secrets.MEDIA_USER }}
-        run: |
-          echo "${SSH_PRIVATE_KEY}" > deploy_key
-          chmod 600 deploy_key
-          ssh -i deploy_key "${SERVER_USER}"@"${SERVER_HOST}" << EOF
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.MEDIA_HOST }}
+          username: ${{ secrets.MEDIA_USER }}
+          key: ${{ secrets.MEDIA_SSH_KEY }}
+          script: |
             cd /service/web25-funch
             git switch main
             git pull origin main
             cd mediaServer
             npm install
             sh deploy.sh
-          EOF
