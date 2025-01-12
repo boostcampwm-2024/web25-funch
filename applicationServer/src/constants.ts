@@ -3,7 +3,7 @@ export const MEMBER_REPOSITORY = 'MEMBER_REPOSITORY';
 // live.controller.ts
 export const SUGGEST_LIVE_COUNT = 10;
 // live.service.ts
-export const NOTIFY_LIVE_DATA_INTERVAL_TIME = 30000;
+export const NOTIFY_LIVE_DATA_INTERVAL_TIME = 10000;
 export const REDIS_LIVE_KEY = 'live:';
 export const REDIS_LIVE_LIST_KEY = 'live:list';
 // github.service.ts
